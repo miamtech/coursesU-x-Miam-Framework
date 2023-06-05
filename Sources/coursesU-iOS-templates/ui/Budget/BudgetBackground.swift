@@ -16,7 +16,11 @@ struct BudgetBackground: View {
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             Image(packageResource: "BudgetRepasLogo", ofType: "png")
-                .padding(.top, UIScreen.screenHeight * 0.05)
+                .resizable()
+                .padding(.horizontal, 50)
+                .frame(width: UIScreen.screenWidth, height: 100)
+                .padding(.top, UIScreen.screenHeight * 0.04)
+                
         }
     }
 }
