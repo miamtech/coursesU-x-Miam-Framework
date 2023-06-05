@@ -1,1 +1,3 @@
-# coursesU-iOS-templates
+# coursesU-iOS-template
+
+A description of this package.
