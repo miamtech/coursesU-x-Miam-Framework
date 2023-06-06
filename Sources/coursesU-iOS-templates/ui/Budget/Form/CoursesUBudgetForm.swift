@@ -17,41 +17,52 @@ public struct CoursesUBudgetForm: BudgetForm {
     let dimension = Dimension.sharedInstance
     public init() {}
     public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
-    
-        VStack(spacing: 20) {
-            Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
-                .multilineTextAlignment(.center)
-                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-            Divider()
-            // TODO: localize
-            CoursesUBudgetFormButtons(icon: Image(packageResource: "BudgetIcon", ofType: "png"), title: "Mon budget max")
-            { _ in }
-            Divider()
-            // TODO: localize
-            CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), title: "Nombre de personnes")
-            { _ in }
-            Divider()
-            // TODO: localize
-            CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), title: "Nombre de repas")
-            { _ in }
-            Divider()
-            CoursesUButtonStyle(
-                backgroundColor: Color.primaryColor,
-                content: { HStack {
-                    Image(packageResource: "searchIcon", ofType: "png")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                    Text("C'est parti !")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                        .foregroundColor(Color.white)
-             
-                }}, buttonAction: { })
+        ZStack(alignment: .top) {
+            VStack {
+                Spacer()
+                HStack() {
+                    Image(packageResource: "BudgetLeftSideBg", ofType: "png")
+                    Spacer()
+                    Image(packageResource: "BudgetRightSideBg", ofType: "png")
+                }
+            }
+            VStack(spacing: 20) {
+                Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
+                    .multilineTextAlignment(.center)
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                Divider()
+                // TODO: localize
+                CoursesUBudgetFormButtons(icon: Image(packageResource: "BudgetIcon", ofType: "png"), title: "Mon budget max")
+                { _ in }
+                Divider()
+                // TODO: localize
+                CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), title: "Nombre de personnes")
+                { _ in }
+                Divider()
+                // TODO: localize
+                CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), title: "Nombre de repas")
+                { _ in }
+                Divider()
+                CoursesUButtonStyle(
+                    backgroundColor: Color.primaryColor,
+                    content: { HStack {
+                        Image(packageResource: "searchIcon", ofType: "png")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text("C'est parti !")
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                            .foregroundColor(Color.white)
+                 
+                    }}, buttonAction: { })
+            }
+            .padding(25)
+            .background(Color.white)
+            .border(Color.gray, width: 0.5)
+            .cornerRadius(Dimension.sharedInstance.mCornerRadius)
+            .padding([.horizontal, .bottom], 25)
+            
         }
-        .padding(25)
-        .background(Color.white)
-        .border(Color.gray, width: 0.5)
-        .cornerRadius(Dimension.sharedInstance.mCornerRadius)
-        
+       
     }
     
 }
@@ -109,7 +120,8 @@ struct CoursesUBudgetForm_Previews: PreviewProvider {
                 CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
                     print("Budget changed: \(budgetInfos)")
                 }, onFormValidated: { _ in })
-                .padding([.horizontal, .bottom], 25)
+                Spacer()
+                    .frame(height: 100)
             }
             
         }
