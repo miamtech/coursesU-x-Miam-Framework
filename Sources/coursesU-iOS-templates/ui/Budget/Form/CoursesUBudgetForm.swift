@@ -17,8 +17,9 @@ public struct CoursesUBudgetForm: BudgetForm {
     let dimension = Dimension.sharedInstance
     public init() {}
     public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
-        VStack{
-            Text("Choissez vos repas de la semaine ou du mois selon votre budget")
+        VStack(spacing: 20) {
+            Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
+                .multilineTextAlignment(.center)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
             Divider()
             // TODO: localize
@@ -33,7 +34,21 @@ public struct CoursesUBudgetForm: BudgetForm {
             CoursesUBudgetFormButtons(icon: Image.miamNeutralImage(icon: .guests), title: "Nombre de repas")
             { _ in }
             Divider()
+            CoursesUButtonStyle(
+                backgroundColor: Color.primaryColor,
+                content: { HStack {
+                    Image.miamImage(icon: .search)
+                    Text("C'est parti !")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                        .foregroundColor(Color.white)
+             
+                }}, buttonAction: { })
         }
+        .padding(25)
+        .background(Color.white)
+        .border(Color.gray, width: 0.5)
+        .cornerRadius(Dimension.sharedInstance.mCornerRadius)
+        
     }
     
 }
@@ -82,5 +97,13 @@ struct CoursesUBudgetForm_Previews: PreviewProvider {
         CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
             print("Budget changed: \(budgetInfos)")
         }, onFormValidated: { _ in })
+        
+        ZStack {
+            BudgetBackground()
+            CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
+                print("Budget changed: \(budgetInfos)")
+            }, onFormValidated: { _ in })
+            .padding(25)
+        }
     }
 }
