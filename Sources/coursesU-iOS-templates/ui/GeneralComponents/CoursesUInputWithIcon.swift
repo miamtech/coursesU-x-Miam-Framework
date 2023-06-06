@@ -33,8 +33,7 @@ internal struct CoursesUInputWithIcon: View {
             icon
                 .resizable()
                 .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                .padding(.horizontal, dimension.sPadding)
-            
+                .padding(.horizontal, dimension.mPadding)
             
             VStack(alignment: .leading, spacing: 0) {
                 if let caption = caption {

@@ -100,9 +100,10 @@ internal struct SubmitButtonCollapsed: View {
                     .resizable()
                     .foregroundColor(Color.white)
                     .frame(width: 25, height: 25)
+                    .padding()
             }
         }
-        .padding()
+        
         .background(Color.primaryColor)
         .clipShape(Circle())
     }
@@ -118,10 +119,15 @@ struct CourseUBudgetPlannerToolbar_Previews: PreviewProvider {
         @SwiftUI.State var loading = false
         var body: some View {
             ZStack{
-                Color.blue
-                CourseUBudgetPlannerToolbar().content(budgetInfos: BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4),
-                                                   isLoadingRecipes: $loading, onValidateTapped: {_ in})
-                .padding()
+                Color.budgetBackgroundColor
+                VStack(spacing: -40.0) {
+                    BudgetBackground()
+                    CourseUBudgetPlannerToolbar().content(budgetInfos: BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4),
+                                                       isLoadingRecipes: $loading, onValidateTapped: {_ in})
+                    .padding()
+                    Spacer()
+                }
+                
             }
             
         }
