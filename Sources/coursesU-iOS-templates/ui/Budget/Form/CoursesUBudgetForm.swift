@@ -57,14 +57,14 @@ public struct CoursesUBudgetForm: BudgetForm {
             }
             .padding(25)
             .background(Color.white)
-            .border(Color.gray, width: 0.5)
             .cornerRadius(Dimension.sharedInstance.mCornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: Dimension.sharedInstance.mCornerRadius)
+                    .stroke(Color.gray, lineWidth: 0.5)
+            )
             .padding([.horizontal, .bottom], 25)
-            
         }
-       
     }
-    
 }
 
 @available(iOS 14, *)
