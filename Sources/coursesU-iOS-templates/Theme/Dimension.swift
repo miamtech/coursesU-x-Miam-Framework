@@ -77,4 +77,9 @@ public class Dimension {
      lCornerRadius: default value 12
      */
     public var lCornerRadius: CGFloat = 12
+    
+    /**
+     xlCornerRadius: default value 20
+     */
+    public var xlCornerRadius: CGFloat = 25
 }

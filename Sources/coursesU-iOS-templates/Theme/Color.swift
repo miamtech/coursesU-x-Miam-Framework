@@ -12,8 +12,8 @@ import SwiftUI
 extension Color {
     
     // TODO: replace the colors
-    static let primary = Color(red: 22 / 255, green: 66 / 255, blue: 161 / 255)
-    static let secondary = Color(red: 199 / 255, green: 97 / 255, blue: 4 / 255)
+    static let primaryColor = Color(red: 0 / 255, green: 125 / 255, blue: 143 / 255)
+    static let secondaryColor = Color(red: 199 / 255, green: 97 / 255, blue: 4 / 255)
     
     static let recapTheRecipes = Color(red: 212 / 255, green: 248 / 255, blue: 221 / 255)
     static let numberOfRecipes = Color(red: 255 / 255, green: 199 / 255, blue: 0 / 255)
