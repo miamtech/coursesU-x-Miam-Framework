@@ -93,17 +93,24 @@ struct CoursesUBudgetFormButtons: View {
 }
 @available(iOS 14, *)
 struct CoursesUBudgetForm_Previews: PreviewProvider {
+   
+
     static var previews: some View {
         CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
             print("Budget changed: \(budgetInfos)")
         }, onFormValidated: { _ in })
-        
-        ZStack {
-            BudgetBackground()
-            CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
-                print("Budget changed: \(budgetInfos)")
-            }, onFormValidated: { _ in })
-            .padding(25)
+
+        ZStack(alignment: .top) {
+            Color.budgetBackgroundColor
+            VStack(spacing: -40.0) {
+                BudgetBackground()
+                CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
+                    print("Budget changed: \(budgetInfos)")
+                }, onFormValidated: { _ in })
+                .padding([.horizontal, .bottom], 25)
+            }
+            
         }
     }
+    
 }

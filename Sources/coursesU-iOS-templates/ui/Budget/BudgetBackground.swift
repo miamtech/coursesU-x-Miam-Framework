@@ -11,7 +11,6 @@ import SwiftUI
 struct BudgetBackground: View {
     var body: some View {
         ZStack(alignment: .top) {
-            Color.budgetBackgroundColor
             Image(packageResource: "WhiteWave", ofType: "png")
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
@@ -19,7 +18,7 @@ struct BudgetBackground: View {
                 .resizable()
                 .padding(.horizontal, 50)
                 .frame(width: UIScreen.screenWidth, height: 100)
-                .padding(.top, UIScreen.screenHeight * 0.04)
+                .padding(.top)
                 
         }
     }
@@ -31,6 +30,7 @@ struct BudgetBackground_Previews: PreviewProvider {
         // when scrolling
         ScrollView {
             ZStack(alignment: .top) {
+                Color.budgetBackgroundColor
                 BudgetBackground()
                 VStack {
                     ForEach(0..<20) { index in
@@ -49,6 +49,7 @@ struct BudgetBackground_Previews: PreviewProvider {
         // when static
         
             ZStack(alignment: .top) {
+                Color.budgetBackgroundColor
                 BudgetBackground()
                 VStack {
                     
