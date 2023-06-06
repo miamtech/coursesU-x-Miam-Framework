@@ -42,11 +42,11 @@ internal struct CoursesUStepperCollapsed: View {
                     })
                 }
             } label: {
-                HStack(spacing: 0) {
+                HStack() {
                     icon
                         .resizable()
                         .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                        .padding(.horizontal, dimension.sPadding)
+                        .padding(.horizontal, dimension.mPadding)
                     VStack(alignment: .leading, spacing: dimension.sPadding) {
                         if let caption = caption {
                             Text(caption)

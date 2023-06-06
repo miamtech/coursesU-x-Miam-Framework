@@ -11,15 +11,18 @@ import SwiftUI
 internal struct CoursesUInputWithIcon: View {
     @State private var budget: Double = 0.0
     let caption: String?
+    let currency: String
     let icon: Image
     public var onInputChanged: (Double) -> Void
     init(
         defaultValue: Double? = 0,
+        currency: String = "€",
         caption: String? = nil,
         icon: Image,
         onInputChanged: @escaping (Double) -> Void
     ) {
         _budget = State(initialValue: defaultValue ?? 0.0)
+        self.currency = currency
         self.caption = caption
         self.icon = icon
         self.onInputChanged = onInputChanged
@@ -31,14 +34,17 @@ internal struct CoursesUInputWithIcon: View {
                 .resizable()
                 .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
                 .padding(.horizontal, dimension.sPadding)
-                
+            
             
             VStack(alignment: .leading, spacing: 0) {
                 if let caption = caption {
                     Text(caption)
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                 }
-                NumberedInputField(budget: $budget, onInputChanged: onInputChanged)
+                HStack(spacing: 2) {
+                    Text(currency)
+                    NumberedInputField(budget: $budget, onInputChanged: onInputChanged)
+                }
             }
             Spacer()
         }
@@ -49,25 +55,14 @@ internal struct CoursesUInputWithIcon: View {
 internal struct NumberedInputField: View {
     @Binding public var budget: Double
     public var onInputChanged: (Double) -> Void
-
+    
     var body: some View {
-        if #available(iOS 15, *) {
-        TextField("", value: $budget, format: .currency(code: "EUR"))
-                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
-                .multilineTextAlignment(.leading)
-                .keyboardType(.numberPad)
-                .onChange(of: budget) { newValue in
-                    onInputChanged(newValue)
-                }
-        } else {
-                // Fallback on earlier versions
-            TextField("", value: $budget, formatter: NumberFormatter())
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
-                    .multilineTextAlignment(.leading)
-                    .keyboardType(.numberPad)
-                    .onChange(of: budget) { newValue in
-                        onInputChanged(newValue)
-                    }
+        TextField("", value: $budget, formatter: NumberFormatter())
+            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
+            .multilineTextAlignment(.leading)
+            .keyboardType(.numberPad)
+            .onChange(of: budget) { newValue in
+                onInputChanged(newValue)
             }
     }
 }
@@ -76,6 +71,7 @@ internal struct NumberedInputField: View {
 struct CoursesUInputWithIcon_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUInputWithIcon(
+            currency: "$",
             caption: "Total Budget",
             icon: Image(packageResource: "numberOfMealsIcon", ofType: "png")) { num in
                 print("num is " + String(num))

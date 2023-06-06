@@ -28,9 +28,10 @@ public struct CourseUBudgetPlannerToolbar: BudgetPlannerToolbar {
                         isLoadingRecipes: Binding<Bool>,
                         onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
         HStack {
+            
             CoursesUInputWithIcon(
                 defaultValue: budgetInfos.moneyBudget,
-                icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png")
+                icon: Image(packageResource: "BudgetIcon", ofType: "png")
                ) { money in
                 onValidateTapped(
                     BudgetInfos(
@@ -66,6 +67,16 @@ public struct CourseUBudgetPlannerToolbar: BudgetPlannerToolbar {
                 onValidateTapped(infos)
             }
         }
+        .padding(.vertical, 5)
+        .padding(.leading, 25)
+        .padding(.trailing, 1)
+        .background(Color.white)
+        .frame(height: 60)
+        .cornerRadius(dimension.xlCornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: Dimension.sharedInstance.xlCornerRadius)
+                .stroke(Color.gray, lineWidth: 0.5)
+        )
     }
 }
 
@@ -88,7 +99,7 @@ internal struct SubmitButtonCollapsed: View {
                 Image(packageResource: "EditPencilIcon", ofType: "png")
                     .resizable()
                     .foregroundColor(Color.white)
-                    .frame(width: dimension.mButtonHeight, height: dimension.mButtonHeight)
+                    .frame(width: 25, height: 25)
             }
         }
         .padding()
@@ -106,8 +117,13 @@ struct CourseUBudgetPlannerToolbar_Previews: PreviewProvider {
     struct Preview: View {
         @SwiftUI.State var loading = false
         var body: some View {
-            CourseUBudgetPlannerToolbar().content(budgetInfos: BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4),
-                                               isLoadingRecipes: $loading, onValidateTapped: {_ in})
+            ZStack{
+                Color.blue
+                CourseUBudgetPlannerToolbar().content(budgetInfos: BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4),
+                                                   isLoadingRecipes: $loading, onValidateTapped: {_ in})
+                .padding()
+            }
+            
         }
     }
 }
