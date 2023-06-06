@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
-//import miamCore
-//import MiamIOSFramework
+import miamCore
+import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CUBudgetCallToAction: View {
-    var body: some View {
+public struct CUBudgetCallToAction: BudgetCallToAction {
+   
+    public init() {}
+    
+    public func content(onTapGesture: @escaping () -> Void) -> some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
@@ -19,6 +22,8 @@ struct CUBudgetCallToAction: View {
 @available(iOS 14, *)
 struct CUBudgetCallToAction_Previews: PreviewProvider {
     static var previews: some View {
-        CUBudgetCallToAction()
+        CUBudgetCallToAction().content {
+            print("hello world")
+        }
     }
 }
