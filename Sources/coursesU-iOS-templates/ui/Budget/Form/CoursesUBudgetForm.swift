@@ -32,15 +32,15 @@ public struct CoursesUBudgetForm: BudgetForm {
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                 Divider()
                 // TODO: localize
-                CoursesUBudgetFormButtons(icon: Image(packageResource: "BudgetIcon", ofType: "png"), title: "Mon budget max")
+                CoursesUInputWithIcon(caption: "Mon budget max", icon: Image(packageResource: "BudgetIcon", ofType: "png"))
                 { _ in }
                 Divider()
                 // TODO: localize
-                CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), title: "Nombre de personnes")
+                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
                 { _ in }
                 Divider()
                 // TODO: localize
-                CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), title: "Nombre de repas")
+                CoursesUStepperCollapsed(caption: "Nombre de repas", icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"))
                 { _ in }
                 Divider()
                 CoursesUButtonStyle(
@@ -67,43 +67,6 @@ public struct CoursesUBudgetForm: BudgetForm {
     }
 }
 
-@available(iOS 14, *)
-struct CoursesUBudgetFormButtons: View {
-    @SwiftUI.State public var value: Int = 0
-    let icon: Image
-    let title: String
-    let minValue: Int = 1
-    let maxValue: Int = 10
-    public var onStepperChanged: (Int) -> Void
-    init(defaultValue: Int = 0, icon: Image, title:String, minValue: Int = 1, maxValue: Int = 10, onStepperChanged: @escaping (Int) -> Void) {
-        _value = State(initialValue: defaultValue)
-        self.icon = icon
-        self.title = title
-        self.onStepperChanged = onStepperChanged
-    }
-    let dimension = Dimension.sharedInstance
-    var body: some View {
-        HStack() {
-            
-            icon
-                .resizable()
-                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                .padding(.horizontal, dimension.sPadding)
-                .foregroundColor(Color.miamColor(.black))
-            VStack(alignment: .leading, spacing: 5) {
-                Text(title)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                Text(String(Int(value)))
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-            }
-//            .padding(.leading, dimension.mPadding)
-            
-            Spacer()
-        }
-        
-            
-    }
-}
 @available(iOS 14, *)
 struct CoursesUBudgetForm_Previews: PreviewProvider {
    

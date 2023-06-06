@@ -10,13 +10,21 @@ import SwiftUI
 
 @available(iOS 14, *)
 internal struct CoursesUStepperCollapsed: View {
-    @State public var value: Int = 0
+    @State private var value: Int = 0
+    let caption: String?
     let icon: Image
     let minValue: Int = 1
     let maxValue: Int = 10
     public var onStepperChanged: (Int) -> Void
-    init(defaultValue: Int = 0, icon: Image, minValue: Int = 1, maxValue: Int = 10, onStepperChanged: @escaping (Int) -> Void) {
+    init(
+        defaultValue: Int = 0,
+        caption: String? = nil,
+        icon: Image,
+        minValue: Int = 1,
+        maxValue: Int = 10,
+        onStepperChanged: @escaping (Int) -> Void) {
         _value = State(initialValue: defaultValue)
+        self.caption = caption
         self.icon = icon
         self.onStepperChanged = onStepperChanged
     }
@@ -39,11 +47,17 @@ internal struct CoursesUStepperCollapsed: View {
                         .resizable()
                         .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
                         .padding(.horizontal, dimension.sPadding)
-                        .foregroundColor(Color.miamColor(.black))
-                    Text(String(Int(value)))
-                        .foregroundColor(Color.black)
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-                        .padding(.leading, dimension.mPadding)
+                    VStack(alignment: .leading, spacing: dimension.sPadding) {
+                        if let caption = caption {
+                            Text(caption)
+                                .foregroundColor(Color.black)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                        }
+                        Text(String(Int(value)))
+                            .foregroundColor(Color.black)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                            
+                    }
                     Spacer()
                 }
             }

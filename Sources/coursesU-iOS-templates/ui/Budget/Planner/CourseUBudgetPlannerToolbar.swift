@@ -28,16 +28,17 @@ public struct CourseUBudgetPlannerToolbar: BudgetPlannerToolbar {
                         isLoadingRecipes: Binding<Bool>,
                         onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
         HStack {
-//            MealPlannerBudget(
-//                defaultValue: budgetInfos.moneyBudget,
-//                currency: Localization.price.currency.localised) { money in
-//                onValidateTapped(
-//                    BudgetInfos(
-//                        moneyBudget: money,
-//                        numberOfGuests: budgetInfos.numberOfGuests,
-//                        numberOfMeals: budgetInfos.numberOfMeals)
-//                )
-//            }
+            CoursesUInputWithIcon(
+                defaultValue: budgetInfos.moneyBudget,
+                icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png")
+               ) { money in
+                onValidateTapped(
+                    BudgetInfos(
+                        moneyBudget: money,
+                        numberOfGuests: budgetInfos.numberOfGuests,
+                        numberOfMeals: budgetInfos.numberOfMeals)
+                )
+            }
             Divider()
             CoursesUStepperCollapsed(
                 defaultValue: budgetInfos.numberOfGuests,
