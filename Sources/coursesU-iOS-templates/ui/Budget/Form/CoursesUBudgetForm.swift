@@ -17,27 +17,30 @@ public struct CoursesUBudgetForm: BudgetForm {
     let dimension = Dimension.sharedInstance
     public init() {}
     public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
+    
         VStack(spacing: 20) {
             Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
                 .multilineTextAlignment(.center)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
             Divider()
             // TODO: localize
-            CoursesUBudgetFormButtons(icon: Image.miamNeutralImage(icon: .guests), title: "Mon budget max")
+            CoursesUBudgetFormButtons(icon: Image(packageResource: "BudgetIcon", ofType: "png"), title: "Mon budget max")
             { _ in }
             Divider()
             // TODO: localize
-            CoursesUBudgetFormButtons(icon: Image.miamNeutralImage(icon: .guests), title: "Nombre de personnes")
+            CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), title: "Nombre de personnes")
             { _ in }
             Divider()
             // TODO: localize
-            CoursesUBudgetFormButtons(icon: Image.miamNeutralImage(icon: .guests), title: "Nombre de repas")
+            CoursesUBudgetFormButtons(icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), title: "Nombre de repas")
             { _ in }
             Divider()
             CoursesUButtonStyle(
                 backgroundColor: Color.primaryColor,
                 content: { HStack {
-                    Image.miamImage(icon: .search)
+                    Image(packageResource: "searchIcon", ofType: "png")
+                        .resizable()
+                        .frame(width: 20, height: 20)
                     Text("C'est parti !")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         .foregroundColor(Color.white)
@@ -72,7 +75,6 @@ struct CoursesUBudgetFormButtons: View {
         HStack() {
             
             icon
-                .renderingMode(.template)
                 .resizable()
                 .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
                 .padding(.horizontal, dimension.sPadding)
