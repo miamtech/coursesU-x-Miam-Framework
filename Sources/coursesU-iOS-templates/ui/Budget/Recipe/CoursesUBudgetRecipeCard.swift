@@ -12,7 +12,6 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
-    let cardHeight = 200.0
     public init() {}
     let dimension = Dimension.sharedInstance
     
@@ -29,7 +28,7 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
             .frame(width: 150.0)
             .clipped()
             
-            VStack(spacing: dimension.sPadding) {
+            VStack(spacing: dimension.mPadding) {
                 HStack(alignment: .top) {
                     Text(recipeInfos.recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
@@ -41,7 +40,7 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                     } label: {
                         Image(systemName: "heart")
                     }
-                    .padding(5)
+                    
                 }
                 
                 HStack() {
@@ -62,9 +61,11 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                     } label: {
                         HStack {
                             Image(systemName: "repeat")
+                                .foregroundColor(Color.primaryColor)
                             //                            Text(Localization.basket.swapProduct.localised)
                             // TODO: localize
                             Text("Changer")
+                                .foregroundColor(Color.primaryColor)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                         }
                     }
@@ -83,11 +84,11 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                 }
                 .frame(maxWidth: .infinity)
             }
-            .padding(.horizontal, dimension.mPadding)
-            .padding(.vertical, dimension.sPadding)
+            .padding(.horizontal, dimension.lPadding)
+            .padding(.vertical, dimension.mPadding)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: cardHeight)
+        .frame(height: dimension.mealPlannerRecipeCardHeight)
         .background(Color.white)
         .cornerRadius(dimension.mCornerRadius)
     }

@@ -26,8 +26,10 @@ struct RecapPriceForRecipes: View {
         .padding(.leading, leadingPadding)
         .padding(.trailing, trailingPadding)
         .padding(.vertical, 5)
+        .frame(maxWidth: .infinity)
         .background(Color.recapTheRecipes)
         .cornerRadius(Dimension.sharedInstance.sCornerRadius)
+        
         
     }
 }
