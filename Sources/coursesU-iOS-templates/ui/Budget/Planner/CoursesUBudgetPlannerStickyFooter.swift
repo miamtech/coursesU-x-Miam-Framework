@@ -21,7 +21,7 @@ struct CoursesUBudgetPlannerStickyFooter: View {
             CoursesUBudgetPlannerBudgetFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: totalBudgetPermitted)
             Spacer()
             CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: { HStack {
-//                Image(packageResource: "basket", ofType: "png")
+                //                Image(packageResource: "basket", ofType: "png")
                 Image(systemName: "basket")
                     .resizable()
                     .foregroundColor(Color.white)
@@ -29,7 +29,7 @@ struct CoursesUBudgetPlannerStickyFooter: View {
                 Text("Tout ajouter")
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                     .foregroundColor(Color.white)
-         
+                
             }}, buttonAction: { })
         }
         .frame(maxWidth: .infinity)
@@ -45,7 +45,7 @@ struct CoursesUBudgetPlannerStickyFooter: View {
 struct WithRoundedCornersProgressViewStyle: ProgressViewStyle {
     var progressColor: Color
     var overBudget: Bool
-    let widthOfRectangles = CGFloat(150)
+    let widthOfRectangles : CGFloat
     let dimension = Dimension.sharedInstance
     func makeBody(configuration: Configuration) -> some View {
         ZStack(alignment: .leading) {
@@ -63,12 +63,13 @@ struct WithRoundedCornersProgressViewStyle: ProgressViewStyle {
                     Spacer()
                     Rectangle()
                         .frame(maxWidth: .infinity)
-                        .frame(width: 0.3 * widthOfRectangles, height: 10)
+                        .frame(width: 0.2 * widthOfRectangles, height: 10)
                         .foregroundColor(Color.red)
                         .cornerRadius(dimension.mCornerRadius, corners: .right)
                 }
             }
         }
+        .frame(width: widthOfRectangles)
     }
 }
 
@@ -77,26 +78,85 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
     @Binding var budgetSpent: Double
     var totalBudgetPermitted: Double
     let dimension = Dimension.sharedInstance
+    let widthOfFrame = CGFloat(150)
     var body: some View {
-        VStack(alignment: .leading, spacing: dimension.mPadding) {
-//            Text(String(budgetSpent) + " €")
-//                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
-//                .foregroundColor(budgetSpent > totalBudgetPermitted ?
-//                                 Color.red : Color.green)
+        VStack(alignment: .leading, spacing: dimension.sPadding) {
+            if (budgetSpent > totalBudgetPermitted) {
+                HStack {
+                    Spacer()
+                    Text(String(budgetSpent) + " €")
+                        .foregroundColor(Color.red
+                        )
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                        .padding(5)
+                        .background(
+//                            RoundedRectangle(cornerRadius: dimension.mCornerRadius)
+                            ChatBubbleShape()
+                                
+                                .fill(Color.overBudgetBackgroundColor)
+                                
+                        )
+                }
+            }
+            //            Text(String(budgetSpent) + " €")
+            //                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
+            //                .foregroundColor(budgetSpent > totalBudgetPermitted ?
+            //                                 Color.red : Color.green)
             ProgressView(value: budgetSpent, total: totalBudgetPermitted)
-                .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.primaryColor, overBudget: budgetSpent > totalBudgetPermitted ? true : false))
-           
-        
+                .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.primaryColor, overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
+            
+            
             YellowSubtext(text: String(budgetSpent) + " €", fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
-                        
+            
             
         }
+        .frame(width: widthOfFrame)
+    }
+}
+
+@available(iOS 14, *)
+struct ChatBubbleShape: Shape {
+    var cornerRadius: CGFloat = 4
+    var triangleHeight: CGFloat = 5
+    var triangleWidth: CGFloat = 10
+    var triangleOffset: CGFloat = 1.4
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        let bubbleRect = rect.insetBy(dx: 0, dy: triangleHeight)
+        
+        path.addRoundedRect(in: bubbleRect, cornerSize: CGSize(width: cornerRadius, height: cornerRadius))
+        
+        let triangleRect = CGRect(x: rect.midX - triangleWidth / 2,
+                                  y: rect.maxY - triangleHeight,
+                                  width: triangleWidth,
+                                  height: triangleHeight)
+        path.move(to: CGPoint(x: triangleRect.midX * triangleOffset, y: triangleRect.maxY))
+        path.addLine(to: CGPoint(x: triangleRect.minX * triangleOffset, y: triangleRect.minY))
+        path.addLine(to: CGPoint(x: triangleRect.maxX * triangleOffset, y: triangleRect.minY))
+        
+        return path
     }
 }
 
 @available(iOS 14, *)
 struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
     static var previews: some View {
+        ZStack {
+            Color.budgetBackgroundColor
+            VStack {
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(22.0), totalBudgetPermitted: 50.0) { print("hello world")
+                }
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(50.0), totalBudgetPermitted: 50.0) { print("hello world")
+                }
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(52.0), totalBudgetPermitted: 50.0) { print("hello world")
+                }
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(80.3), totalBudgetPermitted: 50.0) { print("hello world")
+                }
+            }
+        }
+        
         GeometryReader { geometry in
             let safeArea = geometry.safeAreaInsets
             ZStack(alignment: .bottom) {
