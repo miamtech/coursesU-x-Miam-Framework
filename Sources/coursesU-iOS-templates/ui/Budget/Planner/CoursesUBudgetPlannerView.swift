@@ -60,12 +60,14 @@ public struct CoursesUBudgetPlannerView<
         }
     }
     
+    
+    
     public var body: some View {
         ZStack {
             Color.budgetBackgroundColor
-            VStack(spacing: -40.0) {
-                BudgetBackground()
-                VStack {
+            List {
+                VStack(spacing: -40.0) {
+                    BudgetBackground()
                     toolbarTemplate.content(budgetInfos: BudgetInfos(
                         moneyBudget: amount,
                         numberOfGuests: numberOfMeals,
@@ -83,24 +85,28 @@ public struct CoursesUBudgetPlannerView<
                         budgetInfos: budgetInfos,
                         totalPrice: Price(price: 45.67, currency: "EUR"))
                     
-                    List {
-                        if #available(iOS 15, *) {
-                            recipesListWithSwipeAction()
-                        } else {
-                            recipesList()
-                        }
-                    }
-                    
-                    .listStyle(PlainListStyle())
-                    .background(Color.budgetBackgroundColor)
-                    .padding(.horizontal, Dimension.sharedInstance.lPadding)
-                    Spacer()
                 }
-                
-                //            MiamBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: 40.0) {
-                //                validateRecipes()
-                //            }
+                .background(Color.budgetBackgroundColor)
+                .listRowBackground(Color.clear)
+                .modifier(removeLines())
+                .listRowInsets(EdgeInsets())
+                if #available(iOS 15, *) {
+                    recipesListWithSwipeAction()
+                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
+                } else {
+                    recipesList()
+                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
+                }
             }
+            .listStyle(PlainListStyle())
+            .background(Color.budgetBackgroundColor)
+            
+            Spacer()
+            
+            //            MiamBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: 40.0) {
+            //                validateRecipes()
+            //            }
+            
         }
     }
 }
