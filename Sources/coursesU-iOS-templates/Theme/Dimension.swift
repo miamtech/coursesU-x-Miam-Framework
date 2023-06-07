@@ -82,4 +82,9 @@ public class Dimension {
      xlCornerRadius: default value 20
      */
     public var xlCornerRadius: CGFloat = 25
+    
+    /**
+     mealPlannerRecipeCardHeight: default value 180
+     */
+    public var mealPlannerRecipeCardHeight: CGFloat = 180
 }

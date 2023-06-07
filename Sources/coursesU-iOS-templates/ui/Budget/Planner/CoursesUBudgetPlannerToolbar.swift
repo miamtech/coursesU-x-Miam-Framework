@@ -18,7 +18,7 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CourseUBudgetPlannerToolbar: BudgetPlannerToolbar {
+public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
     @SwiftUI.State var budget = 23.0
     @SwiftUI.State var numberGuests = 4
     @SwiftUI.State var numberMeals = 4
@@ -68,7 +68,7 @@ public struct CourseUBudgetPlannerToolbar: BudgetPlannerToolbar {
             }
         }
         .padding(.vertical, 5)
-        .padding(.leading, 25)
+        .padding(.leading)
         .padding(.trailing, 1)
         .background(Color.white)
         .frame(height: 60)
@@ -110,7 +110,7 @@ internal struct SubmitButtonCollapsed: View {
 }
 
 @available(iOS 14, *)
-struct CourseUBudgetPlannerToolbar_Previews: PreviewProvider {
+struct CoursesUBudgetPlannerToolbar_Previews: PreviewProvider {
     static var previews: some View {
         Preview()
     }
@@ -122,7 +122,7 @@ struct CourseUBudgetPlannerToolbar_Previews: PreviewProvider {
                 Color.budgetBackgroundColor
                 VStack(spacing: -40.0) {
                     BudgetBackground()
-                    CourseUBudgetPlannerToolbar().content(budgetInfos: BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4),
+                    CoursesUBudgetPlannerToolbar().content(budgetInfos: BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4),
                                                        isLoadingRecipes: $loading, onValidateTapped: {_ in})
                     .padding()
                     Spacer()

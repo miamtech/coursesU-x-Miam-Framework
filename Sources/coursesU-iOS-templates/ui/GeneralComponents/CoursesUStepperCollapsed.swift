@@ -46,7 +46,7 @@ internal struct CoursesUStepperCollapsed: View {
                     icon
                         .resizable()
                         .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                        .padding(.horizontal, dimension.mPadding)
+                        .padding(.horizontal, dimension.sPadding)
                     VStack(alignment: .leading, spacing: dimension.sPadding) {
                         if let caption = caption {
                             Text(caption)
