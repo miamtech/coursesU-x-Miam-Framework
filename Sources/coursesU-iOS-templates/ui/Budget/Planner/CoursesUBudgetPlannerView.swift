@@ -64,7 +64,7 @@ public struct CoursesUBudgetPlannerView<
     
     public var body: some View {
         ZStack {
-//            Color.budgetBackgroundColor
+            Color.budgetBackgroundColor
             List {
                 VStack(spacing: -40.0) {
                     BudgetBackground()
@@ -97,16 +97,20 @@ public struct CoursesUBudgetPlannerView<
                     recipesList()
                         .padding(.horizontal, Dimension.sharedInstance.lPadding)
                 }
+                Spacer()
+                    .frame(height: 100)
+                    .listRowBackground(Color.clear)
+                    .modifier(removeLines())
+                    .listRowInsets(EdgeInsets())
             }
             .listStyle(PlainListStyle())
             .background(Color.budgetBackgroundColor)
             
             VStack{
                 Spacer()
-                Text("sticky footer")
-//                MiamBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: 40.0) {
-//                                validateRecipes()
-//                            }
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: 40.0) {
+                                validateRecipes()
+                            }
             }
         }
     }
@@ -149,12 +153,14 @@ extension CoursesUBudgetPlannerView {
                             removeAction()
                         } label: {
                             VStack {
-                                Image.miamNeutralImage(icon: .bin)
-                                    .renderingMode(.template)
+                                Image("trash")
+                                    .foregroundColor(Color.white)
+//                                Image.miamNeutralImage(icon: .bin)
+//                                    .renderingMode(.template)
                                 
-                            }.background(Color.miamNeutralColor(.errorBackground))
+                            }.background(Color.red)
                         }
-                        .tint(Color.miamNeutralColor(.errorBackground))
+                        .tint(Color.red)
                     }
                     .padding(.vertical, Dimension.sharedInstance.sPadding)
                     .background(Color.budgetBackgroundColor)
@@ -210,6 +216,6 @@ extension CoursesUBudgetPlannerView {
 @available(iOS 14, *)
 struct CoursesUBudgetPlannerView_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUBudgetPlannerView(toolbarTemplate: CoursesUBudgetPlannerToolbar(), recipeCardTemplate: CoursesUBudgetRecipeCard(), loadingCardTemplate: CoursesUBudgetRecipeCardLoading(), placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(), recipes: ["178","124"], validateRecipes: {}, replaceRecipe: {_ in})
+        CoursesUBudgetPlannerView(toolbarTemplate: CoursesUBudgetPlannerToolbar(), recipeCardTemplate: CoursesUBudgetRecipeCard(), loadingCardTemplate: CoursesUBudgetRecipeCardLoading(), placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(), recipes: ["178","124", "134", "135"], validateRecipes: {}, replaceRecipe: {_ in})
     }
 }
