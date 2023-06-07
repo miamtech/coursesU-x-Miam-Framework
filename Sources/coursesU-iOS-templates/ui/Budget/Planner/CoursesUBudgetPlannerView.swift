@@ -64,7 +64,7 @@ public struct CoursesUBudgetPlannerView<
     
     public var body: some View {
         ZStack {
-            Color.budgetBackgroundColor
+//            Color.budgetBackgroundColor
             List {
                 VStack(spacing: -40.0) {
                     BudgetBackground()
@@ -101,12 +101,13 @@ public struct CoursesUBudgetPlannerView<
             .listStyle(PlainListStyle())
             .background(Color.budgetBackgroundColor)
             
-            Spacer()
-            
-            //            MiamBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: 40.0) {
-            //                validateRecipes()
-            //            }
-            
+            VStack{
+                Spacer()
+                Text("sticky footer")
+//                MiamBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: 40.0) {
+//                                validateRecipes()
+//                            }
+            }
         }
     }
 }
