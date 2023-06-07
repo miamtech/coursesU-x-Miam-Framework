@@ -15,41 +15,35 @@ public struct CoursesUBudgetRecipePlaceholder: BudgetRecipePlaceholder {
     private let dimension = Dimension.sharedInstance
     public init() {}
     public func content(onTapGesture: @escaping () -> Void) -> some View {
-        ZStack(alignment: .topLeading) {
-            VStack(spacing: dimension.lPadding) {
-                Button {
-                    onTapGesture()
-                } label: {
-                    Circle()
-                        .foregroundColor(Color.primaryColor)
-                        .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                        .overlay(
-                            Circle()
-                                .stroke(Color.white, lineWidth: 3)
-                        )
-                        .overlay(
-                            Image(systemName: "plus")
-                                .resizable()
-                                .foregroundColor(Color.white)
-                                .frame(width: dimension.mButtonHeight, height: dimension.mButtonHeight)
-                        )
-                }
-                .buttonStyle(PlainButtonStyle())
-                //                    Text(Localization.myBudget.addMealIdea.localised)
-                // TODO: localize
-                Text("Ajouter une idée repas")
-                    .foregroundColor(Color.white)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
+        VStack(spacing: dimension.lPadding) {
+            Button {
+                onTapGesture()
+            } label: {
+                Circle()
+                    .foregroundColor(Color.primaryColor)
+                    .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white, lineWidth: 3)
+                    )
+                    .overlay(
+                        Image(systemName: "plus")
+                            .resizable()
+                            .foregroundColor(Color.white)
+                            .frame(width: dimension.mButtonHeight, height: dimension.mButtonHeight)
+                    )
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: dimension.mealPlannerRecipeCardHeight)
-            .background(Color.primaryColor)
-            .cornerRadius(dimension.mCornerRadius)
-            
-            YellowOffCenterNumber(number: "3")
-                .padding(10)
-            
+            .buttonStyle(PlainButtonStyle())
+            //                    Text(Localization.myBudget.addMealIdea.localised)
+            // TODO: localize
+            Text("Ajouter une idée repas")
+                .foregroundColor(Color.white)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
         }
+        .frame(maxWidth: .infinity)
+        .frame(height: dimension.mealPlannerRecipeCardHeight)
+        .background(Color.primaryColor)
+        .cornerRadius(dimension.mCornerRadius)
     }
 }
 
