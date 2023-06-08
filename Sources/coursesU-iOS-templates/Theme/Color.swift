@@ -19,7 +19,7 @@ extension Color {
     static let numberOfRecipes = Color(red: 255 / 255, green: 199 / 255, blue: 0 / 255)
     static let budgetBackgroundColor = Color(red: 191 / 255, green: 221 / 255, blue: 232 / 255)
     static let overBudgetBackgroundColor = Color(red: 250 / 255, green: 234 / 255, blue: 234 / 255)
-
+    static let lightGray = Color(red: 221 / 255, green: 221 / 255, blue: 221 / 255)
 
     
 }
