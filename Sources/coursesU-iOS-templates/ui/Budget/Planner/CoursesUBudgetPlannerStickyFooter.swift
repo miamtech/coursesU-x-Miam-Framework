@@ -84,7 +84,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
             if (budgetSpent > totalBudgetPermitted) {
                 HStack {
                     Spacer()
-                    Text(String(budgetSpent) + " €")
+                    Text(String(format: "%.2f €", budgetSpent - totalBudgetPermitted))
                         .foregroundColor(Color.red
                         )
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)

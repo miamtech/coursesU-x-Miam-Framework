@@ -22,8 +22,8 @@ public struct CoursesURecipeCard: RecipeCard {
         let priceWithCurrency = String(recipeInfos.price.price)  +
         (
             currencySymbol(forCurrencyCode: recipeInfos.price.currency)
-?? "€"        )
-
+            ?? "€"        )
+        
         VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
                 ZStack(alignment: .topTrailing) {
@@ -34,27 +34,27 @@ public struct CoursesURecipeCard: RecipeCard {
                             .padding(0)
                             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
                     }.padding(0)
-                    HStack {
-                        Button {
-
-                        } label: {
-                            Image(systemName: "heart")
-                        }
-                        .frame(width: dimensions.lButtonHeight, height: dimensions.lButtonHeight)
-                        .background(Color.white)
-                        .cornerRadius(dimensions.sCornerRadius)
-                    }.padding(dimensions.lPadding)
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "heart")
+                    }
+                    .frame(width: dimensions.lButtonHeight, height: dimensions.lButtonHeight)
+                    .background(Color.white)
+                    .cornerRadius(dimensions.sCornerRadius)
+                    .padding(dimensions.lPadding)
                 }
                 .padding(0)
                 .frame(height: 150.0)
                 .clipped()
-
-                VStack(spacing: dimensions.sPadding) {
+                
+                VStack(spacing: dimensions.mPadding) {
                     Text(recipeInfos.recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyMediumBoldStyle)
                         .lineLimit(2)
-//                        .multilineTextAlignment(.center)
-
+                    //                        .multilineTextAlignment(.center)
+                    
                     HStack(spacing: dimensions.xlPadding) {
                         MiamRecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
                         MiamRecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
@@ -74,23 +74,8 @@ public struct CoursesURecipeCard: RecipeCard {
                         }
                         
                     }, buttonAction: { ctaAction()})
-//                    Button {
-//                        ctaAction()
-//                    } label: {
-//                        Label {
-//                            Text(Localization.recipe.add.localised)
-//                        } icon: {
-//                            Image.miamNeutralImage(icon: .plus)
-//                        }
-//                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyMediumBoldStyle)
-//                    }
-//                    .padding([.vertical], 8.0)
-//                    .padding([.horizontal], 8.0)
-//                    .overlay(RoundedRectangle(cornerRadius: Dimension.sharedInstance.sCornerRadius)
-//                        .stroke(Color.miamNeutralColor(.primary), lineWidth: 1))
                 }
-                .padding([.leading, .trailing], dimensions.lPadding)
-                .padding(.vertical, dimensions.mPadding)
+                .padding(.horizontal, dimensions.lPadding)
                 .frame(maxHeight: .infinity)
             }
         }
@@ -108,9 +93,9 @@ public struct CoursesURecipeCard: RecipeCard {
 struct CoursesURecipeCard_Previews: PreviewProvider {
     static var previews: some View {
         let recipe = RecipeFakeFactory().create(id: RecipeFakeFactory().FAKE_ID,
-
+                                                
                                                 attributes: RecipeFakeFactory().createAttributes(title: "Parmentier de Poulet",
-        mediaUrl: "https://hips.hearstapps.com/hmg-prod/images/is-coconut-oil-healthy-1650650710.jpg?crop=0.669xw:1.00xh;0.0637xw,0&resize=1200:*"),
+                                                                                                 mediaUrl: "https://hips.hearstapps.com/hmg-prod/images/is-coconut-oil-healthy-1650650710.jpg?crop=0.669xw:1.00xh;0.0637xw,0&resize=1200:*"),
                                                 relationships: nil)
         let infos = RecipeInfos(recipe: recipe, price: Price(price: 30.0, currency: "EUR"), isInBasket: true)
         ZStack {

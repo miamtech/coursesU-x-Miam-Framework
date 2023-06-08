@@ -11,20 +11,24 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUBudgetPlannerRecipePickerView<SearchTemplate: BudgetSearch,
-                                            CardTemplate: RecipeCard>: View {
+public struct CoursesUBudgetPlannerRecipePickerView<
+    SearchTemplate: BudgetSearch,
+    CardTemplate: RecipeCard,
+    Footer: View>: View {
     private let searchTemplate: SearchTemplate
     private let cardTemplate: CardTemplate
+    private let stickyFooter: Footer
     private let onRecipeSelected: (String) -> Void
 //    @StateObject private var viewModel: MealPlannerReplaceRecipeViewModel
     private let recipes = ["134", "135", "136", "137", "138", "139", "140", "141", "142", "143"]
     @SwiftUI.State private var searchText = ""
     @SwiftUI.State private var showSearchField = false
-    public init(searchTemplate: SearchTemplate, cardTemplate: CardTemplate,
+    public init(searchTemplate: SearchTemplate, cardTemplate: CardTemplate, stickyFooter: Footer,
                 onRecipeSelected: @escaping (String) -> Void) {
         self.searchTemplate = searchTemplate
         self.cardTemplate = cardTemplate
         self.onRecipeSelected = onRecipeSelected
+        self.stickyFooter = stickyFooter
 //        _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: 10.0))
     }
 
@@ -42,17 +46,23 @@ public struct CoursesUBudgetPlannerRecipePickerView<SearchTemplate: BudgetSearch
                 ScrollView {
                     LazyVGrid(columns: [.init(), .init()]) {
                         ForEach(recipes, id: \.self) { recipe in
-//                            CoursesURecipeCard().content(recipeInfos: <#T##RecipeInfos#>, actions: <#T##RecipeCardActions#>)
-//                            CatalogRecipeCardView(recipe, cardTemplate: cardTemplate,
-//                                                  loadingTemplate: MiamRecipeCardLoading(),
-//                                                  showDetails: {}, add: {
-//                                print("Add recipe: \(recipe)")
-//                                // Either update from the view model, or update in the previous view?
-//                                onRecipeSelected(recipe)
-//                            })
+                            CoursesURecipeCardView(
+                                recipe,
+                                cardTemplate: cardTemplate,
+                                loadingTemplate: CoursesURecipeCardLoading(),
+                                showDetails: {},
+                                add: {
+                                print("Add recipe: \(recipe)")
+                                // Either update from the view model, or update in the previous view?
+                                onRecipeSelected(recipe)
+                            })
                         }
                     }.padding(Dimension.sharedInstance.lPadding)
                 }
+            }
+            VStack{
+                Spacer()
+                stickyFooter
             }
         }
     }
@@ -63,7 +73,7 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUBudgetSearch(),
-            cardTemplate: CoursesURecipeCard(),
+            cardTemplate: CoursesURecipeCard(), stickyFooter: CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(32.0), totalBudgetPermitted: 23.0, buttonAction: {}),
             onRecipeSelected: { _ in })
     }
 }
