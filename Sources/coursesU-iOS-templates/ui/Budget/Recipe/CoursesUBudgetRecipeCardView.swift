@@ -28,22 +28,35 @@ public struct CoursesUBudgetRecipeCardView<CardTemplate: BudgetRecipeCard,
     }
 
     public var body: some View {
-        HStack {
-            UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
-                recipeCardLoadingTemplate.content()
-            } successView: {
-                if let recipe = recipeViewModel.recipe {
-                    let recipeInfos = RecipeInfos(recipe: recipe,
-                                                  price: Price(price: 34.0, currency: "EUR"),
-                                                  isInBasket: false)
-                    recipeCardTemplate.content(recipeInfos: recipeInfos,
-                                               actions: actions)
-                }
-            }
-        }
-        .onAppear {
-            recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
-        }
+        // TODO: replace this!
+//        HStack {
+//            UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
+//                recipeCardLoadingTemplate.content()
+//            } successView: {
+//                if let recipe = recipeViewModel.recipe {
+//                    let recipeInfos = RecipeInfos(recipe: recipe,
+//                                                  price: Price(price: 34.0, currency: "EUR"),
+//                                                  isInBasket: false)
+//                    recipeCardTemplate.content(recipeInfos: recipeInfos,
+//                                               actions: actions)
+//                }
+//            }
+//        }
+//        .onAppear {
+//            recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
+//        }
+        let recipe = RecipeFakeFactory().create(
+            id: RecipeFakeFactory().FAKE_ID,
+            attributes: RecipeFakeFactory().createAttributes(title: "Parmentier de Poulet",
+            mediaUrl: "https://picsum.photos/500/500"),
+            relationships: nil)
+            let recipeInfos = RecipeInfos(
+                recipe: recipe,
+                price: Price(price: 34.0, currency: "EUR"),
+                isInBasket: false)
+        recipeCardTemplate.content(
+                recipeInfos: recipeInfos,
+                actions: actions)
     }
 }
 

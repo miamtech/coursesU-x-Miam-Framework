@@ -58,6 +58,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                             })
                         }
                     }.padding(Dimension.sharedInstance.lPadding)
+                        .padding(.bottom, 100)
                 }
             }
             VStack{
