@@ -11,8 +11,8 @@ import SwiftUI
 struct YellowOffCenterNumber: View {
     var number: String
     var body: some View {
-        Text(number).coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
-            .padding()
+        Text(number).coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
+            .padding(Dimension.sharedInstance.lPadding)
             .background(Color.numberOfRecipes)
             .cornerRadius(Dimension.sharedInstance.sCornerRadius)
             .rotationEffect(.degrees(-2.44))

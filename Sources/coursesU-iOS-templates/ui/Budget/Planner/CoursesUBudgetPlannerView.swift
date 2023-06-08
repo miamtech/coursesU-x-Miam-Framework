@@ -86,6 +86,7 @@ public struct CoursesUBudgetPlannerView<
                         totalPrice: Price(price: 45.67, currency: "EUR"))
                     
                 }
+                .padding(.bottom, Dimension.sharedInstance.lPadding)
                 .background(Color.budgetBackgroundColor)
                 .listRowBackground(Color.clear)
                 .modifier(removeLines())
@@ -108,7 +109,7 @@ public struct CoursesUBudgetPlannerView<
             
             VStack{
                 Spacer()
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: 40.0) {
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: amount) {
                                 validateRecipes()
                             }
             }
@@ -130,48 +131,61 @@ extension CoursesUBudgetPlannerView {
     
     @available(iOS 15, *)
     private func recipesListWithSwipeAction() -> some View {
-        ForEach(recipesIds, id: \.self) { recipe in
-            VStack {
-                if recipe.isEmpty {
-                    placeholderCardTemplate.content {
-                        self.replaceRecipe(recipe)
-                    }
-                    .padding(.vertical, Dimension.sharedInstance.sPadding)
-                    .background(Color.budgetBackgroundColor)
-                } else {
-                    let actions = createActions(recipe: recipe)
-                    CoursesUBudgetRecipeCardView(
-                        recipeId: recipe,
-                        recipeCardTemplate: recipeCardTemplate,
-                        recipeCardLoadingTemplate: loadingCardTemplate,
-                        actions: actions)
-                    .swipeActions(edge: .trailing) {
-                        Button {
-                            guard let removeAction = actions.removeTapped else {
-                                return
-                            }
-                            removeAction()
-                        } label: {
-                            VStack {
-                                Image("trash")
-                                    .foregroundColor(Color.white)
-//                                Image.miamNeutralImage(icon: .bin)
-//                                    .renderingMode(.template)
-                                
-                            }.background(Color.red)
+        ForEach(recipesIds.indices, id: \.self) { index in
+            let recipe = recipesIds[index]
+//        ForEach(recipesIds, id: \.self) { recipe in
+            ZStack {
+                VStack {
+                    if recipe.isEmpty {
+                        placeholderCardTemplate.content {
+                            self.replaceRecipe(recipe)
                         }
-                        .tint(Color.red)
+                        .padding(.vertical, Dimension.sharedInstance.sPadding)
+                        .background(Color.budgetBackgroundColor)
+                    } else {
+                        let actions = createActions(recipe: recipe)
+                        CoursesUBudgetRecipeCardView(
+                            recipeId: recipe,
+                            recipeCardTemplate: recipeCardTemplate,
+                            recipeCardLoadingTemplate: loadingCardTemplate,
+                            actions: actions)
+                        .swipeActions(edge: .trailing) {
+                            Button {
+                                guard let removeAction = actions.removeTapped else {
+                                    return
+                                }
+                                removeAction()
+                            } label: {
+                                VStack {
+                                    Image("trash")
+                                        .foregroundColor(Color.white)
+                                    //                                Image.miamNeutralImage(icon: .bin)
+                                    //                                    .renderingMode(.template)
+                                    
+                                }.background(Color.red)
+                            }
+                            .tint(Color.red)
+                        }
+                        .padding(.vertical, Dimension.sharedInstance.sPadding)
+                        .background(Color.budgetBackgroundColor)
                     }
-                    .padding(.vertical, Dimension.sharedInstance.sPadding)
-                    .background(Color.budgetBackgroundColor)
+                }
+                VStack {
+                    HStack() {
+                        YellowOffCenterNumber(number: String(index + 1))
+                            .padding(.leading, Dimension.sharedInstance.mPadding)
+                        Spacer()
+                    }
+                    .padding(.top, -30.0)
+                    Spacer()
                 }
             }
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets())
-            .padding(.vertical, Dimension.sharedInstance.mPadding)
+            
         }
-        
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets())
+        .padding(.vertical, Dimension.sharedInstance.sPadding)
     }
     
     @available(iOS 14, *)
