@@ -32,16 +32,40 @@ public struct CoursesUBudgetForm: BudgetForm {
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                 Divider()
                 // TODO: localize
-                CoursesUInputWithIcon(caption: "Mon budget max", icon: Image(packageResource: "BudgetIcon", ofType: "png"))
-                { _ in }
+                CoursesUFormRow(
+                    caption: "Mon budget max",
+                    icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+                    content:
+                        HStack {
+                            Spacer()
+                            CoursesUInputWithCurrency(budget: $budget, onInputChanged: {number in budget = number})
+                        }
+                        .padding(dimension.mPadding)
+
+                )
                 Divider()
                 // TODO: localize
-                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
-                { _ in }
+//                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
+//                { _ in }
+                CoursesUFormRow(
+                    caption: "Nombre de personnes",
+                    icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
+                    content:
+                        CoursesUStepper(defaultValue: numberGuests) { number in numberGuests = number
+                        }
+
+                )
                 Divider()
                 // TODO: localize
-                CoursesUStepperCollapsed(caption: "Nombre de repas", icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"))
-                { _ in }
+                
+                CoursesUFormRow(
+                    caption: "Nombre de repas",
+                    icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
+                    content:
+                        CoursesUStepper(defaultValue: numberMeals) { number in numberMeals = number
+                        }
+
+                )
                 Divider()
                 CoursesUButtonStyle(
                     backgroundColor: Color.primaryColor,
@@ -52,7 +76,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                         Text("C'est parti !")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                             .foregroundColor(Color.white)
-                 
+                        
                     }}, buttonAction: { })
             }
             .padding(25)
@@ -65,17 +89,128 @@ public struct CoursesUBudgetForm: BudgetForm {
             .padding([.horizontal, .bottom], 25)
         }
     }
+    
+    
+    
+    @available(iOS 14, *)
+    internal struct CoursesUStepper: View {
+        @SwiftUI.State public var value: Int = 0
+        let minValue: Int
+        let maxValue: Int
+        public var onStepperChanged: (Int) -> Void
+        let dimension = Dimension.sharedInstance
+        init(defaultValue: Int = 0, minValue: Int = 0, maxValue: Int = 10, onStepperChanged: @escaping (Int) -> Void) {
+            _value = State(initialValue: defaultValue)
+            self.minValue = minValue
+            self.maxValue = maxValue
+            self.onStepperChanged = onStepperChanged
+        }
+        
+        var maxButtonColor: Color {
+            return value >= maxValue ? Color.gray : Color.primaryColor
+        }
+        var minButtonColor: Color {
+            return value <= minValue ? Color.gray : Color.primaryColor
+        }
+        
+        var body: some View {
+            
+                HStack(spacing: dimension.lPadding) {
+                    Button(action: {
+                        if value > minValue {
+                            value -= 1
+                            onStepperChanged(value)
+                        }
+                    }, label: {
+                        Image(systemName: "minus")
+//                            .resizable()
+                            .foregroundColor(minButtonColor)
+                            
+                            .padding(dimension.sPadding)
+                            .overlay(
+                                Circle()
+                                    .stroke(minButtonColor, lineWidth: 1)
+                                    .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                            )
+                    })
+                    .disabled(value <= minValue)
+                    Text("\(value)")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                    Button(action: {
+                        if value < maxValue {
+                            value += 1
+                            onStepperChanged(value)
+                        }
+                    }, label: {
+                        Image(systemName: "plus")
+//                            .resizable()
+                            .foregroundColor(maxButtonColor)
+                            .padding(dimension.sPadding)
+                            .overlay(
+                                Circle()
+                                    .stroke(maxButtonColor, lineWidth: 1)
+                                    .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                            )
+                    })
+                    .disabled(value >= maxValue)
+                }
+                .padding(dimension.mPadding)
+            
+        }
+    }
+    @available(iOS 14, *)
+    internal struct CoursesUFormRow<Content: View>: View {
+        @SwiftUI.State private var budget: Double = 0.0
+        let caption: String?
+        let icon: Image
+        let content: Content
+        init(
+            defaultValue: Double? = 0,
+            caption: String? = nil,
+            icon: Image,
+            content: Content
+        ) {
+            _budget = State(initialValue: defaultValue ?? 0.0)
+            self.content = content
+            self.caption = caption
+            self.icon = icon
+        }
+        let dimension = Dimension.sharedInstance
+        var body: some View {
+            HStack(spacing: Dimension.sharedInstance.sPadding) {
+                icon
+                    .resizable()
+                    .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                    .padding(.horizontal, dimension.sPadding)
+                
+                
+                if let caption = caption {
+                    HStack() {
+                        Text(caption)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                        Spacer()
+                    }
+                        .frame(maxWidth: 100)
+                }
+                Spacer()
+                content
+                
+                
+            }
+            .frame(height: 60)
+        }
+    }
 }
 
 @available(iOS 14, *)
 struct CoursesUBudgetForm_Previews: PreviewProvider {
-   
-
+    
+    
     static var previews: some View {
         CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
             print("Budget changed: \(budgetInfos)")
         }, onFormValidated: { _ in })
-
+        
         ZStack(alignment: .top) {
             Color.budgetBackgroundColor
             VStack(spacing: -40.0) {
@@ -84,7 +219,7 @@ struct CoursesUBudgetForm_Previews: PreviewProvider {
                     print("Budget changed: \(budgetInfos)")
                 }, onFormValidated: { _ in })
                 Spacer()
-                    .frame(height: 100)
+                    .frame(height: 80)
             }
             
         }
