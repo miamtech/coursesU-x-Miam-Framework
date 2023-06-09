@@ -11,11 +11,14 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUBudgetForm: BudgetForm {
+    var includeTitle: Bool
     @SwiftUI.State var budget = 20.0
     @SwiftUI.State var numberGuests = 4
     @SwiftUI.State var numberMeals = 4
     let dimension = Dimension.sharedInstance
-    public init() {}
+    public init(includeTitle: Bool = true) {
+        self.includeTitle = includeTitle
+    }
     public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
         ZStack(alignment: .top) {
             VStack {
@@ -27,10 +30,16 @@ public struct CoursesUBudgetForm: BudgetForm {
                 }
             }
             VStack(spacing: 20) {
-                Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
-                    .multilineTextAlignment(.center)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-                Divider()
+                if includeTitle {
+                    VStack {
+                        Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
+                            .multilineTextAlignment(.center)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                            .padding(.bottom, dimension.mPadding)
+                        Divider()
+                    }
+                }
+                
                 // TODO: localize
                 CoursesUFormRow(
                     caption: "Mon budget max",
@@ -197,7 +206,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                 
                 
             }
-            .frame(height: 60)
+            .frame(height: 50)
         }
     }
 }
