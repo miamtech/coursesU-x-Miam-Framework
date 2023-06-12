@@ -33,21 +33,15 @@ public struct CoursesURecipeCard: RecipeCard {
                             .aspectRatio(contentMode: .fill)
                             .padding(0)
                             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
-                    }.padding(0)
+                    }.frame(height: 150.0)
+                        .clipped()
                     
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "heart")
+                    CoursesULikeButton {
+                        print("pressed like")
                     }
-                    .frame(width: dimensions.lButtonHeight, height: dimensions.lButtonHeight)
-                    .background(Color.white)
-                    .cornerRadius(dimensions.sCornerRadius)
-                    .padding(dimensions.lPadding)
+                    .padding(dimensions.mPadding)
                 }
-                .padding(0)
-                .frame(height: 150.0)
-                .clipped()
+                
                 
                 VStack(spacing: dimensions.mPadding) {
                     Text(recipeInfos.recipe.title + "\n")
