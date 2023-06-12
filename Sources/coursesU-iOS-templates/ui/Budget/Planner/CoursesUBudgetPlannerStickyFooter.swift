@@ -18,6 +18,7 @@ struct CoursesUBudgetPlannerStickyFooter: View {
     let dimension = Dimension.sharedInstance
     var body: some View {
         HStack {
+            Spacer()
             CoursesUBudgetPlannerBudgetFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: totalBudgetPermitted)
             Spacer()
             CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: { HStack {
@@ -31,10 +32,10 @@ struct CoursesUBudgetPlannerStickyFooter: View {
                     .foregroundColor(Color.white)
                 
             }}, buttonAction: { })
+            Spacer()
         }
         .frame(maxWidth: .infinity)
         .frame(height: 90)
-        .padding(.horizontal)
         .background(Color.white)
         .cornerRadius(dimension.lCornerRadius, corners: [.top])
     }
@@ -90,25 +91,20 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         .padding(5)
                         .background(
-//                            RoundedRectangle(cornerRadius: dimension.mCornerRadius)
+                            //                            RoundedRectangle(cornerRadius: dimension.mCornerRadius)
                             ChatBubbleShape()
-                                
+                            
                                 .fill(Color.overBudgetBackgroundColor)
-                                
+                            
                         )
                 }
             }
-            //            Text(String(budgetSpent) + " €")
-            //                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
-            //                .foregroundColor(budgetSpent > totalBudgetPermitted ?
-            //                                 Color.red : Color.green)
             ProgressView(value: budgetSpent, total: totalBudgetPermitted)
                 .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.primaryColor, overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
-            
-            
-            YellowSubtext(text: String(budgetSpent) + " €", fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
-            
-            
+            HStack {
+                Spacer()
+                YellowSubtext(text: String(budgetSpent) + " €", fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
+            }
         }
         .frame(width: widthOfFrame)
     }
@@ -120,7 +116,7 @@ struct ChatBubbleShape: Shape {
     var triangleHeight: CGFloat = 5
     var triangleWidth: CGFloat = 10
     var triangleOffset: CGFloat = 1.4
-
+    
     func path(in rect: CGRect) -> Path {
         var path = Path()
         
