@@ -18,30 +18,33 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
         let priceWithCurrency = String(recipeInfos.price.price) + (currencySymbol(forCurrencyCode: String(recipeInfos.price.currency)) ?? "€")
         HStack(spacing: 0.0) {
-            AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .padding(0)
-                    .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
+            ZStack(alignment: .topLeading) {
+                
+                AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .padding(0)
+                        .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .frame(width: 150.0)
+                .clipped()
+                CoursesULikeButton {
+                    print("pressed like")
+                }
+                .padding(dimension.mPadding)
             }
-            .frame(width: 150.0)
-            .clipped()
             
             VStack(spacing: dimension.mPadding) {
-                HStack(alignment: .top) {
+                
+                HStack {
                     Text(recipeInfos.recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
                         .lineLimit(3)
-                        .multilineTextAlignment(.center)
+                        .multilineTextAlignment(.leading)
                     Spacer()
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "heart")
-                    }
-                    
                 }
+                
                 
                 HStack() {
                     MiamRecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
@@ -60,8 +63,9 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                         replaceTapped()
                     } label: {
                         HStack {
-                            Image(systemName: "repeat")
-                                .foregroundColor(Color.primaryColor)
+                            Image(packageResource: "ReloadIcon", ofType: "png")
+                                .resizable()
+                                .frame(width: 20, height: 20)
                             //                            Text(Localization.basket.swapProduct.localised)
                             // TODO: localize
                             Text("Changer")
@@ -77,8 +81,9 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                         }
                         removeTapped()
                     } label: {
-                        Image(systemName: "trash")
-                            .foregroundColor(Color.black)
+                        Image(packageResource: "TrashIcon", ofType: "png")
+                            .resizable()
+                            .frame(width: 20, height: 20)
                     }
                                         }
                 }

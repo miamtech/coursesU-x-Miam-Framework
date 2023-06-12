@@ -23,7 +23,7 @@ struct CoursesUBudgetPlannerStickyFooter: View {
             Spacer()
             CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: { HStack {
                 //                Image(packageResource: "basket", ofType: "png")
-                Image(systemName: "basket")
+                Image(packageResource: "ShoppingCartIcon", ofType: "png")
                     .resizable()
                     .foregroundColor(Color.white)
                     .frame(width: 20, height: 20)
