@@ -167,47 +167,47 @@ public struct CoursesUBudgetForm: BudgetForm {
             
         }
     }
-    @available(iOS 14, *)
-    internal struct CoursesUFormRow<Content: View>: View {
-        @SwiftUI.State private var budget: Double = 0.0
-        let caption: String?
-        let icon: Image
-        let content: Content
-        init(
-            defaultValue: Double? = 0,
-            caption: String? = nil,
-            icon: Image,
-            content: Content
-        ) {
-            _budget = State(initialValue: defaultValue ?? 0.0)
-            self.content = content
-            self.caption = caption
-            self.icon = icon
-        }
-        let dimension = Dimension.sharedInstance
-        var body: some View {
-            HStack(spacing: Dimension.sharedInstance.sPadding) {
-                icon
-                    .resizable()
-                    .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                    .padding(.horizontal, dimension.sPadding)
-                
-                
-                if let caption = caption {
-                    HStack() {
-                        Text(caption)
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                        Spacer()
-                    }
-                        .frame(maxWidth: 100)
+}
+@available(iOS 14, *)
+internal struct CoursesUFormRow<Content: View>: View {
+    @SwiftUI.State private var budget: Double = 0.0
+    let caption: String?
+    let icon: Image
+    let content: Content
+    init(
+        defaultValue: Double? = 0,
+        caption: String? = nil,
+        icon: Image,
+        content: Content
+    ) {
+        _budget = State(initialValue: defaultValue ?? 0.0)
+        self.content = content
+        self.caption = caption
+        self.icon = icon
+    }
+    let dimension = Dimension.sharedInstance
+    var body: some View {
+        HStack(spacing: Dimension.sharedInstance.sPadding) {
+            icon
+                .resizable()
+                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                .padding(.horizontal, dimension.sPadding)
+            
+            
+            if let caption = caption {
+                HStack() {
+                    Text(caption)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                    Spacer()
                 }
-                Spacer()
-                content
-                
-                
+                    .frame(maxWidth: 100)
             }
-            .frame(height: 50)
+            Spacer()
+            content
+            
+            
         }
+        .frame(height: 50)
     }
 }
 
