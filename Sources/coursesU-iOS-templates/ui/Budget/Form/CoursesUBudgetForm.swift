@@ -12,21 +12,25 @@ import MiamIOSFramework
 @available(iOS 14, *)
 public struct CoursesUBudgetForm: BudgetForm {
     var includeTitle: Bool
+    var includeBackground: Bool
     @SwiftUI.State var budget = 20.0
     @SwiftUI.State var numberGuests = 4
     @SwiftUI.State var numberMeals = 4
     let dimension = Dimension.sharedInstance
-    public init(includeTitle: Bool = true) {
+    public init(includeTitle: Bool = true, includeBackground: Bool = true) {
         self.includeTitle = includeTitle
+        self.includeBackground = includeBackground
     }
     public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
         ZStack(alignment: .top) {
-            VStack {
-                Spacer()
-                HStack() {
-                    Image(packageResource: "BudgetLeftSideBg", ofType: "png")
+            if includeBackground {
+                VStack {
                     Spacer()
-                    Image(packageResource: "BudgetRightSideBg", ofType: "png")
+                    HStack() {
+                        Image(packageResource: "BudgetLeftSideBg", ofType: "png")
+                        Spacer()
+                        Image(packageResource: "BudgetRightSideBg", ofType: "png")
+                    }
                 }
             }
             VStack(spacing: 20) {
@@ -47,7 +51,9 @@ public struct CoursesUBudgetForm: BudgetForm {
                     content:
                         HStack {
                             Spacer()
-                            CoursesUInputWithCurrency(budget: $budget, onInputChanged: {number in budget = number})
+                            CoursesUInputWithCurrency(budget: $budget, onInputChanged: {number in
+                                
+                                budget = number})
                         }
                         .padding(dimension.mPadding)
 
@@ -61,6 +67,8 @@ public struct CoursesUBudgetForm: BudgetForm {
                     icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                     content:
                         CoursesUStepper(defaultValue: numberGuests) { number in numberGuests = number
+                            print("onBudgetChanged called with number: \(number)")
+//                            onBudgetChanged(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
                         }
 
                 )
@@ -78,15 +86,22 @@ public struct CoursesUBudgetForm: BudgetForm {
                 Divider()
                 CoursesUButtonStyle(
                     backgroundColor: Color.primaryColor,
-                    content: { HStack {
-                        Image(packageResource: "searchIcon", ofType: "png")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text("C'est parti !")
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                            .foregroundColor(Color.white)
+                    content: {
+                        Button {
+                            onFormValidated(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
+                        } label: {
+                            HStack {
+                                Image(packageResource: "searchIcon", ofType: "png")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                Text("C'est parti !")
+                                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                                    .foregroundColor(Color.white)
+                            }
                         
-                    }}, buttonAction: { })
+                    }}, buttonAction: {
+//                        onFormValidated(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
+                    })
             }
             .padding(25)
             .background(Color.white)
@@ -95,7 +110,6 @@ public struct CoursesUBudgetForm: BudgetForm {
                 RoundedRectangle(cornerRadius: Dimension.sharedInstance.mCornerRadius)
                     .stroke(Color.gray, lineWidth: 0.5)
             )
-            .padding([.horizontal, .bottom], 25)
         }
     }
     

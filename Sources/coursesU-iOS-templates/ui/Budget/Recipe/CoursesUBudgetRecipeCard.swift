@@ -69,7 +69,7 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                         }
                     }
-                    //                    if #unavailable(iOS 15) {
+                                        if #unavailable(iOS 15) {
                     Spacer()
                     Button {
                         guard let removeTapped = actions.removeTapped else {
@@ -80,7 +80,7 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                         Image(systemName: "trash")
                             .foregroundColor(Color.black)
                     }
-                    //                    }
+                                        }
                 }
                 .frame(maxWidth: .infinity)
             }

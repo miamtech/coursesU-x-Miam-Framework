@@ -60,7 +60,7 @@ public struct CoursesUBudgetPlannerView<
         }
     }
     
-    
+    @SwiftUI.State var showFormOptions = false
     
     public var body: some View {
         ZStack {
@@ -75,16 +75,15 @@ public struct CoursesUBudgetPlannerView<
                                             isLoadingRecipes: $isLoadingRecipes) { infos in
                         // TODO: get new recipes from view model or repository?
                     }
-                                            .padding(Dimension.sharedInstance.lPadding)
-                    let budgetInfos = BudgetInfos(
-                        moneyBudget: amount,
-                        numberOfGuests: numberOfGuests,
-                        numberOfMeals: numberOfMeals)
-                    let budgetPlannerInfos = BudgetPlannerInfos(
-                        recipes: recipesIds,
-                        budgetInfos: budgetInfos,
-                        totalPrice: Price(price: 45.67, currency: "EUR"))
-                    
+                        .onTapGesture {
+                            showFormOptions.toggle()
+                            print("hello world")
+                        }
+                        .padding(Dimension.sharedInstance.lPadding)
+//                    if showFormOptions {
+//                        CoursesUBudgetForm(includeTitle: false).content(isFetchingRecipes: isLoadingRecipes, onBudgetChanged: {_ in print("changed")}, onFormValidated: {_ in print("validated")})
+//                            .padding(Dimension.sharedInstance.lPadding)
+//                    }
                 }
                 
                 .background(Color.budgetBackgroundColor)
