@@ -20,18 +20,17 @@ public struct CoursesUBudgetRecipeCardLoading: BudgetRecipeCardLoading {
     public func content() -> some View {
             
         ProgressLoader(color: Color.primaryColor)
-        
-        .frame(maxWidth: .infinity)
-        .frame(height: dimensions.mealPlannerRecipeCardHeight)
-        .redacted(reason: .placeholder)
-        .background(Color.white)
-        .opacity(opacity)
-        .overlay(
-            RoundedRectangle(cornerRadius: dimensions.mPadding)
-                .stroke(style: StrokeStyle(lineWidth: 4, dash: [15, 20]))
-                .foregroundColor(Color.primaryColor)
-        )
-        .cornerRadius(Dimension.sharedInstance.mCornerRadius)
+            .frame(maxWidth: .infinity)
+            .frame(height: dimensions.mealPlannerRecipeCardHeight)
+            .redacted(reason: .placeholder)
+            .background(Color.white)
+            .opacity(opacity)
+            .overlay(
+                RoundedRectangle(cornerRadius: dimensions.mPadding)
+                    .stroke(style: StrokeStyle(lineWidth: 4, dash: [15, 20]))
+                    .foregroundColor(Color.primaryColor)
+            )
+            .cornerRadius(Dimension.sharedInstance.mCornerRadius)
     }
 }
 
