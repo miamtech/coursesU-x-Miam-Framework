@@ -10,17 +10,35 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
+struct CoursesUBudgetFormStandaloneWrapper: View {
+    @SwiftUI.State var budget = 0.0
+    @SwiftUI.State var numberGuests = 0
+    @SwiftUI.State var numberMeals = 0
+    var body: some View {
+        CoursesUBudgetForm(budget: $budget, numberGuests: $numberGuests, numberMeals: $numberMeals).content(isFetchingRecipes: false, onBudgetChanged: {_ in}, onFormValidated: {_ in})
+    }
+}
+
+@available(iOS 14, *)
 public struct CoursesUBudgetForm: BudgetForm {
     var includeTitle: Bool
     var includeBackground: Bool
-    @SwiftUI.State var budget = 20.0
-    @SwiftUI.State var numberGuests = 4
-    @SwiftUI.State var numberMeals = 4
+    @Binding var budget: Double
+    @Binding var numberGuests: Int
+    @Binding var numberMeals: Int
     let dimension = Dimension.sharedInstance
-    public init(includeTitle: Bool = true, includeBackground: Bool = true) {
+    public init(includeTitle: Bool = true, includeBackground: Bool = true, budget: Binding<Double>, numberGuests: Binding<Int>, numberMeals: Binding<Int>) {
         self.includeTitle = includeTitle
         self.includeBackground = includeBackground
+        _budget = budget
+        _numberGuests = numberGuests
+        _numberMeals = numberMeals
     }
+      
+    var budgetAndGuestsValid: Bool {
+        return budget > 0.0 && numberGuests > 0
+    }
+    
     public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
         ZStack(alignment: .top) {
             if includeBackground {
@@ -44,9 +62,10 @@ public struct CoursesUBudgetForm: BudgetForm {
                     content:
                         HStack {
                             Spacer()
-                            CoursesUInputWithCurrency(budget: $budget, onInputChanged: {number in
-                                
-                                budget = number})
+                            CoursesUInputWithCurrency(budget: $budget, onInputChanged: { number in
+                                budget = number
+//                                checkBudgetAndGuests()
+                            })
                         }
                         .padding(dimension.mPadding)
 
@@ -59,23 +78,26 @@ public struct CoursesUBudgetForm: BudgetForm {
                     caption: "Nombre de personnes",
                     icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                     content:
-                        CoursesUStepper(defaultValue: numberGuests) { number in numberGuests = number
-                            print("onBudgetChanged called with number: \(number)")
+                        CoursesUStepper(defaultValue: numberGuests) { number in
+                            print("number is \(number)")
+                            numberGuests = number
+//                            checkBudgetAndGuests()
 //                            onBudgetChanged(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
                         }
 
                 )
                 Divider()
                 // TODO: localize
-                
                 CoursesUFormRow(
                     caption: "Nombre de repas",
                     icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                     content:
-                        CoursesUStepper(defaultValue: numberMeals) { number in numberMeals = number
+                        CoursesUStepper(defaultValue: numberMeals, disableButton: !budgetAndGuestsValid) { number in numberMeals = number
+                            
                         }
 
                 )
+                .addOpacity(!budgetAndGuestsValid)
                 Divider()
                 CoursesUButtonStyle(
                     backgroundColor: Color.primaryColor,
@@ -96,6 +118,12 @@ public struct CoursesUBudgetForm: BudgetForm {
 //                        onFormValidated(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
                     })
             }
+            .onChange(of: budgetAndGuestsValid) { isValid in
+                    if isValid {
+                        // fetch from api
+                        print("Both budget and numberGuests are greater than 0!")
+                    }
+                }
             .padding(25)
             .background(Color.white)
             .cornerRadius(Dimension.sharedInstance.mCornerRadius)
@@ -113,20 +141,22 @@ public struct CoursesUBudgetForm: BudgetForm {
         @SwiftUI.State public var value: Int = 0
         let minValue: Int
         let maxValue: Int
+        let disableButton: Bool
         public var onStepperChanged: (Int) -> Void
         let dimension = Dimension.sharedInstance
-        init(defaultValue: Int = 0, minValue: Int = 0, maxValue: Int = 10, onStepperChanged: @escaping (Int) -> Void) {
+        init(defaultValue: Int = 0, minValue: Int = 0, maxValue: Int = 10, disableButton: Bool = false, onStepperChanged: @escaping (Int) -> Void) {
             _value = State(initialValue: defaultValue)
             self.minValue = minValue
             self.maxValue = maxValue
+            self.disableButton = disableButton
             self.onStepperChanged = onStepperChanged
         }
         
         var maxButtonColor: Color {
-            return value >= maxValue ? Color.gray : Color.primaryColor
+            return (value >= maxValue || disableButton) ? Color.gray : Color.primaryColor
         }
         var minButtonColor: Color {
-            return value <= minValue ? Color.gray : Color.primaryColor
+            return (value <= minValue || disableButton) ? Color.gray : Color.primaryColor
         }
         
         var body: some View {
@@ -150,6 +180,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                             )
                     })
                     .disabled(value <= minValue)
+                    .disabled(disableButton)
                     Text("\(value)")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                     Button(action: {
@@ -169,6 +200,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                             )
                     })
                     .disabled(value >= maxValue)
+                    .disabled(disableButton)
                 }
                 .padding(dimension.mPadding)
             
@@ -238,17 +270,20 @@ struct CoursesUBudgetForm_Previews: PreviewProvider {
     
     
     static var previews: some View {
-        CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
-            print("Budget changed: \(budgetInfos)")
-        }, onFormValidated: { _ in })
+//        CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
+//            print("Budget changed: \(budgetInfos)")
+//        }, onFormValidated: { _ in })
+        
+        CoursesUBudgetFormStandaloneWrapper()
         
         ZStack(alignment: .top) {
             Color.budgetBackgroundColor
             VStack(spacing: -40.0) {
                 BudgetBackground()
-                CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
-                    print("Budget changed: \(budgetInfos)")
-                }, onFormValidated: { _ in })
+//                CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
+//                    print("Budget changed: \(budgetInfos)")
+//                }, onFormValidated: { _ in })
+                CoursesUBudgetFormStandaloneWrapper()
                 Spacer()
                     .frame(height: 80)
             }
