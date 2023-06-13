@@ -11,11 +11,10 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 struct CoursesUFinalBudgetCallToAction: View {
-    
-   
-        var budget = 20.0
-        var numberMeals = 4
-        let dimension = Dimension.sharedInstance
+    let buttonAction: () -> Void
+    let budget: Double
+    let numberMeals: Int
+    let dimension = Dimension.sharedInstance
        
     var body: some View {
             ZStack(alignment: .top) {
@@ -44,8 +43,7 @@ struct CoursesUFinalBudgetCallToAction: View {
                         Text("Découvrez aussi :")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         Button(action: {
-                                    // action to perform on button tap
-                                    print("Button tapped")
+                            buttonAction()
                                 }) {
                                     Text("Nos promotions")
                                         .foregroundColor(.white)
@@ -72,6 +70,6 @@ struct CoursesUFinalBudgetCallToAction: View {
 @available(iOS 14, *)
 struct CoursesUFinalBudgetCallToAction_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUFinalBudgetCallToAction()
+        CoursesUFinalBudgetCallToAction(buttonAction: {print("hello")}, budget: 15.21, numberMeals: 4)
     }
 }
