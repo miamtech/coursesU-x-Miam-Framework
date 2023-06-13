@@ -86,15 +86,10 @@ public struct CoursesURecipeCard: RecipeCard {
 @available(iOS 14, *)
 struct CoursesURecipeCard_Previews: PreviewProvider {
     static var previews: some View {
-        let recipe = RecipeFakeFactory().create(id: RecipeFakeFactory().FAKE_ID,
-                                                
-                                                attributes: RecipeFakeFactory().createAttributes(title: "Parmentier de Poulet",
-                                                                                                 mediaUrl: "https://hips.hearstapps.com/hmg-prod/images/is-coconut-oil-healthy-1650650710.jpg?crop=0.669xw:1.00xh;0.0637xw,0&resize=1200:*"),
-                                                relationships: nil)
-        let infos = RecipeInfos(recipe: recipe, price: Price(price: 30.0, currency: "EUR"), isInBasket: true)
+        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
         ZStack {
             Color.budgetBackgroundColor
-            CoursesURecipeCard().content(recipeInfos: infos, actions: RecipeCardActions(like: {}, addToBasket: {}, showDetails: {}))
+            CoursesURecipeCard().content(recipeInfos: recipeInfos, actions: RecipeCardActions(like: {}, addToBasket: {}, showDetails: {}))
                 .padding(80.0)
         }
         

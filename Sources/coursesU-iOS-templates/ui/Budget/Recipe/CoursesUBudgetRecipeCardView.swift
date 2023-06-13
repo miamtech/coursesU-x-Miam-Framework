@@ -45,15 +45,7 @@ public struct CoursesUBudgetRecipeCardView<CardTemplate: BudgetRecipeCard,
 //        .onAppear {
 //            recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
 //        }
-        let recipe = RecipeFakeFactory().create(
-            id: RecipeFakeFactory().FAKE_ID,
-            attributes: RecipeFakeFactory().createAttributes(title: "Parmentier de Poulet",
-            mediaUrl: "https://picsum.photos/500/500"),
-            relationships: nil)
-            let recipeInfos = RecipeInfos(
-                recipe: recipe,
-                price: Price(price: 34.0, currency: "EUR"),
-                isInBasket: false)
+        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
         recipeCardTemplate.content(
                 recipeInfos: recipeInfos,
                 actions: actions)

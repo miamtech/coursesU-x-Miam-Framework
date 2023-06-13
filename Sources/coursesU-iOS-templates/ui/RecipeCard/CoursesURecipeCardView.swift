@@ -32,36 +32,25 @@ public struct CoursesURecipeCardView<CardTemplate: RecipeCard,
 
     public var body: some View {
         // TODO: put this back!
-        //        UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
-        //            loadingTemplate.content()
-        //        } successView: {
-        //            if let recipe = recipeViewModel.recipe {
-        //                let recipeInfos = RecipeInfos(recipe: recipe,
-        //                                              price: Price(price: 34.0, currency: "EUR"),
-        //                                              isInBasket: false)
-        //                cardTemplate.content(recipeInfos: recipeInfos, actions: RecipeCardActions(like: {},
-        //                                                                                          addToBasket: add,
-        //                                                                                          showDetails: show))
-        //            }
-        //        }
-        //        .onAppear {
-        //            recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
-        //        }
-        //    }
-        let recipe = RecipeFakeFactory().create(
-            id: RecipeFakeFactory().FAKE_ID,
-            attributes: RecipeFakeFactory().createAttributes(title: "Parmentier de Poulet",
-            mediaUrl: "https://picsum.photos/500/500"),
-            relationships: nil)
-            let recipeInfos = RecipeInfos(
-                recipe: recipe,
-                price: Price(price: 34.0, currency: "EUR"),
-                isInBasket: false)
-            cardTemplate.content(
-                recipeInfos: recipeInfos,
-                actions: RecipeCardActions(
-                    like: {}, addToBasket: add, showDetails: show))
-        
+//                UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
+//                    loadingTemplate.content()
+//                } successView: {
+//                    if let recipe = recipeViewModel.recipe {
+//                        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
+//                        cardTemplate.content(recipeInfos: recipeInfos, actions: RecipeCardActions(like: {},
+//                                                                                                  addToBasket: add,
+//                                                                                                  showDetails: show))
+//                    }
+//                }
+//                .onAppear {
+//                    recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
+//                }
+//            }
+        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
+        cardTemplate.content(
+            recipeInfos: recipeInfos,
+            actions: RecipeCardActions(
+                like: {}, addToBasket: add, showDetails: show))
     }
 }
 
