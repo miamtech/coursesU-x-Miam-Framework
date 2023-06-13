@@ -215,8 +215,9 @@ internal struct CoursesUFormRow<Content: View>: View {
                     Spacer()
                 }
                     .frame(maxWidth: 100)
+                Spacer()
             }
-            Spacer()
+            
             content
             
             

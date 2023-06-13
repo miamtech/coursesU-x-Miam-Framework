@@ -27,10 +27,12 @@ public struct CoursesUBudgetPlannerView<
     
     @SwiftUI.State private var recipesIds: [String]
     @SwiftUI.State private var recipeToReplace: String?
-    @SwiftUI.State private var budgetSpent: Double = 10
+    @SwiftUI.State private var budgetSpent: Double = 50.0
     @SwiftUI.State private var isLoadingRecipes = false
     
-    @AppStorage("tech.miam.MealPlannerAmount") private var amount: Double = 30.0
+    var amountInBasket = 40.0
+    
+    @AppStorage("tech.miam.MealPlannerAmount") private var amount: Double = 40.0
     @AppStorage("tech.miam.MealPlannerNumberOfGuests") private var numberOfGuests: Int = 4
     @AppStorage("tech.miam.MealPlannerNumberOfMeals") private var numberOfMeals: Int = 4
     
@@ -108,7 +110,7 @@ public struct CoursesUBudgetPlannerView<
             
             VStack{
                 Spacer()
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: amount) {
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: amountInBasket) {
                                 validateRecipes()
                             }
             }
@@ -119,6 +121,9 @@ public struct CoursesUBudgetPlannerView<
 @available(iOS 14, *)
 extension CoursesUBudgetPlannerView {
     
+    /// <#Description#>
+    /// - Parameter recipe: <#recipe description#>
+    /// - Returns: <#description#>
     func createActions(recipe: String) -> BudgetRecipeCardActions {
         return BudgetRecipeCardActions(removeTapped: {
             removeRecipe(recipe)
@@ -153,7 +158,7 @@ extension CoursesUBudgetPlannerView {
                             removeAction()
                         } label: {
                             VStack {
-                                Image("trash")
+                                Image(systemName: "trash")
                                     .foregroundColor(Color.white)
                             }.background(Color.red)
                         }

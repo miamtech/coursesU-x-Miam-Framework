@@ -28,8 +28,14 @@ public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
                         isLoadingRecipes: Binding<Bool>,
                         onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
         HStack {
-            Spacer()
-            CoursesUFormRow(caption: String(Int(budget)), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
+            // with no CTA
+//            Spacer()
+//            CoursesUFormRow(caption: String(Int(budget)), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
+//            Divider()
+//            CoursesUFormRow(caption: String(numberGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
+//            Divider()
+//            CoursesUFormRow(caption: String(numberMeals),icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), content: Spacer().frame(width: 0))
+            
 //            CoursesUInputWithIcon(
 //                defaultValue: budgetInfos.moneyBudget,
 //                icon: Image(packageResource: "BudgetIcon", ofType: "png")
@@ -41,10 +47,39 @@ public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
 //                        numberOfMeals: budgetInfos.numberOfMeals)
 //                )
 //            }
+            // TODO: localize
+            CoursesUFormRow(
+                icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+                content:
+                    CoursesUInputWithCurrency(budget: $budget, onInputChanged: { number in
+                        budget = number})
+            )
             Divider()
-            CoursesUFormRow(caption: String(numberGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
-            Divider()
-            CoursesUFormRow(caption: String(numberMeals),icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), content: Spacer().frame(width: 0))
+               CoursesUStepperCollapsed(
+                   defaultValue: budgetInfos.numberOfGuests,
+                   icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png")) { guests in
+                   onValidateTapped(
+                       BudgetInfos(
+                           moneyBudget: budgetInfos.moneyBudget,
+                           numberOfGuests: guests,
+                           numberOfMeals: budgetInfos.numberOfMeals)
+                   )
+               }
+               Divider()
+               CoursesUStepperCollapsed(
+                   defaultValue: budgetInfos.numberOfMeals,
+                   icon: Image(packageResource: "numberOfMealsIcon", ofType: "png")) { meals in
+                   onValidateTapped(
+                       BudgetInfos(
+                           moneyBudget: budgetInfos.moneyBudget,
+                           numberOfGuests: budgetInfos.numberOfGuests,
+                           numberOfMeals: meals)
+                   )
+               }
+               SubmitButtonCollapsed(isLoading: isLoadingRecipes) {
+                   let infos = BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals)
+                   onValidateTapped(infos)
+               }
             
         }
         .padding(.vertical, 5)

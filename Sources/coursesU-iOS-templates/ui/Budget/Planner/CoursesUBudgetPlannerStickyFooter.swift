@@ -142,7 +142,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(22.0), totalBudgetPermitted: 50.0) { print("hello world")
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(10.0), totalBudgetPermitted: 30.0) { print("hello world")
                 }
                 CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(50.0), totalBudgetPermitted: 50.0) { print("hello world")
                 }
