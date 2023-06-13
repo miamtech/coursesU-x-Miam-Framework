@@ -24,6 +24,7 @@ struct YellowSubtext: View {
     var body: some View {
         VStack(alignment: .leading, spacing: -6.0) {
             Text(text)
+                .foregroundColor(Color.black)
                 .zIndex(1)
                 .coursesUFontStyle(style: fontStyle)
             Image(packageResource: "YellowUnderline", ofType: "png")

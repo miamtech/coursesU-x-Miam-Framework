@@ -18,9 +18,11 @@ struct RecapPriceForRecipes: View {
     var body: some View {
         HStack(spacing: 3) {
             Text(leadingText)
+                .foregroundColor(Color.black)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
             YellowSubtext(text: priceAmount)
             Text(trailingText)
+                .foregroundColor(Color.black)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
         }
         .padding(.leading, leadingPadding)
