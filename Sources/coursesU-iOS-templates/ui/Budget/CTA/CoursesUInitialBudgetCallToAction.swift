@@ -10,7 +10,7 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CUBudgetCallToAction: BudgetCallToAction {
+public struct CoursesUInitialBudgetCallToAction: BudgetCallToAction {
    
     public init() {}
     
@@ -20,9 +20,9 @@ public struct CUBudgetCallToAction: BudgetCallToAction {
 }
 
 @available(iOS 14, *)
-struct CUBudgetCallToAction_Previews: PreviewProvider {
+struct CoursesUInitialBudgetCallToAction_Previews: PreviewProvider {
     static var previews: some View {
-        CUBudgetCallToAction().content {
+        CoursesUInitialBudgetCallToAction().content {
             print("hello world")
         }
     }

@@ -24,14 +24,7 @@ public struct CoursesUBudgetForm: BudgetForm {
     public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
         ZStack(alignment: .top) {
             if includeBackground {
-                VStack {
-                    Spacer()
-                    HStack() {
-                        Image(packageResource: "BudgetLeftSideBg", ofType: "png")
-                        Spacer()
-                        Image(packageResource: "BudgetRightSideBg", ofType: "png")
-                    }
-                }
+                CoursesUTwoMealsBackground()
             }
             VStack(spacing: 20) {
                 if includeTitle {
@@ -223,6 +216,20 @@ internal struct CoursesUFormRow<Content: View>: View {
             
         }
         .frame(height: 50)
+    }
+}
+
+@available(iOS 14, *)
+internal struct CoursesUTwoMealsBackground: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack() {
+                Image(packageResource: "BudgetLeftSideBg", ofType: "png")
+                Spacer()
+                Image(packageResource: "BudgetRightSideBg", ofType: "png")
+            }
+        }
     }
 }
 

@@ -15,15 +15,18 @@ struct RecapPriceForRecipes: View {
     var trailingText:String = "le repas"
     var leadingPadding: CGFloat = 10
     var trailingPadding: CGFloat = 10
+    var textFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyle
+    var yellowSubtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle
+    var yellowSubtextWidth: CGFloat = CGFloat(45)
     var body: some View {
         HStack(spacing: 3) {
             Text(leadingText)
                 .foregroundColor(Color.black)
-                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-            YellowSubtext(text: priceAmount)
+                .coursesUFontStyle(style: textFontStyle)
+            YellowSubtext(text: priceAmount, fontStyle: yellowSubtextFontStyle, imageWidth: yellowSubtextWidth)
             Text(trailingText)
                 .foregroundColor(Color.black)
-                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                .coursesUFontStyle(style: textFontStyle)
         }
         .padding(.leading, leadingPadding)
         .padding(.trailing, trailingPadding)
