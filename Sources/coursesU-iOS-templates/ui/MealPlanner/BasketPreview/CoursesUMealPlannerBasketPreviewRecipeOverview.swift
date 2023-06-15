@@ -21,7 +21,7 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewR
                 centerContent: {
                     ArticlesAndPricePerPerson(recipe: basketPreviewInfo.recipe, price: basketPreviewInfo.price.price)
             }, callToAction: {
-                Text("hello world")
+                BasketPreviewCardCallToAction(actions: basketPreviewActions)
             })
         }
     
@@ -53,42 +53,50 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewR
     }
 
     @available(iOS 14, *)
-    internal struct RecipeCardCallToAction: View {
-        var actions: BudgetRecipeCardActions
+    internal struct BasketPreviewCardCallToAction: View {
+        var actions: BasketPreviewRecipeActions
+        @SwiftUI.State private var showContents = false
         var body: some View {
             HStack {
                 Button {
-                    guard let replaceTapped = actions.replaceTapped else {
-                        return
-                    }
-                    replaceTapped()
+                    showContents.toggle()
+                    actions.delete()
                 } label: {
                     HStack {
-                        Image(packageResource: "ReloadIcon", ofType: "png")
-                            .resizable()
-                            .frame(width: 20, height: 20)
+                        
                         //                            Text(Localization.basket.swapProduct.localised)
                         // TODO: localize
-                        Text("Changer")
+                        Text("Voir le détail")
                             .foregroundColor(Color.primaryColor)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+                        if showContents {
+                            Image(systemName: "chevron.up")
+                                .resizable()
+                                .foregroundColor(Color.primaryColor)
+                                .frame(width: 16, height: 10)
+                        } else {
+                            Image(systemName: "chevron.down")
+                                .resizable()
+                                .foregroundColor(Color.primaryColor)
+                                .frame(width: 16, height: 10)
+                        }
+                        
                     }
                 }
-                                    if #unavailable(iOS 15) {
+//                                    if #unavailable(iOS 15) {
                 Spacer()
                 Button {
-                    guard let removeTapped = actions.removeTapped else {
-                        return
-                    }
-                    removeTapped()
+                   
+                    actions.delete()
                 } label: {
                     Image(packageResource: "TrashIcon", ofType: "png")
                         .resizable()
                         .frame(width: 20, height: 20)
                 }
-                                    }
+//                                    }
             }
             .frame(maxWidth: .infinity)
+            .padding(.vertical, Dimension.sharedInstance.lPadding)
             
         }
     }
