@@ -58,6 +58,6 @@ struct CoursesUBudgetRecipeCardView_Previews: PreviewProvider {
         CoursesUBudgetRecipeCardView(recipeId: "9422",
                                  recipeCardTemplate: CoursesUBudgetRecipeCard(),
                                  recipeCardLoadingTemplate: CoursesUBudgetRecipeCardLoading(),
-                                 actions: BudgetRecipeCardActions(removeTapped: nil, replaceTapped: nil))
+                                     actions: BudgetRecipeCardActions(recipeTapped: {}, removeTapped: nil, replaceTapped: nil))
     }
 }

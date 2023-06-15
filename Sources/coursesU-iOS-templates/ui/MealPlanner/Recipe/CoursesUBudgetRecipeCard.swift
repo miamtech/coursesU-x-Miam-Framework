@@ -10,9 +10,20 @@ import SwiftUI
 import miamCore
 import MiamIOSFramework
 
+
+
+
 @available(iOS 14, *)
-public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
-    public init() {}
+public struct CoursesUBudgetRecipeCard
+//<CenterContent: View,
+//                                       CallToAction: View>
+: BudgetRecipeCard {
+//    let centerContent: () -> CenterContent
+//    let callToAction: () -> CallToAction
+//    public init(centerContent: @escaping () -> CenterContent, callToAction: @escaping () -> CallToAction) {
+//        self.centerContent = centerContent
+//        self.callToAction = callToAction
+//    }
     let dimension = Dimension.sharedInstance
     
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
@@ -105,7 +116,7 @@ struct CoursesUBudgetRecipeCard_Preview: PreviewProvider {
         let recipeInfosRandom = FakeRecipe().createRandomFakeRecipeInfos()
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUBudgetRecipeCard().content(recipeInfos: recipeInfosRandom, actions: BudgetRecipeCardActions(removeTapped: {
+            CoursesUBudgetRecipeCard().content(recipeInfos: recipeInfosRandom, actions: BudgetRecipeCardActions(recipeTapped: {}, removeTapped: {
                 print("Remove recipe card.")
             }, replaceTapped: nil))
             .padding()

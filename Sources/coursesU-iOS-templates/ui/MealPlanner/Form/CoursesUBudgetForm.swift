@@ -209,17 +209,14 @@ public struct CoursesUBudgetForm: BudgetForm {
 }
 @available(iOS 14, *)
 internal struct CoursesUFormRow<Content: View>: View {
-    @SwiftUI.State private var budget: Double = 0.0
     let caption: String?
     let icon: Image
     let content: Content
     init(
-        defaultValue: Double? = 0,
         caption: String? = nil,
         icon: Image,
         content: Content
     ) {
-        _budget = State(initialValue: defaultValue ?? 0.0)
         self.content = content
         self.caption = caption
         self.icon = icon

@@ -125,7 +125,7 @@ extension CoursesUBudgetPlannerView {
     /// - Parameter recipe: <#recipe description#>
     /// - Returns: <#description#>
     func createActions(recipe: String) -> BudgetRecipeCardActions {
-        return BudgetRecipeCardActions(removeTapped: {
+        return BudgetRecipeCardActions(recipeTapped: {}, removeTapped: {
             removeRecipe(recipe)
         }, replaceTapped: {
             recipeToReplace = recipe

@@ -11,7 +11,7 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CoursesURecipeDetailsFooter: View {
+struct CoursesUMealPlannerBasketPreviewFooter: View {
     var pricePerPerson: Double
     var priceForMeal: Double
     let buttonAction: () -> Void
@@ -44,14 +44,14 @@ struct CoursesURecipeDetailsFooter: View {
 
 
 @available(iOS 14, *)
-struct CoursesURecipeDetailsFooter_Previews: PreviewProvider {
+struct CoursesUMealPlannerBasketPreviewFooter_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesURecipeDetailsFooter(pricePerPerson: 4.92, priceForMeal: 13.36, buttonAction: {})
-                CoursesURecipeDetailsFooter(pricePerPerson: 6.73, priceForMeal: 25.32, buttonAction: {})
-                CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
+                CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 4.92, priceForMeal: 13.36, buttonAction: {})
+                CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 6.73, priceForMeal: 25.32, buttonAction: {})
+                CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
             }
         }
         
@@ -76,7 +76,7 @@ struct CoursesURecipeDetailsFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
+                    CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
                 }
                 .frame(maxWidth: .infinity)
             }
