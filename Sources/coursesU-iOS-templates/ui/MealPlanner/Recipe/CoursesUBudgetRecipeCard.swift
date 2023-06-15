@@ -12,21 +12,90 @@ import MiamIOSFramework
 
 
 
+@available(iOS 14, *)
+struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
+//    var recipeInfos: MiamIOSFramework.RecipeInfos
+//    var actions: BudgetRecipeCardActions
+    
+//    var body: some View {
+    public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
+        CoursesURecipeCardCoreFrame(
+            recipeInfos: recipeInfos,
+            actions: actions,
+            centerContent: {
+            DifficultyAndTime(cookingTime: recipeInfos.recipe.cookingTimeIos, difficulty: recipeInfos.recipe.difficulty)
+        }, callToAction: {
+            RecipeCardCallToAction(actions: actions)
+        })
+    }
+    
+    @available(iOS 14, *)
+    internal struct DifficultyAndTime: View {
+        var cookingTime: String
+        var difficulty: Int
+        var body: some View {
+            HStack() {
+    //            MiamRecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
+                MiamRecipePreparationTime(duration: cookingTime)
+                Divider()
+    //            MiamRecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
+                MiamRecipeDifficulty(difficulty: difficulty)
+                Spacer()
+            }
+        }
+    }
+
+    @available(iOS 14, *)
+    internal struct RecipeCardCallToAction: View {
+        var actions: BudgetRecipeCardActions
+        var body: some View {
+            Button {
+                guard let replaceTapped = actions.replaceTapped else {
+                    return
+                }
+                replaceTapped()
+            } label: {
+                HStack {
+                    Image(packageResource: "ReloadIcon", ofType: "png")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                    //                            Text(Localization.basket.swapProduct.localised)
+                    // TODO: localize
+                    Text("Changer")
+                        .foregroundColor(Color.primaryColor)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+                }
+            }
+        }
+    }
+
+}
+
+
 
 @available(iOS 14, *)
-public struct CoursesUBudgetRecipeCard
-//<CenterContent: View,
-//                                       CallToAction: View>
-: BudgetRecipeCard {
-//    let centerContent: () -> CenterContent
-//    let callToAction: () -> CallToAction
-//    public init(centerContent: @escaping () -> CenterContent, callToAction: @escaping () -> CallToAction) {
-//        self.centerContent = centerContent
-//        self.callToAction = callToAction
-//    }
+struct CoursesURecipeCardCoreFrame<CenterContent: View,
+                                       CallToAction: View>: View {
+    var recipeInfos: MiamIOSFramework.RecipeInfos
+    var actions: BudgetRecipeCardActions
+    let centerContent: () -> CenterContent
+    let callToAction: () -> CallToAction
+       
+    public init(
+        recipeInfos: MiamIOSFramework.RecipeInfos,
+        actions: BudgetRecipeCardActions,
+        centerContent: @escaping () -> CenterContent,
+        callToAction: @escaping () -> CallToAction)
+    {
+        self.recipeInfos = recipeInfos
+        self.actions = actions
+        self.centerContent = centerContent
+        self.callToAction = callToAction
+        
+    }
     let dimension = Dimension.sharedInstance
     
-    public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
+    var body: some View {
         let priceWithCurrency = String(recipeInfos.price.price) + (currencySymbol(forCurrencyCode: String(recipeInfos.price.currency)) ?? "€")
         HStack(spacing: 0.0) {
             ZStack(alignment: .topLeading) {
@@ -56,34 +125,13 @@ public struct CoursesUBudgetRecipeCard
                     Spacer()
                 }
                 
+                centerContent()
                 
-                HStack() {
-                    MiamRecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
-                    Divider()
-                    MiamRecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
-                    Spacer()
-                }
                 RecapPriceForRecipes(priceAmount: priceWithCurrency)
                     
                 Divider()
                 HStack {
-                    Button {
-                        guard let replaceTapped = actions.replaceTapped else {
-                            return
-                        }
-                        replaceTapped()
-                    } label: {
-                        HStack {
-                            Image(packageResource: "ReloadIcon", ofType: "png")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                            //                            Text(Localization.basket.swapProduct.localised)
-                            // TODO: localize
-                            Text("Changer")
-                                .foregroundColor(Color.primaryColor)
-                                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
-                        }
-                    }
+                    callToAction()
                                         if #unavailable(iOS 15) {
                     Spacer()
                     Button {

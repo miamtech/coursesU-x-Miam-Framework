@@ -55,9 +55,10 @@ public struct CoursesUBudgetRecipeCardView<CardTemplate: BudgetRecipeCard,
 @available(iOS 14, *)
 struct CoursesUBudgetRecipeCardView_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUBudgetRecipeCardView(recipeId: "9422",
-                                 recipeCardTemplate: CoursesUBudgetRecipeCard(),
-                                 recipeCardLoadingTemplate: CoursesUBudgetRecipeCardLoading(),
-                                     actions: BudgetRecipeCardActions(recipeTapped: {}, removeTapped: nil, replaceTapped: nil))
+        CoursesUBudgetRecipeCardView(
+            recipeId: "9422",
+            recipeCardTemplate: CoursesUBudgetRecipeCard(),
+            recipeCardLoadingTemplate: CoursesUBudgetRecipeCardLoading(),
+            actions: BudgetRecipeCardActions(recipeTapped: {}, removeTapped: nil, replaceTapped: nil))
     }
 }
