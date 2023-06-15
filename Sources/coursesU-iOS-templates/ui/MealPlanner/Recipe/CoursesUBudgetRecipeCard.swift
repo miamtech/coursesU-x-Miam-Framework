@@ -16,8 +16,8 @@ import MiamIOSFramework
 struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
         CoursesURecipeCardCoreFrame(
-            recipeInfos: recipeInfos,
-            actions: actions,
+            recipe: recipeInfos.recipe,
+            price: recipeInfos.price,
             centerContent: {
             DifficultyAndTime(cookingTime: recipeInfos.recipe.cookingTimeIos, difficulty: recipeInfos.recipe.difficulty)
         }, callToAction: {
@@ -43,23 +43,40 @@ struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
     internal struct RecipeCardCallToAction: View {
         var actions: BudgetRecipeCardActions
         var body: some View {
-            Button {
-                guard let replaceTapped = actions.replaceTapped else {
-                    return
+            HStack {
+                Button {
+                    guard let replaceTapped = actions.replaceTapped else {
+                        return
+                    }
+                    replaceTapped()
+                } label: {
+                    HStack {
+                        Image(packageResource: "ReloadIcon", ofType: "png")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        //                            Text(Localization.basket.swapProduct.localised)
+                        // TODO: localize
+                        Text("Changer")
+                            .foregroundColor(Color.primaryColor)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+                    }
                 }
-                replaceTapped()
-            } label: {
-                HStack {
-                    Image(packageResource: "ReloadIcon", ofType: "png")
+                                    if #unavailable(iOS 15) {
+                Spacer()
+                Button {
+                    guard let removeTapped = actions.removeTapped else {
+                        return
+                    }
+                    removeTapped()
+                } label: {
+                    Image(packageResource: "TrashIcon", ofType: "png")
                         .resizable()
                         .frame(width: 20, height: 20)
-                    //                            Text(Localization.basket.swapProduct.localised)
-                    // TODO: localize
-                    Text("Changer")
-                        .foregroundColor(Color.primaryColor)
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                 }
+                                    }
             }
+            .frame(maxWidth: .infinity)
+            
         }
     }
 
@@ -70,19 +87,19 @@ struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
 @available(iOS 14, *)
 struct CoursesURecipeCardCoreFrame<CenterContent: View,
                                        CallToAction: View>: View {
-    var recipeInfos: MiamIOSFramework.RecipeInfos
-    var actions: BudgetRecipeCardActions
+    var recipe: Recipe
+    var price: Price
     let centerContent: () -> CenterContent
     let callToAction: () -> CallToAction
        
     public init(
-        recipeInfos: MiamIOSFramework.RecipeInfos,
-        actions: BudgetRecipeCardActions,
+        recipe: Recipe,
+        price: Price,
         centerContent: @escaping () -> CenterContent,
         callToAction: @escaping () -> CallToAction)
     {
-        self.recipeInfos = recipeInfos
-        self.actions = actions
+        self.recipe = recipe
+        self.price = price
         self.centerContent = centerContent
         self.callToAction = callToAction
         
@@ -90,11 +107,11 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
     let dimension = Dimension.sharedInstance
     
     var body: some View {
-        let priceWithCurrency = String(recipeInfos.price.price) + (currencySymbol(forCurrencyCode: String(recipeInfos.price.currency)) ?? "€")
+        let priceWithCurrency = String(price.price) + (currencySymbol(forCurrencyCode: String(price.currency)) ?? "€")
         HStack(spacing: 0.0) {
             ZStack(alignment: .topLeading) {
                 
-                AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
+                AsyncImage(url: recipe.pictureURL) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -112,7 +129,7 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
             VStack(spacing: dimension.mPadding) {
                 
                 HStack {
-                    Text(recipeInfos.recipe.title + "\n")
+                    Text(recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
                         .lineLimit(3)
                         .multilineTextAlignment(.leading)
@@ -124,23 +141,8 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                 RecapPriceForRecipes(priceAmount: priceWithCurrency)
                     
                 Divider()
-                HStack {
-                    callToAction()
-                                        if #unavailable(iOS 15) {
-                    Spacer()
-                    Button {
-                        guard let removeTapped = actions.removeTapped else {
-                            return
-                        }
-                        removeTapped()
-                    } label: {
-                        Image(packageResource: "TrashIcon", ofType: "png")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                    }
-                                        }
-                }
-                .frame(maxWidth: .infinity)
+                callToAction()
+                                    
             }
             .padding(.horizontal, dimension.lPadding)
             .padding(.vertical, dimension.mPadding)
