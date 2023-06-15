@@ -57,10 +57,13 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewR
         var actions: BasketPreviewRecipeActions
         @SwiftUI.State private var showContents = false
         var body: some View {
-            HStack {
+            HStack(alignment: .bottom) {
                 Button {
-                    showContents.toggle()
-                    actions.delete()
+                    withAnimation {
+                        showContents.toggle()
+                        actions.expand()
+                    }
+                    
                 } label: {
                     HStack {
                         
@@ -96,7 +99,7 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewR
 //                                    }
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, Dimension.sharedInstance.lPadding)
+            .padding(.vertical, Dimension.sharedInstance.sPadding)
             
         }
     }
