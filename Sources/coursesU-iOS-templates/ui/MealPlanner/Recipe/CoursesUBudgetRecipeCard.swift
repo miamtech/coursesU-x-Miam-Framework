@@ -14,10 +14,6 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
-//    var recipeInfos: MiamIOSFramework.RecipeInfos
-//    var actions: BudgetRecipeCardActions
-    
-//    var body: some View {
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
         CoursesURecipeCardCoreFrame(
             recipeInfos: recipeInfos,
@@ -35,10 +31,8 @@ struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
         var difficulty: Int
         var body: some View {
             HStack() {
-    //            MiamRecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
                 MiamRecipePreparationTime(duration: cookingTime)
                 Divider()
-    //            MiamRecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
                 MiamRecipeDifficulty(difficulty: difficulty)
                 Spacer()
             }
