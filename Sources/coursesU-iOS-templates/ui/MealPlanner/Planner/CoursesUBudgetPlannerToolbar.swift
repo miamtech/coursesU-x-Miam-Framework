@@ -19,14 +19,17 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
-    @SwiftUI.State var budget = 23.0
-    @SwiftUI.State var numberGuests = 4
-    @SwiftUI.State var numberMeals = 4
+//    @SwiftUI.State var budget = 23.0
+//    @SwiftUI.State var numberGuests = 4
+//    @SwiftUI.State var numberMeals = 4
     let dimension = Dimension.sharedInstance
     public init() {}
-    public func content(budgetInfos: BudgetInfos,
-                        isLoadingRecipes: Binding<Bool>,
-                        onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
+//    public func content(budgetInfos: BudgetInfos,
+//                        isLoadingRecipes: Binding<Bool>,
+//                        onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
+    public func content(budgetInfos: Binding<BudgetInfos>, isLoadingRecipes: Binding<Bool>, onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
+        
+    
         HStack {
             // with no CTA
 //            Spacer()
@@ -51,35 +54,20 @@ public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
             CoursesUFormRow(
                 icon: Image(packageResource: "BudgetIcon", ofType: "png"),
                 content:
-                    CoursesUInputWithCurrency(budget: $budget, onInputChanged: { number in
-                        budget = number})
+                    CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
             )
             Divider()
                CoursesUStepperCollapsed(
-                   defaultValue: budgetInfos.numberOfGuests,
-                   icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png")) { guests in
-                   onValidateTapped(
-                       BudgetInfos(
-                           moneyBudget: budgetInfos.moneyBudget,
-                           numberOfGuests: guests,
-                           numberOfMeals: budgetInfos.numberOfMeals)
-                   )
-               }
+                   value: budgetInfos.numberOfGuests,
+                   icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"))
                Divider()
                CoursesUStepperCollapsed(
-                   defaultValue: budgetInfos.numberOfMeals,
-                   icon: Image(packageResource: "numberOfMealsIcon", ofType: "png")) { meals in
-                   onValidateTapped(
-                       BudgetInfos(
-                           moneyBudget: budgetInfos.moneyBudget,
-                           numberOfGuests: budgetInfos.numberOfGuests,
-                           numberOfMeals: meals)
-                   )
-               }
-               SubmitButtonCollapsed(isLoading: isLoadingRecipes) {
-                   let infos = BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals)
-                   onValidateTapped(infos)
-               }
+                   value: budgetInfos.numberOfMeals,
+                   icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
+//               SubmitButtonCollapsed(isLoading: isLoadingRecipes) {
+//                   let infos = BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals)
+//                   onValidateTapped(infos)
+//               }
             
         }
         .padding(.vertical, 5)
@@ -137,7 +125,7 @@ struct CoursesUBudgetPlannerToolbar_Previews: PreviewProvider {
                 Color.budgetBackgroundColor
                 VStack(spacing: -40.0) {
                     BudgetBackground()
-                    CoursesUBudgetPlannerToolbar().content(budgetInfos: BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4),
+                    CoursesUBudgetPlannerToolbar().content(budgetInfos: .constant(BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4)),
                                                        isLoadingRecipes: $loading, onValidateTapped: {_ in})
                     .padding()
                     Spacer()

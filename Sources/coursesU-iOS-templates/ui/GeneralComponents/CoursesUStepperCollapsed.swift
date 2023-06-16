@@ -10,23 +10,20 @@ import SwiftUI
 
 @available(iOS 14, *)
 internal struct CoursesUStepperCollapsed: View {
-    @State private var value: Int = 0
+    @Binding var value: Int
     let caption: String?
     let icon: Image
     let minValue: Int = 1
     let maxValue: Int = 10
-    public var onStepperChanged: (Int) -> Void
     init(
-        defaultValue: Int = 0,
+        value: Binding<Int>,
         caption: String? = nil,
         icon: Image,
         minValue: Int = 1,
-        maxValue: Int = 10,
-        onStepperChanged: @escaping (Int) -> Void) {
-        _value = State(initialValue: defaultValue)
+        maxValue: Int = 10) {
+        _value = value
         self.caption = caption
         self.icon = icon
-        self.onStepperChanged = onStepperChanged
     }
     @State var showBackground = false
     let dimension = Dimension.sharedInstance
@@ -36,7 +33,6 @@ internal struct CoursesUStepperCollapsed: View {
                 ForEach(minValue..<maxValue) { number in
                     Button(action: {
                         value = number
-                        onStepperChanged(value)
                         showBackground = false
                     }, label: { Text(String(number))
                     })
@@ -83,8 +79,7 @@ struct CoursesUStepperCollapsed_Previews: PreviewProvider {
 
             var body: some View {
                 VStack {
-                    CoursesUStepperCollapsed(defaultValue: value, icon: Image(packageResource: "numberOfMealsIcon", ofType: "png")) { num in
-                        value = num}
+                    CoursesUStepperCollapsed(value: .constant(4), icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
                 }
             }
     }

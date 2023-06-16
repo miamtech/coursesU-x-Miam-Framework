@@ -11,11 +11,9 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 struct CoursesUBudgetFormStandaloneWrapper: View {
-    @SwiftUI.State var budget = 0.0
-    @SwiftUI.State var numberGuests = 0
-    @SwiftUI.State var numberMeals = 0
+    @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 20.4, numberOfGuests: 2, numberOfMeals: 4)
     var body: some View {
-        CoursesUBudgetForm(budget: $budget, numberGuests: $numberGuests, numberMeals: $numberMeals).content(isFetchingRecipes: false, onBudgetChanged: {_ in}, onFormValidated: {_ in})
+        CoursesUBudgetForm().content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
     }
 }
 
@@ -23,23 +21,20 @@ struct CoursesUBudgetFormStandaloneWrapper: View {
 public struct CoursesUBudgetForm: BudgetForm {
     var includeTitle: Bool
     var includeBackground: Bool
-    @Binding var budget: Double
-    @Binding var numberGuests: Int
-    @Binding var numberMeals: Int
     let dimension = Dimension.sharedInstance
-    public init(includeTitle: Bool = true, includeBackground: Bool = true, budget: Binding<Double>, numberGuests: Binding<Int>, numberMeals: Binding<Int>) {
+    public init(includeTitle: Bool = true, includeBackground: Bool = true) {
         self.includeTitle = includeTitle
         self.includeBackground = includeBackground
-        _budget = budget
-        _numberGuests = numberGuests
-        _numberMeals = numberMeals
     }
       
-    var budgetAndGuestsValid: Bool {
-        return budget > 0.0 && numberGuests > 0
-    }
     
-    public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
+    
+//    public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
+    public func content(budgetInfos: Binding<BudgetInfos>, isFetchingRecipes: Bool, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
+        var budgetAndGuestsValid: Bool {
+            return false
+//            return budgetInfos.budget > 0.0 && budgetInfos.numberGuests > 0
+        }
         ZStack(alignment: .top) {
             if includeBackground {
                 CoursesUTwoMealsBackground()
@@ -62,10 +57,10 @@ public struct CoursesUBudgetForm: BudgetForm {
                     content:
                         HStack {
                             Spacer()
-                            CoursesUInputWithCurrency(budget: $budget, onInputChanged: { number in
-                                budget = number
-//                                checkBudgetAndGuests()
-                            })
+//                            CoursesUInputWithCurrency(budget: budgetInfos.$budget, onInputChanged: { number in
+//                                budgetInfos.budget = number
+////                                checkBudgetAndGuests()
+//                            })
                         }
                         .padding(dimension.mPadding)
 
@@ -78,12 +73,8 @@ public struct CoursesUBudgetForm: BudgetForm {
                     caption: "Nombre de personnes",
                     icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                     content:
-                        CoursesUStepper(defaultValue: numberGuests) { number in
-                            print("number is \(number)")
-                            numberGuests = number
-//                            checkBudgetAndGuests()
-//                            onBudgetChanged(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
-                        }
+//                        Text("hello")
+                        CoursesUStepper(value: budgetInfos.numberOfGuests)
 
                 )
                 Divider()
@@ -92,9 +83,8 @@ public struct CoursesUBudgetForm: BudgetForm {
                     caption: "Nombre de repas",
                     icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                     content:
-                        CoursesUStepper(defaultValue: numberMeals, disableButton: !budgetAndGuestsValid) { number in numberMeals = number
-                            
-                        }
+//                        Text("hello")
+                        CoursesUStepper(value: budgetInfos.numberOfMeals, disableButton: !budgetAndGuestsValid)
 
                 )
                 .addOpacity(!budgetAndGuestsValid)
@@ -103,7 +93,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                     backgroundColor: Color.primaryColor,
                     content: {
                         Button {
-                            onFormValidated(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
+//                            onFormValidated(budgetInfos)
                         } label: {
                             HStack {
                                 Image(packageResource: "searchIcon", ofType: "png")
@@ -138,18 +128,16 @@ public struct CoursesUBudgetForm: BudgetForm {
     
     @available(iOS 14, *)
     internal struct CoursesUStepper: View {
-        @SwiftUI.State public var value: Int = 0
+        @Binding var value: Int
         let minValue: Int
         let maxValue: Int
         let disableButton: Bool
-        public var onStepperChanged: (Int) -> Void
         let dimension = Dimension.sharedInstance
-        init(defaultValue: Int = 0, minValue: Int = 0, maxValue: Int = 10, disableButton: Bool = false, onStepperChanged: @escaping (Int) -> Void) {
-            _value = State(initialValue: defaultValue)
+        init(value: Binding<Int>, minValue: Int = 0, maxValue: Int = 10, disableButton: Bool = false) {
+            _value = value
             self.minValue = minValue
             self.maxValue = maxValue
             self.disableButton = disableButton
-            self.onStepperChanged = onStepperChanged
         }
         
         var maxButtonColor: Color {
@@ -165,7 +153,6 @@ public struct CoursesUBudgetForm: BudgetForm {
                     Button(action: {
                         if value > minValue {
                             value -= 1
-                            onStepperChanged(value)
                         }
                     }, label: {
                         Image(systemName: "minus")
@@ -186,7 +173,6 @@ public struct CoursesUBudgetForm: BudgetForm {
                     Button(action: {
                         if value < maxValue {
                             value += 1
-                            onStepperChanged(value)
                         }
                     }, label: {
                         Image(systemName: "plus")

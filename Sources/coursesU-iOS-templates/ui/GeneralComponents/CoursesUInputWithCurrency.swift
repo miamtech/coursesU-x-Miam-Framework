@@ -55,12 +55,12 @@ import SwiftUI
 internal struct CoursesUInputWithCurrency: View {
     @Binding public var budget: Double
     let currency: String
-    public var onInputChanged: (Double) -> Void
+//    public var onInputChanged: (Double) -> Void
 
-    init(budget: Binding<Double>, currency: String = "€", onInputChanged: @escaping (Double) -> Void) {
+    init(budget: Binding<Double>, currency: String = "€") {
         _budget = budget
         self.currency = currency
-        self.onInputChanged = onInputChanged
+        
     }
 
     var body: some View {
@@ -69,13 +69,8 @@ internal struct CoursesUInputWithCurrency: View {
             Spacer()
 
             CustomTextField("Budget", value: $budget)
-//            TextField("", value: $budget, formatter: NumberFormatter())
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
-                .onChange(of: budget) { newValue in
-                    onInputChanged(newValue)
-                }
             Text(currency)
-                
             }
         }
     

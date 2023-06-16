@@ -12,11 +12,13 @@ import miamCore
 
 @available(iOS 14, *)
 struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct {
-    var ingridient: Ingredient
+    
+    
     let dimension = Dimension.sharedInstance
-    func content() -> some View {
+   
+    func content(quantity: Binding<Int>, productInfo: MealPlannerBasketPreviewProductInfos, actions: MealPlannerBudgetPreviewProductActions) -> some View {
         HStack(alignment: .top) {
-            AsyncImage(url: ingridient.pictureURL) { image in
+            AsyncImage(url: productInfo.pictureURL) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -25,13 +27,13 @@ struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct 
             }
             .frame(width: 75.0)
             VStack(alignment: .leading) {
-//                if ingridient.quantity > 0 {
-                UtilizedInManyRecipes(recipesUsedIn: 3)
-//                }
-                Text(ingridient.name)
+                if productInfo.sharedRecipeCount > 0 {
+                    UtilizedInManyRecipes(recipesUsedIn: productInfo.sharedRecipeCount)
+                }
+                Text(productInfo.name)
                     .foregroundColor(Color.black)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
-                Text(ingridient.unit)
+                Text(productInfo.description)
                     .foregroundColor(Color.gray)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
                 Button {
@@ -45,25 +47,28 @@ struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct 
                 }
                 Spacer()
                 HStack() {
-                    Text("\(ingridient.quantity) €")
+                    Text("\(productInfo.price.formattedPrice)")
                         .foregroundColor(Color.black)
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                     Spacer()
                     CoursesUCounterView(count: 4, onCounterChanged: {_ in })
                     Spacer()
-                    Image(systemName: "trash")
-                        .resizable()
-                        .frame(width: dimension.mButtonHeight, height: dimension.mlButtonHeight)
-                        .padding(dimension.mPadding)
-                        .onTapGesture {
-                            print("delete")
-                        }
+                    Button {
+                        print("delete")
+                    } label: {
+                        Image(systemName: "trash")
+                            .resizable()
+                            .foregroundColor(Color.black)
+                            .frame(width: dimension.mButtonHeight, height: dimension.mlButtonHeight)
+                            .padding(dimension.mPadding)
+                    }
+                    
                 }
                 .frame(maxWidth: .infinity)
             }
             .frame(maxWidth: .infinity)
         }
-        .frame(height: 185)
+        .frame(height: 170)
         .padding(dimension.mPadding)
         .background(Color.white)
     }
@@ -217,6 +222,20 @@ struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct 
 @available(iOS 14, *)
 struct CoursesUMealPlannerBasketPreviewProduct_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUMealPlannerBasketPreviewProduct(ingridient: FakeIngredient().createRandomFakeRecipe()).content()
+        CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tom's Saunce", description: "Sauce!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: false, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+        
+        ZStack {
+            Color.budgetBackgroundColor
+            VStack {
+                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tom's Saune", description: "Sauce!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: false, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+                Divider()
+                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Kevin's Pinapple", description: "Pineapple!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: true, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+                Divider()
+                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tibo's Strawberry", description: "Strawberry!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 0, isSubstitutable: false, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+            }
+            .padding()
+            .background(Color.white)
+            .padding(.horizontal)
+        }
     }
 }

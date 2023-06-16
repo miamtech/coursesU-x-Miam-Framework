@@ -30,17 +30,21 @@ public struct CoursesUBudgetPlannerView<
     @SwiftUI.State private var budgetSpent: Double = 50.0
     @SwiftUI.State private var isLoadingRecipes = false
     
-    var amountInBasket = 40.0
-    
-    @AppStorage("tech.miam.MealPlannerAmount") private var amount: Double = 40.0
-    @AppStorage("tech.miam.MealPlannerNumberOfGuests") private var numberOfGuests: Int = 4
-    @AppStorage("tech.miam.MealPlannerNumberOfMeals") private var numberOfMeals: Int = 4
+    @Binding private var selectedRecipe: String?
+
+    private var budgetInfos: BudgetInfos {
+        formViewModel.budgetInfos
+    }
+
+    @StateObject private var viewModel = MealPlannerMealsVM()
+    @StateObject private var formViewModel = MealPlannerFormVM()
     
     public init(toolbarTemplate: ToolbarTemplate,
                 recipeCardTemplate: CardTemplate,
                 loadingCardTemplate: LoadingCardTemplate,
                 placeholderCardTemplate: PlaceholderCardTemplate,
                 recipes: [String],
+                selectedRecipe: Binding<String?>,
                 budgetInfos: BudgetInfos? = nil,
                 validateRecipes: @escaping () -> Void,
                 replaceRecipe: @escaping (String) -> Void) {
@@ -49,12 +53,14 @@ public struct CoursesUBudgetPlannerView<
         self.recipeCardTemplate = recipeCardTemplate
         self.loadingCardTemplate = loadingCardTemplate
         self.placeholderCardTemplate = placeholderCardTemplate
+        self._selectedRecipe = selectedRecipe
         self.onReplaceRecipe = replaceRecipe
         self.validateRecipes = validateRecipes
         if let budgetInfos {
-            amount = budgetInfos.moneyBudget
-            numberOfGuests = budgetInfos.numberOfGuests
-            numberOfMeals = budgetInfos.numberOfMeals
+            formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
+            formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
+            formViewModel.setNumberOfMeals(amount: Int32(budgetInfos.numberOfMeals))
+
         }
         
         if #unavailable(iOS 16) {
@@ -70,11 +76,9 @@ public struct CoursesUBudgetPlannerView<
             List {
                 VStack(spacing: -40.0) {
                     BudgetBackground()
-                    toolbarTemplate.content(budgetInfos: BudgetInfos(
-                        moneyBudget: amount,
-                        numberOfGuests: numberOfMeals,
-                        numberOfMeals: numberOfMeals),
-                                            isLoadingRecipes: $isLoadingRecipes) { infos in
+                    toolbarTemplate.content(
+                        budgetInfos: $formViewModel.budgetInfos,
+                        isLoadingRecipes: $isLoadingRecipes) { infos in
                         // TODO: get new recipes from view model or repository?
                     }
                         .onTapGesture {
@@ -110,7 +114,7 @@ public struct CoursesUBudgetPlannerView<
             
             VStack{
                 Spacer()
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: amountInBasket) {
+                CoursesUBudgetPlannerStickyFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: formViewModel.budgetInfos.moneyBudget) {
                                 validateRecipes()
                             }
             }
@@ -222,6 +226,6 @@ struct CoursesUBudgetPlannerView_Previews: PreviewProvider {
             recipeCardTemplate: CoursesUBudgetRecipeCard(),
             loadingCardTemplate: CoursesUBudgetRecipeCardLoading(),
             placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(),
-            recipes: ["178","124", "134", "135"], validateRecipes: {}, replaceRecipe: {_ in})
+            recipes: ["178","124", "134", "135"], selectedRecipe: .constant("thisRec"), validateRecipes: {}, replaceRecipe: {_ in})
     }
 }
