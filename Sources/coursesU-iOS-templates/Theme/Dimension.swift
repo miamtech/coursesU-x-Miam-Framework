@@ -52,6 +52,11 @@ public class Dimension {
      mButtonHeight: default value 16
      */
     public var mButtonHeight: CGFloat = 16
+    
+    /**
+     mlButtonHeight: default value 24
+     */
+    public var mlButtonHeight: CGFloat = 24
 
     /**
      lButtonHeight: default value 32
