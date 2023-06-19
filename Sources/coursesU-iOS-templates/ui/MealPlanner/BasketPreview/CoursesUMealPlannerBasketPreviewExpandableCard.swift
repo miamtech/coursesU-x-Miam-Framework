@@ -39,8 +39,8 @@ struct CoursesUMealPlannerBasketPreviewExpandableCard:
     
     @available(iOS 14, *)
     private func productsList() -> some View {
-//        ForEach(products, id: \.self) { product in
-        ForEach(products) { product in
+        ForEach(products, id: \.self) { product in
+//        ForEach(products) { product in
             // I use VStack so i can add same bg & padding to comps
             CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(product.sharedRecipeCount), productInfo: product, actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
         }
