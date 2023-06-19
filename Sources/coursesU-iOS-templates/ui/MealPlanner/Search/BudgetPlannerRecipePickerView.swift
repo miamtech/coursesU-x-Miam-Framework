@@ -43,6 +43,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     .onChange(of: searchText) { newValue in
                         print(newValue)
                     }
+                // if results
                 ScrollView {
                     LazyVGrid(columns: [.init(), .init()]) {
                         ForEach(recipes, id: \.self) { recipe in
@@ -60,11 +61,34 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     }.padding(Dimension.sharedInstance.lPadding)
                         .padding(.bottom, 100)
                 }
+//                else
+//                Text("0 idée repas")
+//                    .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+//                    .padding(.top, 35)
+//                NoSearchResults()
             }
             VStack{
                 Spacer()
                 stickyFooter
             }
+        }
+    }
+    
+    struct NoSearchResults: View {
+        var body: some View {
+            HStack {
+                Image(systemName: "exclamationmark")
+                    .resizable()
+                    .foregroundColor(Color.danger)
+                    .frame(width: 5, height: 25)
+                    .padding(.trailing, Dimension.sharedInstance.lPadding)
+                Text("Désolé, il n'y a pas d'idée repas correspondant à cette recherche.")
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+            }
+            .padding(.vertical, Dimension.sharedInstance.lPadding)
+            .padding(.horizontal, Dimension.sharedInstance.xlPadding)
+            .background(Color.dangerBackground)
+            .cornerRadius(Dimension.sharedInstance.mCornerRadius)
         }
     }
 }
