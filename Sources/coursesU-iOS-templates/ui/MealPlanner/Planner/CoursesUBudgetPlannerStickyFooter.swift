@@ -10,10 +10,39 @@ import SwiftUI
 import miamCore
 import MiamIOSFramework
 
+
 @available(iOS 14, *)
-struct CoursesUBudgetPlannerStickyFooter: View {
+struct CoursesURecipeCardFooter: View {
     @Binding var budgetSpent: Double
     var totalBudgetPermitted: Double
+    let buttonAction: () -> Void
+    var body: some View {
+        CoursesUBudgetPlannerStickyFooter(
+            budgetSpent: $budgetSpent,
+            totalBudgetPermitted: totalBudgetPermitted,
+            footerContent:
+                HStack {
+                    //                Image(packageResource: "basket", ofType: "png")
+                    Image(packageResource: "ShoppingCartIcon", ofType: "png")
+                        .resizable()
+                        .foregroundColor(Color.white)
+                        .frame(width: 20, height: 20)
+                    Text("Tout ajouter")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                        .foregroundColor(Color.white)
+                    
+                }
+        ) {
+            buttonAction()
+        }
+    }
+}
+
+@available(iOS 14, *)
+struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
+    @Binding var budgetSpent: Double
+    var totalBudgetPermitted: Double
+    let footerContent: FooterContent
     let buttonAction: () -> Void
     let dimension = Dimension.sharedInstance
     var body: some View {
@@ -21,17 +50,9 @@ struct CoursesUBudgetPlannerStickyFooter: View {
             Spacer()
             CoursesUBudgetPlannerBudgetFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: totalBudgetPermitted)
             Spacer()
-            CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: { HStack {
-                //                Image(packageResource: "basket", ofType: "png")
-                Image(packageResource: "ShoppingCartIcon", ofType: "png")
-                    .resizable()
-                    .foregroundColor(Color.white)
-                    .frame(width: 20, height: 20)
-                Text("Tout ajouter")
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                    .foregroundColor(Color.white)
-                
-            }}, buttonAction: { })
+            CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: {
+                footerContent
+            }, buttonAction: { })
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -142,13 +163,13 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(10.0), totalBudgetPermitted: 30.0) { print("hello world")
+                CoursesURecipeCardFooter(budgetSpent: .constant(10.0), totalBudgetPermitted: 30.0) { print("hello world")
                 }
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(50.0), totalBudgetPermitted: 50.0) { print("hello world")
+                CoursesURecipeCardFooter(budgetSpent: .constant(50.0), totalBudgetPermitted: 50.0) { print("hello world")
                 }
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(52.0), totalBudgetPermitted: 50.0) { print("hello world")
+                CoursesURecipeCardFooter(budgetSpent: .constant(52.0), totalBudgetPermitted: 50.0) { print("hello world")
                 }
-                CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(80.3), totalBudgetPermitted: 50.0) { print("hello world")
+                CoursesURecipeCardFooter(budgetSpent: .constant(80.3), totalBudgetPermitted: 50.0) { print("hello world")
                 }
             }
         }
@@ -174,7 +195,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(22.0), totalBudgetPermitted: 50.0) { print("hello world")
+                    CoursesURecipeCardFooter(budgetSpent: .constant(22.0), totalBudgetPermitted: 50.0) { print("hello world")
                     }
                 }
                 .frame(maxWidth: .infinity)

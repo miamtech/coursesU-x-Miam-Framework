@@ -37,7 +37,7 @@ struct CoursesUButtonStyle<Content: View>: View {
             }
 //            .frame(maxWidth: .infinity)
             .padding(.horizontal)
-            .padding(.vertical, 10)
+            .padding(.vertical, 15)
             .background(backgroundColor)
             .cornerRadius(cornerRadius)
             .overlay(RoundedRectangle(cornerRadius: cornerRadius)

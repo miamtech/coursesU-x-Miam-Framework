@@ -2,16 +2,15 @@
 //  SwiftUIView.swift
 //  
 //
-//  Created by didi on 6/13/23.
+//  Created by didi on 6/19/23.
 //
-
 
 import SwiftUI
 import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CoursesUMealPlannerBasketPreviewFooter: View {
+struct CoursesURecipeDetailsFooter: View {
     var pricePerPerson: Double
     var priceForMeal: Double
     let buttonAction: () -> Void
@@ -44,14 +43,14 @@ struct CoursesUMealPlannerBasketPreviewFooter: View {
 
 
 @available(iOS 14, *)
-struct CoursesUMealPlannerBasketPreviewFooter_Previews: PreviewProvider {
+struct CoursesURecipeDetailsFooter_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 4.92, priceForMeal: 13.36, buttonAction: {})
-                CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 6.73, priceForMeal: 25.32, buttonAction: {})
-                CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
+                CoursesURecipeDetailsFooter(pricePerPerson: 4.92, priceForMeal: 13.36, buttonAction: {})
+                CoursesURecipeDetailsFooter(pricePerPerson: 6.73, priceForMeal: 25.32, buttonAction: {})
+                CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
             }
         }
         
@@ -76,21 +75,10 @@ struct CoursesUMealPlannerBasketPreviewFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesUMealPlannerBasketPreviewFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
+                    CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
                 }
                 .frame(maxWidth: .infinity)
             }
         }
-    }
-}
-
-@available(iOS 14, *)
-struct RecipeStickyFooter<Content: View>: View {
-    var safeArea: EdgeInsets
-    let content: () -> Content
-    var body: some View {
-        content()
-            .padding(.bottom, safeArea.bottom)
-            .background(Color.miamColor(.white))
     }
 }

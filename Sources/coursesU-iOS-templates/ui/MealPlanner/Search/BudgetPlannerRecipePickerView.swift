@@ -98,7 +98,7 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUBudgetSearch(),
-            cardTemplate: CoursesURecipeCard(), stickyFooter: CoursesUBudgetPlannerStickyFooter(budgetSpent: .constant(32.0), totalBudgetPermitted: 23.0, buttonAction: {}),
+            cardTemplate: CoursesURecipeCard(), stickyFooter: CoursesURecipeCardFooter(budgetSpent: .constant(32.0), totalBudgetPermitted: 23.0, buttonAction: {}),
             onRecipeSelected: { _ in })
     }
 }
