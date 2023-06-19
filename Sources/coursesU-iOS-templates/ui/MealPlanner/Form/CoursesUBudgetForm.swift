@@ -11,7 +11,7 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 struct CoursesUBudgetFormStandaloneWrapper: View {
-    @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 20.4, numberOfGuests: 2, numberOfMeals: 4)
+    @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
     var body: some View {
         CoursesUBudgetForm().content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
     }
@@ -26,14 +26,21 @@ public struct CoursesUBudgetForm: BudgetForm {
         self.includeTitle = includeTitle
         self.includeBackground = includeBackground
     }
+    
+    
       
     
     
 //    public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
     public func content(budgetInfos: Binding<BudgetInfos>, isFetchingRecipes: Bool, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
         var budgetAndGuestsValid: Bool {
-            return false
-//            return budgetInfos.budget > 0.0 && budgetInfos.numberGuests > 0
+//            return false
+            return budgetInfos.wrappedValue.moneyBudget > 0.0 && budgetInfos.wrappedValue.numberOfGuests > 0
+        }
+        var colorOfSubmit: Color {
+            if budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0 {
+                return Color.primaryColor
+            } else { return Color.lightGray }
         }
         ZStack(alignment: .top) {
             if includeBackground {
@@ -57,10 +64,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                     content:
                         HStack {
                             Spacer()
-//                            CoursesUInputWithCurrency(budget: budgetInfos.$budget, onInputChanged: { number in
-//                                budgetInfos.budget = number
-////                                checkBudgetAndGuests()
-//                            })
+                            CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
                         }
                         .padding(dimension.mPadding)
 
@@ -90,7 +94,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                 .addOpacity(!budgetAndGuestsValid)
                 Divider()
                 CoursesUButtonStyle(
-                    backgroundColor: Color.primaryColor,
+                    backgroundColor: colorOfSubmit,
                     content: {
                         Button {
 //                            onFormValidated(budgetInfos)
@@ -104,10 +108,13 @@ public struct CoursesUBudgetForm: BudgetForm {
                                     .foregroundColor(Color.white)
                             }
                         
-                    }}, buttonAction: {
+                    }
+                        .disabled((!budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0))
+                    }, buttonAction: {
 //                        onFormValidated(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
                     })
             }
+            
             .onChange(of: budgetAndGuestsValid) { isValid in
                     if isValid {
                         // fetch from api
@@ -158,7 +165,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                         Image(systemName: "minus")
 //                            .resizable()
                             .foregroundColor(minButtonColor)
-                            
+                        
                             .padding(dimension.sPadding)
                             .overlay(
                                 Circle()
@@ -176,7 +183,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                         }
                     }, label: {
                         Image(systemName: "plus")
-//                            .resizable()
+                        //                            .resizable()
                             .foregroundColor(maxButtonColor)
                             .padding(dimension.sPadding)
                             .overlay(
@@ -222,7 +229,7 @@ internal struct CoursesUFormRow<Content: View>: View {
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                     Spacer()
                 }
-                    .frame(maxWidth: 100)
+                .frame(maxWidth: 100)
                 Spacer()
             }
             
@@ -252,25 +259,32 @@ internal struct CoursesUTwoMealsBackground: View {
 struct CoursesUBudgetForm_Previews: PreviewProvider {
     
     
+    
     static var previews: some View {
-//        CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
-//            print("Budget changed: \(budgetInfos)")
-//        }, onFormValidated: { _ in })
+        BudgetFormPreview()
+    }
+    
+    struct BudgetFormPreview: View {
         
-        CoursesUBudgetFormStandaloneWrapper()
-        
-        ZStack(alignment: .top) {
-            Color.budgetBackgroundColor
-            VStack(spacing: -40.0) {
-                BudgetBackground()
-//                CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
-//                    print("Budget changed: \(budgetInfos)")
-//                }, onFormValidated: { _ in })
-                CoursesUBudgetFormStandaloneWrapper()
-                Spacer()
-                    .frame(height: 80)
-            }
+        @SwiftUI.State var budgetInfoss = BudgetInfos(moneyBudget: 40.0, numberOfGuests: 3, numberOfMeals: 2)
+        var body: some View {
+//            CoursesUBudgetForm().content(budgetInfos: $budgetInfoss, isFetchingRecipes: false, onFormValidated: { _ in })
             
+                    CoursesUBudgetFormStandaloneWrapper()
+            
+            ZStack(alignment: .top) {
+                Color.budgetBackgroundColor
+                VStack(spacing: -40.0) {
+                    BudgetBackground()
+                    //                CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
+                    //                    print("Budget changed: \(budgetInfos)")
+                    //                }, onFormValidated: { _ in })
+                    CoursesUBudgetFormStandaloneWrapper()
+                    Spacer()
+                        .frame(height: 80)
+                }
+                
+            }
         }
     }
     

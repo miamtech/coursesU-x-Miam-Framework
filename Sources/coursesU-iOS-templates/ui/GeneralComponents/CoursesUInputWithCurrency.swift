@@ -132,15 +132,13 @@ internal struct CoursesUInputWithCurrency: View {
 
 }
 
-//@available(iOS 14, *)
-//struct CoursesUInputWithIcon_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CoursesUInputWithCurrency(
-//            currency: "$",
-//            caption: "Total Budget",
-//            icon: Image(packageResource: "numberOfMealsIcon", ofType: "png")) { num in
-//                print("num is " + String(num))
-//            }
-//            .background(Color.white)
-//    }
-//}
+@available(iOS 14, *)
+struct CoursesUInputWithIcon_Previews: PreviewProvider {
+    static var previews: some View {
+        @SwiftUI.State var myBudget = 4.0
+        
+        CoursesUInputWithCurrency(
+            budget: $myBudget)
+            .background(Color.white)
+    }
+}
