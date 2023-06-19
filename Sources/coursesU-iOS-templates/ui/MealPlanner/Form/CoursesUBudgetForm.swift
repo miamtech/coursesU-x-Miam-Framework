@@ -12,26 +12,26 @@ import MiamIOSFramework
 @available(iOS 14, *)
 struct CoursesUBudgetFormStandaloneWrapper: View {
     @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
+    @SwiftUI.State var maxOfMeals = 10
     var body: some View {
-        CoursesUBudgetForm().content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
+        CoursesUBudgetForm(maxOfMeals: $maxOfMeals).content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
     }
 }
 
 @available(iOS 14, *)
 public struct CoursesUBudgetForm: BudgetForm {
+    @Binding var maxOfMeals: Int
     var includeTitle: Bool
     var includeBackground: Bool
     let dimension = Dimension.sharedInstance
-    public init(includeTitle: Bool = true, includeBackground: Bool = true) {
+    public init(maxOfMeals: Binding<Int>, includeTitle: Bool = true, includeBackground: Bool = true) {
+        _maxOfMeals = maxOfMeals
         self.includeTitle = includeTitle
         self.includeBackground = includeBackground
     }
     
     
-      
     
-    
-//    public func content(budgetInfos: BudgetInfos? = nil, isFetchingRecipes: Bool, onBudgetChanged: @escaping (BudgetInfos) -> Void, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
     public func content(budgetInfos: Binding<BudgetInfos>, isFetchingRecipes: Bool, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
         var budgetAndGuestsValid: Bool {
 //            return false
@@ -88,7 +88,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                     icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                     content:
 //                        Text("hello")
-                        CoursesUStepper(value: budgetInfos.numberOfMeals, disableButton: !budgetAndGuestsValid)
+                    CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: maxOfMeals, disableButton: !budgetAndGuestsValid)
 
                 )
                 .addOpacity(!budgetAndGuestsValid)
@@ -119,6 +119,9 @@ public struct CoursesUBudgetForm: BudgetForm {
                     if isValid {
                         // fetch from api
                         print("Both budget and numberGuests are greater than 0!")
+                        // set the number of meals to be highest val from api
+                        maxOfMeals = 7
+                        budgetInfos.wrappedValue.numberOfMeals = maxOfMeals
                     }
                 }
             .padding(25)

@@ -32,12 +32,12 @@ public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
     
         HStack {
             // with no CTA
-//            Spacer()
-//            CoursesUFormRow(caption: String(Int(budget)), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
-//            Divider()
-//            CoursesUFormRow(caption: String(numberGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
-//            Divider()
-//            CoursesUFormRow(caption: String(numberMeals),icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), content: Spacer().frame(width: 0))
+            Spacer()
+            CoursesUFormRow(caption: String(Int(budgetInfos.wrappedValue.moneyBudget)), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
+            Divider()
+            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
+            Divider()
+            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfMeals),icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), content: Spacer().frame(width: 0))
             
 //            CoursesUInputWithIcon(
 //                defaultValue: budgetInfos.moneyBudget,
@@ -51,19 +51,19 @@ public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
 //                )
 //            }
             // TODO: localize
-            CoursesUFormRow(
-                icon: Image(packageResource: "BudgetIcon", ofType: "png"),
-                content:
-                    CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
-            )
-            Divider()
-               CoursesUStepperCollapsed(
-                   value: budgetInfos.numberOfGuests,
-                   icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"))
-               Divider()
-               CoursesUStepperCollapsed(
-                   value: budgetInfos.numberOfMeals,
-                   icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
+//            CoursesUFormRow(
+//                icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+//                content:
+//                    CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
+//            )
+//            Divider()
+//               CoursesUStepperCollapsed(
+//                   value: budgetInfos.numberOfGuests,
+//                   icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"))
+//               Divider()
+//               CoursesUStepperCollapsed(
+//                   value: budgetInfos.numberOfMeals,
+//                   icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
 //               SubmitButtonCollapsed(isLoading: isLoadingRecipes) {
 //                   let infos = BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals)
 //                   onValidateTapped(infos)
