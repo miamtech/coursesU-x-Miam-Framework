@@ -23,7 +23,7 @@ struct CoursesUMealPlannerBasketPreviewView: View {
             Image(packageResource: "WhiteWave", ofType: "png")
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
-            List {
+            ScrollView {
                 
               
                     recipesList()
@@ -60,14 +60,9 @@ struct CoursesUMealPlannerBasketPreviewView: View {
         ForEach(recipes, id: \.self) { recipe in
             // I use VStack so i can add same bg & padding to comps
             VStack {
-//                if recipe.isEmpty {
-//                    placeholderCardTemplate.content {
-//                        self.replaceRecipe(recipe)
-//                    }
-//                } else {
-//                    let actions = createActions(recipe: recipe)
-                CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfo: BasketPreviewInfos(recipe: recipe.recipe, price: recipe.price), basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}))
-//                }
+
+                CoursesUMealPlannerBasketPreviewExpandableCard(recipeInfos: recipe, products: FakeMealPlannerBasketPreviewProductInfos()
+                    .createListOfRandomInfos())
             }
             .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets())
