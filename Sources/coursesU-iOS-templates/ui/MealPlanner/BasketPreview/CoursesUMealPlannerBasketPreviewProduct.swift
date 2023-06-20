@@ -47,7 +47,7 @@ struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct 
                 }
                 Spacer()
                 HStack() {
-                    Text("\(productInfo.price.formattedPrice)")
+                    Text("\(productInfo.price.formattedPrice())")
                         .foregroundColor(Color.black)
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                     Spacer()
@@ -222,16 +222,16 @@ struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct 
 @available(iOS 14, *)
 struct CoursesUMealPlannerBasketPreviewProduct_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tom's Saunce", description: "Sauce!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: false, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+        CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tom's Saunce", description: "Sauce!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: false, pricePerUnit: Price(price: 2, currency: "EUR"), unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
         
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tom's Saune", description: "Sauce!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: false, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tom's Saune", description: "Sauce!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: false, pricePerUnit: Price(price: 4, currency: "EUR"), unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
                 Divider()
-                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Kevin's Pinapple", description: "Pineapple!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: true, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Kevin's Pinapple", description: "Pineapple!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: true, pricePerUnit: Price(price: 4, currency: "EUR"), unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
                 Divider()
-                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tibo's Strawberry", description: "Strawberry!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 0, isSubstitutable: false, pricePerUnit: 12.5, unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
+                CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tibo's Strawberry", description: "Strawberry!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 0, isSubstitutable: false, pricePerUnit: Price(price: 4, currency: "EUR"), unit: "12kg"), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
             }
             .padding()
             .background(Color.white)

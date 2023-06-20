@@ -28,6 +28,7 @@ struct CoursesUMealPlannerBasketPreviewView: View {
               
                     recipesList()
                         .padding(.horizontal, Dimension.sharedInstance.lPadding)
+                
                         
                 
                 Spacer()
@@ -58,15 +59,10 @@ struct CoursesUMealPlannerBasketPreviewView: View {
     @available(iOS 14, *)
     private func recipesList() -> some View {
         ForEach(recipes, id: \.self) { recipe in
-            // I use VStack so i can add same bg & padding to comps
-            VStack {
-
-                CoursesUMealPlannerBasketPreviewExpandableCard(recipeInfos: recipe, products: FakeMealPlannerBasketPreviewProductInfos()
-                    .createListOfRandomInfos())
-            }
-            .listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets())
-            .padding(.vertical, Dimension.sharedInstance.mPadding)
+            MealPlannerBasketPreviewExpandableMealView(recipeOverviewTemplate: CoursesUMealPlannerBasketPreviewRecipeOverview(), productTemplate: CoursesUMealPlannerBasketPreviewProduct())
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
+                .padding(.vertical, Dimension.sharedInstance.mPadding)
         }
     }
 }
