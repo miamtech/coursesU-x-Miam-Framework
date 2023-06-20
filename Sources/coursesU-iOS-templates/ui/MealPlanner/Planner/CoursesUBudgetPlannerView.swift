@@ -74,51 +74,54 @@ public struct CoursesUBudgetPlannerView<
         ZStack {
             Color.budgetBackgroundColor
             ScrollView {
-                VStack {
-                    CoursesUBudgetForm(maxOfMeals: .constant(4)).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in print("validated")})
-                        .padding(Dimension.sharedInstance.lPadding)
-                    
-//                    List {
-                        VStack(spacing: -40.0) {
-                            BudgetBackground()
-                            //                    toolbarTemplate.content(
-                            //                        budgetInfos: $formViewModel.budgetInfos,
-                            //                        isLoadingRecipes: $isLoadingRecipes) { infos in
-                            //                        // TODO: get new recipes from view model or repository?
-                            //                    }
-                            //                        .onTapGesture {
-                            //                            showFormOptions.toggle()
-                            //                            print("hello world")
-                            //                        }
-                            //                        .padding(Dimension.sharedInstance.lPadding)
-                            //                    if showFormOptions {
-                            //                        CoursesUBudgetForm(includeTitle: false).content(isFetchingRecipes: isLoadingRecipes, onFormValidated: {_ in print("validated")})
-                            
-                            
-                            //                    }
-                        }
-                        
-                        .background(Color.budgetBackgroundColor)
-                        .listRowBackground(Color.clear)
-                        .modifier(removeLines())
-                        .listRowInsets(EdgeInsets())
-                        if #available(iOS 15, *) {
-                            recipesListWithSwipeAction()
-                                .padding(.horizontal, Dimension.sharedInstance.lPadding)
-                        } else {
-                            recipesList()
-                                .padding(.horizontal, Dimension.sharedInstance.lPadding)
-                        }
-                        Spacer()
-                            .frame(height: 100)
-                            .listRowBackground(Color.clear)
-                            .modifier(removeLines())
-                            .listRowInsets(EdgeInsets())
-//                    }
-//                    .listStyle(PlainListStyle())
-//                    .background(Color.budgetBackgroundColor)
+                
+                VStack(spacing: -40.0) {
+                    BudgetBackground()
+                    if !showFormOptions {
+                        toolbarTemplate.content(
+                            budgetInfos: $formViewModel.budgetInfos,
+                            isLoadingRecipes: $isLoadingRecipes) { infos in
+                                // TODO: get new recipes from view model or repository?
+                            }
+                            .onTapGesture {
+                                withAnimation {
+                                    showFormOptions.toggle()
+                                }
+                                
+                                print("hello world")
+                            }
+                            .padding(Dimension.sharedInstance.lPadding)
+                    } else {
+                        CoursesUBudgetForm(maxOfMeals: .constant(4)).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in
+                            withAnimation {
+                                showFormOptions.toggle()
+                            }
+                            print("close")
+                        })
+                            .padding(Dimension.sharedInstance.lPadding)
+                    }
                 }
+                .background(Color.budgetBackgroundColor)
+                .listRowBackground(Color.clear)
+                .modifier(removeLines())
+                .listRowInsets(EdgeInsets())
+//                if #available(iOS 15, *) {
+//                    recipesListWithSwipeAction()
+//                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
+//                } else {
+                    recipesList()
+                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
+//                }
+                Spacer()
+                    .frame(height: 100)
+                    .listRowBackground(Color.clear)
+                    .modifier(removeLines())
+                    .listRowInsets(EdgeInsets())
+                //                    }
+                //                    .listStyle(PlainListStyle())
+                //                    .background(Color.budgetBackgroundColor)
             }
+    
             VStack{
                 Spacer()
                 CoursesURecipeCardFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: formViewModel.budgetInfos.moneyBudget) {

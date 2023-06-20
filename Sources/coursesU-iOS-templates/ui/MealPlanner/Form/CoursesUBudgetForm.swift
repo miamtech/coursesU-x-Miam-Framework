@@ -97,7 +97,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                     backgroundColor: colorOfSubmit,
                     content: {
                         Button {
-//                            onFormValidated(budgetInfos)
+                            onFormValidated(budgetInfos.wrappedValue)
                         } label: {
                             HStack {
                                 Image(packageResource: "searchIcon", ofType: "png")
@@ -111,6 +111,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                     }
                         .disabled((!budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0))
                     }, buttonAction: {
+                        onFormValidated(budgetInfos.wrappedValue)
 //                        onFormValidated(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
                     })
             }
