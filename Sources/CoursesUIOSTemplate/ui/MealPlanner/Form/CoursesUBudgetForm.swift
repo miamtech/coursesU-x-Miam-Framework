@@ -10,10 +10,12 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CoursesUBudgetFormStandaloneWrapper: View {
+public struct CoursesUBudgetFormStandaloneWrapper: View {
     @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
     @SwiftUI.State var maxOfMeals = 10
-    var body: some View {
+    
+    public init() {}
+    public var body: some View {
         CoursesUBudgetForm(maxOfMeals: $maxOfMeals).content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
     }
 }

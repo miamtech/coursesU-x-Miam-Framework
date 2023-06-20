@@ -4,15 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "coursesU-iOS-templates",
+    name: "CoursesUIOSTemplate",
     platforms: [
         .iOS(.v12),
       ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "coursesU-iOS-templates",
-            targets: ["coursesU-iOS-templates"]),
+            name: "CoursesUIOSTemplate",
+            targets: ["CoursesUIOSTemplate"]),
     ],
     dependencies: [
             // The package dependency is defined as a local path.
@@ -24,13 +24,13 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "coursesU-iOS-templates",
+            name: "CoursesUIOSTemplate",
             dependencies: [
                     .product(name: "MiamIOSFramework", package: "miam-sdk")
                   ],
             resources: [.process("Resources")]),
         .testTarget(
             name: "coursesU-iOS-templatesTests",
-            dependencies: ["coursesU-iOS-templates"]),
+            dependencies: ["CoursesUIOSTemplate"]),
     ]
 )

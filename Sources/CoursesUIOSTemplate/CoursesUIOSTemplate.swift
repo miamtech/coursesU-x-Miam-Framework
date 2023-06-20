@@ -1,4 +1,4 @@
-public struct coursesU_iOS_templates {
+public struct CoursesUIOSTemplate {
     public private(set) var text = "Hello, World!"
 
     public init() {
