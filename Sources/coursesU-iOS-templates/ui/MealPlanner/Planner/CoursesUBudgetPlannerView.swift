@@ -117,9 +117,6 @@ public struct CoursesUBudgetPlannerView<
                     .listRowBackground(Color.clear)
                     .modifier(removeLines())
                     .listRowInsets(EdgeInsets())
-                //                    }
-                //                    .listStyle(PlainListStyle())
-                //                    .background(Color.budgetBackgroundColor)
             }
     
             VStack{

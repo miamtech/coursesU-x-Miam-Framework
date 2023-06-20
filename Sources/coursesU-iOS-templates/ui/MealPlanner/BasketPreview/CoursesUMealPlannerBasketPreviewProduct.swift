@@ -18,6 +18,7 @@ struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct 
    
     func content(quantity: Binding<Int>, productInfo: MealPlannerBasketPreviewProductInfos, actions: MealPlannerBudgetPreviewProductActions) -> some View {
         HStack(alignment: .top) {
+            
             AsyncImage(url: productInfo.pictureURL) { image in
                 image
                     .resizable()
@@ -65,12 +66,32 @@ struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct 
                     
                 }
                 .frame(maxWidth: .infinity)
+                NotAvailable(name: "test")
             }
             .frame(maxWidth: .infinity)
         }
         .frame(height: 170)
         .padding(dimension.mPadding)
         .background(Color.white)
+    }
+    
+    
+    
+    struct NotAvailable: View {
+        var name: String
+        var body: some View {
+            VStack {
+                HStack {
+                    Text("\(name)")
+                        .foregroundColor(Color.gray)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
+                    Spacer()
+                }
+                Text("Indisponible")
+                    .foregroundColor(Color.gray)
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
+            }
+        }
     }
 
     
