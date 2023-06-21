@@ -13,16 +13,19 @@ import miamCore
 @available(iOS 14, *)
 public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealPlannerBasketPreviewRecipeOverview, BasketPreviewProduct: MealPlannerBasketPreviewProduct>: View {
     
-    let recipeOverview: RecipeOverviewTemplate
-    let basketProduct: BasketPreviewProduct
+    private let recipeOverview: RecipeOverviewTemplate
+    private let basketProduct: BasketPreviewProduct
+    
+    private let validateRecipes: () -> Void
     
     @SwiftUI.State private var budgetSpent: Double = 50.0
     @StateObject private var formViewModel = MealPlannerFormVM()
     @SwiftUI.State private var recipes = FakeRecipe().createListOfRandomRecipeInfos()
     
-    public init(recipeOverview: RecipeOverviewTemplate, basketProduct: BasketPreviewProduct) {
+    public init(recipeOverview: RecipeOverviewTemplate, basketProduct: BasketPreviewProduct, validateRecipes: @escaping () -> Void) {
         self.recipeOverview = recipeOverview
         self.basketProduct = basketProduct
+        self.validateRecipes = validateRecipes
     }
     
     public var body: some View {
@@ -58,7 +61,7 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
                             .foregroundColor(Color.white)
                             .padding(.horizontal),
                     buttonAction: {
-                    print("hello")
+                    validateRecipes()
                 })
             }
         }
@@ -79,6 +82,6 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
 @available(iOS 14, *)
 struct CoursesUMealPlannerBasketPreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUMealPlannerBasketPreviewView(recipeOverview: CoursesUMealPlannerBasketPreviewRecipeOverview(), basketProduct: CoursesUMealPlannerBasketPreviewProduct())
+        CoursesUMealPlannerBasketPreviewView(recipeOverview: CoursesUMealPlannerBasketPreviewRecipeOverview(), basketProduct: CoursesUMealPlannerBasketPreviewProduct(), validateRecipes: { print("validating")})
     }
 }

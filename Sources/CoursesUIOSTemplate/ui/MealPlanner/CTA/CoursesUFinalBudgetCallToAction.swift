@@ -10,13 +10,21 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CoursesUFinalBudgetCallToAction: View {
+public struct CoursesUFinalBudgetCallToAction: View {
+
     let buttonAction: () -> Void
-    let budget: Double
-    let numberMeals: Int
+    
+    public init(buttonAction: @escaping () -> Void) {
+        self.buttonAction = buttonAction
+    }
+    
+    // get from VM?
+    let finalPrice: Double = 40.0
+    let numberMeals: Int = 4
+    
     let dimension = Dimension.sharedInstance
        
-    var body: some View {
+    public var body: some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
@@ -32,7 +40,7 @@ struct CoursesUFinalBudgetCallToAction: View {
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         RecapPriceForRecipes(
                             leadingText: "\(String(numberMeals)) repas pour",
-                            priceAmount: "\(String(budget)) €",
+                            priceAmount: "\(String(finalPrice)) €",
                             trailingText: "",
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
                             yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyle,
@@ -70,6 +78,6 @@ struct CoursesUFinalBudgetCallToAction: View {
 @available(iOS 14, *)
 struct CoursesUFinalBudgetCallToAction_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUFinalBudgetCallToAction(buttonAction: {print("hello")}, budget: 15.21, numberMeals: 4)
+        CoursesUFinalBudgetCallToAction(buttonAction: {print("hello")})
     }
 }
