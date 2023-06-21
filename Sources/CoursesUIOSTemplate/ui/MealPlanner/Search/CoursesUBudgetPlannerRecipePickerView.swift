@@ -14,7 +14,7 @@ import MiamIOSFramework
 public struct CoursesUBudgetPlannerRecipePickerView<
     SearchTemplate: BudgetSearch,
     CardTemplate: RecipeCard,
-    Footer: View>: View {
+    Footer: BudgetPlannerFooter>: View {
     private let searchTemplate: SearchTemplate
     private let cardTemplate: CardTemplate
     private let stickyFooter: Footer
@@ -69,7 +69,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             }
             VStack{
                 Spacer()
-                stickyFooter
+//                stickyFooter.content(budgetInfos: <#T##BudgetInfos#>, budgetSpent: <#T##Binding<Double>#>, validateTapped: <#T##() -> Void#>)
             }
         }
     }
@@ -98,8 +98,11 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUBudgetSearch(),
-            cardTemplate: CoursesURecipeCard(), stickyFooter: CoursesUBudgetPlannerFooter().content(budgetInfos: BudgetInfos(moneyBudget: 30.0, numberOfGuests: 4, numberOfMeals: 4), budgetSpent: .constant(10.0)) { print("hello world")
-            },
+            cardTemplate: CoursesURecipeCard(),
+            stickyFooter: CoursesUBudgetPlannerFooter()
+//                .content(budgetInfos: BudgetInfos(moneyBudget: 30.0, numberOfGuests: 4, numberOfMeals: 4), budgetSpent: .constant(10.0)) { print("hello world")
+//            }
+            ,
             onRecipeSelected: { _ in })
     }
 }

@@ -53,7 +53,9 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
             Spacer()
             CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: {
                 footerContent
-            }, buttonAction: { })
+            }, buttonAction: {
+                buttonAction()
+            })
             Spacer()
         }
         .frame(maxWidth: .infinity)
