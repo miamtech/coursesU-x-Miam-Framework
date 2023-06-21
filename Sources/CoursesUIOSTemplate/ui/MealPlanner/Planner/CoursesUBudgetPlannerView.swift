@@ -121,7 +121,7 @@ public struct CoursesUBudgetPlannerView<
     
             VStack{
                 Spacer()
-                CoursesURecipeCardFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: formViewModel.budgetInfos.moneyBudget) {
+                CoursesUBudgetPlannerFooter().content(budgetInfos: formViewModel.budgetInfos, budgetSpent: $budgetSpent) {
                                 validateRecipes()
                             }
             }

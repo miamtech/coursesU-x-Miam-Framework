@@ -12,14 +12,15 @@ import MiamIOSFramework
 
 
 @available(iOS 14, *)
-struct CoursesURecipeCardFooter: View {
-    @Binding var budgetSpent: Double
-    var totalBudgetPermitted: Double
-    let buttonAction: () -> Void
-    var body: some View {
+public struct CoursesUBudgetPlannerFooter: BudgetPlannerFooter {
+    
+    
+
+    public init() {}
+    public func content(budgetInfos: BudgetInfos, budgetSpent: Binding<Double>, validateTapped: @escaping () -> Void) -> some View {
         CoursesUBudgetPlannerStickyFooter(
-            budgetSpent: $budgetSpent,
-            totalBudgetPermitted: totalBudgetPermitted,
+            budgetSpent: budgetSpent,
+            totalBudgetPermitted: budgetInfos.moneyBudget,
             footerContent:
                 HStack {
                     //                Image(packageResource: "basket", ofType: "png")
@@ -33,7 +34,7 @@ struct CoursesURecipeCardFooter: View {
                     
                 }
         ) {
-            buttonAction()
+            validateTapped()
         }
     }
 }
@@ -160,20 +161,21 @@ struct ChatBubbleShape: Shape {
 @available(iOS 14, *)
 struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
     static var previews: some View {
+        let budgetInfos = BudgetInfos(moneyBudget: 40.0, numberOfGuests: 3, numberOfMeals: 5)
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesURecipeCardFooter(budgetSpent: .constant(10.0), totalBudgetPermitted: 30.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
                 }
-                CoursesURecipeCardFooter(budgetSpent: .constant(50.0), totalBudgetPermitted: 50.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(50.0)) { print("hello world")
                 }
-                CoursesURecipeCardFooter(budgetSpent: .constant(52.0), totalBudgetPermitted: 50.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(20.0)) { print("hello world")
                 }
-                CoursesURecipeCardFooter(budgetSpent: .constant(80.3), totalBudgetPermitted: 50.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(30.0)) { print("hello world")
                 }
             }
         }
-        
+
         GeometryReader { geometry in
             let safeArea = geometry.safeAreaInsets
             ZStack(alignment: .bottom) {
@@ -195,7 +197,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesURecipeCardFooter(budgetSpent: .constant(22.0), totalBudgetPermitted: 50.0) { print("hello world")
+                    CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
                     }
                 }
                 .frame(maxWidth: .infinity)

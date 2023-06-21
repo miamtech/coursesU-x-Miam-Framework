@@ -13,7 +13,9 @@ import MiamIOSFramework
 
 
 @available(iOS 14, *)
-struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
+public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
+    public init() {}
+    
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
         CoursesURecipeCardCoreFrame(
             recipe: recipeInfos.recipe,

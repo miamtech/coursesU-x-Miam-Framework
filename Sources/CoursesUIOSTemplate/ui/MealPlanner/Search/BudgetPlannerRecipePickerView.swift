@@ -98,7 +98,8 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUBudgetSearch(),
-            cardTemplate: CoursesURecipeCard(), stickyFooter: CoursesURecipeCardFooter(budgetSpent: .constant(32.0), totalBudgetPermitted: 23.0, buttonAction: {}),
+            cardTemplate: CoursesURecipeCard(), stickyFooter: CoursesUBudgetPlannerFooter().content(budgetInfos: BudgetInfos(moneyBudget: 30.0, numberOfGuests: 4, numberOfMeals: 4), budgetSpent: .constant(10.0)) { print("hello world")
+            },
             onRecipeSelected: { _ in })
     }
 }
