@@ -88,10 +88,12 @@ public struct CoursesUBudgetPlannerView<
                             }
                             .padding(Dimension.sharedInstance.lPadding)
                     } else {
-                        CoursesUBudgetForm(maxOfMeals: .constant(4)).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in
+                        CoursesUBudgetForm(maxOfMeals: .constant(8)).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in
                             withAnimation {
                                 showFormOptions.toggle()
                             }
+                            // TODO: need to cause update to other VM here
+//                            viewModel.state?.
                             print("close")
                         })
                             .padding(Dimension.sharedInstance.lPadding)
