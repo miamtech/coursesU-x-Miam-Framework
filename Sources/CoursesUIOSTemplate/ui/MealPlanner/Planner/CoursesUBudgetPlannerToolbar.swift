@@ -19,14 +19,8 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
-//    @SwiftUI.State var budget = 23.0
-//    @SwiftUI.State var numberGuests = 4
-//    @SwiftUI.State var numberMeals = 4
     let dimension = Dimension.sharedInstance
     public init() {}
-//    public func content(budgetInfos: BudgetInfos,
-//                        isLoadingRecipes: Binding<Bool>,
-//                        onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
     public func content(budgetInfos: Binding<BudgetInfos>, isLoadingRecipes: Binding<Bool>, onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
         
     

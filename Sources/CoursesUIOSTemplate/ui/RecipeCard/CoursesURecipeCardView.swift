@@ -32,26 +32,29 @@ public struct CoursesURecipeCardView<CardTemplate: RecipeCard,
 
     public var body: some View {
         // TODO: put this back!
-//                UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
-//                    loadingTemplate.content()
-//                } successView: {
-//                    if let recipe = recipeViewModel.recipe {
-//                        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
-//                        cardTemplate.content(recipeInfos: recipeInfos, actions: RecipeCardActions(like: {},
-//                                                                                                  addToBasket: add,
-//                                                                                                  showDetails: show))
-//                    }
-//                }
-//                .onAppear {
+        HStack {
+            UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
+                loadingTemplate.content()
+            } successView: {
+                if let recipe = recipeViewModel.recipe {
+                    let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
+                    cardTemplate.content(
+                        recipeInfos: recipeInfos,
+                        actions: RecipeCardActions(
+                            like: {},
+                            addToBasket: add,
+                            showDetails: show)
+                    )
+                }
+            }
+        }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700), execute: {
+                    recipeViewModel.setRecipe(recipe: FakeRecipe().createRandomFakeRecipe())
+                })
 //                    recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
-//                }
-//            }
-        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
-        cardTemplate.content(
-            recipeInfos: recipeInfos,
-            actions: RecipeCardActions(
-                like: {}, addToBasket: add, showDetails: show))
-    }
+                }
+            }
 }
 
 @available(iOS 14, *)

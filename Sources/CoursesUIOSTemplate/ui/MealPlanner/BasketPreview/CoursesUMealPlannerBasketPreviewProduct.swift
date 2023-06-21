@@ -11,12 +11,13 @@ import miamCore
 
 
 @available(iOS 14, *)
-struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct {
+public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct {
     
+    public init () {}
     
     let dimension = Dimension.sharedInstance
    
-    func content(quantity: Binding<Int>, productInfo: MealPlannerBasketPreviewProductInfos, actions: MealPlannerBudgetPreviewProductActions) -> some View {
+    public func content(quantity: Binding<Int>, productInfo: MealPlannerBasketPreviewProductInfos, actions: MealPlannerBudgetPreviewProductActions) -> some View {
         HStack(alignment: .top) {
             
             AsyncImage(url: productInfo.pictureURL) { image in

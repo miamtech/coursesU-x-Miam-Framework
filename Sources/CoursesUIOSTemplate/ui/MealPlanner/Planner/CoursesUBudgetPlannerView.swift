@@ -30,8 +30,6 @@ public struct CoursesUBudgetPlannerView<
     @SwiftUI.State private var budgetSpent: Double = 50.0
     @SwiftUI.State private var isLoadingRecipes = false
     
-    @Binding private var selectedRecipe: String?
-
     private var budgetInfos: BudgetInfos {
         formViewModel.budgetInfos
     }
@@ -44,7 +42,6 @@ public struct CoursesUBudgetPlannerView<
                 loadingCardTemplate: LoadingCardTemplate,
                 placeholderCardTemplate: PlaceholderCardTemplate,
                 recipes: [String],
-                selectedRecipe: Binding<String?>,
                 budgetInfos: BudgetInfos? = nil,
                 validateRecipes: @escaping () -> Void,
                 replaceRecipe: @escaping (String) -> Void) {
@@ -53,7 +50,6 @@ public struct CoursesUBudgetPlannerView<
         self.recipeCardTemplate = recipeCardTemplate
         self.loadingCardTemplate = loadingCardTemplate
         self.placeholderCardTemplate = placeholderCardTemplate
-        self._selectedRecipe = selectedRecipe
         self.onReplaceRecipe = replaceRecipe
         self.validateRecipes = validateRecipes
         if let budgetInfos {
@@ -131,10 +127,7 @@ public struct CoursesUBudgetPlannerView<
 
 @available(iOS 14, *)
 extension CoursesUBudgetPlannerView {
-    
-    /// <#Description#>
-    /// - Parameter recipe: <#recipe description#>
-    /// - Returns: <#description#>
+
     func createActions(recipe: String) -> BudgetRecipeCardActions {
         return BudgetRecipeCardActions(recipeTapped: {}, removeTapped: {
             removeRecipe(recipe)
@@ -233,6 +226,6 @@ struct CoursesUBudgetPlannerView_Previews: PreviewProvider {
             recipeCardTemplate: CoursesUBudgetRecipeCard(),
             loadingCardTemplate: CoursesUBudgetRecipeCardLoading(),
             placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(),
-            recipes: ["178","124", "134", "135"], selectedRecipe: .constant("thisRec"), validateRecipes: {}, replaceRecipe: {_ in})
+            recipes: ["178","124", "134", "135"], validateRecipes: {}, replaceRecipe: {_ in})
     }
 }

@@ -11,13 +11,15 @@ import miamCore
 
 
 @available(iOS 14, *)
-struct CoursesUMealPlannerBasketPreviewView: View {
+public struct CoursesUMealPlannerBasketPreviewView: View {
     
     @SwiftUI.State private var budgetSpent: Double = 50.0
     @StateObject private var formViewModel = MealPlannerFormVM()
     @SwiftUI.State private var recipes = FakeRecipe().createListOfRandomRecipeInfos()
     
-    var body: some View {
+    public init() {}
+    
+    public var body: some View {
         ZStack(alignment: .top) {
             Color.budgetBackgroundColor
             Image(packageResource: "WhiteWave", ofType: "png")

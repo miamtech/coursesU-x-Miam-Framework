@@ -10,8 +10,9 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewRecipeOverview {
-    func content(basketPreviewInfo: BasketPreviewInfos,
+public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewRecipeOverview {
+    public init() {}
+    public func content(basketPreviewInfo: BasketPreviewInfos,
                  basketPreviewActions: BasketPreviewRecipeActions) -> some View {
     
         

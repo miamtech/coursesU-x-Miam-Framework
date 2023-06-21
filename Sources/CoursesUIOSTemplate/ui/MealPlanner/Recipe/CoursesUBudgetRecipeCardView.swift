@@ -29,26 +29,25 @@ public struct CoursesUBudgetRecipeCardView<CardTemplate: BudgetRecipeCard,
 
     public var body: some View {
         // TODO: replace this!
-//        HStack {
-//            UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
-//                recipeCardLoadingTemplate.content()
-//            } successView: {
-//                if let recipe = recipeViewModel.recipe {
-//                    let recipeInfos = RecipeInfos(recipe: recipe,
-//                                                  price: Price(price: 34.0, currency: "EUR"),
-//                                                  isInBasket: false)
-//                    recipeCardTemplate.content(recipeInfos: recipeInfos,
-//                                               actions: actions)
-//                }
-//            }
-//        }
-//        .onAppear {
+        HStack {
+            UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
+                recipeCardLoadingTemplate.content()
+            } successView: {
+                if let recipe = recipeViewModel.recipe {
+                    let recipeInfos = RecipeInfos(recipe: recipe,
+                                                  price: Price(price: 34.0, currency: "EUR"),
+                                                  isInBasket: false)
+                    recipeCardTemplate.content(recipeInfos: recipeInfos,
+                                               actions: actions)
+                }
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700), execute: {
+                recipeViewModel.setRecipe(recipe: FakeRecipe().createRandomFakeRecipe())
+            })
 //            recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
-//        }
-        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
-        recipeCardTemplate.content(
-                recipeInfos: recipeInfos,
-                actions: actions)
+        }
     }
 }
 
