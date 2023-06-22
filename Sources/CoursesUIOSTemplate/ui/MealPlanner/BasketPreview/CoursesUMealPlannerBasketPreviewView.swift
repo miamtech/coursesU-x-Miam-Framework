@@ -68,7 +68,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
             VStack{
                 Spacer()
                 CoursesUBudgetPlannerStickyFooter(
-                    budgetSpent: $budgetSpent,
+                    budgetSpent: budgetSpent,
                     totalBudgetPermitted: Double(previewViewModel.budget),
                     footerContent:
                         Text("Finaliser")

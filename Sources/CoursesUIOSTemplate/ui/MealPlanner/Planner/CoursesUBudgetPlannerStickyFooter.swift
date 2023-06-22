@@ -17,7 +17,7 @@ public struct CoursesUBudgetPlannerFooter: BudgetPlannerFooter {
     
 
     public init() {}
-    public func content(budgetInfos: BudgetInfos, budgetSpent: Binding<Double>, validateTapped: @escaping () -> Void) -> some View {
+    public func content(budgetInfos: BudgetInfos, budgetSpent: Double, validateTapped: @escaping () -> Void) -> some View {
         CoursesUBudgetPlannerStickyFooter(
             budgetSpent: budgetSpent,
             totalBudgetPermitted: budgetInfos.moneyBudget,
@@ -41,7 +41,7 @@ public struct CoursesUBudgetPlannerFooter: BudgetPlannerFooter {
 
 @available(iOS 14, *)
 struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
-    @Binding var budgetSpent: Double
+    var budgetSpent: Double
     var totalBudgetPermitted: Double
     let footerContent: FooterContent
     let buttonAction: () -> Void
@@ -49,7 +49,7 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
     var body: some View {
         HStack {
             Spacer()
-            CoursesUBudgetPlannerBudgetFooter(budgetSpent: $budgetSpent, totalBudgetPermitted: totalBudgetPermitted)
+            CoursesUBudgetPlannerBudgetFooter(budgetSpent: budgetSpent, totalBudgetPermitted: totalBudgetPermitted)
             Spacer()
             CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: {
                 footerContent
@@ -100,7 +100,7 @@ struct WithRoundedCornersProgressViewStyle: ProgressViewStyle {
 
 @available(iOS 14, *)
 struct CoursesUBudgetPlannerBudgetFooter: View {
-    @Binding var budgetSpent: Double
+    var budgetSpent: Double
     var totalBudgetPermitted: Double
     let dimension = Dimension.sharedInstance
     let widthOfFrame = CGFloat(150)
@@ -167,13 +167,13 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 10.0) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(50.0)) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 50.0) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(20.0)) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 20.0) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(30.0)) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 30.0) { print("hello world")
                 }
             }
         }
@@ -199,7 +199,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
+                    CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 10.0) { print("hello world")
                     }
                 }
                 .frame(maxWidth: .infinity)
