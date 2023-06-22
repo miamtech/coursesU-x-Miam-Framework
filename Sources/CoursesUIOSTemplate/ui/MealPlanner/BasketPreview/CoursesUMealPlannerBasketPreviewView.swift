@@ -18,15 +18,18 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
     
     private let validateRecipes: () -> Void
     
+    @StateObject var previewViewModel = MealPlannerBasketPreviewVM()
     @SwiftUI.State private var budgetSpent: Double = 50.0
-    @StateObject private var formViewModel = MealPlannerFormVM()
-    @SwiftUI.State private var recipes = FakeRecipe().createListOfRandomRecipeInfos()
+    
     
     public init(recipeOverview: RecipeOverviewTemplate, basketProduct: BasketPreviewProduct, validateRecipes: @escaping () -> Void) {
         self.recipeOverview = recipeOverview
         self.basketProduct = basketProduct
         self.validateRecipes = validateRecipes
+        
+//        previewViewModel.meals.append(BasketPreviewLine.fromR) [FakeRecipe().createRandomFakeRecipe()]
     }
+    
     
     public var body: some View {
         ZStack(alignment: .top) {
@@ -54,7 +57,7 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
                 Spacer()
                 CoursesUBudgetPlannerStickyFooter(
                     budgetSpent: $budgetSpent,
-                    totalBudgetPermitted: formViewModel.budgetInfos.moneyBudget,
+                    totalBudgetPermitted: Double(previewViewModel.budget),
                     footerContent:
                         Text("Finaliser")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
@@ -69,8 +72,13 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
     
     @available(iOS 14, *)
     private func recipesList() -> some View {
-        ForEach(recipes, id: \.self) { recipe in
-            MealPlannerBasketPreviewExpandableMealView(recipeOverviewTemplate: recipeOverview, productTemplate: basketProduct)
+        ForEach(previewViewModel.meals) { meal in
+            MealPlannerBasketPreviewExpandableMealView(
+                recipeOverviewTemplate: recipeOverview,
+                productTemplate: basketProduct,
+                meal: meal,
+                mealViewModel: previewViewModel
+            )
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
                 .padding(.vertical, Dimension.sharedInstance.mPadding)

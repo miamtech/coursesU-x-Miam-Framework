@@ -11,16 +11,15 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewRecipeOverview {
-    public init() {}
-    public func content(basketPreviewInfo: BasketPreviewInfos,
-                 basketPreviewActions: BasketPreviewRecipeActions) -> some View {
+   
     
-        
+    public init() {}
+    public func content(basketPreviewInfos: BasketPreviewInfos, basketPreviewActions: BasketPreviewRecipeActions) -> some View { 
             CoursesURecipeCardCoreFrame(
-                recipe: basketPreviewInfo.recipe,
-                price: basketPreviewInfo.price,
+                recipe: basketPreviewInfos.recipe,
+                price: basketPreviewInfos.price,
                 centerContent: {
-                    ArticlesAndPricePerPerson(recipe: basketPreviewInfo.recipe, price: basketPreviewInfo.price.price)
+                    ArticlesAndPricePerPerson(recipe: basketPreviewInfos.recipe, price: basketPreviewInfos.price.price)
             }, callToAction: {
                 BasketPreviewCardCallToAction(actions: basketPreviewActions)
             })
@@ -114,7 +113,7 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
         let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"))
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfo: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}))
+            CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfos: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}))
             .padding()
         }
     }
