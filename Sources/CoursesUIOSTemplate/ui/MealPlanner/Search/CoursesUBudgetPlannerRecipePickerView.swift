@@ -19,17 +19,20 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     private let cardTemplate: CardTemplate
     private let stickyFooter: Footer
     private let onRecipeSelected: (String) -> Void
-//    @StateObject private var viewModel: MealPlannerReplaceRecipeViewModel
     private let recipes = ["134", "135", "136", "137", "138", "139", "140", "141", "142", "143"]
     @SwiftUI.State private var searchText = ""
     @SwiftUI.State private var showSearchField = false
+    
+    // TODO: most likely remove these -> need to know if we need footer or not
+    @StateObject private var viewModel = MealPlannerMealsVM()
+    @StateObject private var formViewModel = MealPlannerFormVM()
+    
     public init(searchTemplate: SearchTemplate, cardTemplate: CardTemplate, stickyFooter: Footer,
                 onRecipeSelected: @escaping (String) -> Void) {
         self.searchTemplate = searchTemplate
         self.cardTemplate = cardTemplate
         self.onRecipeSelected = onRecipeSelected
         self.stickyFooter = stickyFooter
-//        _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: 10.0))
     }
 
     public var body: some View {
@@ -69,7 +72,9 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             }
             VStack{
                 Spacer()
-//                stickyFooter.content(budgetInfos: <#T##BudgetInfos#>, budgetSpent: <#T##Binding<Double>#>, validateTapped: <#T##() -> Void#>)
+                stickyFooter.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0, validateTapped: {
+                    
+                })
             }
         }
     }
@@ -99,10 +104,7 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUBudgetSearch(),
             cardTemplate: CoursesURecipeCard(),
-            stickyFooter: CoursesUBudgetPlannerFooter()
-//                .content(budgetInfos: BudgetInfos(moneyBudget: 30.0, numberOfGuests: 4, numberOfMeals: 4), budgetSpent: .constant(10.0)) { print("hello world")
-//            }
-            ,
+            stickyFooter: CoursesUBudgetPlannerFooter(),
             onRecipeSelected: { _ in })
     }
 }
