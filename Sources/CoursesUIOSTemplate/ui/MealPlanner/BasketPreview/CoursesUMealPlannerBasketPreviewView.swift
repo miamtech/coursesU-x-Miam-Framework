@@ -11,10 +11,17 @@ import miamCore
 
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealPlannerBasketPreviewRecipeOverview, BasketPreviewProduct: MealPlannerBasketPreviewProduct>: View {
+public struct CoursesUMealPlannerBasketPreviewView<
+    RecipeOverviewTemplate: MealPlannerBasketPreviewRecipeOverview,
+    BasketPreviewProduct: MealPlannerBasketPreviewProduct,
+    SectionTitleTemplate: MealPlannerBasketPreviewSectionTitle,
+    SectionProductTemplate: MealPlannerBaskletPreviewSectionProduct
+>: View {
     
     private let recipeOverview: RecipeOverviewTemplate
     private let basketProduct: BasketPreviewProduct
+    private let sectionTitleTemplate: SectionTitleTemplate
+    private let sectionProductTemplate: SectionProductTemplate
     
     private let validateRecipes: () -> Void
     
@@ -22,12 +29,17 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
     @SwiftUI.State private var budgetSpent: Double = 50.0
     
     
-    public init(recipeOverview: RecipeOverviewTemplate, basketProduct: BasketPreviewProduct, validateRecipes: @escaping () -> Void) {
+    public init(
+        recipeOverview: RecipeOverviewTemplate,
+        basketProduct: BasketPreviewProduct,
+        sectionTitleTemplate: SectionTitleTemplate,
+        sectionProductTemplate: SectionProductTemplate,
+        validateRecipes: @escaping () -> Void) {
         self.recipeOverview = recipeOverview
         self.basketProduct = basketProduct
         self.validateRecipes = validateRecipes
-        
-//        previewViewModel.meals.append(BasketPreviewLine.fromR) [FakeRecipe().createRandomFakeRecipe()]
+        self.sectionTitleTemplate = sectionTitleTemplate
+        self.sectionProductTemplate = sectionProductTemplate
     }
     
     
@@ -76,6 +88,8 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
             MealPlannerBasketPreviewExpandableMealView(
                 recipeOverviewTemplate: recipeOverview,
                 productTemplate: basketProduct,
+                sectionTitleTemplate: sectionTitleTemplate,
+                sectionProductTemplate: sectionProductTemplate,
                 meal: meal,
                 mealViewModel: previewViewModel
             )
@@ -90,6 +104,11 @@ public struct CoursesUMealPlannerBasketPreviewView<RecipeOverviewTemplate: MealP
 @available(iOS 14, *)
 struct CoursesUMealPlannerBasketPreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUMealPlannerBasketPreviewView(recipeOverview: CoursesUMealPlannerBasketPreviewRecipeOverview(), basketProduct: CoursesUMealPlannerBasketPreviewProduct(), validateRecipes: { print("validating")})
+        CoursesUMealPlannerBasketPreviewView(
+            recipeOverview: CoursesUMealPlannerBasketPreviewRecipeOverview(),
+            basketProduct: CoursesUMealPlannerBasketPreviewProduct(),
+            sectionTitleTemplate: CoursesUMealPlannerBasketPreviewSectionTitle(),
+            sectionProductTemplate: CoursesUMealPlannerBasketPreviewSectionProduct(),
+            validateRecipes: { print("validating")})
     }
 }
