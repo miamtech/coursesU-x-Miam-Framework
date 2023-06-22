@@ -14,10 +14,16 @@ import SwiftUI
 @available(iOS 14, *)
 public struct CoursesUBudgetPlannerView<
     ToolbarTemplate: BudgetPlannerToolbar,
+    FooterTemplate: BudgetPlannerFooter,
+    LoadingTemplate: BudgetPlannerLoading,
+    EmptyTemplate: BudgetPlannerEmpty,
     CardTemplate: BudgetRecipeCard,
     LoadingCardTemplate: BudgetRecipeCardLoading,
     PlaceholderCardTemplate: BudgetRecipePlaceholder>: View {
     private let toolbarTemplate: ToolbarTemplate
+    private let footerTemplate: FooterTemplate
+    private let loadingTemplate: LoadingTemplate
+    private let emptyTemplate: EmptyTemplate
     private let recipeCardTemplate: CardTemplate
     private let loadingCardTemplate: LoadingCardTemplate
     private let placeholderCardTemplate: PlaceholderCardTemplate
@@ -38,6 +44,9 @@ public struct CoursesUBudgetPlannerView<
     @StateObject private var formViewModel = MealPlannerFormVM()
     
     public init(toolbarTemplate: ToolbarTemplate,
+                footerTemplate: FooterTemplate,
+                loadingTemplate: LoadingTemplate,
+                emptyTemplate: EmptyTemplate,
                 recipeCardTemplate: CardTemplate,
                 loadingCardTemplate: LoadingCardTemplate,
                 placeholderCardTemplate: PlaceholderCardTemplate,
@@ -47,6 +56,9 @@ public struct CoursesUBudgetPlannerView<
                 replaceRecipe: @escaping (String) -> Void) {
         self._recipesIds = State(initialValue: recipes)
         self.toolbarTemplate = toolbarTemplate
+        self.footerTemplate = footerTemplate
+        self.loadingTemplate = loadingTemplate
+        self.emptyTemplate = emptyTemplate
         self.recipeCardTemplate = recipeCardTemplate
         self.loadingCardTemplate = loadingCardTemplate
         self.placeholderCardTemplate = placeholderCardTemplate
@@ -67,6 +79,20 @@ public struct CoursesUBudgetPlannerView<
     @SwiftUI.State var showFormOptions = false
     
     public var body: some View {
+       
+            UIStateWrapperView(uiState: viewModel.state?.meals) {
+                loadingTemplate.content()
+            } emptyView: {
+                let errorMessage = "Aucune idée repas n’a pu être planifiée pour le budget demandé."
+                emptyTemplate.content(bugetInfos: formViewModel.budgetInfos, reason: errorMessage)
+            } successView: {
+                successContent()
+            }
+        
+        Text("hello")
+    }
+    
+    private func successContent() -> some View {
         ZStack {
             Color.budgetBackgroundColor
             ScrollView {
@@ -88,15 +114,29 @@ public struct CoursesUBudgetPlannerView<
                             }
                             .padding(Dimension.sharedInstance.lPadding)
                     } else {
-                        CoursesUBudgetForm().content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in
+                        CoursesUBudgetForm().content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
                             withAnimation {
                                 showFormOptions.toggle()
+                                // TODO: need to cause update to other VM here
+                                formViewModel.getRecipesForBudgetConstraint(
+                                    budget: Int32(formViewModel.budgetInfos.moneyBudget),
+                                    mealCount: Int32(formViewModel.budgetInfos.numberOfMeals),
+                                    guestCount: Int32(formViewModel.budgetInfos.numberOfGuests)) { recipes, error in
+                                        isLoadingRecipes.toggle()
+                                        guard error == nil else {
+                                            return
+                                        }
+                                        guard let recipes else {
+                                            return
+                                        }
+                                    }
                             }
-                            // TODO: need to cause update to other VM here
-//                            viewModel.state?.
                             print("close")
                         })
-                            .padding(Dimension.sharedInstance.lPadding)
+                        .onChange(of: formViewModel.budgetInfos, perform: { newValue in
+                                updateBudget(budgetInfos: newValue)
+                            })
+                        .padding(Dimension.sharedInstance.lPadding)
                     }
                 }
                 .background(Color.budgetBackgroundColor)
@@ -126,13 +166,21 @@ public struct CoursesUBudgetPlannerView<
             }
         }
     }
+    
+    private func updateBudget(budgetInfos: BudgetInfos) {
+        formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
+        formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
+        formViewModel.setNumberOfMeals(amount: Int32(budgetInfos.numberOfMeals))
+    }
 }
 
 @available(iOS 14, *)
 extension CoursesUBudgetPlannerView {
 
     func createActions(recipe: String) -> BudgetRecipeCardActions {
-        return BudgetRecipeCardActions(recipeTapped: {}, removeTapped: {
+        return BudgetRecipeCardActions(recipeTapped: {
+//            showRecipe(recipe)
+        }, removeTapped: {
             removeRecipe(recipe)
         }, replaceTapped: {
             recipeToReplace = recipe
@@ -227,6 +275,9 @@ struct CoursesUBudgetPlannerView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUBudgetPlannerView(
             toolbarTemplate: CoursesUBudgetPlannerToolbar(),
+            footerTemplate: CoursesUBudgetPlannerFooter(),
+            loadingTemplate: MiamBudgetPlannerLoading(),
+            emptyTemplate: MiamBudgetPlannerEmpty(),
             recipeCardTemplate: CoursesUBudgetRecipeCard(),
             loadingCardTemplate: CoursesUBudgetRecipeCardLoading(),
             placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(),

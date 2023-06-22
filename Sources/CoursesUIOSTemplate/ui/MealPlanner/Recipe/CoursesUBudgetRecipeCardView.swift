@@ -32,6 +32,8 @@ public struct CoursesUBudgetRecipeCardView<CardTemplate: BudgetRecipeCard,
         HStack {
             UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
                 recipeCardLoadingTemplate.content()
+            } emptyView: {
+                // TODO: Display empty recipe card? Can this happen?
             } successView: {
                 if let recipe = recipeViewModel.recipe {
                     let recipeInfos = RecipeInfos(recipe: recipe,

@@ -35,7 +35,9 @@ public struct CoursesURecipeCardView<CardTemplate: RecipeCard,
         HStack {
             UIStateWrapperView(uiState: recipeViewModel.state?.recipeState) {
                 loadingTemplate.content()
-            } successView: {
+            } emptyView: {
+            // TODO: Display empty recipe card? Can this happen?
+        } successView: {
                 if let recipe = recipeViewModel.recipe {
                     let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
                     cardTemplate.content(
