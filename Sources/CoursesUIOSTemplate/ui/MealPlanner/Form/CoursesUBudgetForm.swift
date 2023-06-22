@@ -12,22 +12,19 @@ import MiamIOSFramework
 @available(iOS 14, *)
 public struct CoursesUBudgetFormStandaloneWrapper: View {
     @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
-    @SwiftUI.State var maxOfMeals = 10
     
     public init() {}
     public var body: some View {
-        CoursesUBudgetForm(maxOfMeals: $maxOfMeals).content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
+        CoursesUBudgetForm().content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
     }
 }
 
 @available(iOS 14, *)
 public struct CoursesUBudgetForm: BudgetForm {
-    @Binding var maxOfMeals: Int
     var includeTitle: Bool
     var includeBackground: Bool
     let dimension = Dimension.sharedInstance
-    public init(maxOfMeals: Binding<Int>, includeTitle: Bool = true, includeBackground: Bool = true) {
-        _maxOfMeals = maxOfMeals
+    public init(includeTitle: Bool = true, includeBackground: Bool = true) {
         self.includeTitle = includeTitle
         self.includeBackground = includeBackground
     }
@@ -90,7 +87,7 @@ public struct CoursesUBudgetForm: BudgetForm {
                     icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                     content:
 //                        Text("hello")
-                    CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: maxOfMeals, disableButton: !budgetAndGuestsValid)
+                    CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
 
                 )
                 .addOpacity(!budgetAndGuestsValid)
@@ -123,8 +120,8 @@ public struct CoursesUBudgetForm: BudgetForm {
                         // fetch from api
                         print("Both budget and numberGuests are greater than 0!")
                         // set the number of meals to be highest val from api
-                        maxOfMeals = 7
-                        budgetInfos.wrappedValue.numberOfMeals = maxOfMeals
+                        budgetInfos.wrappedValue.maxRecipesForBudget = 7
+                        budgetInfos.wrappedValue.numberOfMeals = budgetInfos.wrappedValue.maxRecipesForBudget
                     }
                 }
             .padding(25)

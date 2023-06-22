@@ -88,7 +88,7 @@ public struct CoursesUBudgetPlannerView<
                             }
                             .padding(Dimension.sharedInstance.lPadding)
                     } else {
-                        CoursesUBudgetForm(maxOfMeals: .constant(8)).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in
+                        CoursesUBudgetForm().content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in
                             withAnimation {
                                 showFormOptions.toggle()
                             }
