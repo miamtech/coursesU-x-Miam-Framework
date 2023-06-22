@@ -120,8 +120,9 @@ public struct CoursesUBudgetPlannerView<
             VStack{
                 Spacer()
                 CoursesUBudgetPlannerFooter().content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0) {
-                                validateRecipes()
-                            }
+                        viewModel.addRecipesToGroceriesList()
+                        validateRecipes()
+                    }
             }
         }
     }
@@ -183,20 +184,21 @@ extension CoursesUBudgetPlannerView {
     
     @available(iOS 14, *)
     private func recipesList() -> some View {
-        ForEach(recipesIds, id: \.self) { recipe in
+        ForEach(viewModel.meals, id: \.self) { meal in
             // I use VStack so i can add same bg & padding to comps
             VStack {
-                if recipe.isEmpty {
-                    placeholderCardTemplate.content {
-                        self.replaceRecipe(recipe)
-                    }
-                } else {
-                    let actions = createActions(recipe: recipe)
+                if let meal {
+                    let actions = createActions(recipe: meal.recipeId)
                     CoursesUBudgetRecipeCardView(
-                        recipeId: recipe,
+                        recipeId: meal.recipeId,
                         recipeCardTemplate: recipeCardTemplate,
                         recipeCardLoadingTemplate: loadingCardTemplate,
                         actions: actions)
+                    
+                } else {
+                    placeholderCardTemplate.content {
+                        self.replaceRecipe("")
+                    }
                 }
             }
             .listRowBackground(Color.clear)

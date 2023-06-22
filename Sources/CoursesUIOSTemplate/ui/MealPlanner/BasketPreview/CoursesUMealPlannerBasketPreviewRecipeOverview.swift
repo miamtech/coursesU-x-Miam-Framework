@@ -19,7 +19,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                 recipe: basketPreviewInfos.recipe,
                 price: basketPreviewInfos.price,
                 centerContent: {
-                    ArticlesAndPricePerPerson(recipe: basketPreviewInfos.recipe, price: basketPreviewInfos.price.price)
+                    ArticlesAndPricePerPerson(numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket, pricePerPerson: basketPreviewInfos.pricePerPerson)
             }, callToAction: {
                 BasketPreviewCardCallToAction(actions: basketPreviewActions)
             })
@@ -27,23 +27,20 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
     
     @available(iOS 14, *)
     internal struct ArticlesAndPricePerPerson: View {
-        var recipe: Recipe
-        var price: Double
+        var numberOfProductsInBasket: Int
+        var pricePerPerson: String
         var body: some View {
             HStack {
                 VStack(alignment: .leading) {
-                    if let numberOfIngredients = recipe.relationships?.ingredients?.data.count {
-                        Text("\(numberOfIngredients) articles")
+                    if numberOfProductsInBasket > 0 {
+                        Text("\(numberOfProductsInBasket) articles")
                             .foregroundColor(Color.gray)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                     }
+                        Text(pricePerPerson)
+                            .foregroundColor(Color.gray)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                     
-                    if let numberOfGuests = recipe.attributes?.numberOfGuests {
-                        let pricePerPerson = price / Double(numberOfGuests)
-                        Text(String(format: "%.2f € / personne", pricePerPerson))
-                            .foregroundColor(Color.gray)
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                    }
                     
                     
                 }
@@ -110,7 +107,7 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
     static var previews: some View {
         
         let recipe = FakeRecipe().createRandomFakeRecipe()
-        let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"))
+        let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"), pricePerPerson: "12.3", numberOfProductsInBasket: 3)
         ZStack {
             Color.budgetBackgroundColor
             CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfos: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}))
