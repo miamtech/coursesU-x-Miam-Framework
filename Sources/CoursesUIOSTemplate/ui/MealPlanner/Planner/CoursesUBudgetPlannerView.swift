@@ -119,7 +119,7 @@ public struct CoursesUBudgetPlannerView<
     
             VStack{
                 Spacer()
-                CoursesUBudgetPlannerFooter().content(budgetInfos: formViewModel.budgetInfos, budgetSpent: budgetSpent) {
+                CoursesUBudgetPlannerFooter().content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0) {
                                 validateRecipes()
                             }
             }
