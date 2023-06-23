@@ -29,6 +29,7 @@ public struct CoursesUBudgetPlannerView<
     private let placeholderCardTemplate: PlaceholderCardTemplate
     
     private let onReplaceRecipe: (String) -> Void
+    private let showRecipe: (String) -> Void
     private let validateRecipes: () -> Void
     
     @SwiftUI.State private var recipesIds: [String]
@@ -52,6 +53,7 @@ public struct CoursesUBudgetPlannerView<
                 placeholderCardTemplate: PlaceholderCardTemplate,
                 recipes: [String],
                 budgetInfos: BudgetInfos? = nil,
+                showRecipe: @escaping (String) -> Void,
                 validateRecipes: @escaping () -> Void,
                 replaceRecipe: @escaping (String) -> Void) {
         self._recipesIds = State(initialValue: recipes)
@@ -63,6 +65,7 @@ public struct CoursesUBudgetPlannerView<
         self.loadingCardTemplate = loadingCardTemplate
         self.placeholderCardTemplate = placeholderCardTemplate
         self.onReplaceRecipe = replaceRecipe
+        self.showRecipe = showRecipe
         self.validateRecipes = validateRecipes
         if let budgetInfos {
             formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
@@ -94,53 +97,8 @@ public struct CoursesUBudgetPlannerView<
         ZStack {
             Color.budgetBackgroundColor
             ScrollView {
-                
-                VStack(spacing: -40.0) {
-                    BudgetBackground()
-                    if !showFormOptions {
-                        toolbarTemplate.content(
-                            budgetInfos: $formViewModel.budgetInfos,
-                            isLoadingRecipes: $isLoadingRecipes) { infos in
-                                // TODO: get new recipes from view model or repository?
-                            }
-                            .onTapGesture {
-                                withAnimation {
-                                    showFormOptions.toggle()
-                                }
-                                
-                                print("hello world")
-                            }
-                            .padding(Dimension.sharedInstance.lPadding)
-                    } else {
-                        CoursesUBudgetForm().content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
-                            withAnimation {
-                                showFormOptions.toggle()
-                                // TODO: need to cause update to other VM here
-                                formViewModel.getRecipesForBudgetConstraint(
-                                    budget: Int32(formViewModel.budgetInfos.moneyBudget),
-                                    mealCount: Int32(formViewModel.budgetInfos.numberOfMeals),
-                                    guestCount: Int32(formViewModel.budgetInfos.numberOfGuests)) { recipes, error in
-                                        isLoadingRecipes.toggle()
-                                        guard error == nil else {
-                                            return
-                                        }
-                                        guard let recipes else {
-                                            return
-                                        }
-                                    }
-                            }
-                            print("close")
-                        })
-                        .onChange(of: formViewModel.budgetInfos, perform: { newValue in
-                                updateBudget(budgetInfos: newValue)
-                            })
-                        .padding(Dimension.sharedInstance.lPadding)
-                    }
-                }
-                .background(Color.budgetBackgroundColor)
-                .listRowBackground(Color.clear)
-                .modifier(removeLines())
-                .listRowInsets(EdgeInsets())
+                toolbar()
+     
 //                if #available(iOS 15, *) {
 //                    recipesListWithSwipeAction()
 //                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
@@ -155,14 +113,67 @@ public struct CoursesUBudgetPlannerView<
                     .listRowInsets(EdgeInsets())
             }
     
-            VStack{
-                Spacer()
-                footerTemplate.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0) {
-                        viewModel.addRecipesToGroceriesList()
-                        validateRecipes()
+            footer()
+        }
+    }
+    
+    private func footer() -> some View {
+        VStack{
+            Spacer()
+            footerTemplate.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0) {
+                    viewModel.addRecipesToGroceriesList()
+                    validateRecipes()
+                }
+        }
+    }
+    
+    private func toolbar() -> some View {
+        VStack(spacing: -40.0) {
+            BudgetBackground()
+            if !showFormOptions {
+                toolbarTemplate.content(
+                    budgetInfos: $formViewModel.budgetInfos,
+                    isLoadingRecipes: $isLoadingRecipes) { infos in
+                        // TODO: get new recipes from view model or repository?
                     }
+                    .onTapGesture {
+                        withAnimation {
+                            showFormOptions.toggle()
+                        }
+                        
+                        print("hello world")
+                    }
+                    .padding(Dimension.sharedInstance.lPadding)
+            } else {
+                CoursesUBudgetForm().content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
+                    withAnimation {
+                        showFormOptions.toggle()
+                        // TODO: need to cause update to other VM here
+                        formViewModel.getRecipesForBudgetConstraint(
+                            budget: Int32(formViewModel.budgetInfos.moneyBudget),
+                            mealCount: Int32(formViewModel.budgetInfos.numberOfMeals),
+                            guestCount: Int32(formViewModel.budgetInfos.numberOfGuests)) { recipes, error in
+                                isLoadingRecipes.toggle()
+                                guard error == nil else {
+                                    return
+                                }
+                                guard let recipes else {
+                                    return
+                                }
+                            }
+                    }
+                    print("close")
+                })
+                .onChange(of: formViewModel.budgetInfos, perform: { newValue in
+                        updateBudget(budgetInfos: newValue)
+                    })
+                .padding(Dimension.sharedInstance.lPadding)
             }
         }
+        .background(Color.budgetBackgroundColor)
+        .listRowBackground(Color.clear)
+        .modifier(removeLines())
+        .listRowInsets(EdgeInsets())
     }
     
     private func updateBudget(budgetInfos: BudgetInfos) {
@@ -176,9 +187,11 @@ public struct CoursesUBudgetPlannerView<
 extension CoursesUBudgetPlannerView {
 
     func createActions(recipe: String) -> BudgetRecipeCardActions {
+        print("createActions: id is " + recipe)
         return BudgetRecipeCardActions(recipeTapped: {
 //            showRecipe(recipe)
         }, removeTapped: {
+            print("should be removing")
             removeRecipe(recipe)
         }, replaceTapped: {
             recipeToReplace = recipe
@@ -186,47 +199,47 @@ extension CoursesUBudgetPlannerView {
         })
     }
     
-    @available(iOS 15, *)
-    private func recipesListWithSwipeAction() -> some View {
-        ForEach(recipesIds, id: \.self) { recipe in
-            VStack {
-                if recipe.isEmpty {
-                    placeholderCardTemplate.content {
-                        self.replaceRecipe(recipe)
-                    }
-                    .padding(.vertical, Dimension.sharedInstance.sPadding)
-                    .background(Color.budgetBackgroundColor)
-                } else {
-                    let actions = createActions(recipe: recipe)
-                    CoursesUBudgetRecipeCardView(
-                        recipeId: recipe,
-                        recipeCardTemplate: recipeCardTemplate,
-                        recipeCardLoadingTemplate: loadingCardTemplate,
-                        actions: actions)
-                    .swipeActions(edge: .trailing) {
-                        Button {
-                            guard let removeAction = actions.removeTapped else {
-                                return
-                            }
-                            removeAction()
-                        } label: {
-                            VStack {
-                                Image(systemName: "trash")
-                                    .foregroundColor(Color.white)
-                            }.background(Color.red)
-                        }
-                        .tint(Color.red)
-                    }
-                    .padding(.vertical, Dimension.sharedInstance.sPadding)
-                    .background(Color.budgetBackgroundColor)
-                }
-            }
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets())
-            .padding(.vertical, Dimension.sharedInstance.sPadding)
-        }
-    }
+//    @available(iOS 15, *)
+//    private func recipesListWithSwipeAction() -> some View {
+//        ForEach(recipesIds, id: \.self) { recipe in
+//            VStack {
+//                if recipe.isEmpty {
+//                    placeholderCardTemplate.content {
+//                        self.replaceRecipe(recipe)
+//                    }
+//                    .padding(.vertical, Dimension.sharedInstance.sPadding)
+//                    .background(Color.budgetBackgroundColor)
+//                } else {
+//                    let actions = createActions(recipe: recipe)
+//                    CoursesUBudgetRecipeCardView(
+//                        recipeId: recipe,
+//                        recipeCardTemplate: recipeCardTemplate,
+//                        recipeCardLoadingTemplate: loadingCardTemplate,
+//                        actions: actions)
+//                    .swipeActions(edge: .trailing) {
+//                        Button {
+//                            guard let removeAction = actions.removeTapped else {
+//                                return
+//                            }
+//                            removeAction()
+//                        } label: {
+//                            VStack {
+//                                Image(systemName: "trash")
+//                                    .foregroundColor(Color.white)
+//                            }.background(Color.red)
+//                        }
+//                        .tint(Color.red)
+//                    }
+//                    .padding(.vertical, Dimension.sharedInstance.sPadding)
+//                    .background(Color.budgetBackgroundColor)
+//                }
+//            }
+//            .listRowBackground(Color.clear)
+//            .listRowSeparator(.hidden)
+//            .listRowInsets(EdgeInsets())
+//            .padding(.vertical, Dimension.sharedInstance.sPadding)
+//        }
+//    }
     
     @available(iOS 14, *)
     private func recipesList() -> some View {
@@ -234,7 +247,15 @@ extension CoursesUBudgetPlannerView {
             // I use VStack so i can add same bg & padding to comps
             VStack {
                 if let meal {
-                    let actions = createActions(recipe: meal.recipeId)
+                    let actions = BudgetRecipeCardActions(recipeTapped: {
+                        //            showRecipe(recipe)
+                                }, removeTapped: {
+                                    print("should be removing")
+                                    removeRecipe(meal.recipeId)
+                                }, replaceTapped: {
+                                    recipeToReplace = meal.recipeId
+                                    replaceRecipe(meal.recipeId)
+                                })
                     CoursesUBudgetRecipeCardView(
                         recipeId: meal.recipeId,
                         recipeCardTemplate: recipeCardTemplate,
@@ -257,9 +278,13 @@ extension CoursesUBudgetPlannerView {
 @available(iOS 14, *)
 extension CoursesUBudgetPlannerView {
     private func removeRecipe(_ recipeId: String) {
+        print("removeRecipe: id is " + recipeId)
+//        print("all the ids are " + recipesIds)
         guard let index = self.recipesIds.firstIndex(where: { $0 == recipeId }) else {
+            print("index aint it ")
             return
         }
+        print("got here")
         self.recipesIds[index] = ""
     }
     
@@ -279,6 +304,6 @@ struct CoursesUBudgetPlannerView_Previews: PreviewProvider {
             recipeCardTemplate: CoursesUBudgetRecipeCard(),
             loadingCardTemplate: CoursesUBudgetRecipeCardLoading(),
             placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(),
-            recipes: ["178","124", "134", "135"], validateRecipes: {}, replaceRecipe: {_ in})
+            recipes: ["178","124", "134", "135"], showRecipe: {_ in}, validateRecipes: {}, replaceRecipe: {_ in})
     }
 }

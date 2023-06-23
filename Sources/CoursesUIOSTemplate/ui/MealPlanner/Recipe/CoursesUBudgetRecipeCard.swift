@@ -61,20 +61,9 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                         Text("Changer")
                             .foregroundColor(Color.primaryColor)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
-                        Spacer()
-                        Button {
-                            guard let removeTapped = actions.removeTapped else {
-                                return
-                            }
-                            removeTapped()
-                        } label: {
-                            Image(packageResource: "TrashIcon", ofType: "png")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                        }
                     }
                 }
-                                    if #unavailable(iOS 15) {
+//                                    if #unavailable(iOS 15) {
                 Spacer()
                 Button {
                     guard let removeTapped = actions.removeTapped else {
@@ -86,7 +75,7 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                         .resizable()
                         .frame(width: 20, height: 20)
                 }
-                                    }
+//                                    }
             }
             .frame(maxWidth: .infinity)
             
