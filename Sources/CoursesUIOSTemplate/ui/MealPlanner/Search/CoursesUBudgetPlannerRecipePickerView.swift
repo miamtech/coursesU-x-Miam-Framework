@@ -19,20 +19,19 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     private let cardTemplate: CardTemplate
     private let stickyFooter: Footer
     private let onRecipeSelected: (String) -> Void
-    private let recipes = ["134", "135", "136", "137", "138", "139", "140", "141", "142", "143"]
-    @SwiftUI.State private var searchText = ""
-    @SwiftUI.State private var showSearchField = false
-    
-    // TODO: most likely remove these -> need to know if we need footer or not
-    @StateObject private var viewModel = MealPlannerMealsVM()
-    @StateObject private var formViewModel = MealPlannerFormVM()
-    
-    public init(searchTemplate: SearchTemplate, cardTemplate: CardTemplate, stickyFooter: Footer,
+    @StateObject private var viewModel: MealPlannerReplaceRecipeViewModel
+        @SwiftUI.State private var searchText = ""
+        @SwiftUI.State private var showSearchField = false
+        public init(searchTemplate: SearchTemplate,
+                    cardTemplate: CardTemplate,
+                    stickyFooter: Footer,
+                    maxBudget: Double,
                 onRecipeSelected: @escaping (String) -> Void) {
         self.searchTemplate = searchTemplate
         self.cardTemplate = cardTemplate
+            self.stickyFooter = stickyFooter
         self.onRecipeSelected = onRecipeSelected
-        self.stickyFooter = stickyFooter
+            _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget)))
     }
 
     public var body: some View {
@@ -44,21 +43,21 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             VStack {
                 searchTemplate.content(searchText: $searchText, filtersTapped: {})
                     .onChange(of: searchText) { newValue in
-                        print(newValue)
+                        viewModel.search(input: newValue)
                     }
                 // if results
                 ScrollView {
                     LazyVGrid(columns: [.init(), .init()]) {
-                        ForEach(recipes, id: \.self) { recipe in
+                        ForEach(viewModel.recipes, id: \.self) { recipe in
                             CoursesURecipeCardView(
-                                recipe,
+                                recipe.id,
                                 cardTemplate: cardTemplate,
                                 loadingTemplate: CoursesURecipeCardLoading(),
                                 showDetails: {},
                                 add: {
-                                print("Add recipe: \(recipe)")
-                                // Either update from the view model, or update in the previous view?
-                                onRecipeSelected(recipe)
+                                    viewModel.addRecipeToMealPlanner(recipeId: recipe.id, index: 1)
+                                    onRecipeSelected(recipe.id)
+//                                onRecipeSelected(recipe)
                             })
                         }
                     }.padding(Dimension.sharedInstance.lPadding)
@@ -72,9 +71,9 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             }
             VStack{
                 Spacer()
-                stickyFooter.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0, validateTapped: {
+//                stickyFooter.content(budgetInfos: viewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0, validateTapped: {
                     
-                })
+//                })
             }
         }
     }
@@ -104,7 +103,7 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUBudgetSearch(),
             cardTemplate: CoursesURecipeCard(),
-            stickyFooter: CoursesUBudgetPlannerFooter(),
+            stickyFooter: CoursesUBudgetPlannerFooter(), maxBudget: 23.6,
             onRecipeSelected: { _ in })
     }
 }
