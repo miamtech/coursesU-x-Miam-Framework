@@ -187,11 +187,9 @@ public struct CoursesUBudgetPlannerView<
 extension CoursesUBudgetPlannerView {
 
     func createActions(recipe: String) -> BudgetRecipeCardActions {
-        print("createActions: id is " + recipe)
         return BudgetRecipeCardActions(recipeTapped: {
-//            showRecipe(recipe)
+            showRecipe(recipe)
         }, removeTapped: {
-            print("should be removing")
             removeRecipe(recipe)
         }, replaceTapped: {
             recipeToReplace = recipe
@@ -247,15 +245,7 @@ extension CoursesUBudgetPlannerView {
             // I use VStack so i can add same bg & padding to comps
             VStack {
                 if let meal {
-                    let actions = BudgetRecipeCardActions(recipeTapped: {
-                        //            showRecipe(recipe)
-                                }, removeTapped: {
-                                    print("should be removing")
-                                    removeRecipe(meal.recipeId)
-                                }, replaceTapped: {
-                                    recipeToReplace = meal.recipeId
-                                    replaceRecipe(meal.recipeId)
-                                })
+                    let actions = createActions(recipe: meal.recipeId)
                     CoursesUBudgetRecipeCardView(
                         recipeId: meal.recipeId,
                         recipeCardTemplate: recipeCardTemplate,
@@ -275,17 +265,11 @@ extension CoursesUBudgetPlannerView {
     }
 }
 
+
 @available(iOS 14, *)
 extension CoursesUBudgetPlannerView {
     private func removeRecipe(_ recipeId: String) {
-        print("removeRecipe: id is " + recipeId)
-//        print("all the ids are " + recipesIds)
-        guard let index = self.recipesIds.firstIndex(where: { $0 == recipeId }) else {
-            print("index aint it ")
-            return
-        }
-        print("got here")
-        self.recipesIds[index] = ""
+        viewModel.removeRecipe(recipeId)
     }
     
     private func replaceRecipe(_ recipeId: String) {
