@@ -111,7 +111,6 @@ public struct CoursesUBudgetForm: BudgetForm {
                         .disabled((!budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0))
                     }, buttonAction: {
                         onFormValidated(budgetInfos.wrappedValue)
-//                        onFormValidated(BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals))
                     })
             }
             
