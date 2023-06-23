@@ -45,10 +45,7 @@ public struct CoursesUBudgetRecipeCardView<CardTemplate: BudgetRecipeCard,
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700), execute: {
-                recipeViewModel.setRecipe(recipe: FakeRecipe().createRandomFakeRecipe())
-            })
-//            recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
+            recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
         }
     }
 }

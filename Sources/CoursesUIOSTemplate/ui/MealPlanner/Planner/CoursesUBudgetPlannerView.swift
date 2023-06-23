@@ -88,8 +88,6 @@ public struct CoursesUBudgetPlannerView<
             } successView: {
                 successContent()
             }
-        
-        Text("hello")
     }
     
     private func successContent() -> some View {
@@ -159,7 +157,7 @@ public struct CoursesUBudgetPlannerView<
     
             VStack{
                 Spacer()
-                CoursesUBudgetPlannerFooter().content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0) {
+                footerTemplate.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0) {
                         viewModel.addRecipesToGroceriesList()
                         validateRecipes()
                     }

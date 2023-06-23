@@ -39,7 +39,9 @@ public struct CoursesURecipeCardView<CardTemplate: RecipeCard,
             // TODO: Display empty recipe card? Can this happen?
         } successView: {
                 if let recipe = recipeViewModel.recipe {
-                    let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
+                    let recipeInfos = RecipeInfos(recipe: recipe,
+                                                  price: Price(price: 34.0, currency: "EUR"),
+                                                  isInBasket: false)
                     cardTemplate.content(
                         recipeInfos: recipeInfos,
                         actions: RecipeCardActions(
@@ -51,10 +53,7 @@ public struct CoursesURecipeCardView<CardTemplate: RecipeCard,
             }
         }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700), execute: {
-                    recipeViewModel.setRecipe(recipe: FakeRecipe().createRandomFakeRecipe())
-                })
-//                    recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
+                    recipeViewModel.fetchRecipe(recipeId: recipeId, included: nil)
                 }
             }
 }
