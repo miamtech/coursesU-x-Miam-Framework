@@ -17,9 +17,9 @@ public struct CoursesUBudgetPlannerFooter: BudgetPlannerFooter {
     
 
     public init() {}
-    public func content(budgetInfos: BudgetInfos, budgetSpent: Double, validateTapped: @escaping () -> Void) -> some View {
+    public func content(budgetInfos: BudgetInfos, budgetSpent: Binding<Double>, validateTapped: @escaping () -> Void) -> some View {
         CoursesUBudgetPlannerStickyFooter(
-            budgetSpent: budgetSpent,
+            budgetSpent: budgetSpent.wrappedValue,
             totalBudgetPermitted: budgetInfos.moneyBudget,
             footerContent:
                 HStack {
@@ -167,13 +167,13 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 10.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 50.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(50.0)) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 20.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(20.0)) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 30.0) { print("hello world")
+                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(30.0)) { print("hello world")
                 }
             }
         }
@@ -199,7 +199,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: 10.0) { print("hello world")
+                    CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
                     }
                 }
                 .frame(maxWidth: .infinity)

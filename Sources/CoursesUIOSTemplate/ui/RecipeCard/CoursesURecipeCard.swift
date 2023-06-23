@@ -26,21 +26,26 @@ public struct CoursesURecipeCard: RecipeCard {
         
         VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
-                ZStack(alignment: .topTrailing) {
-                    AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .padding(0)
-                            .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
-                    }.frame(height: 150.0)
-                        .clipped()
-                    
-                    CoursesULikeButton {
-                        print("pressed like")
+                Button(action: {
+                    actions.showDetails()
+                }, label: {
+                    ZStack(alignment: .topTrailing) {
+                        AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .padding(0)
+                                .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
+                        }.frame(height: 150.0)
+                            .clipped()
+                        
+                        CoursesULikeButton {
+                            actions.like()
+                        }
+                        .padding(dimensions.mPadding)
                     }
-                    .padding(dimensions.mPadding)
-                }
+                })
+                
                 
                 
                 VStack(spacing: dimensions.mPadding) {
@@ -67,7 +72,11 @@ public struct CoursesURecipeCard: RecipeCard {
                                 .foregroundColor(Color.white)
                         }
                         
-                    }, buttonAction: { ctaAction()})
+                    }, buttonAction: {
+                        actions.addToBasket()
+                        ctaAction()
+                    
+                    })
                 }
                 .padding(.horizontal, dimensions.lPadding)
                 .frame(maxHeight: .infinity)

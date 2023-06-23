@@ -120,7 +120,7 @@ public struct CoursesUBudgetPlannerView<
     private func footer() -> some View {
         VStack{
             Spacer()
-            footerTemplate.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0) {
+            footerTemplate.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: $viewModel.totalPrice) {
                     viewModel.addRecipesToGroceriesList()
                     validateRecipes()
                 }

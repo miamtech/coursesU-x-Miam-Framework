@@ -45,7 +45,9 @@ public struct CoursesURecipeCardView<CardTemplate: RecipeCard,
                     cardTemplate.content(
                         recipeInfos: recipeInfos,
                         actions: RecipeCardActions(
-                            like: {},
+                            like: {
+                                
+                            },
                             addToBasket: add,
                             showDetails: show)
                     )

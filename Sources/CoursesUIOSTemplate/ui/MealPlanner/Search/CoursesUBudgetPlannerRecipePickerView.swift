@@ -45,29 +45,31 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     .onChange(of: searchText) { newValue in
                         viewModel.search(input: newValue)
                     }
-                // if results
-                ScrollView {
-                    LazyVGrid(columns: [.init(), .init()]) {
-                        ForEach(viewModel.recipes, id: \.self) { recipe in
-                            CoursesURecipeCardView(
-                                recipe.id,
-                                cardTemplate: cardTemplate,
-                                loadingTemplate: CoursesURecipeCardLoading(),
-                                showDetails: {},
-                                add: {
-                                    viewModel.addRecipeToMealPlanner(recipeId: recipe.id, index: 1)
-                                    onRecipeSelected(recipe.id)
-//                                onRecipeSelected(recipe)
-                            })
-                        }
-                    }.padding(Dimension.sharedInstance.lPadding)
-                        .padding(.bottom, 100)
+                // TODO: use ui state?
+            if viewModel.recipes.isEmpty && searchText != "" {
+                    Text("0 idée repas")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+                        .padding(.top, 35)
+                    NoSearchResults()
+                } else {
+                    // if results
+                    ScrollView {
+                        LazyVGrid(columns: [.init(), .init()]) {
+                            ForEach(viewModel.recipes, id: \.self) { recipe in
+                                CoursesURecipeCardView(
+                                    recipe.id,
+                                    cardTemplate: cardTemplate,
+                                    loadingTemplate: CoursesURecipeCardLoading(),
+                                    showDetails: {},
+                                    add: {
+                                        viewModel.addRecipeToMealPlanner(recipeId: recipe.id, index: 1)
+                                        onRecipeSelected(recipe.id)
+                                    })
+                            }
+                        }.padding(Dimension.sharedInstance.lPadding)
+                            .padding(.bottom, 100)
+                    }
                 }
-//                else
-//                Text("0 idée repas")
-//                    .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
-//                    .padding(.top, 35)
-//                NoSearchResults()
             }
             VStack{
                 Spacer()
