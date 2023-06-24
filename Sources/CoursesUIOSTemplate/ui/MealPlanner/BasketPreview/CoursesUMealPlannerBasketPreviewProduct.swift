@@ -39,7 +39,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     .foregroundColor(Color.gray)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
                 Button {
-                    print("change")
+                    actions.changeProduct()
                 } label: {
                     Text("Changer d'article")
                         .underline()
@@ -53,10 +53,10 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                         .foregroundColor(Color.black)
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                     Spacer()
-                    CoursesUCounterView(count: 4, onCounterChanged: {_ in })
+                    CoursesUCounterView(count: quantity)
                     Spacer()
                     Button {
-                        print("delete")
+                        actions.delete()
                     } label: {
                         Image(systemName: "trash")
                             .resizable()
@@ -67,7 +67,6 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     
                 }
                 .frame(maxWidth: .infinity)
-                NotAvailable(name: "test")
             }
             .frame(maxWidth: .infinity)
         }
@@ -120,49 +119,27 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
     @available(iOS 14, *)
     public struct CoursesUCounterView: View {
 
-        @SwiftUI.State public var count: Int
-        public var onCounterChanged: (Int) -> Void
-        public var lightMode: Bool = false
+        @Binding public var count: Int
+//        public var onCounterChanged: (Int) -> Void
         public var maxValue: Int?
         public var minValue: Int?
-        public var isLoading: Bool = false
-        public var isDisable: Bool = false
+        public var isLoading: Bool
+        public var isDisable: Bool
 
-        public init(
-            count: Int,
-            onCounterChanged: @escaping (Int) -> Void
-        ) {
-            self.onCounterChanged = onCounterChanged
-            self._count = State(initialValue: count)
-        }
-
-        public init(
-            count: Int,
-            lightMode: Bool,
-            onCounterChanged: @escaping (Int) -> Void
-        ) {
-
-            self.lightMode = lightMode
-            self.onCounterChanged = onCounterChanged
-            self._count = State(initialValue: count)
-        }
-
-        public init(
-            count: Int,
-            lightMode: Bool,
-            onCounterChanged: @escaping (Int) -> Void,
-            isLoading: Bool = false,
-            isDisable: Bool = false,
-            minValue: Int? = nil,
-            maxValue: Int? = nil
-        ) {
-            self.lightMode = lightMode
-            self.onCounterChanged = onCounterChanged
-            self.minValue = minValue ?? nil
-            self.maxValue = maxValue ?? nil
+//        public init(
+//            count: Int,
+//            onCounterChanged: @escaping (Int) -> Void
+//        ) {
+//            self.onCounterChanged = onCounterChanged
+//            self._count = State(initialValue: count)
+//        }
+        
+        init(count: Binding<Int>, maxValue: Int? = nil, minValue: Int? = nil, isLoading: Bool = false, isDisable: Bool = false) {
+            _count = count
+            self.maxValue = maxValue
+            self.minValue = minValue
             self.isLoading = isLoading
             self.isDisable = isDisable
-            self._count = State(initialValue: count)
         }
 
         private func newValueBounded(newValue: Int) -> Bool {
@@ -175,19 +152,17 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
         private func increase() {
             if !newValueBounded(newValue: count + 1) { return }
             count += 1
-            onCounterChanged(count)
         }
 
         private  func decrease() {
             if !newValueBounded(newValue: count - 1) { return }
             count -= 1
-            onCounterChanged(count)
         }
 
         public var body: some View {
-            if let template = Template.sharedInstance.counterViewTemplate {
-                template(count, lightMode, {increase()}, {decrease()})
-            } else {
+//            if let template = Template.sharedInstance.counterViewTemplate {
+//                template(count, {increase()}(), {decrease()})
+//            } else {
                 HStack {
                     Button {
                         decrease()
@@ -235,7 +210,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     .padding( Dimension.sharedInstance.mPadding)
 
                 
-            }
+//            }
         }
     }
 

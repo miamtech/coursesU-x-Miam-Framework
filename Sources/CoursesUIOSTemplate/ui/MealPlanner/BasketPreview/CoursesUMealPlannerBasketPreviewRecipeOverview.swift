@@ -23,6 +23,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
             }, callToAction: {
                 BasketPreviewCardCallToAction(actions: basketPreviewActions)
             })
+            .padding(.bottom)
         }
     
     @available(iOS 14, *)
