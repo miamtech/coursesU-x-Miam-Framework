@@ -24,7 +24,7 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
             DifficultyAndTime(cookingTime: recipeInfos.recipe.cookingTimeIos, difficulty: recipeInfos.recipe.difficulty)
         }, callToAction: {
             RecipeCardCallToAction(actions: actions)
-        })
+        }, pressedLike: {})
     }
     
     @available(iOS 14, *)
@@ -93,23 +93,26 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
     var price: Price
     let centerContent: () -> CenterContent
     let callToAction: () -> CallToAction
+    let pressedLike: () -> Void
        
     public init(
         recipe: Recipe,
         price: Price,
         centerContent: @escaping () -> CenterContent,
-        callToAction: @escaping () -> CallToAction)
+        callToAction: @escaping () -> CallToAction,
+        pressedLike: @escaping () -> Void)
     {
         self.recipe = recipe
         self.price = price
         self.centerContent = centerContent
         self.callToAction = callToAction
+        self.pressedLike = pressedLike
         
     }
     let dimension = Dimension.sharedInstance
     
     var body: some View {
-        let priceWithCurrency = String(price.price) + (currencySymbol(forCurrencyCode: String(price.currency)) ?? "€")
+        let priceWithCurrency = String(format: "%.2f €", price.price)
         HStack(spacing: 0.0) {
             ZStack(alignment: .topLeading) {
                 
@@ -123,7 +126,7 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                 .frame(width: 150.0)
                 .clipped()
                 CoursesULikeButton {
-                    print("pressed like")
+                    pressedLike()
                 }
                 .padding(dimension.mPadding)
             }
@@ -140,8 +143,7 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                 
                 centerContent()
                 
-                RecapPriceForRecipes(priceAmount: priceWithCurrency)
-                    
+                RecapPriceForRecipes(priceAmount:  priceWithCurrency)
                 Divider()
                 callToAction()
                                     

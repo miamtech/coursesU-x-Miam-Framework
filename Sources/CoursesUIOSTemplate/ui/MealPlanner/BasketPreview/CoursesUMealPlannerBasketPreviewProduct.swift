@@ -29,7 +29,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
             }
             .frame(width: 75.0)
             VStack(alignment: .leading) {
-                if productInfo.sharedRecipeCount > 0 {
+                if productInfo.sharedRecipeCount > 1 {
                     UtilizedInManyRecipes(recipesUsedIn: productInfo.sharedRecipeCount)
                 }
                 Text(productInfo.name)

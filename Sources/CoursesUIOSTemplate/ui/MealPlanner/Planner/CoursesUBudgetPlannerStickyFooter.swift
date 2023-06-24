@@ -127,7 +127,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
                 .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.primaryColor, overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
             HStack {
                 Spacer()
-                YellowSubtext(text: String(budgetSpent) + " €", fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
+                YellowSubtext(text: String(format: "%.2f €",budgetSpent), fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
             }
         }
         .frame(width: widthOfFrame)

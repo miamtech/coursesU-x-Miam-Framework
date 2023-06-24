@@ -22,7 +22,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                     ArticlesAndPricePerPerson(numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket, pricePerPerson: basketPreviewInfos.pricePerPerson)
             }, callToAction: {
                 BasketPreviewCardCallToAction(actions: basketPreviewActions)
-            })
+            }, pressedLike: {})
             .padding(.bottom)
         }
     
