@@ -14,13 +14,13 @@ import miamCore
 public struct CoursesUMealPlannerBasketPreviewView<
     LoadingTemplate: MealPlannerBasketPreviewLoading,
     RecipeOverviewTemplate: MealPlannerBasketPreviewRecipeOverview,
-    BasketPreviewProduct: MealPlannerBasketPreviewProduct,
+    ProductTemplate: MealPlannerBasketPreviewProduct,
     SectionTitleTemplate: MealPlannerBasketPreviewSectionTitle,
     SectionProductTemplate: MealPlannerBaskletPreviewSectionProduct
 >: View {
     private let loadingTemplate: LoadingTemplate
-    private let recipeOverview: RecipeOverviewTemplate
-    private let basketProduct: BasketPreviewProduct
+    private let recipeOverviewTemplate: RecipeOverviewTemplate
+    private let productTemplate: ProductTemplate
     private let sectionTitleTemplate: SectionTitleTemplate
     private let sectionProductTemplate: SectionProductTemplate
     
@@ -32,14 +32,14 @@ public struct CoursesUMealPlannerBasketPreviewView<
     
     public init(
         loadingTemplate: LoadingTemplate,
-        recipeOverview: RecipeOverviewTemplate,
-        basketProduct: BasketPreviewProduct,
+        recipeOverviewTemplate: RecipeOverviewTemplate,
+        productTemplate: ProductTemplate,
         sectionTitleTemplate: SectionTitleTemplate,
         sectionProductTemplate: SectionProductTemplate,
         validateRecipes: @escaping () -> Void) {
             self.loadingTemplate = loadingTemplate
-        self.recipeOverview = recipeOverview
-        self.basketProduct = basketProduct
+        self.recipeOverviewTemplate = recipeOverviewTemplate
+        self.productTemplate = productTemplate
         self.validateRecipes = validateRecipes
         self.sectionTitleTemplate = sectionTitleTemplate
         self.sectionProductTemplate = sectionProductTemplate
@@ -107,8 +107,8 @@ public struct CoursesUMealPlannerBasketPreviewView<
     private func recipesList() -> some View {
         ForEach(previewViewModel.meals) { meal in
             MealPlannerBasketPreviewExpandableMealView(
-                recipeOverviewTemplate: recipeOverview,
-                productTemplate: basketProduct,
+                recipeOverviewTemplate: recipeOverviewTemplate,
+                productTemplate: productTemplate,
                 sectionTitleTemplate: sectionTitleTemplate,
                 sectionProductTemplate: sectionProductTemplate,
                 meal: meal,
@@ -126,8 +126,8 @@ public struct CoursesUMealPlannerBasketPreviewView<
 struct CoursesUMealPlannerBasketPreviewView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUMealPlannerBasketPreviewView(
-            loadingTemplate: CoursesUMealPlannerBasketPreviewLoading(), recipeOverview: CoursesUMealPlannerBasketPreviewRecipeOverview(),
-            basketProduct: CoursesUMealPlannerBasketPreviewProduct(),
+            loadingTemplate: CoursesUMealPlannerBasketPreviewLoading(), recipeOverviewTemplate: CoursesUMealPlannerBasketPreviewRecipeOverview(),
+            productTemplate: CoursesUMealPlannerBasketPreviewProduct(),
             sectionTitleTemplate: CoursesUMealPlannerBasketPreviewSectionTitle(),
             sectionProductTemplate: CoursesUMealPlannerBasketPreviewSectionProduct(),
             validateRecipes: { print("validating")})
