@@ -164,9 +164,16 @@ public struct CoursesUBudgetPlannerView<
                     }
                     print("close")
                 })
-                .onChange(of: formViewModel.budgetInfos, perform: { newValue in
-                        updateBudget(budgetInfos: newValue)
-                    })
+                .onChange(of: formViewModel.budgetInfos) { newBudgetInfos in
+                    updateBudget(budgetInfos: newBudgetInfos)
+                }
+                // TODO: check w Tibo changes to make sure the app does not crash at certain values
+                .onChange(of: combinedBudgetAndGuestsCount) { newBudgetInfos in
+                    if (formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0) {
+                        formViewModel.getRecipesMaxCountForBudgetConstraint(budget: Int32(formViewModel.budgetInfos.moneyBudget), guestCount: Int32(formViewModel.budgetInfos.numberOfGuests))
+                        updateBudgetWithMax(budgetInfos: formViewModel.budgetInfos)
+                    }
+                }
                 .padding(Dimension.sharedInstance.lPadding)
             }
         }
@@ -181,6 +188,14 @@ public struct CoursesUBudgetPlannerView<
         formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
         formViewModel.setNumberOfMeals(amount: Int32(budgetInfos.numberOfMeals))
     }
+    private func updateBudgetWithMax(budgetInfos: BudgetInfos) {
+        formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
+        formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
+        formViewModel.setNumberOfMeals(amount: Int32(budgetInfos.maxRecipesForBudget))
+    }
+    var combinedBudgetAndGuestsCount: Int {
+        formViewModel.budgetInfos.numberOfGuests + Int(formViewModel.budgetInfos.moneyBudget)
+        }
 }
 
 @available(iOS 14, *)
@@ -190,6 +205,7 @@ extension CoursesUBudgetPlannerView {
         return BudgetRecipeCardActions(recipeTapped: {
             showRecipe(recipe)
         }, removeTapped: {
+            
             removeRecipe(recipe)
         }, replaceTapped: {
             recipeToReplace = recipe
@@ -241,7 +257,8 @@ extension CoursesUBudgetPlannerView {
     
     @available(iOS 14, *)
     private func recipesList() -> some View {
-        ForEach(viewModel.meals, id: \.self) { meal in
+//        ForEach(viewModel.meals, id: \.self) { meal in
+        ForEach(Array(viewModel.meals.enumerated()), id: \.1.self) { index, meal in
             // I use VStack so i can add same bg & padding to comps
             VStack {
                 if let meal {
@@ -254,6 +271,8 @@ extension CoursesUBudgetPlannerView {
                     
                 } else {
                     placeholderCardTemplate.content {
+                        print("index is " + String(index))
+                        miam_index_of_recipe_replaced = index
                         self.replaceRecipe("")
                     }
                 }

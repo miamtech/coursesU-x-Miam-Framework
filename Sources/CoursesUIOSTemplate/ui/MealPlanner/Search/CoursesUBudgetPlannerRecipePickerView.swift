@@ -55,32 +55,30 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     // if results
                     ScrollView {
                         LazyVGrid(columns: [.init(), .init()]) {
-                            ForEach(viewModel.recipes, id: \.self) { recipe in
+                            ForEach(viewModel.recipes.indices, id: \.self) { index in
                                 CoursesURecipeCardView(
-                                    recipe.id,
+                                    viewModel.recipes[index].id,
                                     cardTemplate: cardTemplate,
                                     loadingTemplate: CoursesURecipeCardLoading(),
                                     showDetails: {},
                                     add: {
-                                        viewModel.addRecipeToMealPlanner(recipeId: recipe.id, index: 0)
-                                        onRecipeSelected(recipe.id)
+                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miam_index_of_recipe_replaced))
+                                        onRecipeSelected(viewModel.recipes[index].id)
+                                        print("index is " + String(miam_index_of_recipe_replaced))
                                     })
+                                    .onAppear {
+                                        if index == viewModel.recipes.count - 1 { // last item
+//                                            viewModel.search(input: <#T##String#>)
+                                        }
+                                    }
                             }
                         }.padding(Dimension.sharedInstance.lPadding)
                             .padding(.bottom, 100)
                     }
                 }
             }
-            VStack{
-                Spacer()
-//                stickyFooter.content(budgetInfos: viewModel.budgetInfos, budgetSpent: viewModel.state?.totalPrice ?? 0, validateTapped: {
-                    
-//                })
-            }
         }
     }
-    
-    
 }
 
 @available(iOS 14, *)
