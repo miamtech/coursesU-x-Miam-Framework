@@ -9,17 +9,13 @@ import SwiftUI
 import miamCore
 import MiamIOSFramework
 
+
 @available(iOS 14, *)
 public struct CoursesURecapView: BudgetRecap {
-    
     public init() {}
-    
-    // TODO: is there a better VM? or pass this from previous view?
-    var previewViewModel = MealPlannerBasketPreviewVM()
-    
     let dimension = Dimension.sharedInstance
-       
-    public func content(onTapGesture: @escaping () -> Void) -> some View {
+  
+    public func content(numberOfMeals: Int, totalPrice: Double, onTapGesture: @escaping () -> Void) -> some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
@@ -34,8 +30,8 @@ public struct CoursesURecapView: BudgetRecap {
                             .multilineTextAlignment(.center)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         RecapPriceForRecipes(
-                            leadingText: "\(String(previewViewModel.meals.count)) repas pour",
-                            priceAmount: "\(String(previewViewModel.totalPrice)) €",
+                            leadingText: "\(String(numberOfMeals)) repas pour",
+                            priceAmount:  String(format: "%.2f €", totalPrice),
                             trailingText: "",
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
                             yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyle,
@@ -70,9 +66,9 @@ public struct CoursesURecapView: BudgetRecap {
         }
 }
 
-@available(iOS 14, *)
-struct CoursesUFinalBudgetCallToAction_Previews: PreviewProvider {
-    static var previews: some View {
-        CoursesURecapView().content(onTapGesture: {print("hello")})
-    }
-}
+//@available(iOS 14, *)
+//struct CoursesUFinalBudgetCallToAction_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CoursesURecapView().content(onTapGesture: {print("hello")})
+//    }
+//}
