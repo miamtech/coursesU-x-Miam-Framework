@@ -113,16 +113,6 @@ public struct CoursesUBudgetForm: BudgetForm {
                         onFormValidated(budgetInfos.wrappedValue)
                     })
             }
-            
-            .onChange(of: budgetAndGuestsValid) { isValid in
-                    if isValid {
-                        // fetch from api
-                        print("Both budget and numberGuests are greater than 0!")
-                        // set the number of meals to be highest val from api
-                        budgetInfos.wrappedValue.maxRecipesForBudget = 7
-                        budgetInfos.wrappedValue.numberOfMeals = budgetInfos.wrappedValue.maxRecipesForBudget
-                    }
-                }
             .padding(25)
             .background(Color.white)
             .cornerRadius(Dimension.sharedInstance.mCornerRadius)
@@ -142,7 +132,7 @@ public struct CoursesUBudgetForm: BudgetForm {
         let maxValue: Int
         let disableButton: Bool
         let dimension = Dimension.sharedInstance
-        init(value: Binding<Int>, minValue: Int = 0, maxValue: Int = 10, disableButton: Bool = false) {
+        init(value: Binding<Int>, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false) {
             _value = value
             self.minValue = minValue
             self.maxValue = maxValue
