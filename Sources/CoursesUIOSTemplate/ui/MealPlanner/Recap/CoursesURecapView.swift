@@ -10,21 +10,16 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUFinalBudgetCallToAction: View {
-
-    let buttonAction: () -> Void
+public struct CoursesURecapView: BudgetRecap {
     
-    public init(buttonAction: @escaping () -> Void) {
-        self.buttonAction = buttonAction
-    }
+    public init() {}
     
-    // get from VM?
-    let finalPrice: Double = 40.0
-    let numberMeals: Int = 4
+    // TODO: is there a better VM? or pass this from previous view?
+    var previewViewModel = MealPlannerBasketPreviewVM()
     
     let dimension = Dimension.sharedInstance
        
-    public var body: some View {
+    public func content(onTapGesture: @escaping () -> Void) -> some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
@@ -39,8 +34,8 @@ public struct CoursesUFinalBudgetCallToAction: View {
                             .multilineTextAlignment(.center)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         RecapPriceForRecipes(
-                            leadingText: "\(String(numberMeals)) repas pour",
-                            priceAmount: "\(String(finalPrice)) €",
+                            leadingText: "\(String(previewViewModel.meals.count)) repas pour",
+                            priceAmount: "\(String(previewViewModel.totalPrice)) €",
                             trailingText: "",
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
                             yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyle,
@@ -51,7 +46,7 @@ public struct CoursesUFinalBudgetCallToAction: View {
                         Text("Découvrez aussi :")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         Button(action: {
-                            buttonAction()
+                            onTapGesture()
                                 }) {
                                     Text("Nos promotions")
                                         .foregroundColor(.white)
@@ -78,6 +73,6 @@ public struct CoursesUFinalBudgetCallToAction: View {
 @available(iOS 14, *)
 struct CoursesUFinalBudgetCallToAction_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUFinalBudgetCallToAction(buttonAction: {print("hello")})
+        CoursesURecapView().content(onTapGesture: {print("hello")})
     }
 }
