@@ -54,6 +54,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
     internal struct BasketPreviewCardCallToAction: View {
         var actions: BasketPreviewRecipeActions
         @SwiftUI.State private var showContents = false
+        @SwiftUI.State private var loading = false
         var body: some View {
             HStack(alignment: .bottom) {
                 Button {
@@ -87,12 +88,19 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
 //                                    if #unavailable(iOS 15) {
                 Spacer()
                 Button {
-                   
+                    loading.toggle()
                     actions.delete()
                 } label: {
-                    Image(packageResource: "TrashIcon", ofType: "png")
-                        .resizable()
-                        .frame(width: 20, height: 20)
+                    VStack {
+                        if loading {
+                            ProgressLoader(color: Color.primaryColor)
+                                .scaleEffect(0.25)
+                        } else {
+                            Image(packageResource: "TrashIcon", ofType: "png")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                        }
+                    }.frame(width: 20, height: 20)
                 }
 //                                    }
             }

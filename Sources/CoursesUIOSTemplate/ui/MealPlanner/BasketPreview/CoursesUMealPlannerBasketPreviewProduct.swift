@@ -16,6 +16,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
     public init () {}
     
     let dimension = Dimension.sharedInstance
+    
    
     public func content(quantity: Binding<Int>, productInfo: MealPlannerBasketPreviewProductInfos, actions: MealPlannerBudgetPreviewProductActions) -> some View {
         HStack(alignment: .top) {
@@ -55,14 +56,8 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     Spacer()
                     CoursesUCounterView(count: quantity)
                     Spacer()
-                    Button {
+                    TrashButton {
                         actions.delete()
-                    } label: {
-                        Image(systemName: "trash")
-                            .resizable()
-                            .foregroundColor(Color.black)
-                            .frame(width: dimension.mButtonHeight, height: dimension.mlButtonHeight)
-                            .padding(dimension.mPadding)
                     }
                     
                 }
@@ -73,6 +68,34 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
         .frame(height: 170)
         .padding(dimension.mPadding)
         .background(Color.white)
+    }
+    
+    struct TrashButton: View {
+        var delete: () -> Void
+        @SwiftUI.State var loading = false
+        let dimension = Dimension.sharedInstance
+        var body: some View {
+            Button {
+                loading.toggle()
+            } label: {
+                VStack {
+                    if loading {
+                        ProgressLoader(color: Color.primaryColor)
+                            .scaleEffect(0.25)
+                    } else {
+                        Image(packageResource: "TrashIcon", ofType: "png")
+                            .resizable()
+                            .frame(width: dimension.mlButtonHeight, height: dimension.mlButtonHeight)
+                    }
+                }.frame(width: dimension.mlButtonHeight, height: dimension.mlButtonHeight)
+                    .padding(dimension.mPadding)
+                //                        Image(systemName: "trash")
+                //                            .resizable()
+                //                            .foregroundColor(Color.black)
+                //                            .frame(width: dimension.mButtonHeight, height: dimension.mlButtonHeight)
+                //                            .padding(dimension.mPadding)
+            }
+        }
     }
     
     
