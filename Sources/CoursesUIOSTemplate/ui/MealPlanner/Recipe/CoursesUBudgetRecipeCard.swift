@@ -24,7 +24,7 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
             DifficultyAndTime(cookingTime: recipeInfos.recipe.cookingTimeIos, difficulty: recipeInfos.recipe.difficulty)
         }, callToAction: {
             RecipeCardCallToAction(actions: actions)
-        }, pressedLike: {})
+        })
     }
     
     @available(iOS 14, *)
@@ -93,21 +93,17 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
     var price: Price
     let centerContent: () -> CenterContent
     let callToAction: () -> CallToAction
-    let pressedLike: () -> Void
        
     public init(
         recipe: Recipe,
         price: Price,
         centerContent: @escaping () -> CenterContent,
-        callToAction: @escaping () -> CallToAction,
-        pressedLike: @escaping () -> Void)
+        callToAction: @escaping () -> CallToAction)
     {
         self.recipe = recipe
         self.price = price
         self.centerContent = centerContent
         self.callToAction = callToAction
-        self.pressedLike = pressedLike
-        
     }
     let dimension = Dimension.sharedInstance
     
@@ -125,9 +121,7 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                 }
                 .frame(width: 150.0)
                 .clipped()
-                CoursesULikeButton {
-                    pressedLike()
-                }
+                CoursesULikeButton(recipeId: recipe.id)
                 .padding(dimension.mPadding)
             }
             

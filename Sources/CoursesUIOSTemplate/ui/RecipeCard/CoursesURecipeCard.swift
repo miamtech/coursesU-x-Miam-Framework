@@ -26,9 +26,9 @@ public struct CoursesURecipeCard: RecipeCard {
         
         VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
-                Button(action: {
-                    actions.showDetails()
-                }, label: {
+//                Button(action: {
+//                    actions.showDetails()
+//                }, label: {
                     ZStack(alignment: .topTrailing) {
                         AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
                             image
@@ -39,12 +39,10 @@ public struct CoursesURecipeCard: RecipeCard {
                         }.frame(height: 150.0)
                             .clipped()
                         
-                        CoursesULikeButton {
-                            actions.like()
-                        }
+                        CoursesULikeButton(recipeId: recipeInfos.recipe.id)
                         .padding(dimensions.mPadding)
                     }
-                })
+//                })
                 
                 
                 
