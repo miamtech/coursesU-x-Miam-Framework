@@ -70,7 +70,7 @@ public struct CoursesUBudgetPlannerView<
         if let budgetInfos {
             formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
             formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
-            formViewModel.setNumberOfMeals(amount: Int32(budgetInfos.numberOfMeals))
+            formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.numberOfMeals))
 
         }
         
@@ -186,12 +186,12 @@ public struct CoursesUBudgetPlannerView<
     private func updateBudget(budgetInfos: BudgetInfos) {
         formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
         formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
-        formViewModel.setNumberOfMeals(amount: Int32(budgetInfos.numberOfMeals))
+        formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.numberOfMeals))
     }
     private func updateBudgetWithMax(budgetInfos: BudgetInfos) {
         formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
         formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
-        formViewModel.setNumberOfMeals(amount: Int32(budgetInfos.maxRecipesForBudget))
+        formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.maxRecipesForBudget))
     }
     var combinedBudgetAndGuestsCount: Int {
         formViewModel.budgetInfos.numberOfGuests + Int(formViewModel.budgetInfos.moneyBudget)
@@ -212,49 +212,6 @@ extension CoursesUBudgetPlannerView {
             replaceRecipe(recipe)
         })
     }
-    
-//    @available(iOS 15, *)
-//    private func recipesListWithSwipeAction() -> some View {
-//        ForEach(recipesIds, id: \.self) { recipe in
-//            VStack {
-//                if recipe.isEmpty {
-//                    placeholderCardTemplate.content {
-//                        self.replaceRecipe(recipe)
-//                    }
-//                    .padding(.vertical, Dimension.sharedInstance.sPadding)
-//                    .background(Color.budgetBackgroundColor)
-//                } else {
-//                    let actions = createActions(recipe: recipe)
-//                    CoursesUBudgetRecipeCardView(
-//                        recipeId: recipe,
-//                        recipeCardTemplate: recipeCardTemplate,
-//                        recipeCardLoadingTemplate: loadingCardTemplate,
-//                        actions: actions)
-//                    .swipeActions(edge: .trailing) {
-//                        Button {
-//                            guard let removeAction = actions.removeTapped else {
-//                                return
-//                            }
-//                            removeAction()
-//                        } label: {
-//                            VStack {
-//                                Image(systemName: "trash")
-//                                    .foregroundColor(Color.white)
-//                            }.background(Color.red)
-//                        }
-//                        .tint(Color.red)
-//                    }
-//                    .padding(.vertical, Dimension.sharedInstance.sPadding)
-//                    .background(Color.budgetBackgroundColor)
-//                }
-//            }
-//            .listRowBackground(Color.clear)
-//            .listRowSeparator(.hidden)
-//            .listRowInsets(EdgeInsets())
-//            .padding(.vertical, Dimension.sharedInstance.sPadding)
-//        }
-//    }
-    
     @available(iOS 14, *)
     private func recipesList() -> some View {
 //        ForEach(viewModel.meals, id: \.self) { meal in
@@ -263,7 +220,7 @@ extension CoursesUBudgetPlannerView {
             VStack {
                 if let meal {
                     let actions = createActions(recipe: meal.recipeId)
-                    CoursesUBudgetRecipeCardView(
+                    BudgetRecipeCardView(
                         recipeId: meal.recipeId,
                         recipeCardTemplate: recipeCardTemplate,
                         recipeCardLoadingTemplate: loadingCardTemplate,
@@ -272,7 +229,7 @@ extension CoursesUBudgetPlannerView {
                 } else {
                     placeholderCardTemplate.content {
                         print("index is " + String(index))
-                        miam_index_of_recipe_replaced = index
+//                        miam_index_of_recipe_replaced = index
                         self.replaceRecipe("")
                     }
                 }

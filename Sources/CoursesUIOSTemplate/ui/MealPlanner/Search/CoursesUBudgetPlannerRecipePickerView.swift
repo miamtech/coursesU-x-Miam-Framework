@@ -33,6 +33,8 @@ public struct CoursesUBudgetPlannerRecipePickerView<
         self.onRecipeSelected = onRecipeSelected
             _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget)))
     }
+    @SwiftUI.State private var showingFilters = false
+    @AppStorage("miam_index_of_recipe_replaced") var miam_index_of_recipe_replaced = 4
 
     public var body: some View {
         ZStack(alignment: .top) {
@@ -41,9 +43,23 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             VStack {
-                searchTemplate.content(searchText: $searchText, filtersTapped: {})
+                searchTemplate.content(searchText: $searchText, filtersTapped: {
+                    showingFilters.toggle()
+                })
                     .onChange(of: searchText) { newValue in
                         viewModel.search(input: newValue)
+                    }
+                    .sheet(isPresented: $showingFilters) {
+                        showingFilters = false
+                    } content: {
+                        CatalogFiltersView {
+                            showingFilters = false
+                            viewModel.search(input: searchText)
+                            //                         catalog.onSimpleSearch(content: CatalogContent.filterSearch) soup
+                        } close: {
+                            showingFilters = false
+                            
+                        }
                     }
                 // TODO: use ui state?
             if viewModel.recipes.isEmpty && searchText != "" {
@@ -56,15 +72,16 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     ScrollView {
                         LazyVGrid(columns: [.init(), .init()]) {
                             ForEach(viewModel.recipes.indices, id: \.self) { index in
-                                CoursesURecipeCardView(
+                                CatalogRecipeCardView(
                                     viewModel.recipes[index].id,
                                     cardTemplate: cardTemplate,
                                     loadingTemplate: CoursesURecipeCardLoading(),
                                     showDetails: {},
                                     add: {
-//                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miam_index_of_recipe_replaced))
+                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miam_index_of_recipe_replaced))
+                                        
+                                        print("index is " + String(miam_index_of_recipe_replaced))
                                         onRecipeSelected(viewModel.recipes[index].id)
-//                                        print("index is " + String(miam_index_of_recipe_replaced))
                                     }).onAppear {
                                         if index == viewModel.recipes.count - 1 { // last item
                                             viewModel.loadPage()
