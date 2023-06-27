@@ -14,7 +14,7 @@ import MiamIOSFramework
 public struct CoursesURecipeCard: RecipeCard {
     public init() {}
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: RecipeCardActions) -> some View {
-        let cardHeight = 340.0
+        let cardHeight = 370.0
         let dimensions = Dimension.sharedInstance
         var ctaAction: () -> Void {
             return recipeInfos.isInBasket ? actions.showDetails : actions.addToBasket
@@ -50,11 +50,14 @@ public struct CoursesURecipeCard: RecipeCard {
                     Text(recipeInfos.recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyMediumBoldStyle)
                         .lineLimit(2)
+                        .padding(.top, dimensions.sPadding)
                     //                        .multilineTextAlignment(.center)
                     
-                    HStack(spacing: dimensions.xlPadding) {
-                        MiamRecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
-                        MiamRecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
+                    HStack(spacing: dimensions.mPadding) {
+                        CoursesURecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
+                        Divider()
+                            .frame(width: 5, height: 40)
+                        CoursesURecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
                         Spacer()
                     }
                     RecapPriceForRecipes(priceAmount: priceWithCurrency)
@@ -73,10 +76,10 @@ public struct CoursesURecipeCard: RecipeCard {
                     }, buttonAction: {
                         actions.addToBasket()
                         ctaAction()
-                    
                     })
+                    .padding(.bottom, dimensions.sPadding)
                 }
-                .padding(.horizontal, dimensions.lPadding)
+                .padding(.horizontal, dimensions.mPadding)
                 .frame(maxHeight: .infinity)
             }
         }

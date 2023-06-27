@@ -33,9 +33,9 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
         var difficulty: Int
         var body: some View {
             HStack() {
-                MiamRecipePreparationTime(duration: cookingTime)
+                CoursesURecipePreparationTime(duration: cookingTime)
                 Divider()
-                MiamRecipeDifficulty(difficulty: difficulty)
+                CoursesURecipeDifficulty(difficulty: difficulty)
                 Spacer()
             }
         }
