@@ -62,13 +62,12 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                                     loadingTemplate: CoursesURecipeCardLoading(),
                                     showDetails: {},
                                     add: {
-                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miam_index_of_recipe_replaced))
+//                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miam_index_of_recipe_replaced))
                                         onRecipeSelected(viewModel.recipes[index].id)
-                                        print("index is " + String(miam_index_of_recipe_replaced))
-                                    })
-                                    .onAppear {
+//                                        print("index is " + String(miam_index_of_recipe_replaced))
+                                    }).onAppear {
                                         if index == viewModel.recipes.count - 1 { // last item
-//                                            viewModel.search(input: <#T##String#>)
+                                            viewModel.loadPage()
                                         }
                                     }
                             }
