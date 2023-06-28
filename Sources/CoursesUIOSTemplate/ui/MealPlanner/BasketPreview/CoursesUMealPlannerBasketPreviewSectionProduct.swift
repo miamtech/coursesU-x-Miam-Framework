@@ -28,8 +28,8 @@ public struct CoursesUMealPlannerBasketPreviewSectionProduct: MealPlannerBasklet
                                 .foregroundColor(Color.primaryColor)
                                 .frame(width: 20, height: 20)
                             Text("Ajouter au panier")
+                                .foregroundColor(Color.white)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
-                                .foregroundColor(Color.primaryColor)
                         }
                     }, buttonAction: addIngredientAction)
                 }

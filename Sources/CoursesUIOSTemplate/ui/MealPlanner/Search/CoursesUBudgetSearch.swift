@@ -25,6 +25,7 @@ public struct CoursesUBudgetSearch: BudgetSearch {
                     TextField("Rechercher", text: searchText, onCommit: {
                         // TODO: Enter pressed, start searching? Or start searching everytime a char is entered?
                     })
+                    .foregroundColor(Color.gray)
                     .frame(maxWidth: .infinity)
                     .autocorrectionDisabled(true)
                     .overlay(

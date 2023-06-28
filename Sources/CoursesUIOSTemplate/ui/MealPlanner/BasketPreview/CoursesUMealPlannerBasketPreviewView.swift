@@ -94,8 +94,8 @@ public struct CoursesUMealPlannerBasketPreviewView<
                 totalBudgetPermitted: Double(previewViewModel.budget),
                 footerContent:
                     Text("Finaliser")
+                    .foregroundColor(Color.white)
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
-                        .foregroundColor(Color.white)
                         .padding(.horizontal),
                 buttonAction: {
                 validateRecipes()

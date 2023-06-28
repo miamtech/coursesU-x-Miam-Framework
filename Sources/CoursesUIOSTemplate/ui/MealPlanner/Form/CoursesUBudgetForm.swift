@@ -45,6 +45,7 @@ public struct CoursesUBudgetForm: BudgetForm {
         }
         ZStack(alignment: .top) {
             if includeBackground {
+                Color.white
                 CoursesUTwoMealsBackground()
             }
             VStack {
@@ -115,15 +116,16 @@ public struct CoursesUBudgetForm: BudgetForm {
                                         .resizable()
                                         .frame(width: 20, height: 20)
                                     Text("C'est parti !")
-                                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                                         .foregroundColor(Color.white)
+                                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                                        
                                 }
                                 
                             }
-                            .disabled((!budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0))
+                            .disabled(!budgetAndGuestsValid || !(budgetInfos.wrappedValue.numberOfMeals > 0))
                         }, buttonAction: {
-                            onFormValidated(budgetInfos.wrappedValue)
                         })
+                    
                 }
                 .padding(25)
                 .background(Color.white)

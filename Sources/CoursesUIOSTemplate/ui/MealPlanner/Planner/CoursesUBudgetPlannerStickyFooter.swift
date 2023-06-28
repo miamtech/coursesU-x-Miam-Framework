@@ -29,9 +29,8 @@ public struct CoursesUBudgetPlannerFooter: BudgetPlannerFooter {
                         .foregroundColor(Color.white)
                         .frame(width: 20, height: 20)
                     Text("Tout ajouter")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         .foregroundColor(Color.white)
-                    
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                 }
         ) {
             validateTapped()

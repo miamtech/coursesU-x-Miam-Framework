@@ -31,10 +31,11 @@ struct CoursesUFontStyleModifier: ViewModifier {
     let fontStyle: CoursesUFontStyle
 
     func body(content: Content) -> some View {
-        content.font(fontStyle.font)// .fontWeight(weight)
         if let color = fontStyle.color {
-            content.foregroundColor(color)
-        }
+                    content.font(fontStyle.font).foregroundColor(color)
+                } else {
+                    content.font(fontStyle.font)
+                }
     }
 }
 

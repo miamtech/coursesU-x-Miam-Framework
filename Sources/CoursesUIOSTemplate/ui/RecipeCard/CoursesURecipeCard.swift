@@ -69,8 +69,8 @@ public struct CoursesURecipeCard: RecipeCard {
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(Color.white)
                             Text("Ajouter!")
-                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                                 .foregroundColor(Color.white)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }
                         
                     }, buttonAction: {

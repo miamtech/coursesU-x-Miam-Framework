@@ -15,7 +15,7 @@ public struct CoursesURecapView: BudgetRecap {
     public init() {}
     let dimension = Dimension.sharedInstance
   
-    public func content(numberOfMeals: Int, totalPrice: Double, onTapGesture: @escaping () -> Void) -> some View {
+    public func content(numberOfMeals: Int, totalPrice: Price, onTapGesture: @escaping () -> Void) -> some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
@@ -31,7 +31,7 @@ public struct CoursesURecapView: BudgetRecap {
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         RecapPriceForRecipes(
                             leadingText: "\(String(numberOfMeals)) repas pour",
-                            priceAmount:  String(format: "%.2f €", totalPrice),
+                            priceAmount:  totalPrice.formattedPrice(),
                             trailingText: "",
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
                             yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyle,

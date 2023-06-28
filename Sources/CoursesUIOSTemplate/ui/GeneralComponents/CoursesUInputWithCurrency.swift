@@ -71,6 +71,7 @@ internal struct CoursesUInputWithCurrency: View {
             CustomTextField("Budget", value: $budget)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
             Text(currency)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
             }
         }
     
@@ -91,6 +92,11 @@ internal struct CoursesUInputWithCurrency: View {
             textField.placeholder = placeholder
             textField.textAlignment = .right // align text to right
             textField.keyboardType = .numberPad // use number pad keyboard
+            textField.textColor = .black
+            let attributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor.lightGray // set placeholder text color to light gray
+                ]
+                textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
 
             return textField
         }

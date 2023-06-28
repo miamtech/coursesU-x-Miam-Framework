@@ -79,7 +79,8 @@ public struct CoursesUBudgetPlannerView<
     @SwiftUI.State var showFormOptions = false
     
     public var body: some View {
-       
+        ZStack {
+            Color.budgetBackgroundColor
             UIStateWrapperView(uiState: viewModel.state?.meals) {
                 loadingTemplate.content()
             } emptyView: {
@@ -88,6 +89,7 @@ public struct CoursesUBudgetPlannerView<
             } successView: {
                 successContent()
             }
+        }
     }
     
     private func successContent() -> some View {

@@ -22,7 +22,5 @@ extension Color {
     static let lightGray = Color(red: 221 / 255, green: 221 / 255, blue: 221 / 255)
     static let danger = Color(red: 243 / 255, green: 131 / 255, blue: 27 / 255) // #F3831B
     static let dangerBackground = Color(red: 255 / 255, green: 228 / 255, blue: 208 / 255) // #FFE4D0
-
-    
 }
 
