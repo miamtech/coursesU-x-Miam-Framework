@@ -32,9 +32,7 @@ public struct CoursesUBudgetPlannerView<
     private let showRecipe: (String) -> Void
     private let validateRecipes: () -> Void
     
-    @SwiftUI.State private var recipesIds: [String]
     @SwiftUI.State private var recipeToReplace: String?
-    @SwiftUI.State private var budgetSpent: Double = 50.0
     @SwiftUI.State private var isLoadingRecipes = false
     
     private var budgetInfos: BudgetInfos {
@@ -51,12 +49,11 @@ public struct CoursesUBudgetPlannerView<
                 recipeCardTemplate: CardTemplate,
                 loadingCardTemplate: LoadingCardTemplate,
                 placeholderCardTemplate: PlaceholderCardTemplate,
-                recipes: [String],
+                
                 budgetInfos: BudgetInfos? = nil,
                 showRecipe: @escaping (String) -> Void,
                 validateRecipes: @escaping () -> Void,
                 replaceRecipe: @escaping (String) -> Void) {
-        self._recipesIds = State(initialValue: recipes)
         self.toolbarTemplate = toolbarTemplate
         self.footerTemplate = footerTemplate
         self.loadingTemplate = loadingTemplate
@@ -145,7 +142,7 @@ public struct CoursesUBudgetPlannerView<
                     }
                     .padding(Dimension.sharedInstance.lPadding)
             } else {
-                CoursesUBudgetForm().content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
+                CoursesUBudgetForm(includeTitle: false, includeLogo: false, includeBackground: false).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
                     withAnimation {
                         showFormOptions.toggle()
                         // TODO: need to cause update to other VM here
@@ -265,6 +262,6 @@ struct CoursesUBudgetPlannerView_Previews: PreviewProvider {
             recipeCardTemplate: CoursesUBudgetRecipeCard(),
             loadingCardTemplate: CoursesUBudgetRecipeCardLoading(),
             placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(),
-            recipes: ["178","124", "134", "135"], showRecipe: {_ in}, validateRecipes: {}, replaceRecipe: {_ in})
+           showRecipe: {_ in}, validateRecipes: {}, replaceRecipe: {_ in})
     }
 }

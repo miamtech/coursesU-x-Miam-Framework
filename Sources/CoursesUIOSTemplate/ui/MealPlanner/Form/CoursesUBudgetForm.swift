@@ -22,10 +22,12 @@ public struct CoursesUBudgetFormStandaloneWrapper: View {
 @available(iOS 14, *)
 public struct CoursesUBudgetForm: BudgetForm {
     var includeTitle: Bool
+    var includeLogo: Bool
     var includeBackground: Bool
     let dimension = Dimension.sharedInstance
-    public init(includeTitle: Bool = true, includeBackground: Bool = true) {
+    public init(includeTitle: Bool = true, includeLogo: Bool = true, includeBackground: Bool = true) {
         self.includeTitle = includeTitle
+        self.includeLogo = includeLogo
         self.includeBackground = includeBackground
     }
     
@@ -45,81 +47,93 @@ public struct CoursesUBudgetForm: BudgetForm {
             if includeBackground {
                 CoursesUTwoMealsBackground()
             }
-            VStack(spacing: 20) {
-                if includeTitle {
-                    VStack {
-                        Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
-                            .multilineTextAlignment(.center)
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-                            .padding(.bottom, dimension.mPadding)
-                        Divider()
-                    }
+            VStack {
+                if includeLogo {
+                    Image(packageResource: "BudgetRepasLogo", ofType: "png")
+                        .resizable()
+                        .padding(.horizontal, 50)
+                        .frame(width: UIScreen.screenWidth, height: 100)
+                        .padding(.top)
                 }
                 
-                // TODO: localize
-                CoursesUFormRow(
-                    caption: "Mon budget max",
-                    icon: Image(packageResource: "BudgetIcon", ofType: "png"),
-                    content:
-                        HStack {
-                            Spacer()
-                            CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
+                VStack(spacing: 20) {
+                    
+                    if includeTitle {
+                        VStack {
+                            Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
+                                .multilineTextAlignment(.center)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                                .padding(.bottom, dimension.mPadding)
+                            Divider()
                         }
-                        .padding(dimension.mPadding)
-
-                )
-                Divider()
-                // TODO: localize
-//                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
-//                { _ in }
-                CoursesUFormRow(
-                    caption: "Nombre de personnes",
-                    icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
-                    content:
-//                        Text("hello")
-                        CoursesUStepper(value: budgetInfos.numberOfGuests)
-
-                )
-                Divider()
-                // TODO: localize
-                CoursesUFormRow(
-                    caption: "Nombre de repas",
-                    icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
-                    content:
-//                        Text("hello")
-                    CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
-
-                )
-                .addOpacity(!budgetAndGuestsValid)
-                Divider()
-                CoursesUButtonStyle(
-                    backgroundColor: colorOfSubmit,
-                    content: {
-                        Button {
-                            onFormValidated(budgetInfos.wrappedValue)
-                        } label: {
-                            HStack {
-                                Image(packageResource: "searchIcon", ofType: "png")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                Text("C'est parti !")
-                                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                                    .foregroundColor(Color.white)
-                            }
-                        
                     }
-                        .disabled((!budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0))
-                    }, buttonAction: {
-                        onFormValidated(budgetInfos.wrappedValue)
-                    })
+                    
+                    // TODO: localize
+                    CoursesUFormRow(
+                        caption: "Mon budget max",
+                        icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+                        content:
+                            HStack {
+                                Spacer()
+                                CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
+                            }
+                            .padding(dimension.mPadding)
+                        
+                    )
+                    Divider()
+                    // TODO: localize
+                    //                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
+                    //                { _ in }
+                    CoursesUFormRow(
+                        caption: "Nombre de personnes",
+                        icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
+                        content:
+                            //                        Text("hello")
+                        CoursesUStepper(value: budgetInfos.numberOfGuests)
+                        
+                    )
+                    Divider()
+                    // TODO: localize
+                    CoursesUFormRow(
+                        caption: "Nombre de repas",
+                        icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
+                        content:
+                            //                        Text("hello")
+                        CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
+                        
+                    )
+                    .addOpacity(!budgetAndGuestsValid)
+                    Divider()
+                    CoursesUButtonStyle(
+                        backgroundColor: colorOfSubmit,
+                        content: {
+                            Button {
+                                onFormValidated(budgetInfos.wrappedValue)
+                            } label: {
+                                HStack {
+                                    Image(packageResource: "searchIcon", ofType: "png")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                    Text("C'est parti !")
+                                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                                        .foregroundColor(Color.white)
+                                }
+                                
+                            }
+                            .disabled((!budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0))
+                        }, buttonAction: {
+                            onFormValidated(budgetInfos.wrappedValue)
+                        })
+                }
+                .padding(25)
+                .background(Color.white)
+                .cornerRadius(Dimension.sharedInstance.mCornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Dimension.sharedInstance.mCornerRadius)
+                        .stroke(Color.gray, lineWidth: 0.5)
+                )
+                .padding(includeLogo ? dimension.mPadding : 0)
             }
-            .padding(25)
-            .background(Color.white)
-            .cornerRadius(Dimension.sharedInstance.mCornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: Dimension.sharedInstance.mCornerRadius)
-                    .stroke(Color.gray, lineWidth: 0.5)
-            )
         }
     }
     
