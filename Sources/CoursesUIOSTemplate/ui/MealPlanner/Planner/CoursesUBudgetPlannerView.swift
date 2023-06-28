@@ -222,6 +222,7 @@ extension CoursesUBudgetPlannerView {
                     let actions = createActions(recipe: meal.recipeId)
                     BudgetRecipeCardView(
                         recipeId: meal.recipeId,
+                        price: Price(price: meal.price, currency: "EUR"),
                         recipeCardTemplate: recipeCardTemplate,
                         recipeCardLoadingTemplate: loadingCardTemplate,
                         actions: actions)

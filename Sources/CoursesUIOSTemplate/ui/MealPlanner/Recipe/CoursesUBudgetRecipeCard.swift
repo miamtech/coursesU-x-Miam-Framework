@@ -56,8 +56,6 @@ public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
                         Image(packageResource: "ReloadIcon", ofType: "png")
                             .resizable()
                             .frame(width: 20, height: 20)
-                        //                            Text(Localization.basket.swapProduct.localised)
-                        // TODO: localize
                         Text("Changer")
                             .foregroundColor(Color.primaryColor)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
@@ -108,10 +106,10 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
     let dimension = Dimension.sharedInstance
     
     var body: some View {
-        let priceWithCurrency = String(format: "%.2f €", price.price)
+        let priceWithCurrency =
+        String(price.formattedPrice())
         HStack(spacing: 0.0) {
             ZStack(alignment: .topLeading) {
-                
                 AsyncImage(url: recipe.pictureURL) { image in
                     image
                         .resizable()
@@ -126,7 +124,6 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
             }
             
             VStack(spacing: dimension.mPadding) {
-                
                 HStack {
                     Text(recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
@@ -134,13 +131,10 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                         .multilineTextAlignment(.leading)
                     Spacer()
                 }
-                
                 centerContent()
-                
                 RecapPriceForRecipes(priceAmount:  priceWithCurrency)
                 Divider()
                 callToAction()
-                                    
             }
             .padding(.horizontal, dimension.lPadding)
             .padding(.vertical, dimension.mPadding)
