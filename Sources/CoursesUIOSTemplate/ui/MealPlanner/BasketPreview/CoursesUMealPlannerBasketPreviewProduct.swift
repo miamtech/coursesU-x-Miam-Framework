@@ -18,56 +18,61 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
     let dimension = Dimension.sharedInstance
     
    
-    public func content(quantity: Binding<Int>, productInfo: MealPlannerBasketPreviewProductInfos, actions: MealPlannerBudgetPreviewProductActions) -> some View {
-        HStack(alignment: .top) {
-            
-            AsyncImage(url: productInfo.pictureURL) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(0)
-                    .frame(width: 60)
-            }
-            .frame(width: 75.0)
-            VStack(alignment: .leading) {
-                if productInfo.sharedRecipeCount > 1 {
-                    UtilizedInManyRecipes(recipesUsedIn: productInfo.sharedRecipeCount)
+    public func content(
+        quantity: Binding<Int>,
+        productInfo: MealPlannerBasketPreviewProductInfos,
+        actions: MealPlannerBudgetPreviewProductActions) -> some View {
+        VStack(alignment: .leading) {
+            HStack(alignment: .top) {
+                
+                AsyncImage(url: productInfo.pictureURL) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(0)
+                        .frame(width: 60)
                 }
-                Text(productInfo.name)
-                    .foregroundColor(Color.black)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
-                Text(productInfo.description)
-                    .foregroundColor(Color.gray)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
-                Button {
-                    actions.changeProduct()
-                } label: {
-                    Text("Changer d'article")
-                        .underline()
-                        .foregroundColor(Color.primaryColor)
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
-                        .padding(.vertical, dimension.sPadding)
-                }
-                Spacer()
-                HStack() {
-                    Text("\(productInfo.price.formattedPrice())")
-                        .foregroundColor(Color.black)
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
-                    Spacer()
-                    CoursesUCounterView(count: quantity)
-                    Spacer()
-                    TrashButton {
-                        actions.delete()
+                .frame(width: 75.0)
+                VStack(alignment: .leading) {
+                    if productInfo.sharedRecipeCount > 1 {
+                        UtilizedInManyRecipes(recipesUsedIn: productInfo.sharedRecipeCount)
                     }
-                    
+                    Text(productInfo.name)
+                        .foregroundColor(Color.black)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
+                    Text(productInfo.description)
+                        .foregroundColor(Color.gray)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
+                    Button {
+                        actions.changeProduct()
+                    } label: {
+                        Text("Changer d'article")
+                            .underline()
+                            .foregroundColor(Color.primaryColor)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+                            .padding(.vertical, dimension.sPadding)
+                    }
+                    Spacer()
+                    HStack() {
+                        Text("\(productInfo.price.formattedPrice())")
+                            .foregroundColor(Color.black)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+                        Spacer()
+                        CoursesUCounterView(count: quantity)
+                        Spacer()
+                        TrashButton {
+                            actions.delete()
+                        }
+                        
+                    }
+                    .frame(maxWidth: .infinity)
                 }
                 .frame(maxWidth: .infinity)
             }
-            .frame(maxWidth: .infinity)
+            .frame(height: 170)
+            .padding(dimension.mPadding)
+            .background(Color.white)
         }
-        .frame(height: 170)
-        .padding(dimension.mPadding)
-        .background(Color.white)
     }
     
     struct TrashButton: View {
@@ -77,6 +82,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
         var body: some View {
             Button {
                 loading.toggle()
+                delete()
             } label: {
                 VStack {
                     if loading {
@@ -89,11 +95,6 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     }
                 }.frame(width: dimension.mlButtonHeight, height: dimension.mlButtonHeight)
                     .padding(dimension.mPadding)
-                //                        Image(systemName: "trash")
-                //                            .resizable()
-                //                            .foregroundColor(Color.black)
-                //                            .frame(width: dimension.mButtonHeight, height: dimension.mlButtonHeight)
-                //                            .padding(dimension.mPadding)
             }
         }
     }

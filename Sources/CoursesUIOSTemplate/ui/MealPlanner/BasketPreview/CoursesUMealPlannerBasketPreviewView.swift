@@ -27,8 +27,6 @@ public struct CoursesUMealPlannerBasketPreviewView<
     private let validateRecipes: () -> Void
     
     @StateObject var previewViewModel = MealPlannerBasketPreviewVM()
-    @SwiftUI.State private var budgetSpent: Double = 50.0
-    
     
     public init(
         loadingTemplate: LoadingTemplate,
