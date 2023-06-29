@@ -47,6 +47,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     showingFilters.toggle()
                 })
                     .onChange(of: searchText) { newValue in
+                        viewModel.recipes = []
                         viewModel.search(input: newValue)
                     }
                     .sheet(isPresented: $showingFilters) {
@@ -54,18 +55,19 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     } content: {
                         CatalogFiltersView {
                             showingFilters = false
+                            viewModel.recipes = []
                             viewModel.search(input: searchText)
                         } close: {
                             showingFilters = false
                         }
                     }
                 // TODO: use ui state?
-//            if viewModel.recipes.isEmpty && searchText != "" {
-//                    Text("0 idée repas")
-//                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
-//                        .padding(.top, 35)
-//                    NoSearchResults(message: "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.")
-//                } else {
+            if viewModel.recipes.isEmpty && searchText != "" {
+                    Text("0 idée repas")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+                        .padding(.top, 35)
+                    NoSearchResults(message: "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.")
+                } else {
                     // if results
                     ScrollView {
                         LazyVGrid(columns: [.init(), .init()]) {
@@ -89,7 +91,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                         }.padding(Dimension.sharedInstance.lPadding)
                             .padding(.bottom, 100)
                     }
-//                }
+                }
             }
         }
     }
