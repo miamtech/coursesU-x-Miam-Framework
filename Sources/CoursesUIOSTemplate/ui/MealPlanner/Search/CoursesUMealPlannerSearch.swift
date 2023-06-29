@@ -11,7 +11,7 @@ import MiamIOSFramework
 import miamCore
 
 @available(iOS 14, *)
-public struct CoursesUBudgetSearch: BudgetSearch {
+public struct CoursesUMealPlannerSearch: MealPlannerSearch {
     public init() {}
     let dimension = Dimension.sharedInstance
     public func content(searchText: Binding<String>, filtersTapped: @escaping () -> Void) -> some View {
@@ -72,7 +72,7 @@ public struct CoursesUBudgetSearch: BudgetSearch {
 
 
 @available(iOS 14, *)
-struct CoursesUBudgetSearch_Previews: PreviewProvider {
+struct CoursesUMealPlannerSearch_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.budgetBackgroundColor
@@ -85,7 +85,7 @@ struct CoursesUBudgetSearch_Previews: PreviewProvider {
         
         var body: some View {
             VStack {
-                CoursesUBudgetSearch().content(searchText: $text, filtersTapped: {})
+                CoursesUMealPlannerSearch().content(searchText: $text, filtersTapped: {})
             }
         }
     }

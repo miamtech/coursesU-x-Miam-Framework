@@ -10,7 +10,7 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerCallToAction: BudgetCallToAction {
+public struct CoursesUMealPlannerCallToAction: MealPlannerCallToAction {
    
     public init() {}
     let screen = UIScreen.screenSize

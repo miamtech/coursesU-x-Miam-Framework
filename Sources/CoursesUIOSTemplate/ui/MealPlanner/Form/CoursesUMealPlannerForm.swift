@@ -9,18 +9,19 @@ import SwiftUI
 import miamCore
 import MiamIOSFramework
 
+// just used for preview 
 @available(iOS 14, *)
 public struct CoursesUBudgetFormStandaloneWrapper: View {
     @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
     
     public init() {}
     public var body: some View {
-        CoursesUBudgetForm().content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
+        CoursesUMealPlannerForm().content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
     }
 }
 
 @available(iOS 14, *)
-public struct CoursesUBudgetForm: BudgetForm {
+public struct CoursesUMealPlannerForm: MealPlannerForm {
     var includeTitle: Bool
     var includeLogo: Bool
     var includeBackground: Bool
@@ -276,17 +277,12 @@ struct CoursesUBudgetForm_Previews: PreviewProvider {
         
         @SwiftUI.State var budgetInfoss = BudgetInfos(moneyBudget: 40.0, numberOfGuests: 3, numberOfMeals: 2)
         var body: some View {
-//            CoursesUBudgetForm().content(budgetInfos: $budgetInfoss, isFetchingRecipes: false, onFormValidated: { _ in })
-            
-                    CoursesUBudgetFormStandaloneWrapper()
+            CoursesUBudgetFormStandaloneWrapper()
             
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 VStack(spacing: -40.0) {
-                    BudgetBackground()
-                    //                CoursesUBudgetForm().content(isFetchingRecipes: false, onBudgetChanged: { budgetInfos in
-                    //                    print("Budget changed: \(budgetInfos)")
-                    //                }, onFormValidated: { _ in })
+                    MealPlannerBackground()
                     CoursesUBudgetFormStandaloneWrapper()
                     Spacer()
                         .frame(height: 80)

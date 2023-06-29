@@ -10,7 +10,7 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUBudgetRecipePlaceholder: BudgetRecipePlaceholder {
+public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholder {
     private let recipeCardSize = CGSize(width: 175.0, height: 175.0)
     private let dimension = Dimension.sharedInstance
     public init() {}
@@ -48,11 +48,11 @@ public struct CoursesUBudgetRecipePlaceholder: BudgetRecipePlaceholder {
 }
 
 @available(iOS 14, *)
-struct CoursesUBudgetRecipePlaceholder_Preview: PreviewProvider {
+struct CoursesUMealPlannerRecipePlaceholder_Preview: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUBudgetRecipePlaceholder().content {
+            CoursesUMealPlannerRecipePlaceholder().content {
                 
             }
         }

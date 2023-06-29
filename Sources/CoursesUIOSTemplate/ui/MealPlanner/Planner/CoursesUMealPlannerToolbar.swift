@@ -18,51 +18,19 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUBudgetPlannerToolbar: BudgetPlannerToolbar {
+public struct CoursesUMealPlannerToolbar: MealPlannerToolbar {
     let dimension = Dimension.sharedInstance
     public init() {}
     public func content(budgetInfos: Binding<BudgetInfos>, isLoadingRecipes: Binding<Bool>, onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
         
     
         HStack {
-            // with no CTA
             Spacer()
             CoursesUFormRow(caption: String(Int(budgetInfos.wrappedValue.moneyBudget)), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
             Divider()
             CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
             Divider()
             CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfMeals),icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), content: Spacer().frame(width: 0))
-            
-//            CoursesUInputWithIcon(
-//                defaultValue: budgetInfos.moneyBudget,
-//                icon: Image(packageResource: "BudgetIcon", ofType: "png")
-//               ) { money in
-//                onValidateTapped(
-//                    BudgetInfos(
-//                        moneyBudget: money,
-//                        numberOfGuests: budgetInfos.numberOfGuests,
-//                        numberOfMeals: budgetInfos.numberOfMeals)
-//                )
-//            }
-            // TODO: localize
-//            CoursesUFormRow(
-//                icon: Image(packageResource: "BudgetIcon", ofType: "png"),
-//                content:
-//                    CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
-//            )
-//            Divider()
-//               CoursesUStepperCollapsed(
-//                   value: budgetInfos.numberOfGuests,
-//                   icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"))
-//               Divider()
-//               CoursesUStepperCollapsed(
-//                   value: budgetInfos.numberOfMeals,
-//                   icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
-//               SubmitButtonCollapsed(isLoading: isLoadingRecipes) {
-//                   let infos = BudgetInfos(moneyBudget: budget, numberOfGuests: numberGuests, numberOfMeals: numberMeals)
-//                   onValidateTapped(infos)
-//               }
-            
         }
         .padding(.vertical, 5)
         .padding(.leading)
@@ -107,7 +75,7 @@ internal struct SubmitButtonCollapsed: View {
 }
 
 @available(iOS 14, *)
-struct CoursesUBudgetPlannerToolbar_Previews: PreviewProvider {
+struct CoursesUMealPlannerToolbar_Previews: PreviewProvider {
     static var previews: some View {
         Preview()
     }
@@ -118,8 +86,8 @@ struct CoursesUBudgetPlannerToolbar_Previews: PreviewProvider {
             ZStack{
                 Color.budgetBackgroundColor
                 VStack(spacing: -40.0) {
-                    BudgetBackground()
-                    CoursesUBudgetPlannerToolbar().content(budgetInfos: .constant(BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4)),
+                    MealPlannerBackground()
+                    CoursesUMealPlannerToolbar().content(budgetInfos: .constant(BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4)),
                                                        isLoadingRecipes: $loading, onValidateTapped: {_ in})
                     .padding()
                     Spacer()

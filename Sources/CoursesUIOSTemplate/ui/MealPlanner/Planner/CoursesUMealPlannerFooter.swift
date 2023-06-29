@@ -12,7 +12,7 @@ import MiamIOSFramework
 
 
 @available(iOS 14, *)
-public struct CoursesUBudgetPlannerFooter: BudgetPlannerFooter {
+public struct CoursesUMealPlannerFooter: MealPlannerFooter {
     
     
 
@@ -105,7 +105,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
     let widthOfFrame = CGFloat(150)
     var body: some View {
         VStack(alignment: .leading, spacing: dimension.sPadding) {
-            if (budgetSpent > totalBudgetPermitted) {
+            if (budgetSpent > totalBudgetPermitted + 0.5) {
                 HStack {
                     Spacer()
                     Text(String(format: "+%.2f €", budgetSpent - totalBudgetPermitted))
@@ -166,13 +166,13 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
+                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(50.0)) { print("hello world")
+                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(50.0)) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(20.0)) { print("hello world")
+                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(20.0)) { print("hello world")
                 }
-                CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(30.0)) { print("hello world")
+                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(30.0)) { print("hello world")
                 }
             }
         }
@@ -198,7 +198,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesUBudgetPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
+                    CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
                     }
                 }
                 .frame(maxWidth: .infinity)

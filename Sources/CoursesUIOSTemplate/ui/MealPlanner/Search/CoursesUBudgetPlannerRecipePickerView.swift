@@ -12,9 +12,9 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUBudgetPlannerRecipePickerView<
-    SearchTemplate: BudgetSearch,
+    SearchTemplate: MealPlannerSearch,
     CardTemplate: RecipeCard,
-    Footer: BudgetPlannerFooter>: View {
+    Footer: MealPlannerFooter>: View {
     private let searchTemplate: SearchTemplate
     private let cardTemplate: CardTemplate
     private let stickyFooter: Footer
@@ -117,9 +117,9 @@ public struct CoursesUBudgetPlannerRecipePickerView<
 struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUBudgetPlannerRecipePickerView(
-            searchTemplate: CoursesUBudgetSearch(),
+            searchTemplate: CoursesUMealPlannerSearch(),
             cardTemplate: CoursesURecipeCard(),
-            stickyFooter: CoursesUBudgetPlannerFooter(), maxBudget: 23.6,
+            stickyFooter: CoursesUMealPlannerFooter(), maxBudget: 23.6,
             onRecipeSelected: { _ in })
     }
 }

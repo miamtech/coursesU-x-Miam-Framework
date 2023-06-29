@@ -13,7 +13,7 @@ import MiamIOSFramework
 
 
 @available(iOS 14, *)
-public struct CoursesUBudgetRecipeCard: BudgetRecipeCard {
+public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
     public init() {}
     
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
@@ -147,12 +147,12 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
 }
 
 @available(iOS 14, *)
-struct CoursesUBudgetRecipeCard_Preview: PreviewProvider {
+struct CoursesUMealPlannerRecipeCard_Preview: PreviewProvider {
     static var previews: some View {
         let recipeInfosRandom = FakeRecipe().createRandomFakeRecipeInfos()
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUBudgetRecipeCard().content(recipeInfos: recipeInfosRandom, actions: BudgetRecipeCardActions(recipeTapped: {}, removeTapped: {
+            CoursesUMealPlannerRecipeCard().content(recipeInfos: recipeInfosRandom, actions: BudgetRecipeCardActions(recipeTapped: {}, removeTapped: {
                 print("Remove recipe card.")
             }, replaceTapped: nil))
             .padding()

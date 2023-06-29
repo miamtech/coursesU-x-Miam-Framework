@@ -11,7 +11,7 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUBudgetPlannerLoading: BudgetPlannerLoading {
+public struct CoursesUMealPlannerLoading: MealPlannerLoading {
     public init() {}
     public func content() -> some View {
         Text("loading")

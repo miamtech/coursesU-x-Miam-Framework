@@ -11,7 +11,7 @@ import MiamIOSFramework
 
 
 @available(iOS 14, *)
-public struct CoursesURecapView: BudgetRecap {
+public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
     public init() {}
     let dimension = Dimension.sharedInstance
   
@@ -20,7 +20,7 @@ public struct CoursesURecapView: BudgetRecap {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
                 VStack(spacing: -40.0) {
-                    BudgetBackground()
+                    MealPlannerBackground()
                     VStack(spacing: 25) {
                         Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
                             .resizable()
@@ -67,8 +67,8 @@ public struct CoursesURecapView: BudgetRecap {
 }
 
 //@available(iOS 14, *)
-//struct CoursesUFinalBudgetCallToAction_Previews: PreviewProvider {
+//struct CoursesUMealPlannerRecapView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        CoursesURecapView().content(onTapGesture: {print("hello")})
+//        CoursesUMealPlannerRecapView().content(onTapGesture: {print("hello")})
 //    }
 //}

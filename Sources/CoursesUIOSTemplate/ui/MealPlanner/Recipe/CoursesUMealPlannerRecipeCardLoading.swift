@@ -11,7 +11,7 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUBudgetRecipeCardLoading: BudgetRecipeCardLoading {
+public struct CoursesUMealPlannerRecipeCardLoading: MealPlannerRecipeCardLoading {
    
     let dimensions = Dimension.sharedInstance
     @SwiftUI.State private var opacity: Double = 0.5
@@ -35,11 +35,11 @@ public struct CoursesUBudgetRecipeCardLoading: BudgetRecipeCardLoading {
 }
 
 @available(iOS 14, *)
-struct CoursesUBudgetRecipeCardLoading_Previews: PreviewProvider {
+struct CoursesUMealPlannerRecipeCardLoading_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUBudgetRecipeCardLoading().content()
+            CoursesUMealPlannerRecipeCardLoading().content()
                 .padding()
         }
         

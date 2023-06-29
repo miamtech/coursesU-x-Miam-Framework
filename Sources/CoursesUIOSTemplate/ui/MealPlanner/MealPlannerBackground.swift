@@ -8,7 +8,7 @@
 import SwiftUI
 
 @available(iOS 14, *)
-struct BudgetBackground: View {
+struct MealPlannerBackground: View {
     var body: some View {
         ZStack(alignment: .top) {
             Image(packageResource: "WhiteWave", ofType: "png")
@@ -31,7 +31,7 @@ struct BudgetBackground_Previews: PreviewProvider {
         ScrollView {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
-                BudgetBackground()
+                MealPlannerBackground()
                 VStack {
                     ForEach(0..<20) { index in
                         Text("Row \(index)")
@@ -50,7 +50,7 @@ struct BudgetBackground_Previews: PreviewProvider {
         
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
-                BudgetBackground()
+                MealPlannerBackground()
                 VStack {
                     
                         Text("Stagnant")

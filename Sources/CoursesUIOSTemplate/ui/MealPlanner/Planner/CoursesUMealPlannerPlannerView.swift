@@ -12,14 +12,14 @@ import MiamIOSFramework
 import SwiftUI
 
 @available(iOS 14, *)
-public struct CoursesUBudgetPlannerView<
-    ToolbarTemplate: BudgetPlannerToolbar,
-    FooterTemplate: BudgetPlannerFooter,
-    LoadingTemplate: BudgetPlannerLoading,
-    EmptyTemplate: BudgetPlannerEmpty,
-    CardTemplate: BudgetRecipeCard,
-    LoadingCardTemplate: BudgetRecipeCardLoading,
-    PlaceholderCardTemplate: BudgetRecipePlaceholder>: View {
+public struct CoursesUMealPlannerPlannerView<
+    ToolbarTemplate: MealPlannerToolbar,
+    FooterTemplate: MealPlannerFooter,
+    LoadingTemplate: MealPlannerLoading,
+    EmptyTemplate: MealPlannerEmpty,
+    CardTemplate: MealPlannerRecipeCard,
+    LoadingCardTemplate: MealPlannerRecipeCardLoading,
+    PlaceholderCardTemplate: MealPlannerRecipePlaceholder>: View {
     private let toolbarTemplate: ToolbarTemplate
     private let footerTemplate: FooterTemplate
     private let loadingTemplate: LoadingTemplate
@@ -128,7 +128,7 @@ public struct CoursesUBudgetPlannerView<
     
     private func toolbar() -> some View {
         VStack(spacing: -40.0) {
-            BudgetBackground()
+            MealPlannerBackground()
             if !showFormOptions {
                 toolbarTemplate.content(
                     budgetInfos: $formViewModel.budgetInfos,
@@ -144,7 +144,7 @@ public struct CoursesUBudgetPlannerView<
                     }
                     .padding(Dimension.sharedInstance.lPadding)
             } else {
-                CoursesUBudgetForm(includeTitle: false, includeLogo: false, includeBackground: false).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
+                CoursesUMealPlannerForm(includeTitle: false, includeLogo: false, includeBackground: false).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
                     withAnimation {
                         showFormOptions.toggle()
                         // TODO: need to cause update to other VM here
@@ -163,14 +163,14 @@ public struct CoursesUBudgetPlannerView<
                     }
                     print("close")
                 })
-                .onChange(of: formViewModel.budgetInfos) { newBudgetInfos in
-                    updateBudget(budgetInfos: newBudgetInfos)
+                .onChange(of: formViewModel.budgetInfos) { newMealPlannerInfos in
+                    updateBudget(budgetInfos: newMealPlannerInfos)
                 }
                 // TODO: check w Tibo changes to make sure the app does not crash at certain values
-                .onChange(of: combinedBudgetAndGuestsCount) { newBudgetInfos in
+                .onChange(of: combinedMealPlannerAndGuestsCount) { newMealPlannerInfos in
                     if (formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0) {
                         formViewModel.getRecipesMaxCountForBudgetConstraint(budget: Int32(formViewModel.budgetInfos.moneyBudget), guestCount: Int32(formViewModel.budgetInfos.numberOfGuests))
-                        updateBudgetWithMax(budgetInfos: formViewModel.budgetInfos)
+                        updateMealPlannerWithMax(budgetInfos: formViewModel.budgetInfos)
                     }
                 }
                 .padding(Dimension.sharedInstance.lPadding)
@@ -187,18 +187,18 @@ public struct CoursesUBudgetPlannerView<
         formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
         formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.numberOfMeals))
     }
-    private func updateBudgetWithMax(budgetInfos: BudgetInfos) {
+    private func updateMealPlannerWithMax(budgetInfos: BudgetInfos) {
         formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
         formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
         formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.maxRecipesForBudget))
     }
-    var combinedBudgetAndGuestsCount: Int {
+    var combinedMealPlannerAndGuestsCount: Int {
         formViewModel.budgetInfos.numberOfGuests + Int(formViewModel.budgetInfos.moneyBudget)
         }
 }
 
 @available(iOS 14, *)
-extension CoursesUBudgetPlannerView {
+extension CoursesUMealPlannerPlannerView {
 
     func createActions(recipe: String) -> BudgetRecipeCardActions {
         return BudgetRecipeCardActions(recipeTapped: {
@@ -219,7 +219,7 @@ extension CoursesUBudgetPlannerView {
             VStack {
                 if let meal {
                     let actions = createActions(recipe: meal.recipeId)
-                    BudgetRecipeCardView(
+                    MealPlannerRecipeCardView(
                         recipeId: meal.recipeId,
                         price: Price(price: meal.price, currency: "EUR"),
                         recipeCardTemplate: recipeCardTemplate,
@@ -243,7 +243,7 @@ extension CoursesUBudgetPlannerView {
 
 
 @available(iOS 14, *)
-extension CoursesUBudgetPlannerView {
+extension CoursesUMealPlannerPlannerView {
     private func removeRecipe(_ recipeId: String) {
         viewModel.removeRecipe(recipeId)
     }
@@ -254,16 +254,16 @@ extension CoursesUBudgetPlannerView {
 }
 
 @available(iOS 14, *)
-struct CoursesUBudgetPlannerView_Previews: PreviewProvider {
+struct CoursesUMealPlannerPlannerView_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUBudgetPlannerView(
-            toolbarTemplate: CoursesUBudgetPlannerToolbar(),
-            footerTemplate: CoursesUBudgetPlannerFooter(),
+        CoursesUMealPlannerPlannerView(
+            toolbarTemplate: CoursesUMealPlannerToolbar(),
+            footerTemplate: CoursesUMealPlannerFooter(),
             loadingTemplate: MiamBudgetPlannerLoading(),
             emptyTemplate: MiamBudgetPlannerEmpty(),
-            recipeCardTemplate: CoursesUBudgetRecipeCard(),
-            loadingCardTemplate: CoursesUBudgetRecipeCardLoading(),
-            placeholderCardTemplate: CoursesUBudgetRecipePlaceholder(),
+            recipeCardTemplate: CoursesUMealPlannerRecipeCard(),
+            loadingCardTemplate: CoursesUMealPlannerRecipeCardLoading(),
+            placeholderCardTemplate: CoursesUMealPlannerRecipePlaceholder(),
            showRecipe: {_ in}, validateRecipes: {}, replaceRecipe: {_ in})
     }
 }
