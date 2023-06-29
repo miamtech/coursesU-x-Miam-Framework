@@ -34,6 +34,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget)))
     }
     @SwiftUI.State private var showingFilters = false
+    @SwiftUI.State private var isLoading = false
     @AppStorage("miam_index_of_recipe_replaced") var miam_index_of_recipe_replaced = 4
 
     public var body: some View {
@@ -47,22 +48,37 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     showingFilters.toggle()
                 })
                     .onChange(of: searchText) { newValue in
+                        isLoading = true
                         viewModel.recipes = []
                         viewModel.search(input: newValue)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
+                            isLoading = false
+                        }
                     }
                     .sheet(isPresented: $showingFilters) {
                         showingFilters = false
                     } content: {
                         CatalogFiltersView {
+                            isLoading = true
                             showingFilters = false
                             viewModel.recipes = []
                             viewModel.search(input: searchText)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
+                                isLoading = false
+                            }
                         } close: {
                             showingFilters = false
                         }
                     }
+                if isLoading {
+                    VStack {
+                        Spacer()
+                        ProgressLoader(color: Color.primaryColor)
+                        Spacer()
+                    }
+                }
                 // TODO: use ui state?
-            if viewModel.recipes.isEmpty && searchText != "" {
+           else if viewModel.recipes.isEmpty && searchText != "" {
                     Text("0 idée repas")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                         .padding(.top, 35)
