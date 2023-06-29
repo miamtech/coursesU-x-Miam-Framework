@@ -23,12 +23,12 @@ public struct CoursesUMealPlannerBasketPreviewSectionProduct: MealPlannerBasklet
                 if canBeAdded {
                     CoursesUButtonStyle(backgroundColor: Color.white, buttonStrokeColor: Color.primaryColor, content: {
                         HStack {
-                            Image(packageResource: "ShoppingCartIcon", ofType: "png")
+                            Image(packageResource: "ShoppingCartIconBlue", ofType: "png")
                                 .resizable()
                                 .foregroundColor(Color.primaryColor)
                                 .frame(width: 20, height: 20)
                             Text("Ajouter au panier")
-                                .foregroundColor(Color.white)
+                                .foregroundColor(Color.primaryColor)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                         }
                     }, buttonAction: addIngredientAction)
