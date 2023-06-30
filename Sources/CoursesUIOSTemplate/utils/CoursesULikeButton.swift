@@ -56,7 +56,7 @@ struct CoursesULikeSuccessView: View {
            Button(action: {
                self.onButtonPressed()
            }) {
-               Image(packageResource: imageName, ofType: "png")
+               Image(uiImage: UIImage(fromPodAssetName: imageName) ?? UIImage())
                    .resizable()
                    .foregroundColor(.red)
                    .frame(width: 20, height: 20)
