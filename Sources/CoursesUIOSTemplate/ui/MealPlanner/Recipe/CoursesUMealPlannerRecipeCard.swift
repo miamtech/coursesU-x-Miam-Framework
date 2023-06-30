@@ -53,7 +53,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
                     replaceTapped()
                 } label: {
                     HStack {
-                        Image(packageResource: "ReloadIcon", ofType: "png")
+                        Image(uiImage: UIImage(fromPodAssetName: "ReloadIcon") ?? UIImage())
                             .resizable()
                             .frame(width: 20, height: 20)
                         Text("Changer")
@@ -69,7 +69,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
                     }
                     removeTapped()
                 } label: {
-                    Image(packageResource: "TrashIcon", ofType: "png")
+                    Image(uiImage: UIImage(fromPodAssetName: "TrashIcon") ?? UIImage())
                         .resizable()
                         .frame(width: 20, height: 20)
                 }

@@ -19,7 +19,7 @@ public struct CoursesURecipeDifficulty: View {
         VStack {
             HStack(spacing: 0) {
                 ForEach(0..<difficulty, id: \.self) { item in
-                    Image(packageResource: "ChefHatIcon", ofType: "png")
+                    Image(uiImage: UIImage(fromPodAssetName: "ChefHatIcon") ?? UIImage())
                         .resizable()
                         .frame(width: 25, height: 25)
                 }

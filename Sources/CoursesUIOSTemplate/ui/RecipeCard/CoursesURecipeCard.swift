@@ -21,7 +21,7 @@ public struct CoursesURecipeCard: RecipeCard {
         }
         let priceWithCurrency = String(recipeInfos.price.formattedPrice())
         
-        VStack(spacing: 0.0) {
+        return VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
 //                Button(action: {
 //                    actions.showDetails()

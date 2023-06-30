@@ -137,14 +137,15 @@ internal struct CoursesUInputWithCurrency: View {
 
 
 }
-
-@available(iOS 14, *)
-struct CoursesUInputWithIcon_Previews: PreviewProvider {
-    static var previews: some View {
-        @SwiftUI.State var myBudget = 4.0
-        
-        CoursesUInputWithCurrency(
-            budget: $myBudget)
-            .background(Color.white)
-    }
-}
+//
+//@available(iOS 14, *)
+//struct CoursesUInputWithIcon_Previews: PreviewProvider {
+//    static var previews: some View {
+//        @SwiftUI.State var myBudget = 4.0
+//
+//        CoursesUInputWithCurrency(
+//            budget: $myBudget)
+//            .background(Color.white)
+//    }
+//}
+ 

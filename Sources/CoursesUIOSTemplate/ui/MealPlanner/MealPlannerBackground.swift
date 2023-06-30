@@ -11,10 +11,10 @@ import SwiftUI
 struct MealPlannerBackground: View {
     var body: some View {
         ZStack(alignment: .top) {
-            Image(packageResource: "WhiteWave", ofType: "png")
+            Image(uiImage: UIImage(fromPodAssetName: "WhiteWave") ?? UIImage())
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
-            Image(packageResource: "BudgetRepasLogo", ofType: "png")
+            Image(uiImage: UIImage(fromPodAssetName: "BudgetRepasLogo") ?? UIImage())
                 .resizable()
                 .padding(.horizontal, 50)
                 .frame(width: UIScreen.screenWidth, height: 100)

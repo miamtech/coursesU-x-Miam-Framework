@@ -27,7 +27,7 @@ struct YellowSubtext: View {
                 .foregroundColor(Color.black)
                 .zIndex(1)
                 .coursesUFontStyle(style: fontStyle)
-            Image(packageResource: "YellowUnderline", ofType: "png")
+            Image(uiImage: UIImage(fromPodAssetName: "YellowUnderline") ?? UIImage())
                 .resizable()
                 .frame(width: imageWidth, height: imageHeight)
                 .zIndex(0)

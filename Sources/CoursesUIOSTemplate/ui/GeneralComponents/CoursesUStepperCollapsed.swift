@@ -79,7 +79,7 @@ struct CoursesUStepperCollapsed_Previews: PreviewProvider {
 
             var body: some View {
                 VStack {
-                    CoursesUStepperCollapsed(value: .constant(4), icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
+                    CoursesUStepperCollapsed(value: .constant(4), icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfMealsIcon") ?? UIImage()))
                 }
             }
     }

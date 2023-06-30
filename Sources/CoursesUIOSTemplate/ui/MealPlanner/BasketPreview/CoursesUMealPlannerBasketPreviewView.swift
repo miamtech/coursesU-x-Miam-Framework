@@ -46,7 +46,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
     public var body: some View {
         ZStack(alignment: .top) {
             Color.budgetBackgroundColor
-            Image(packageResource: "WhiteWave", ofType: "png")
+            Image(uiImage: UIImage(fromPodAssetName: "WhiteWave") ?? UIImage())
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             UIStateWrapperView(uiState: previewViewModel.state?.lines) {
