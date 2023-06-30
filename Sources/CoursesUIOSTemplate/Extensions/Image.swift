@@ -30,3 +30,11 @@ extension Image {
         #endif
     }
 }
+
+class ImageBuilder:Any { } // Necessary for UIImage extension below
+extension UIImage {
+    convenience init?(fromPodAssetName name: String) {
+        let bundle = Bundle(for: ImageBuilder.self)
+        self.init(named: name, in: bundle, compatibleWith: nil)
+    }
+}
