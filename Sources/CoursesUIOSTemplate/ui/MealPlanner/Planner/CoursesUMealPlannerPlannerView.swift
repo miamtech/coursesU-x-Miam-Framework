@@ -201,32 +201,27 @@ public struct CoursesUMealPlannerPlannerView<
 @available(iOS 14, *)
 extension CoursesUMealPlannerPlannerView {
 
-    func createActions(recipe: String) -> BudgetRecipeCardActions {
-        return BudgetRecipeCardActions(recipeTapped: {
-            showRecipe(recipe)
-        }, removeTapped: {
-            
-            removeRecipe(recipe)
-        }, replaceTapped: {
-            recipeToReplace = recipe
-            replaceRecipe(recipe)
-        })
-    }
     @available(iOS 14, *)
     private func recipesList() -> some View {
-//        ForEach(viewModel.meals, id: \.self) { meal in
         ForEach(Array(viewModel.meals.enumerated()), id: \.1.self) { index, meal in
             // I use VStack so i can add same bg & padding to comps
             VStack {
                 if let meal {
-                    let actions = createActions(recipe: meal.recipeId)
-                    MealPlannerRecipeCardView(
-                        recipeId: meal.recipeId,
-                        price: Price(price: meal.price, currency: "EUR"),
-                        recipeCardTemplate: recipeCardTemplate,
-                        recipeCardLoadingTemplate: loadingCardTemplate,
-                        actions: actions)
-                    
+                    let actions = BudgetRecipeCardActions(recipeTapped: {
+                            showRecipe(meal.recipeId)
+                        }, removeTapped: {
+                            removeRecipe(meal.recipeId)
+                        }, replaceTapped: {
+                            recipeToReplace = meal.recipeId
+                            miamIndexOfRecipeReplaced = index
+                            replaceRecipe(meal.recipeId)
+                        })
+                        MealPlannerRecipeCardView(
+                            recipeId: meal.recipeId,
+                            price: Price(price: meal.price, currency: "EUR"),
+                            recipeCardTemplate: recipeCardTemplate,
+                            recipeCardLoadingTemplate: loadingCardTemplate,
+                            actions: actions)
                 } else {
                     placeholderCardTemplate.content {
                         miamIndexOfRecipeReplaced = index
