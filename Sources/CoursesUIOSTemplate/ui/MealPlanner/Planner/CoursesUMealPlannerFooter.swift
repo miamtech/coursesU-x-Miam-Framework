@@ -23,8 +23,7 @@ public struct CoursesUMealPlannerFooter: MealPlannerFooter {
             totalBudgetPermitted: budgetInfos.moneyBudget,
             footerContent:
                 HStack {
-                    //                Image(packageResource: "basket", ofType: "png")
-                    Image(packageResource: "ShoppingCartIcon", ofType: "png")
+                    Image(uiImage: UIImage(fromPodAssetName: "ShoppingCartIcon") ?? UIImage())
                         .resizable()
                         .foregroundColor(Color.white)
                         .frame(width: 20, height: 20)

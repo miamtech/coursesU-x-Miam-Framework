@@ -44,14 +44,14 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                 return Color.primaryColor
             } else { return Color.lightGray }
         }
-        ZStack(alignment: .top) {
+        return ZStack(alignment: .top) {
             if includeBackground {
                 Color.white
                 CoursesUTwoMealsBackground()
             }
             VStack {
                 if includeLogo {
-                    Image(packageResource: "BudgetRepasLogo", ofType: "png")
+                    Image(uiImage: UIImage(fromPodAssetName: "BudgetRepasLogo") ?? UIImage())
                         .resizable()
                         .padding(.horizontal, 50)
                         .frame(width: UIScreen.screenWidth, height: 100)
@@ -73,7 +73,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     // TODO: localize
                     CoursesUFormRow(
                         caption: "Mon budget max",
-                        icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+                        icon: Image(uiImage: UIImage(fromPodAssetName: "BudgetIcon") ?? UIImage()),
                         content:
                             HStack {
                                 Spacer()
@@ -84,11 +84,11 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     )
                     Divider()
                     // TODO: localize
-                    //                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"))
+                    //                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfMealsIcon")?? UIImage())))
                     //                { _ in }
                     CoursesUFormRow(
                         caption: "Nombre de personnes",
-                        icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
+                        icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfMealsIcon") ?? UIImage()),
                         content:
                             //                        Text("hello")
                         CoursesUStepper(value: budgetInfos.numberOfGuests)
@@ -98,7 +98,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     // TODO: localize
                     CoursesUFormRow(
                         caption: "Nombre de repas",
-                        icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
+                        icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfPeopleIcon") ?? UIImage()),
                         content:
                             //                        Text("hello")
                         CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
@@ -113,7 +113,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                 onFormValidated(budgetInfos.wrappedValue)
                             } label: {
                                 HStack {
-                                    Image(packageResource: "searchIcon", ofType: "png")
+                                    Image(uiImage: UIImage(fromPodAssetName: "searchIcon") ?? UIImage())
                                         .resizable()
                                         .frame(width: 20, height: 20)
                                     Text("C'est parti !")
@@ -256,9 +256,9 @@ internal struct CoursesUTwoMealsBackground: View {
         VStack {
             Spacer()
             HStack() {
-                Image(packageResource: "BudgetLeftSideBg", ofType: "png")
+                Image(uiImage: UIImage(fromPodAssetName: "BudgetLeftSideBg") ?? UIImage())
                 Spacer()
-                Image(packageResource: "BudgetRightSideBg", ofType: "png")
+                Image(uiImage: UIImage(fromPodAssetName: "BudgetRightSideBg") ?? UIImage())
             }
         }
     }

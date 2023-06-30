@@ -77,6 +77,7 @@ public struct CoursesUMealPlannerPlannerView<
     }
     
     @SwiftUI.State var showFormOptions = false
+    @AppStorage("miam_index_of_recipe_replaced") var miamIndexOfRecipeReplaced = 4
     
     public var body: some View {
         ZStack {
@@ -228,8 +229,7 @@ extension CoursesUMealPlannerPlannerView {
                     
                 } else {
                     placeholderCardTemplate.content {
-                        print("index is " + String(index))
-//                        miam_index_of_recipe_replaced = index
+                        miamIndexOfRecipeReplaced = index
                         self.replaceRecipe("")
                     }
                 }

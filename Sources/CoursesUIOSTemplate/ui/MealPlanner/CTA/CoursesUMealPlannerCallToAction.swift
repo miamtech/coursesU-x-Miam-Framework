@@ -15,7 +15,7 @@ public struct CoursesUMealPlannerCallToAction: MealPlannerCallToAction {
     public init() {}
     let screen = UIScreen.screenSize
     public func content(onTapGesture: @escaping () -> Void) -> some View {
-        Image(packageResource: "CTAImage", ofType: "png")
+        Image(uiImage: UIImage(fromPodAssetName: "CTAImage") ?? UIImage())
             .resizable()
             .scaledToFit()
             .frame(maxWidth: .infinity)
@@ -23,6 +23,7 @@ public struct CoursesUMealPlannerCallToAction: MealPlannerCallToAction {
             .onTapGesture {
                 onTapGesture()
             }
+    
     }
 }
 

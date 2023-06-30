@@ -35,12 +35,12 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     }
     @SwiftUI.State private var showingFilters = false
     @SwiftUI.State private var isLoading = false
-    @AppStorage("miam_index_of_recipe_replaced") var miam_index_of_recipe_replaced = 4
+    @AppStorage("miam_index_of_recipe_replaced") var miamIndexOfRecipeReplaced = 4
 
     public var body: some View {
         ZStack(alignment: .top) {
             Color.budgetBackgroundColor
-            Image(packageResource: "WhiteWave", ofType: "png")
+            Image(uiImage: UIImage(fromPodAssetName: "WhiteWave") ?? UIImage())
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             VStack {
@@ -94,9 +94,9 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                                     loadingTemplate: CoursesURecipeCardLoading(),
                                     showDetails: {},
                                     add: {
-                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miam_index_of_recipe_replaced))
+                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miamIndexOfRecipeReplaced))
                                         
-                                        print("index is " + String(miam_index_of_recipe_replaced))
+                                        print("index is " + String(miamIndexOfRecipeReplaced))
                                         onRecipeSelected(viewModel.recipes[index].id)
                                     }).onAppear {
                                         if index == viewModel.recipes.count - 1 { // last item

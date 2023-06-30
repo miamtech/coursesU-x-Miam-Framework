@@ -23,7 +23,7 @@ public struct CoursesUMealPlannerBasketPreviewSectionProduct: MealPlannerBasklet
                 if canBeAdded {
                     CoursesUButtonStyle(backgroundColor: Color.white, buttonStrokeColor: Color.primaryColor, content: {
                         HStack {
-                            Image(packageResource: "ShoppingCartIconBlue", ofType: "png")
+                            Image(uiImage: UIImage(fromPodAssetName: "ShoppingCartIconBlue") ?? UIImage())
                                 .resizable()
                                 .foregroundColor(Color.primaryColor)
                                 .frame(width: 20, height: 20)
