@@ -12,7 +12,7 @@ Miam iOS SDK for Courses U.
   spec.author             = { "Diarmuid McGonagle" => "it@miam.tech" }
   spec.platform     = :ios, "11.0"
   spec.swift_versions = "5.8"
-  spec.resources = "Sources/CoursesUIOSTemplate/Resources/**/*.png"
+  spec.resources = "Sources/CoursesUxMiamFramework/Resources/**/*.png"
 
   
   spec.source       = { :git => "https://github.com/miamtech/coursesU-x-Miam-Framework.git", :tag => "#{spec.version}" }
