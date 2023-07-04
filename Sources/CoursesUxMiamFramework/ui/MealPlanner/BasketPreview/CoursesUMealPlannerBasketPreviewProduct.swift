@@ -43,16 +43,18 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     Text(productInfo.description)
                         .foregroundColor(Color.gray)
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
-                    Button {
-                        actions.changeProduct()
-                    } label: {
-                        Text("Changer d'article")
-                            .underline()
-                            .foregroundColor(Color.primaryColor)
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
-                            .padding(.vertical, dimension.sPadding)
+                    if productInfo.isSubstitutable {
+                        Button {
+                            actions.changeProduct()
+                        } label: {
+                            Text("Changer d'article")
+                                .underline()
+                                .foregroundColor(Color.primaryColor)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+                                .padding(.vertical, dimension.sPadding)
+                        }
+                        Spacer()
                     }
-                    Spacer()
                     HStack() {
                         Text("\(productInfo.price.formattedPrice())")
                             .foregroundColor(Color.black)

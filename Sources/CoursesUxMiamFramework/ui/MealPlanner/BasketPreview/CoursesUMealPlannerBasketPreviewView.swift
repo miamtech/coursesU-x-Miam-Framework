@@ -25,8 +25,9 @@ public struct CoursesUMealPlannerBasketPreviewView<
     private let sectionProductTemplate: SectionProductTemplate
     
     private let validateRecipes: () -> Void
+    private let replaceProduct: (String) -> Void
     
-    @StateObject var previewViewModel = MealPlannerBasketPreviewVM()
+    @StateObject private var previewViewModel = MealPlannerBasketPreviewVM()
     
     public init(
         loadingTemplate: LoadingTemplate,
@@ -34,11 +35,13 @@ public struct CoursesUMealPlannerBasketPreviewView<
         productTemplate: ProductTemplate,
         sectionTitleTemplate: SectionTitleTemplate,
         sectionProductTemplate: SectionProductTemplate,
-        validateRecipes: @escaping () -> Void) {
+        validateRecipes: @escaping () -> Void,
+        replaceProduct: @escaping (String) -> Void) {
             self.loadingTemplate = loadingTemplate
         self.recipeOverviewTemplate = recipeOverviewTemplate
         self.productTemplate = productTemplate
         self.validateRecipes = validateRecipes
+            self.replaceProduct = replaceProduct
         self.sectionTitleTemplate = sectionTitleTemplate
         self.sectionProductTemplate = sectionProductTemplate
     }
@@ -110,6 +113,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
                 sectionTitleTemplate: sectionTitleTemplate,
                 sectionProductTemplate: sectionProductTemplate,
                 meal: meal,
+                replaceProduct: self.replaceProduct,
                 mealViewModel: previewViewModel
             )
                 .listRowBackground(Color.clear)
@@ -128,6 +132,6 @@ struct CoursesUMealPlannerBasketPreviewView_Previews: PreviewProvider {
             productTemplate: CoursesUMealPlannerBasketPreviewProduct(),
             sectionTitleTemplate: CoursesUMealPlannerBasketPreviewSectionTitle(),
             sectionProductTemplate: CoursesUMealPlannerBasketPreviewSectionProduct(),
-            validateRecipes: { print("validating")})
+            validateRecipes: { print("validating")}, replaceProduct: {_ in})
     }
 }
