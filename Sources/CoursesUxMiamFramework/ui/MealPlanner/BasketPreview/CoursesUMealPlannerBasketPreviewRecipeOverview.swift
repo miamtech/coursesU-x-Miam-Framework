@@ -96,7 +96,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                             ProgressLoader(color: Color.primaryColor)
                                 .scaleEffect(0.25)
                         } else {
-                            Image(uiImage: UIImage(fromPodAssetName: "TrashIcon") ?? UIImage())
+                            Image(packageResource: "TrashIcon", ofType: "png")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                         }

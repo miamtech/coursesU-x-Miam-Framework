@@ -51,7 +51,7 @@ public struct CoursesUMealPlannerSearch: MealPlannerSearch {
                 Button {
                     filtersTapped()
                 } label: {
-                    Image(uiImage: UIImage(fromPodAssetName: "FiltersIcon") ?? UIImage())
+                    Image(packageResource: "FiltersIcon", ofType: "png")
                         .resizable()
                         .frame(width: 25, height: 25)
                         .padding(.horizontal, dimension.mPadding)

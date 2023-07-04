@@ -40,7 +40,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     public var body: some View {
         ZStack(alignment: .top) {
             Color.budgetBackgroundColor
-            Image(uiImage: UIImage(fromPodAssetName: "WhiteWave") ?? UIImage())
+            Image(packageResource: "WhiteWave", ofType: "png")
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             VStack {

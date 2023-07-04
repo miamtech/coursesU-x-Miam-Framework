@@ -26,11 +26,11 @@ public struct CoursesUMealPlannerToolbar: MealPlannerToolbar {
     
         HStack {
             Spacer()
-            CoursesUFormRow(caption: String(Int(budgetInfos.wrappedValue.moneyBudget)), icon: Image(uiImage: UIImage(fromPodAssetName: "BudgetIcon") ?? UIImage()), content: Spacer().frame(width: 0))
+            CoursesUFormRow(caption: String(Int(budgetInfos.wrappedValue.moneyBudget)), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
             Divider()
-            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfGuests), icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfPeopleIcon") ?? UIImage()), content: Spacer().frame(width: 0))
+            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
             Divider()
-            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfMeals),icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfMealsIcon") ?? UIImage()), content: Spacer().frame(width: 0))
+            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfMeals),icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), content: Spacer().frame(width: 0))
         }
         .padding(.vertical, 5)
         .padding(.leading)
@@ -61,7 +61,7 @@ internal struct SubmitButtonCollapsed: View {
                 ProgressLoader(color: .white)
                     .scaleEffect(0.5)
             } else {
-                Image(uiImage: UIImage(fromPodAssetName: "EditPencilIcon") ?? UIImage())
+                Image(packageResource: "EditPencilIcon", ofType: "png")
                     .resizable()
                     .foregroundColor(Color.white)
                     .frame(width: 25, height: 25)

@@ -91,7 +91,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                         ProgressLoader(color: Color.primaryColor)
                             .scaleEffect(0.25)
                     } else {
-                        Image(uiImage: UIImage(fromPodAssetName: "TrashIcon") ?? UIImage())
+                        Image(packageResource: "TrashIcon", ofType: "png")
                             .resizable()
                             .frame(width: dimension.mlButtonHeight, height: dimension.mlButtonHeight)
                     }
@@ -126,7 +126,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
         let dimension = Dimension.sharedInstance
         var body: some View {
             HStack(spacing: 0) {
-                Image(uiImage: UIImage(fromPodAssetName: "numberOfMealsIcon") ?? UIImage())
+                Image(packageResource: "numberOfMealsIcon", ofType: "png")
                     .resizable()
                     .renderingMode(.template) // Makes the image a template
                                     .foregroundColor(.black)

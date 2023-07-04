@@ -22,7 +22,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                 VStack(spacing: -40.0) {
                     MealPlannerBackground()
                     VStack(spacing: 25) {
-                        Image(uiImage: UIImage(fromPodAssetName: "GreenCheckmarkIcon") ?? UIImage())
+                        Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
                             .resizable()
                             .frame(width: 30, height: 30)
                         

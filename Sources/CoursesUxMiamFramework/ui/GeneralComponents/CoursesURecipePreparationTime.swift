@@ -17,7 +17,7 @@ public struct CoursesURecipePreparationTime: View {
 
     public var body: some View {
         VStack {
-            Image(uiImage: UIImage(fromPodAssetName: "TimerIcon") ?? UIImage())
+            Image(packageResource: "TimerIcon", ofType: "png")
                 .resizable()
                 .frame(width: 25, height: 25)
             Text(duration)

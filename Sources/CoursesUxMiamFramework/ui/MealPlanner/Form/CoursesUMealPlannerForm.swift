@@ -51,7 +51,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
             }
             VStack {
                 if includeLogo {
-                    Image(uiImage: UIImage(fromPodAssetName: "BudgetRepasLogo") ?? UIImage())
+                    Image(packageResource: "BudgetRepasLogo", ofType: "png")
                         .resizable()
                         .padding(.horizontal, 50)
                         .frame(width: UIScreen.screenWidth, height: 100)
@@ -73,7 +73,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     // TODO: localize
                     CoursesUFormRow(
                         caption: "Mon budget max",
-                        icon: Image(uiImage: UIImage(fromPodAssetName: "BudgetIcon") ?? UIImage()),
+                        icon: Image(packageResource: "BudgetIcon", ofType: "png"),
                         content:
                             HStack {
                                 Spacer()
@@ -88,7 +88,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     //                { _ in }
                     CoursesUFormRow(
                         caption: "Nombre de personnes",
-                        icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfMealsIcon") ?? UIImage()),
+                        icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                         content:
                             //                        Text("hello")
                         CoursesUStepper(value: budgetInfos.numberOfGuests)
@@ -98,7 +98,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     // TODO: localize
                     CoursesUFormRow(
                         caption: "Nombre de repas",
-                        icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfPeopleIcon") ?? UIImage()),
+                        icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
                             //                        Text("hello")
                         CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
@@ -113,7 +113,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                 onFormValidated(budgetInfos.wrappedValue)
                             } label: {
                                 HStack {
-                                    Image(uiImage: UIImage(fromPodAssetName: "searchIcon") ?? UIImage())
+                                    Image(packageResource: "searchIcon", ofType: "png")
                                         .resizable()
                                         .frame(width: 20, height: 20)
                                     Text("C'est parti !")
@@ -256,9 +256,9 @@ internal struct CoursesUTwoMealsBackground: View {
         VStack {
             Spacer()
             HStack() {
-                Image(uiImage: UIImage(fromPodAssetName: "BudgetLeftSideBg") ?? UIImage())
+                Image(packageResource: "BudgetLeftSideBg", ofType: "png")
                 Spacer()
-                Image(uiImage: UIImage(fromPodAssetName: "BudgetRightSideBg") ?? UIImage())
+                Image(packageResource: "BudgetRightSideBg", ofType: "png")
             }
         }
     }
