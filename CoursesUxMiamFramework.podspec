@@ -20,6 +20,6 @@ Miam iOS SDK for Courses U.
  
    spec.source_files = 'Sources/**/*.{h,m,swift}'
    
-spec.dependency 'MiamIOSFramework', '~> 3.12.1'
+spec.dependency 'MiamIOSFramework', '~> 3.12.2'
 
 end

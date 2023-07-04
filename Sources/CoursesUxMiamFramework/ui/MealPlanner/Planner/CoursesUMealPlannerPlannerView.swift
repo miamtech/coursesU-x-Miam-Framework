@@ -157,12 +157,8 @@ public struct CoursesUMealPlannerPlannerView<
                                 guard error == nil else {
                                     return
                                 }
-                                guard let recipes else {
-                                    return
-                                }
                             }
                     }
-                    print("close")
                 })
                 .onChange(of: formViewModel.budgetInfos) { newMealPlannerInfos in
                     updateBudget(budgetInfos: newMealPlannerInfos)
