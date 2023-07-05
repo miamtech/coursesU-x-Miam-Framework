@@ -79,6 +79,8 @@ public struct CoursesUMealPlannerPlannerView<
     @SwiftUI.State var showFormOptions = false
     @AppStorage("miam_index_of_recipe_replaced") var miamIndexOfRecipeReplaced = 4
     
+    let dimension = Dimension.sharedInstance
+    
     public var body: some View {
         ZStack {
             Color.budgetBackgroundColor
@@ -93,26 +95,46 @@ public struct CoursesUMealPlannerPlannerView<
         }
     }
     
+    private func getRecipesFromVM() {
+        formViewModel.getRecipesForBudgetConstraint(
+            budget: Int32(formViewModel.budgetInfos.moneyBudget),
+            mealCount: Int32(formViewModel.budgetInfos.numberOfMeals),
+            guestCount: Int32(formViewModel.budgetInfos.numberOfGuests)) { recipes, error in
+                isLoadingRecipes.toggle()
+                guard error == nil else {
+                    return
+                }
+            }
+    }
+    
     private func successContent() -> some View {
         ZStack {
             Color.budgetBackgroundColor
-            ScrollView {
-                toolbar()
-     
-//                if #available(iOS 15, *) {
-//                    recipesListWithSwipeAction()
-//                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
-//                } else {
+            if #available(iOS 15.0, *) {
+                ScrollView {
+                    toolbar()
                     recipesList()
-                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
-//                }
-                Spacer()
-                    .frame(height: 100)
-                    .listRowBackground(Color.clear)
-                    .modifier(removeLines())
-                    .listRowInsets(EdgeInsets())
+                        .padding(.horizontal, dimension.lPadding)
+                    Spacer()
+                        .frame(height: 100)
+                        .listRowBackground(Color.clear)
+                        .modifier(removeLines())
+                        .listRowInsets(EdgeInsets())
+                }.refreshable {
+                    getRecipesFromVM()
+                }
+            } else {
+                ScrollView {
+                    toolbar()
+                    recipesList()
+                        .padding(.horizontal, dimension.lPadding)
+                    Spacer()
+                        .frame(height: 100)
+                        .listRowBackground(Color.clear)
+                        .modifier(removeLines())
+                        .listRowInsets(EdgeInsets())
+                }
             }
-    
             footer()
         }
     }
@@ -143,21 +165,13 @@ public struct CoursesUMealPlannerPlannerView<
                         
                         print("hello world")
                     }
-                    .padding(Dimension.sharedInstance.lPadding)
+                    .padding(dimension.lPadding)
             } else {
                 CoursesUMealPlannerForm(includeTitle: false, includeLogo: false, includeBackground: false).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
                     withAnimation {
                         showFormOptions.toggle()
                         // TODO: need to cause update to other VM here
-                        formViewModel.getRecipesForBudgetConstraint(
-                            budget: Int32(formViewModel.budgetInfos.moneyBudget),
-                            mealCount: Int32(formViewModel.budgetInfos.numberOfMeals),
-                            guestCount: Int32(formViewModel.budgetInfos.numberOfGuests)) { recipes, error in
-                                isLoadingRecipes.toggle()
-                                guard error == nil else {
-                                    return
-                                }
-                            }
+                        getRecipesFromVM()
                     }
                 })
                 .onChange(of: formViewModel.budgetInfos) { newMealPlannerInfos in
@@ -170,7 +184,7 @@ public struct CoursesUMealPlannerPlannerView<
                         updateMealPlannerWithMax(budgetInfos: formViewModel.budgetInfos)
                     }
                 }
-                .padding(Dimension.sharedInstance.lPadding)
+                .padding(dimension.lPadding)
             }
         }
         .background(Color.budgetBackgroundColor)
@@ -227,7 +241,7 @@ extension CoursesUMealPlannerPlannerView {
             }
             .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets())
-            .padding(.vertical, Dimension.sharedInstance.mPadding)
+            .padding(.vertical, dimension.mPadding)
         }
     }
 }
