@@ -231,6 +231,7 @@ extension CoursesUMealPlannerPlannerView {
                             price: Price(price: meal.price, currency: "EUR"),
                             recipeCardTemplate: recipeCardTemplate,
                             recipeCardLoadingTemplate: loadingCardTemplate,
+                            recipeModalTemplate: CoursesURecipeCardDetailsModal(),
                             actions: actions)
                 } else {
                     placeholderCardTemplate.content {

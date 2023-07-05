@@ -12,23 +12,20 @@ import MiamIOSFramework
 @available(iOS 14, *)
 struct CoursesURecipeDetailsFooter: View {
     var pricePerPerson: Double
-    var priceForMeal: Double
-    let buttonAction: () -> Void
+    var priceForMeal: String
     let dimension = Dimension.sharedInstance
     var body: some View {
         HStack {
            
-            Text("\(String(pricePerPerson))€")
-                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
+            Text("\(String(format: "%.2f", pricePerPerson))€")
+                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
             Text("par personne")
                 .foregroundColor(Color.gray)
-                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle)
             Spacer()
-            Button(action: {
-                buttonAction()
-            }, label: {
-                RecapPriceForRecipes(leadingText: "Soit", priceAmount: "\(String(priceForMeal))€")
-            })
+          
+                RecapPriceForRecipes(leadingText: "Soit", priceAmount: priceForMeal)
+            
                 .frame(width: 200)
             
         }
@@ -48,9 +45,9 @@ struct CoursesURecipeDetailsFooter_Previews: PreviewProvider {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesURecipeDetailsFooter(pricePerPerson: 4.92, priceForMeal: 13.36, buttonAction: {})
-                CoursesURecipeDetailsFooter(pricePerPerson: 6.73, priceForMeal: 25.32, buttonAction: {})
-                CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
+                CoursesURecipeDetailsFooter(pricePerPerson: 4.92, priceForMeal: "13.36")
+                CoursesURecipeDetailsFooter(pricePerPerson: 6.73, priceForMeal: "25.32")
+                CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: "6.78")
             }
         }
         
@@ -75,7 +72,7 @@ struct CoursesURecipeDetailsFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: 6.78, buttonAction: {})
+                    CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: "6.78")
                 }
                 .frame(maxWidth: .infinity)
             }
