@@ -99,8 +99,6 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                                     loadingTemplate: CoursesURecipeCardLoading(),
                                     showDetails: onRecipeTapped,
                                     add: { recipe in
-//                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miamIndexOfRecipeReplaced))
-//                                        onRecipeSelected(viewModel.recipes[index].id)
                                         viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
                                         onRecipeSelected(recipe)
                                     }).onAppear {

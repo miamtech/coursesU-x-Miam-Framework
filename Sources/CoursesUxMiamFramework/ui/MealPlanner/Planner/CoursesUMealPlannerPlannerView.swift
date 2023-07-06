@@ -156,28 +156,24 @@ public struct CoursesUMealPlannerPlannerView<
                 toolbarTemplate.content(
                     budgetInfos: $formViewModel.budgetInfos,
                     isLoadingRecipes: $isLoadingRecipes) { infos in
-                        // TODO: get new recipes from view model or repository?
+                        // This is empty because the toolbar on CoursesU does nothing, just activates the form dropdown
                     }
                     .onTapGesture {
                         withAnimation {
                             showFormOptions.toggle()
                         }
-                        
-                        print("hello world")
                     }
                     .padding(dimension.lPadding)
             } else {
                 CoursesUMealPlannerForm(includeTitle: false, includeLogo: false, includeBackground: false).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
                     withAnimation {
                         showFormOptions.toggle()
-                        // TODO: need to cause update to other VM here
                         getRecipesFromVM()
                     }
                 })
                 .onChange(of: formViewModel.budgetInfos) { newMealPlannerInfos in
                     updateBudget(budgetInfos: newMealPlannerInfos)
                 }
-                // TODO: check w Tibo changes to make sure the app does not crash at certain values
                 .onChange(of: combinedMealPlannerAndGuestsCount) { newMealPlannerInfos in
                     if (formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0) {
                         formViewModel.getRecipesMaxCountForBudgetConstraint(budget: Int32(formViewModel.budgetInfos.moneyBudget), guestCount: Int32(formViewModel.budgetInfos.numberOfGuests))

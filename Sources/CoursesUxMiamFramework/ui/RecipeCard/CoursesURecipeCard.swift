@@ -23,33 +23,24 @@ public struct CoursesURecipeCard: RecipeCard {
         
         return VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
-//                Button(action: {
-//                    actions.showDetails()
-//                }, label: {
-                    ZStack(alignment: .topTrailing) {
-                        AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .padding(0)
-                                .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
-                        }.frame(height: 150.0)
-                            .clipped()
-                        
-                        CoursesULikeButton(recipeId: recipeInfos.recipe.id)
-                        .padding(dimensions.mPadding)
-                    }
-//                })
-                
-                
-                
+                ZStack(alignment: .topTrailing) {
+                    AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .padding(0)
+                            .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
+                    }.frame(height: 150.0)
+                        .clipped()
+                    
+                    CoursesULikeButton(recipeId: recipeInfos.recipe.id)
+                    .padding(dimensions.mPadding)
+                }
                 VStack(spacing: dimensions.mPadding) {
                     Text(recipeInfos.recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyMediumBoldStyle)
                         .lineLimit(2)
                         .padding(.top, dimensions.sPadding)
-                    //                        .multilineTextAlignment(.center)
-                    
                     HStack(spacing: dimensions.mPadding) {
                         CoursesURecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
                         Divider()

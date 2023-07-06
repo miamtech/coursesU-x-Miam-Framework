@@ -28,24 +28,28 @@ public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderViewTemplate {
                      infos.isLikeEnabled,
                      infos.recipeId)
         } else {
-            if let picture =  URL(string: infos.mediaURL ?? "") {
-                AsyncImage(url: picture) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(minWidth: 0, maxWidth: .infinity)
+            ZStack(alignment: .top) {
+                if let picture =  URL(string: infos.mediaURL ?? "") {
+                    AsyncImage(url: picture) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                    }
+                    .frame(height: imageHeight)
+                    .clipped()
+                } else {
+                    Image.miamImage(icon: .empty).frame( height: imageHeight)
                 }
-                .frame(height: imageHeight)
-                .clipped()
-            } else {
-                Image.miamImage(icon: .empty).frame( height: imageHeight)
-            }
-
-            if infos.isLikeEnabled {
-                HStack {
-                    Spacer()
-                    CoursesULikeButton(recipeId: infos.recipeId)
-                }.frame(height: 50.0, alignment: .topLeading).padding(.horizontal, Dimension.sharedInstance.lPadding)
+                
+                if infos.isLikeEnabled {
+                    HStack {
+                        Spacer()
+                        CoursesULikeButton(recipeId: infos.recipeId)
+                    }
+//                    .frame(height: 50.0, alignment: .topLeading)
+                    .padding(Dimension.sharedInstance.lPadding)
+                }
             }
             HStack {
                 Text(infos.title)
@@ -58,15 +62,15 @@ public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderViewTemplate {
             }
 
             HStack(alignment: .center) {
-                HStack {
-                    CoursesURecipeDifficulty(difficulty: infos.difficulty)
-                }
-                Divider().frame(height: 20).padding(.horizontal, Dimension.sharedInstance.lPadding)
                 CoursesURecipePreparationTime(duration: infos.totalTime)
-                Divider().frame(height: 20).padding(.horizontal, Dimension.sharedInstance.lPadding)
+                Divider()
+                    .frame(width: 8)
+                CoursesURecipeDifficulty(difficulty: infos.difficulty)
+                Divider().frame(width: 8)
                 CoursesURecipeTimeView(preparationTime: infos.preparationTime,
                                cookingTime: infos.cookingTime,
                                restingTime: infos.restingTime)
+                Spacer()
             }.padding(.vertical, Dimension.sharedInstance.lPadding)
                 .padding(.horizontal, Dimension.sharedInstance.lPadding)
         }
@@ -87,7 +91,7 @@ struct CoursesURecipeTimeView: View {
         if let template = Template.sharedInstance.recipeTimeViewTemplate {
             template(preparationTime, cookingTime, restingTime)
         } else {
-            VStack {
+            VStack(alignment: .leading) {
                 if preparationTime != noPreparationTime {
                     HStack {
                         Text(RecipeDetailsText.sharedInstance.preparationTime)
