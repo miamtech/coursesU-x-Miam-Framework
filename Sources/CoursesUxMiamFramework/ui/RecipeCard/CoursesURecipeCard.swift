@@ -16,7 +16,7 @@ public struct CoursesURecipeCard: RecipeCard {
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: RecipeCardActions) -> some View {
         let cardHeight = 370.0
         let dimensions = Dimension.sharedInstance
-        var ctaAction: () -> Void {
+        var ctaAction: (String) -> Void {
             return recipeInfos.isInBasket ? actions.showDetails : actions.addToBasket
         }
         let priceWithCurrency = String(recipeInfos.price.formattedPrice())
@@ -71,8 +71,8 @@ public struct CoursesURecipeCard: RecipeCard {
                         }
                         
                     }, buttonAction: {
-                        actions.addToBasket()
-                        ctaAction()
+//                        actions.addToBasket(recipeInfos.recipe.id)
+                        ctaAction(recipeInfos.recipe.id)
                     })
                     .padding(.bottom, dimensions.sPadding)
                 }
@@ -96,7 +96,7 @@ struct CoursesURecipeCard_Previews: PreviewProvider {
         let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
         ZStack {
             Color.budgetBackgroundColor
-            CoursesURecipeCard().content(recipeInfos: recipeInfos, actions: RecipeCardActions(like: {}, addToBasket: {}, showDetails: {}))
+            CoursesURecipeCard().content(recipeInfos: recipeInfos, actions: RecipeCardActions(like: {}, addToBasket: {_ in }, showDetails: { _ in}))
                 .padding(80.0)
         }
         

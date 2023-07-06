@@ -18,7 +18,10 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     private let searchTemplate: SearchTemplate
     private let cardTemplate: CardTemplate
     private let stickyFooter: Footer
+    /// To add the recipe to the meal planner
     private let onRecipeSelected: (String) -> Void
+    /// To show the Recipe Page
+    private let onRecipeTapped: (String) -> Void
     @StateObject private var viewModel: MealPlannerReplaceRecipeViewModel
         @SwiftUI.State private var searchText = ""
         @SwiftUI.State private var showSearchField = false
@@ -26,11 +29,13 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     cardTemplate: CardTemplate,
                     stickyFooter: Footer,
                     maxBudget: Double,
-                onRecipeSelected: @escaping (String) -> Void) {
+                onRecipeSelected: @escaping (String) -> Void,
+                    onRecipeTapped: @escaping (String) -> Void) {
         self.searchTemplate = searchTemplate
         self.cardTemplate = cardTemplate
             self.stickyFooter = stickyFooter
         self.onRecipeSelected = onRecipeSelected
+            self.onRecipeTapped = onRecipeTapped
             _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget)))
     }
     @SwiftUI.State private var showingFilters = false
@@ -92,10 +97,12 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                                     viewModel.recipes[index].id,
                                     cardTemplate: cardTemplate,
                                     loadingTemplate: CoursesURecipeCardLoading(),
-                                    showDetails: {},
-                                    add: {
-                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miamIndexOfRecipeReplaced))
-                                        onRecipeSelected(viewModel.recipes[index].id)
+                                    showDetails: onRecipeTapped,
+                                    add: { recipe in
+//                                        viewModel.addRecipeToMealPlanner(recipeId: viewModel.recipes[index].id, index: Int32(miamIndexOfRecipeReplaced))
+//                                        onRecipeSelected(viewModel.recipes[index].id)
+                                        viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
+                                        onRecipeSelected(recipe)
                                     }).onAppear {
                                         if index == viewModel.recipes.count - 1 { // last item
                                             viewModel.loadPage()
@@ -118,6 +125,6 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
             searchTemplate: CoursesUMealPlannerSearch(),
             cardTemplate: CoursesURecipeCard(),
             stickyFooter: CoursesUMealPlannerFooter(), maxBudget: 23.6,
-            onRecipeSelected: { _ in })
+            onRecipeSelected: { _ in }, onRecipeTapped: { _ in})
     }
 }
