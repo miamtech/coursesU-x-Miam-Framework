@@ -10,11 +10,13 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CoursesURecipeDetailsFooter: View {
-    var pricePerPerson: Double
-    var priceForMeal: String
+public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterTemplate {
+    
+    public init() {}
+    
     let dimension = Dimension.sharedInstance
-    var body: some View {
+    
+   public func content(pricePerPerson: Double, priceForMeal: String) -> some View {
         HStack {
            
             Text("\(String(format: "%.2f", pricePerPerson))€")
@@ -40,14 +42,14 @@ struct CoursesURecipeDetailsFooter: View {
 
 
 @available(iOS 14, *)
-struct CoursesURecipeDetailsFooter_Previews: PreviewProvider {
+struct CoursesURecipeDetailsFooterView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesURecipeDetailsFooter(pricePerPerson: 4.92, priceForMeal: "13.36")
-                CoursesURecipeDetailsFooter(pricePerPerson: 6.73, priceForMeal: "25.32")
-                CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: "6.78")
+                CoursesURecipeDetailsFooterView().content(pricePerPerson: 4.92, priceForMeal: "13.36")
+                CoursesURecipeDetailsFooterView().content(pricePerPerson: 6.73, priceForMeal: "25.32")
+                CoursesURecipeDetailsFooterView().content(pricePerPerson: 1.34, priceForMeal: "6.78")
             }
         }
         
@@ -72,7 +74,7 @@ struct CoursesURecipeDetailsFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesURecipeDetailsFooter(pricePerPerson: 1.34, priceForMeal: "6.78")
+                    CoursesURecipeDetailsFooterView().content(pricePerPerson: 1.34, priceForMeal: "6.78")
                 }
                 .frame(maxWidth: .infinity)
             }

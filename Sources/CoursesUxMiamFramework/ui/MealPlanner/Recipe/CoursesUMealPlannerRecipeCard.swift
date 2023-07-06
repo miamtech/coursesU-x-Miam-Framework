@@ -152,7 +152,7 @@ struct CoursesUMealPlannerRecipeCard_Preview: PreviewProvider {
         let recipeInfosRandom = FakeRecipe().createRandomFakeRecipeInfos()
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerRecipeCard().content(recipeInfos: recipeInfosRandom, actions: BudgetRecipeCardActions(recipeTapped: {}, removeTapped: {
+            CoursesUMealPlannerRecipeCard().content(recipeInfos: recipeInfosRandom, actions: BudgetRecipeCardActions(recipeTapped: {_ in}, removeTapped: {
                 print("Remove recipe card.")
             }, replaceTapped: nil))
             .padding()

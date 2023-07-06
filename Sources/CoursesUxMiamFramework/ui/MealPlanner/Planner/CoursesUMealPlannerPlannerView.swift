@@ -217,8 +217,8 @@ extension CoursesUMealPlannerPlannerView {
             // I use VStack so i can add same bg & padding to comps
             VStack {
                 if let meal {
-                    let actions = BudgetRecipeCardActions(recipeTapped: {
-                            showRecipe(meal.recipeId)
+                    let actions = BudgetRecipeCardActions(recipeTapped: { recipe in
+                            showRecipe(recipe)
                         }, removeTapped: {
                             removeRecipe(meal.recipeId)
                         }, replaceTapped: {
@@ -231,7 +231,6 @@ extension CoursesUMealPlannerPlannerView {
                             price: Price(price: meal.price, currency: "EUR"),
                             recipeCardTemplate: recipeCardTemplate,
                             recipeCardLoadingTemplate: loadingCardTemplate,
-                            recipeModalTemplate: CoursesURecipeCardDetailsModal(),
                             actions: actions)
                 } else {
                     placeholderCardTemplate.content {
