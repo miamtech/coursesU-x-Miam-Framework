@@ -31,6 +31,7 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
                         .foregroundColor(Color.miamColor(.black))
                         .padding(Dimension.sharedInstance.lPadding)
                         Spacer()
+//                    CoursesUCounterView(count: infos.currentGuests)
                         CounterView(
                             count: infos.currentGuests,
                             lightMode: false,
