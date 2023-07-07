@@ -28,21 +28,12 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
                 HStack {
                     Text("\(infos.ingredients.count) ingrédients")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
-                        .foregroundColor(Color.miamColor(.black))
-                        .padding(Dimension.sharedInstance.lPadding)
+                        .foregroundColor(Color.black)
                         Spacer()
-//                    CoursesUCounterView(count: infos.currentGuests)
-                        CounterView(
-                            count: infos.currentGuests,
-                            lightMode: false,
-                            onCounterChanged: { guestNumber in updateGuestsAction(guestNumber) },
-                            isLoading: infos.guestUpdating,
-                            isDisable: infos.guestUpdating,
-                            minValue: 1,
-                            maxValue: 99
-                        )
-                    
-                }
+                    CoursesUStepperWithCallback(count: infos.currentGuests) { guestNumber in
+                        updateGuestsAction(guestNumber)
+                    }
+                }.padding(.horizontal, Dimension.sharedInstance.lPadding)
             }.frame(height: 60.0, alignment: .topLeading)
             Divider()
                 .background(Color.miamColor(.borderLight))

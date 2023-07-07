@@ -22,7 +22,7 @@ public struct CoursesURecipeDetailsStepsView: RecipeDetailsStepsViewTemplate {
             template(steps)
         } else {
             HStack {
-                Text("steps")
+                Text("Étapes")
                     .foregroundColor(Color.black)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                     .padding(Dimension.sharedInstance.lPadding)

@@ -32,8 +32,6 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
         self.includeBackground = includeBackground
     }
     
-    
-    
     public func content(budgetInfos: Binding<BudgetInfos>, isFetchingRecipes: Bool, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
         var budgetAndGuestsValid: Bool {
 //            return false
@@ -91,7 +89,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                         content:
                             //                        Text("hello")
-                        CoursesUStepper(value: budgetInfos.numberOfGuests)
+                        CoursesUStepperBinding(value: budgetInfos.numberOfGuests)
                         
                     )
                     Divider()
@@ -101,7 +99,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
                             //                        Text("hello")
-                        CoursesUStepper(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
+                        CoursesUStepperBinding(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
                         
                     )
                     .addOpacity(!budgetAndGuestsValid)
@@ -139,76 +137,148 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
             }
         }
     }
+}
+
+@available(iOS 14, *)
+internal struct CoursesUStepperBinding: View {
+    @Binding var value: Int
+    let minValue: Int
+    let maxValue: Int
+    let disableButton: Bool
+    let dimension = Dimension.sharedInstance
+    init(value: Binding<Int>, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false) {
+        _value = value
+        self.minValue = minValue
+        self.maxValue = maxValue
+        self.disableButton = disableButton
+    }
     
+    var maxButtonColor: Color {
+        return (value >= maxValue || disableButton) ? Color.gray : Color.primaryColor
+    }
+    var minButtonColor: Color {
+        return (value <= minValue || disableButton) ? Color.gray : Color.primaryColor
+    }
     
-    
-    @available(iOS 14, *)
-    internal struct CoursesUStepper: View {
-        @Binding var value: Int
-        let minValue: Int
-        let maxValue: Int
-        let disableButton: Bool
-        let dimension = Dimension.sharedInstance
-        init(value: Binding<Int>, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false) {
-            _value = value
-            self.minValue = minValue
-            self.maxValue = maxValue
-            self.disableButton = disableButton
-        }
+    var body: some View {
         
-        var maxButtonColor: Color {
-            return (value >= maxValue || disableButton) ? Color.gray : Color.primaryColor
-        }
-        var minButtonColor: Color {
-            return (value <= minValue || disableButton) ? Color.gray : Color.primaryColor
-        }
-        
-        var body: some View {
-            
-                HStack(spacing: dimension.lPadding) {
-                    Button(action: {
-                        if value > minValue {
-                            value -= 1
-                        }
-                    }, label: {
-                        Image(systemName: "minus")
+            HStack(spacing: dimension.lPadding) {
+                Button(action: {
+                    if value > minValue {
+                        value -= 1
+                    }
+                }, label: {
+                    Image(systemName: "minus")
 //                            .resizable()
-                            .foregroundColor(minButtonColor)
-                        
-                            .padding(dimension.sPadding)
-                            .overlay(
-                                Circle()
-                                    .stroke(minButtonColor, lineWidth: 1)
-                                    .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                            )
-                    })
-                    .disabled(value <= minValue)
-                    .disabled(disableButton)
-                    Text("\(value)")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-                    Button(action: {
-                        if value < maxValue {
-                            value += 1
-                        }
-                    }, label: {
-                        Image(systemName: "plus")
-                        //                            .resizable()
-                            .foregroundColor(maxButtonColor)
-                            .padding(dimension.sPadding)
-                            .overlay(
-                                Circle()
-                                    .stroke(maxButtonColor, lineWidth: 1)
-                                    .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                            )
-                    })
-                    .disabled(value >= maxValue)
-                    .disabled(disableButton)
-                }
-                .padding(dimension.mPadding)
-            
-        }
+                        .foregroundColor(minButtonColor)
+                    
+                        .padding(dimension.sPadding)
+                        .overlay(
+                            Circle()
+                                .stroke(minButtonColor, lineWidth: 1)
+                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                        )
+                })
+                .disabled(value <= minValue)
+                .disabled(disableButton)
+                Text("\(value)")
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                Button(action: {
+                    if value < maxValue {
+                        value += 1
+                    }
+                }, label: {
+                    Image(systemName: "plus")
+                    //                            .resizable()
+                        .foregroundColor(maxButtonColor)
+                        .padding(dimension.sPadding)
+                        .overlay(
+                            Circle()
+                                .stroke(maxButtonColor, lineWidth: 1)
+                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                        )
+                })
+                .disabled(value >= maxValue)
+                .disabled(disableButton)
+            }
+            .padding(dimension.mPadding)
+        
     }
 }
+
+
+@available(iOS 14, *)
+internal struct CoursesUStepperWithCallback: View {
+    @SwiftUI.State public var count: Int
+    let minValue: Int
+    let maxValue: Int
+    let disableButton: Bool
+    var onValueChanged: (Int) -> Void
+    let dimension = Dimension.sharedInstance
+    init(count: Int, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false, onValueChanged: @escaping (Int) -> Void) {
+        self.minValue = minValue
+        self.maxValue = maxValue
+        self.disableButton = disableButton
+        self.onValueChanged = onValueChanged
+        self._count = State(initialValue: count)
+    }
+    
+    var maxButtonColor: Color {
+        return (count >= maxValue || disableButton) ? Color.gray : Color.primaryColor
+    }
+    var minButtonColor: Color {
+        return (count <= minValue || disableButton) ? Color.gray : Color.primaryColor
+    }
+    
+    
+    var body: some View {
+        
+            HStack(spacing: dimension.lPadding) {
+                Button(action: {
+                    if count > minValue {
+                        count -= 1
+                        onValueChanged(count)
+                    }
+                }, label: {
+                    Image(systemName: "minus")
+//                            .resizable()
+                        .foregroundColor(minButtonColor)
+                    
+                        .padding(dimension.sPadding)
+                        .overlay(
+                            Circle()
+                                .stroke(minButtonColor, lineWidth: 1)
+                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                        )
+                })
+                .disabled(count <= minValue)
+                .disabled(disableButton)
+                Text("\(count)")
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                Button(action: {
+                    if count < maxValue {
+                        count += 1
+                        onValueChanged(count)
+                    }
+                }, label: {
+                    Image(systemName: "plus")
+                    //                            .resizable()
+                        .foregroundColor(maxButtonColor)
+                        .padding(dimension.sPadding)
+                        .overlay(
+                            Circle()
+                                .stroke(maxButtonColor, lineWidth: 1)
+                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                        )
+                })
+                .disabled(count >= maxValue)
+                .disabled(disableButton)
+            }
+            .padding(dimension.mPadding)
+        
+    }
+}
+
 @available(iOS 14, *)
 internal struct CoursesUFormRow<Content: View>: View {
     let caption: String?
