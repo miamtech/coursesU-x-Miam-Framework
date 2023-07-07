@@ -96,7 +96,15 @@ internal struct CoursesUInputWithCurrency: View {
             let attributes: [NSAttributedString.Key: Any] = [
                     .foregroundColor: UIColor.lightGray // set placeholder text color to light gray
                 ]
-                textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
+            textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
+            
+            // Add a toolbar with a Done button
+                let toolbar = UIToolbar()
+                toolbar.sizeToFit()
+                let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: context.coordinator, action: #selector(Coordinator.doneButtonTapped))
+                let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+                toolbar.items = [flexSpace, doneButton]
+                textField.inputAccessoryView = toolbar
 
             return textField
         }
@@ -116,6 +124,10 @@ internal struct CoursesUInputWithCurrency: View {
             init(_ parent: CustomTextField) {
                 self.parent = parent
             }
+            
+            @objc func doneButtonTapped() {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
 
             func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
                 if let text = textField.text,
