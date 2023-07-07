@@ -72,6 +72,13 @@ public struct BodySmallFontStyle: CoursesUFontStyle {
     var color: Color? = Color.black
 }
 
+@available(iOS 14, *)
+public struct BodySmallBoldFontStyle: CoursesUFontStyle {
+    var font: Font = Font.system(size: 12, weight: .bold, design: .default)
+    var color: Color? = Color.black
+}
+
+
 
 
 @available(iOS 14, *)
@@ -93,6 +100,6 @@ public struct CoursesUFontStyleProvider {
 
     public var bodyMediumBoldStyle = BodyMediumBoldFontStyle()
     public var bodySmallStyle = BodySmallFontStyle()
-
+    public var bodySmallBoldStyle = BodySmallBoldFontStyle()
 
 }

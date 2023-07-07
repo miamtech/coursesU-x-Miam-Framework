@@ -19,7 +19,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                 recipe: basketPreviewInfos.recipe,
                 price: basketPreviewInfos.price,
                 centerContent: {
-                    ArticlesAndPricePerPerson(numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket, pricePerPerson: basketPreviewInfos.pricePerPerson)
+                    ArticlesPriceRecapCounter(numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket, pricePerPerson: basketPreviewInfos.pricePerPerson, price: basketPreviewInfos.price)
             }, callToAction: {
                 BasketPreviewCardCallToAction(actions: basketPreviewActions)
             })
@@ -27,9 +27,10 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
         }
     
     @available(iOS 14, *)
-    internal struct ArticlesAndPricePerPerson: View {
+    internal struct ArticlesPriceRecapCounter: View {
         var numberOfProductsInBasket: Int
         var pricePerPerson: String
+        var price: Price
         var body: some View {
             HStack {
                 VStack(alignment: .leading) {
@@ -42,7 +43,25 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                             .foregroundColor(Color.gray)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                     
-                    
+                    HStack(spacing: 1) {
+                        RecapPriceForRecipes(
+                            leadingText: "",
+                            priceAmount:  price.formattedPrice(),
+                            trailingText: "",
+                            leadingPadding: 0, trailingPadding: 0,
+                            textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
+                            yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyle,
+                            yellowSubtextWidth: CGFloat(30)
+                        )
+                        .frame(width: 70)
+                        CoursesUStepperWithCallback(
+                            count: numberOfProductsInBasket,
+                            buttonSize: Dimension.sharedInstance.mlButtonHeight,
+                            textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyle,
+                            textToDisplay: "pers.",
+                            subtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
+                            onValueChanged: {_ in})
+                    }
                     
                 }
                 Spacer()

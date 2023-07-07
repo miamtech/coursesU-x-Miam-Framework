@@ -21,22 +21,27 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
             recipe: recipeInfos.recipe,
             price: recipeInfos.price,
             centerContent: {
-            DifficultyAndTime(cookingTime: recipeInfos.recipe.cookingTimeIos, difficulty: recipeInfos.recipe.difficulty)
+                DifficultyTimeRecap(cookingTime: recipeInfos.recipe.cookingTimeIos, difficulty: recipeInfos.recipe.difficulty, price: recipeInfos.price)
         }, callToAction: {
             RecipeCardCallToAction(actions: actions)
         })
     }
     
     @available(iOS 14, *)
-    internal struct DifficultyAndTime: View {
+    internal struct DifficultyTimeRecap: View {
         var cookingTime: String
         var difficulty: Int
+        var price: Price
         var body: some View {
-            HStack() {
-                CoursesURecipePreparationTime(duration: cookingTime)
-                Divider()
-                CoursesURecipeDifficulty(difficulty: difficulty)
-                Spacer()
+            VStack(spacing: Dimension.sharedInstance.mPadding) {
+                HStack() {
+                    CoursesURecipePreparationTime(duration: cookingTime)
+                    Divider()
+                    CoursesURecipeDifficulty(difficulty: difficulty)
+                    Spacer()
+                }
+                RecapPriceForRecipes(priceAmount:  price.formattedPrice())
+                
             }
         }
     }
@@ -132,11 +137,11 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                     Spacer()
                 }
                 centerContent()
-                RecapPriceForRecipes(priceAmount:  priceWithCurrency)
+                
                 Divider()
                 callToAction()
             }
-            .padding(.horizontal, dimension.lPadding)
+            .padding(.horizontal, dimension.mPadding)
             .padding(.vertical, dimension.mPadding)
         }
         .frame(maxWidth: .infinity)

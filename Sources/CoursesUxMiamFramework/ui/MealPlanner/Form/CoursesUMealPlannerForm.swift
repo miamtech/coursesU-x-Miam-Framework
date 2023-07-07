@@ -213,13 +213,21 @@ internal struct CoursesUStepperWithCallback: View {
     let minValue: Int
     let maxValue: Int
     let disableButton: Bool
+    var buttonSize: CGFloat
+    var textFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle
+    var textToDisplay: String
+    var subtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyle
     var onValueChanged: (Int) -> Void
     let dimension = Dimension.sharedInstance
-    init(count: Int, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false, onValueChanged: @escaping (Int) -> Void) {
+    init(count: Int, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false, buttonSize: CGFloat = Dimension.sharedInstance.lButtonHeight, textFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle, textToDisplay: String = "",subtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyle, onValueChanged: @escaping (Int) -> Void) {
         self.minValue = minValue
         self.maxValue = maxValue
         self.disableButton = disableButton
+        self.buttonSize = buttonSize
+        self.textFontStyle = textFontStyle
+        self.textToDisplay = textToDisplay
         self.onValueChanged = onValueChanged
+        self.subtextFontStyle = subtextFontStyle
         self._count = State(initialValue: count)
     }
     
@@ -233,7 +241,7 @@ internal struct CoursesUStepperWithCallback: View {
     
     var body: some View {
         
-            HStack(spacing: dimension.lPadding) {
+            HStack(spacing: dimension.mPadding) {
                 Button(action: {
                     if count > minValue {
                         count -= 1
@@ -248,13 +256,20 @@ internal struct CoursesUStepperWithCallback: View {
                         .overlay(
                             Circle()
                                 .stroke(minButtonColor, lineWidth: 1)
-                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                                .frame(width: buttonSize, height: buttonSize)
                         )
                 })
                 .disabled(count <= minValue)
                 .disabled(disableButton)
-                Text("\(count)")
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                
+                    VStack {
+                        Text("\(count)")
+                            .coursesUFontStyle(style: textFontStyle)
+                        if textToDisplay != "" {
+                            Text(textToDisplay)
+                                .coursesUFontStyle(style: subtextFontStyle)
+                        }
+                    }
                 Button(action: {
                     if count < maxValue {
                         count += 1
@@ -268,7 +283,7 @@ internal struct CoursesUStepperWithCallback: View {
                         .overlay(
                             Circle()
                                 .stroke(maxButtonColor, lineWidth: 1)
-                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                                .frame(width: buttonSize, height: buttonSize)
                         )
                 })
                 .disabled(count >= maxValue)

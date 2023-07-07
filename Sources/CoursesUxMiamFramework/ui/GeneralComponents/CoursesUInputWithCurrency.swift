@@ -101,9 +101,9 @@ internal struct CoursesUInputWithCurrency: View {
             // Add a toolbar with a Done button
                 let toolbar = UIToolbar()
                 toolbar.sizeToFit()
-                let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: context.coordinator, action: #selector(Coordinator.doneButtonTapped))
+                let okButton = UIBarButtonItem(title: "OK", style: .done, target: context.coordinator, action: #selector(Coordinator.okButtonTapped))
                 let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-                toolbar.items = [flexSpace, doneButton]
+                toolbar.items = [flexSpace, okButton]
                 textField.inputAccessoryView = toolbar
 
             return textField
@@ -125,7 +125,7 @@ internal struct CoursesUInputWithCurrency: View {
                 self.parent = parent
             }
             
-            @objc func doneButtonTapped() {
+            @objc func okButtonTapped() {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }
 
