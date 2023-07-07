@@ -19,7 +19,9 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                 recipe: basketPreviewInfos.recipe,
                 price: basketPreviewInfos.price,
                 centerContent: {
-                    ArticlesPriceRecapCounter(numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket, pricePerPerson: basketPreviewInfos.pricePerPerson, price: basketPreviewInfos.price)
+                    ArticlesPriceRecapCounter(numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket, pricePerPerson: basketPreviewInfos.pricePerPerson, price: basketPreviewInfos.price, guests: basketPreviewInfos.guests) { guestNumber in
+                        basketPreviewActions.updateGuests(guestNumber)
+                    }
             }, callToAction: {
                 BasketPreviewCardCallToAction(actions: basketPreviewActions)
             })
@@ -31,6 +33,8 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
         var numberOfProductsInBasket: Int
         var pricePerPerson: String
         var price: Price
+        var guests: Int
+        var updateGuests: (Int) -> Void
         var body: some View {
             HStack {
                 VStack(alignment: .leading) {
@@ -55,12 +59,14 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                         )
                         .frame(width: 70)
                         CoursesUStepperWithCallback(
-                            count: numberOfProductsInBasket,
+                            count: guests,
                             buttonSize: Dimension.sharedInstance.mlButtonHeight,
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyle,
                             textToDisplay: "pers.",
                             subtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
-                            onValueChanged: {_ in})
+                            onValueChanged: { guestNumber in
+                                updateGuests(guestNumber)
+                            })
                     }
                     
                 }
@@ -135,7 +141,7 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
     static var previews: some View {
         
         let recipe = FakeRecipe().createRandomFakeRecipe()
-        let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"), pricePerPerson: "12.3", numberOfProductsInBasket: 3)
+        let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"), pricePerPerson: "12.3", numberOfProductsInBasket: 3, guests: 4)
         ZStack {
             Color.budgetBackgroundColor
             CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfos: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}))
