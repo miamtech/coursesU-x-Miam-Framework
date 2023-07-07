@@ -10,12 +10,12 @@ import SwiftUI
 @available(iOS 14, *)
 public struct CoursesUCounterView: View {
     @Binding public var count: Int
-    public var maxValue: Int?
-    public var minValue: Int?
+    public var maxValue: Int
+    public var minValue: Int
     public var isLoading: Bool
     public var isDisable: Bool
     
-    public init(count: Binding<Int>, maxValue: Int? = nil, minValue: Int? = nil, isLoading: Bool = false, isDisable: Bool = false) {
+    public init(count: Binding<Int>, maxValue: Int = 99, minValue: Int = 0, isLoading: Bool = false, isDisable: Bool = false) {
         _count = count
         self.maxValue = maxValue
         self.minValue = minValue
@@ -24,9 +24,6 @@ public struct CoursesUCounterView: View {
     }
 
     private func newValueBounded(newValue: Int) -> Bool {
-        guard let minValue, let maxValue else {
-            return true
-        }
         return newValue >= minValue && newValue <= maxValue
     }
 
@@ -39,6 +36,13 @@ public struct CoursesUCounterView: View {
         if !newValueBounded(newValue: count - 1) { return }
         count -= 1
     }
+    
+    var maxButtonColor: Color {
+        return (count >= maxValue || isDisable) ? Color.gray : Color.primaryColor
+    }
+    var minButtonColor: Color {
+        return (count <= minValue || isDisable) ? Color.gray : Color.primaryColor
+    }
 
     public var body: some View {
 //            if let template = Template.sharedInstance.counterViewTemplate {
@@ -49,12 +53,16 @@ public struct CoursesUCounterView: View {
                     decrease()
                 } label: {
                     Image(systemName: "minus")
-                        .resizable()
-                        .frame(width: 12, height: 2)
-                        .foregroundColor(Color.black)
-                        .padding(Dimension.sharedInstance.lPadding)
+//                        .resizable()
+                        .foregroundColor(minButtonColor)
+                        .padding(Dimension.sharedInstance.sPadding)
                 }
-                .frame(width: 20.0, height: 20.0, alignment: .leading)
+                .overlay(
+                    Circle()
+                        .stroke(minButtonColor, lineWidth: 2)
+                        .frame(width: Dimension.sharedInstance.mlButtonHeight, height: Dimension.sharedInstance.mlButtonHeight)
+                )
+                .padding(.leading, Dimension.sharedInstance.mPadding)
                 .disabled(self.isDisable)
 
                 Spacer()
@@ -71,13 +79,16 @@ public struct CoursesUCounterView: View {
                    increase()
                 } label: {
                     Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 12, height: 12)
-                        .foregroundColor(Color.black)
-                        .padding(Dimension.sharedInstance.lPadding)
+//                        .resizable()
+                        .foregroundColor(maxButtonColor)
+                        .padding(Dimension.sharedInstance.sPadding)
                 }
-                
-                .frame(width: 20.0, height: 20.0, alignment: .trailing)
+                .overlay(
+                    Circle()
+                        .stroke(minButtonColor, lineWidth: 2)
+                        .frame(width: Dimension.sharedInstance.mlButtonHeight, height: Dimension.sharedInstance.mlButtonHeight)
+                )
+                .padding(.trailing, Dimension.sharedInstance.mPadding)
                 .disabled(self.isDisable)
 
             }.frame(width: 100.0, height: 40.0, alignment: .center)

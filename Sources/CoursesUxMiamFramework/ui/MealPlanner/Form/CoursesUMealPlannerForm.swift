@@ -255,7 +255,7 @@ internal struct CoursesUStepperWithCallback: View {
                         .padding(dimension.sPadding)
                         .overlay(
                             Circle()
-                                .stroke(minButtonColor, lineWidth: 1)
+                                .stroke(minButtonColor, lineWidth: 2)
                                 .frame(width: buttonSize, height: buttonSize)
                         )
                 })
@@ -282,7 +282,7 @@ internal struct CoursesUStepperWithCallback: View {
                         .padding(dimension.sPadding)
                         .overlay(
                             Circle()
-                                .stroke(maxButtonColor, lineWidth: 1)
+                                .stroke(maxButtonColor, lineWidth: 2)
                                 .frame(width: buttonSize, height: buttonSize)
                         )
                 })
