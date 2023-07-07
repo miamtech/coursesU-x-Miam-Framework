@@ -53,7 +53,6 @@ public struct CoursesUCounterView: View {
                     decrease()
                 } label: {
                     Image(systemName: "minus")
-//                        .resizable()
                         .foregroundColor(minButtonColor)
                         .padding(Dimension.sharedInstance.sPadding)
                 }
@@ -79,7 +78,6 @@ public struct CoursesUCounterView: View {
                    increase()
                 } label: {
                     Image(systemName: "plus")
-//                        .resizable()
                         .foregroundColor(maxButtonColor)
                         .padding(Dimension.sharedInstance.sPadding)
                 }

@@ -261,7 +261,6 @@ internal struct CoursesUStepperWithCallback: View {
                 })
                 .disabled(count <= minValue)
                 .disabled(disableButton)
-                
                     VStack {
                         Text("\(count)")
                             .coursesUFontStyle(style: textFontStyle)
@@ -277,7 +276,6 @@ internal struct CoursesUStepperWithCallback: View {
                     }
                 }, label: {
                     Image(systemName: "plus")
-                    //                            .resizable()
                         .foregroundColor(maxButtonColor)
                         .padding(dimension.sPadding)
                         .overlay(
