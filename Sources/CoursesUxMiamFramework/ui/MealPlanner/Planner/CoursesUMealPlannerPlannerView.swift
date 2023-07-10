@@ -107,12 +107,17 @@ public struct CoursesUMealPlannerPlannerView<
             }
     }
     
+    
+    
     private func successContent() -> some View {
-        ZStack {
+        let numberOfMealsInBasket = viewModel.meals.compactMap { $0 }.count
+        return ZStack {
             Color.budgetBackgroundColor
             if #available(iOS 15.0, *) {
                 ScrollView {
                     toolbar()
+                    Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket == 1 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                     recipesList()
                         .padding(.horizontal, dimension.lPadding)
                     Spacer()
@@ -126,6 +131,8 @@ public struct CoursesUMealPlannerPlannerView<
             } else {
                 ScrollView {
                     toolbar()
+                    Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket == 1 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                     recipesList()
                         .padding(.horizontal, dimension.lPadding)
                     Spacer()
