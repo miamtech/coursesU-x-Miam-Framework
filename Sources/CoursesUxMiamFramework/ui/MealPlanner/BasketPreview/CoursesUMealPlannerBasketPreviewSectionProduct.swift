@@ -28,12 +28,13 @@ public struct CoursesUMealPlannerBasketPreviewSectionProduct: MealPlannerBasklet
                             Image(systemName: "plus")
                                 .resizable()
                                 .foregroundColor(Color.black)
-                                .frame(width: 20, height: 20)
-                            Text("Ajouter au panier")
+                                .frame(width: 15, height: 15)
+                            Text("Ajouter")
                                 .foregroundColor(Color.black)
-                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }
                     })
+                    // Original mockup, has the Blue shopping cart & text
 //                    CoursesUButtonStyle(backgroundColor: Color.white, buttonStrokeColor: Color.primaryColor, content: {
 //                        HStack {
 //                            Image(packageResource: "ShoppingCartIconBlue", ofType: "png")
