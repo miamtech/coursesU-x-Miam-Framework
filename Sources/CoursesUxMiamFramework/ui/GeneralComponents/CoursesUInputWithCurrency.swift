@@ -130,19 +130,25 @@ internal struct CoursesUInputWithCurrency: View {
                 }
 
             func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-                if let text = textField.text,
-                   let textRange = Range(range, in: text) {
-                    let updatedText = text.replacingCharacters(in: textRange, with: string)
-                    if updatedText.count <= 5 { // restrict to 5 characters
-                        if let newValue = Double(updatedText) { // convert String to Double
-                            parent.value = newValue
-                            textField.invalidateIntrinsicContentSize()
-                        }
-                        return true
-                    }
+                let currentText = textField.text ?? ""
+                guard let stringRange = Range(range, in: currentText) else { return false }
+                let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+                // If the entered string makes the total characters more than 5, do not update the text field
+                if updatedText.count > 5 {
+                    return false
                 }
-                return false
+
+                // If the updated text can be converted to Double, then update the parent value
+                if let newValue = Double(updatedText) {
+                    parent.value = newValue
+                    textField.invalidateIntrinsicContentSize()
+                }
+                
+                // The text field should update its text
+                return true
             }
+
         }
     }
 

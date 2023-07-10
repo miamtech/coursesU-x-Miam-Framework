@@ -97,26 +97,6 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
         }
     }
     
-    
-    
-    struct NotAvailable: View {
-        var name: String
-        var body: some View {
-            VStack {
-                HStack {
-                    Text("\(name)")
-                        .foregroundColor(Color.gray)
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
-                    Spacer()
-                }
-                Text("Indisponible")
-                    .foregroundColor(Color.gray)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
-            }
-        }
-    }
-
-    
     struct UtilizedInManyRecipes: View {
         var recipesUsedIn: Int
         let dimension = Dimension.sharedInstance
