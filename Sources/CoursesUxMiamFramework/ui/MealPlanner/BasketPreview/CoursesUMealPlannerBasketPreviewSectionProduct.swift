@@ -14,28 +14,43 @@ public struct CoursesUMealPlannerBasketPreviewSectionProduct: MealPlannerBasklet
     public init() {}
     public func content(name: String, canBeAdded: Bool, addIngredientAction: @escaping () -> Void) -> some View {
         HStack {
-            VStack() {
-                HStack {
-                    Text(name.capitalizingFirstLetter())
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
-                    Spacer()
-                }
+            //            VStack() {
+            HStack {
+                Text(name.capitalizingFirstLetter())
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
+                Spacer()
+                //                }
                 if canBeAdded {
-                    CoursesUButtonStyle(backgroundColor: Color.white, buttonStrokeColor: Color.primaryColor, content: {
+                    Button(action: {
+                        addIngredientAction()
+                    }, label: {
                         HStack {
-                            Image(packageResource: "ShoppingCartIconBlue", ofType: "png")
+                            Image(systemName: "plus")
                                 .resizable()
-                                .foregroundColor(Color.primaryColor)
+                                .foregroundColor(Color.black)
                                 .frame(width: 20, height: 20)
                             Text("Ajouter au panier")
-                                .foregroundColor(Color.primaryColor)
+                                .foregroundColor(Color.black)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                         }
-                    }, buttonAction: addIngredientAction)
+                    })
+//                    CoursesUButtonStyle(backgroundColor: Color.white, buttonStrokeColor: Color.primaryColor, content: {
+//                        HStack {
+//                            Image(packageResource: "ShoppingCartIconBlue", ofType: "png")
+//                                .resizable()
+//                                .foregroundColor(Color.primaryColor)
+//                                .frame(width: 20, height: 20)
+//                            Text("Ajouter au panier")
+//                                .foregroundColor(Color.primaryColor)
+//                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
+                            
+//                        }
+//                    }, buttonAction: addIngredientAction)
                 }
             }
             .padding(Dimension.sharedInstance.lPadding)
             .frame(maxWidth: .infinity)
+            //        }
         }
     }
 }
