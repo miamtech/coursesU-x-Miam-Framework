@@ -186,10 +186,7 @@ public struct CoursesUMealPlannerPlannerView<
                     updateBudget(budgetInfos: newMealPlannerInfos)
                 }
                 .onChange(of: combinedMealPlannerAndGuestsCount) { newMealPlannerInfos in
-                    if (formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0) {
-                        formViewModel.getRecipesMaxCountForBudgetConstraint(budget: Int32(formViewModel.budgetInfos.moneyBudget), guestCount: Int32(formViewModel.budgetInfos.numberOfGuests))
-                        updateMealPlannerWithMax(budgetInfos: formViewModel.budgetInfos)
-                    }
+                    fetchAndUpdateMaxMeals()
                 }
                 .padding(dimension.lPadding)
             }
@@ -198,6 +195,14 @@ public struct CoursesUMealPlannerPlannerView<
         .listRowBackground(Color.clear)
         .modifier(removeLines())
         .listRowInsets(EdgeInsets())
+    }
+    
+    private func fetchAndUpdateMaxMeals() {
+        
+        if formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0 {
+            formViewModel.getRecipesMaxCountForBudgetConstraint(budget: Int32(formViewModel.budgetInfos.moneyBudget), guestCount: Int32(formViewModel.budgetInfos.numberOfGuests))
+            updateMealPlannerWithMax(budgetInfos: formViewModel.budgetInfos)
+        }
     }
     
     private func updateBudget(budgetInfos: BudgetInfos) {
