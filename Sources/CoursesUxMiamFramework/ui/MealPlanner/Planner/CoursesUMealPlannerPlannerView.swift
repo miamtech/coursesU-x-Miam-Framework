@@ -116,8 +116,12 @@ public struct CoursesUMealPlannerPlannerView<
             if #available(iOS 15.0, *) {
                 ScrollView {
                     toolbar()
-                    Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket == 1 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
+                    if formViewModel.errorAppeared {
+                        NoSearchResults(message: "Aucune idée repas n’a pu être planifiée pour le budget demandé.")
+                    } else {
+                        Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket == 1 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
+                    }
                     recipesList()
                         .padding(.horizontal, dimension.lPadding)
                     Spacer()
