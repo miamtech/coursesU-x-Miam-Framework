@@ -30,9 +30,9 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                         .foregroundColor(Color.black)
                         Spacer()
-                    CoursesUStepperWithCallback(count: infos.currentGuests) { guestNumber in
-                        updateGuestsAction(guestNumber)
-                    }
+//                    CoursesUStepperWithCallback(count: infos.currentGuests) { guestNumber in
+//                        updateGuestsAction(guestNumber)
+//                    }
                 }.padding(.horizontal, Dimension.sharedInstance.lPadding)
             }.frame(height: 60.0, alignment: .topLeading)
             Divider()
