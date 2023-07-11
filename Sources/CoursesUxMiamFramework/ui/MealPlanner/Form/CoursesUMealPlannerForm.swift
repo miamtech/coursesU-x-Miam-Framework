@@ -51,8 +51,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                 if includeLogo {
                     Image(packageResource: "BudgetRepasLogo", ofType: "png")
                         .resizable()
-                        .padding(.horizontal, 50)
-                        .frame(width: UIScreen.screenWidth, height: 100)
+                        .frame(width: 290, height: 83)
                         .padding(.top)
                 }
                 

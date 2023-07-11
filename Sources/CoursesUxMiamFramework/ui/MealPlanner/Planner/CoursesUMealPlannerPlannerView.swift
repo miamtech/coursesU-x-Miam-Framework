@@ -161,7 +161,7 @@ public struct CoursesUMealPlannerPlannerView<
     }
     
     private func toolbar() -> some View {
-        VStack(spacing: -40.0) {
+        VStack(spacing: -50.0) {
             MealPlannerBackground()
             if !showFormOptions {
                 toolbarTemplate.content(

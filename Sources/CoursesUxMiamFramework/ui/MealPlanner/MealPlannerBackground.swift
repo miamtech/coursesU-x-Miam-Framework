@@ -16,9 +16,8 @@ struct MealPlannerBackground: View {
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             Image(packageResource: "BudgetRepasLogo", ofType: "png")
                 .resizable()
-                .padding(.horizontal, 50)
-                .frame(width: UIScreen.screenWidth, height: 100)
-                .padding(.top)
+                .frame(width: 290, height: 83)
+                .padding(.top, 30)
                 
         }
     }
