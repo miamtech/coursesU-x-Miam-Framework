@@ -16,10 +16,10 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterTemplate {
     
     let dimension = Dimension.sharedInstance
     
-   public func content(pricePerPerson: Double, priceForMeal: String) -> some View {
+   public func content(pricePerPerson: String, priceForMeal: String) -> some View {
         HStack {
            
-            Text("\(String(format: "%.2f", pricePerPerson))€")
+            Text(pricePerPerson)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
             Text("par personne")
                 .foregroundColor(Color.gray)
@@ -47,9 +47,9 @@ struct CoursesURecipeDetailsFooterView_Previews: PreviewProvider {
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesURecipeDetailsFooterView().content(pricePerPerson: 4.92, priceForMeal: "13.36")
-                CoursesURecipeDetailsFooterView().content(pricePerPerson: 6.73, priceForMeal: "25.32")
-                CoursesURecipeDetailsFooterView().content(pricePerPerson: 1.34, priceForMeal: "6.78")
+                CoursesURecipeDetailsFooterView().content(pricePerPerson: "4.92", priceForMeal: "13.36")
+                CoursesURecipeDetailsFooterView().content(pricePerPerson: "6.73", priceForMeal: "25.32")
+                CoursesURecipeDetailsFooterView().content(pricePerPerson: "1.34", priceForMeal: "6.78")
             }
         }
         
@@ -74,7 +74,7 @@ struct CoursesURecipeDetailsFooterView_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesURecipeDetailsFooterView().content(pricePerPerson: 1.34, priceForMeal: "6.78")
+                    CoursesURecipeDetailsFooterView().content(pricePerPerson: "1.34", priceForMeal: "6.78")
                 }
                 .frame(maxWidth: .infinity)
             }
