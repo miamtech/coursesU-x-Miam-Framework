@@ -67,14 +67,15 @@ public struct CoursesUMealPlannerBasketPreviewView<
             } successView: {
                 successContent()
             }
-            footer()
+            
         }
     }
     
     func successContent() -> some View {
+        ZStack {
             ScrollView {
-                    recipesList()
-                        .padding(.horizontal, Dimension.sharedInstance.lPadding)
+                recipesList()
+                    .padding(.horizontal, Dimension.sharedInstance.lPadding)
                 // only needed if there is a footer,
                 Spacer()
                     .frame(height: 100)
@@ -84,6 +85,8 @@ public struct CoursesUMealPlannerBasketPreviewView<
             }
             .listStyle(PlainListStyle())
             .padding(.top, 50)
+            footer()
+        }
             
     }
     // may delete this

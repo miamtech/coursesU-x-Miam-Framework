@@ -133,12 +133,12 @@ internal struct CoursesUInputWithCurrency: View {
                 let currentText = textField.text ?? ""
                 guard let stringRange = Range(range, in: currentText) else { return false }
                 let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-
+                
                 // If the entered string makes the total characters more than 5, do not update the text field
                 if updatedText.count > 5 {
                     return false
                 }
-
+                
                 // If the updated text can be converted to Double, then update the parent value
                 if let newValue = Double(updatedText) {
                     parent.value = newValue
@@ -148,7 +148,6 @@ internal struct CoursesUInputWithCurrency: View {
                 // The text field should update its text
                 return true
             }
-
         }
     }
 
