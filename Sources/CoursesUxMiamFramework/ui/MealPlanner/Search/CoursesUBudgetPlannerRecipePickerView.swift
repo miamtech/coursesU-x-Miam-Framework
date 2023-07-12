@@ -36,7 +36,8 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             self.stickyFooter = stickyFooter
         self.onRecipeSelected = onRecipeSelected
             self.onRecipeTapped = onRecipeTapped
-            _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget)))
+            let guestNumber = UserDefaults.standard.value(forKey: "miam_mealplanner_numberofguests") as? Int ?? 4
+            _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget), numberOfGuests: KotlinInt(integerLiteral: guestNumber)))
             print("replace: max is \(maxBudget)")
     }
     @SwiftUI.State private var showingFilters = false

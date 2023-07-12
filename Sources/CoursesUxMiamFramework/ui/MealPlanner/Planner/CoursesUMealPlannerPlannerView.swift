@@ -241,6 +241,7 @@ extension CoursesUMealPlannerPlannerView {
                         }, replaceTapped: {
                             recipeToReplace = meal.recipeId
                             miamIndexOfRecipeReplaced = index
+                            determineRemainingBudget(replacedMealAmount: meal.price)
                             replaceRecipe(meal.recipeId)
                         })
                         MealPlannerRecipeCardView(
