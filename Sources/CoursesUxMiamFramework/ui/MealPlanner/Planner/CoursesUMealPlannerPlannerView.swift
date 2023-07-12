@@ -78,6 +78,7 @@ public struct CoursesUMealPlannerPlannerView<
     
     @SwiftUI.State var showFormOptions = false
     @AppStorage("miam_index_of_recipe_replaced") var miamIndexOfRecipeReplaced = 4
+    @AppStorage("miam_budget_remaining") var miamBudgetRemaining = 4.0
     
     let dimension = Dimension.sharedInstance
     
@@ -197,6 +198,10 @@ public struct CoursesUMealPlannerPlannerView<
         .listRowInsets(EdgeInsets())
     }
     
+    private func determineRemainingBudget(replacedMealAmount: Double = 0.0) {
+        miamBudgetRemaining = formViewModel.budgetInfos.moneyBudget - viewModel.totalPrice + replacedMealAmount
+    }
+    
     private func fetchAndUpdateMaxMeals() {
         
         if formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0 {
@@ -248,6 +253,7 @@ extension CoursesUMealPlannerPlannerView {
                     placeholderCardTemplate.content {
                         miamIndexOfRecipeReplaced = index
                         self.replaceRecipe("")
+                        determineRemainingBudget()
                     }
                 }
             }

@@ -37,6 +37,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
         self.onRecipeSelected = onRecipeSelected
             self.onRecipeTapped = onRecipeTapped
             _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget)))
+            print("replace: max is \(maxBudget)")
     }
     @SwiftUI.State private var showingFilters = false
     @SwiftUI.State private var isLoading = false
@@ -102,7 +103,9 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                                         viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
                                         onRecipeSelected(recipe)
                                     }).onAppear {
-                                        if index == viewModel.recipes.count - 1 { // last item
+                                        if index == viewModel.recipes.count - 1 {
+                                            print("replace: loading more")
+                                            // last item
                                             viewModel.loadPage()
                                         }
                                     }
