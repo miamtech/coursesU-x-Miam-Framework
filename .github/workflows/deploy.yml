@@ -1,0 +1,90 @@
+name: Release SDK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version  (example 1.1.3)"
+        required: true
+        type: string
+
+jobs:
+  build-ios:
+    name: Build and publish iOS frameworks
+    runs-on: self-hosted
+
+    permissions: write-all
+
+    steps:
+      - name: Checkout
+        uses:
+          "actions/checkout@v3"
+          #    - name: Setup SSH Keys and known_hosts
+          #env:
+          #SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          #run: |
+          #ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          #ssh-add - <<< "${{ secrets.CERTIFICATES_DEPLOY_KEY }}"
+
+      #- name: Bump Podspec version
+      #  run: bundle exec fastlane run version_bump_podspec path:"MiamIOSFramework.podspec" version_number:<VERSION>
+
+      - name: Build framework
+        run: bundle exec fastlane miamios
+        env:
+          #SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+
+      - name: Archive miam iOS SDK
+        run: |
+          cp -r frameworks/MiamIOSFramework.xcframework .
+          zip -r miamiOSSDK.zip MiamIOSFramework.xcframework
+          zip miamiOSSDK.zip LICENSE
+
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: "Update MiamIOSFramework podspec"
+        run: sed -i '' "s/[0-9]\.[0-9]*\.[0-9]/${{ github.event.inputs.version }}/g" CoursesUxMiamFramework.podspec
+
+      - name: Cleanup artifacts
+        run: |
+          rm -rf miamCore.xcframework && rm -rf MiamIOSFramework.xcframework
+
+      - name: Publish CoursesU Miam iOS SDK Pod
+        run: |
+          set -eo pipefail
+          bundle exec pod trunk push --skip-tests --skip-import-validation --allow-warnings CoursesUxMiamFramework.podspec
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: Release ${{ github.event.inputs.version }}
+          base: main
+          branch: release/${{ github.event.inputs.version }}
+          add-paths: |
+            *.podspec
+
+          commit-message: Bump podspec version
+          body: |
+            Release: ${{ github.event.inputs.version }}
+            Changes:
+              - Bump version to ${{ github.event.inputs.version }}
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}kkkk
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Version ${{ github.event.inputs.version }}
+          commitish: release/${{ github.event.inputs.version }}
+          body: ${{ github.event.inputs.version }}
