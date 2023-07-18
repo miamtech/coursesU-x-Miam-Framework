@@ -1,3 +1,9 @@
+# 1.0.2
+- [FIX] Prevented Form not working due to back-end change
+- [FIX] Prevented App crashing when number of expected results greater than actual
+- [FEA] Added proper recipe price to Recipe Details
+- [FIX] Updated logo sizes, moved footer to prevent users rushing through Basket Previews
+
 # 1.0.1
 - [FIX] Added Missing Like Button Images
 - [FEA] Added Pull To Refresh on Meal Planner
