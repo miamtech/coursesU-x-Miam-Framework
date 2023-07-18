@@ -15,21 +15,12 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
     public init() {}
     let dimension = Dimension.sharedInstance
   
-    public func content(numberOfMeals: Int, totalPrice: Price, onOurPromotions: @escaping () -> Void, onClose: @escaping () -> Void) -> some View {
+    public func content(numberOfMeals: Int, totalPrice: Price, onTapGesture: @escaping () -> Void) -> some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
                 VStack(spacing: -40.0) {
-                    ZStack(alignment: .topTrailing) {
-                        MealPlannerBackground()
-                        Button(action: {
-                            onClose()
-                        }, label: {
-                            Image(packageResource: "CloseXIcon", ofType: "png")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                        })
-                    }
+                    MealPlannerBackground()
                     VStack(spacing: 25) {
                         Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
                             .resizable()
@@ -51,7 +42,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                         Text("Découvrez aussi :")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         Button(action: {
-                            onOurPromotions()
+                            onTapGesture()
                                 }) {
                                     Text("Nos promotions")
                                         .foregroundColor(.white)

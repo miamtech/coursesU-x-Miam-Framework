@@ -28,7 +28,6 @@ public struct CoursesUBudgetPlannerRecipePickerView<
         public init(searchTemplate: SearchTemplate,
                     cardTemplate: CardTemplate,
                     stickyFooter: Footer,
-                    maxBudget: Double,
                 onRecipeSelected: @escaping (String) -> Void,
                     onRecipeTapped: @escaping (String) -> Void) {
         self.searchTemplate = searchTemplate
@@ -36,8 +35,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             self.stickyFooter = stickyFooter
         self.onRecipeSelected = onRecipeSelected
             self.onRecipeTapped = onRecipeTapped
-            _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel(maxCost: KotlinDouble(value: maxBudget)))
-            print("replace: max is \(maxBudget)")
+            _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel())
     }
     @SwiftUI.State private var showingFilters = false
     @SwiftUI.State private var isLoading = false
@@ -125,7 +123,7 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUMealPlannerSearch(),
             cardTemplate: CoursesURecipeCard(),
-            stickyFooter: CoursesUMealPlannerFooter(), maxBudget: 23.6,
+            stickyFooter: CoursesUMealPlannerFooter(),
             onRecipeSelected: { _ in }, onRecipeTapped: { _ in})
     }
 }

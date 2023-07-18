@@ -198,10 +198,6 @@ public struct CoursesUMealPlannerPlannerView<
         .listRowInsets(EdgeInsets())
     }
     
-    private func determineRemainingBudget(replacedMealAmount: Double = 0.0) {
-        miamBudgetRemaining = formViewModel.budgetInfos.moneyBudget - viewModel.totalPrice + replacedMealAmount
-    }
-    
     private func fetchAndUpdateMaxMeals() {
         
         if formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0 {
@@ -241,6 +237,11 @@ extension CoursesUMealPlannerPlannerView {
                         }, replaceTapped: {
                             recipeToReplace = meal.recipeId
                             miamIndexOfRecipeReplaced = index
+                            if let totalPrice = viewModel.state?.totalPrice {
+                                                    viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
+                                                        totalPrice: totalPrice,
+                                                        recipeToReplacePrice: KotlinDouble(value: meal.price))
+                                                }
                             replaceRecipe(meal.recipeId)
                         })
                         MealPlannerRecipeCardView(
@@ -252,8 +253,10 @@ extension CoursesUMealPlannerPlannerView {
                 } else {
                     placeholderCardTemplate.content {
                         miamIndexOfRecipeReplaced = index
+                        if let totalPrice = viewModel.state?.totalPrice {
+                                                viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(totalPrice: totalPrice, recipeToReplacePrice: nil)
+                                            }
                         self.replaceRecipe("")
-                        determineRemainingBudget()
                     }
                 }
             }
