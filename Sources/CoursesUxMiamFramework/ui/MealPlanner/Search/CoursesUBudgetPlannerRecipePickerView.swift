@@ -13,11 +13,9 @@ import MiamIOSFramework
 @available(iOS 14, *)
 public struct CoursesUBudgetPlannerRecipePickerView<
     SearchTemplate: MealPlannerSearch,
-    CardTemplate: RecipeCard,
-    Footer: MealPlannerFooter>: View {
+    CardTemplate: RecipeCard>: View {
     private let searchTemplate: SearchTemplate
     private let cardTemplate: CardTemplate
-    private let stickyFooter: Footer
     /// To add the recipe to the meal planner
     private let onRecipeSelected: (String) -> Void
     /// To show the Recipe Page
@@ -27,12 +25,10 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     @SwiftUI.State private var showSearchField = false
     public init(searchTemplate: SearchTemplate,
                 cardTemplate: CardTemplate,
-                stickyFooter: Footer,
                 onRecipeSelected: @escaping (String) -> Void,
                 onRecipeTapped: @escaping (String) -> Void) {
         self.searchTemplate = searchTemplate
         self.cardTemplate = cardTemplate
-        self.stickyFooter = stickyFooter
         self.onRecipeSelected = onRecipeSelected
         self.onRecipeTapped = onRecipeTapped
         _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel())
@@ -124,7 +120,6 @@ struct CoursesUBudgetPlannerRecipePickerView_Previews: PreviewProvider {
         CoursesUBudgetPlannerRecipePickerView(
             searchTemplate: CoursesUMealPlannerSearch(),
             cardTemplate: CoursesURecipeCard(),
-            stickyFooter: CoursesUMealPlannerFooter(),
             onRecipeSelected: { _ in }, onRecipeTapped: { _ in})
     }
 }
