@@ -107,9 +107,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                             viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
                             onRecipeSelected(recipe)
                         }).onAppear {
-                            if index == viewModel.recipes.count - 1 {
-                                print("replace: loading more")
-                                // last item
+                            if index == viewModel.recipes.count - 1 { // last item
                                 viewModel.loadPage()
                             }
                         }

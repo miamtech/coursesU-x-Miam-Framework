@@ -238,10 +238,10 @@ extension CoursesUMealPlannerPlannerView {
                             recipeToReplace = meal.recipeId
                             miamIndexOfRecipeReplaced = index
                             if let totalPrice = viewModel.state?.totalPrice {
-                                                    viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
-                                                        totalPrice: totalPrice,
-                                                        recipeToReplacePrice: KotlinDouble(value: meal.price))
-                                                }
+                                viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
+                                    totalPrice: totalPrice,
+                                    recipeToReplacePrice: KotlinDouble(value: meal.price))
+                            }
                             replaceRecipe(meal.recipeId)
                         })
                         MealPlannerRecipeCardView(
@@ -254,8 +254,10 @@ extension CoursesUMealPlannerPlannerView {
                     placeholderCardTemplate.content {
                         miamIndexOfRecipeReplaced = index
                         if let totalPrice = viewModel.state?.totalPrice {
-                                                viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(totalPrice: totalPrice, recipeToReplacePrice: nil)
-                                            }
+                            viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
+                                totalPrice: totalPrice,
+                                recipeToReplacePrice: nil)
+                        }
                         self.replaceRecipe("")
                     }
                 }
