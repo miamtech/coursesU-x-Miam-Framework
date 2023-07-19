@@ -87,7 +87,7 @@ struct CoursesURecipeCard_Previews: PreviewProvider {
         let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
         ZStack {
             Color.budgetBackgroundColor
-            CoursesURecipeCard().content(recipeInfos: recipeInfos, actions: RecipeCardActions(like: {}, addToBasket: {_ in }, showDetails: { _ in}))
+            CoursesURecipeCard().content(recipeInfos: recipeInfos, actions: RecipeCardActions(addToBasket: {_ in }, showDetails: { _ in}))
                 .padding(80.0)
         }
         
