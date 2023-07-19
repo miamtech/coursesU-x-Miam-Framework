@@ -57,7 +57,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                             yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyle,
                             yellowSubtextWidth: CGFloat(30)
                         )
-                        .frame(width: 70)
+                        .frame(width: 65)
                         CoursesUStepperWithCallback(
                             count: guests,
                             buttonSize: Dimension.sharedInstance.mlButtonHeight,
@@ -70,7 +70,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                     }
                     
                 }
-                Spacer()
+//                Spacer()
             }
         }
     }
