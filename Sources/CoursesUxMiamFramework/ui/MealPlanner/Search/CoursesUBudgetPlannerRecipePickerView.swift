@@ -23,24 +23,25 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     /// To show the Recipe Page
     private let onRecipeTapped: (String) -> Void
     @StateObject private var viewModel: MealPlannerReplaceRecipeViewModel
-        @SwiftUI.State private var searchText = ""
-        @SwiftUI.State private var showSearchField = false
-        public init(searchTemplate: SearchTemplate,
-                    cardTemplate: CardTemplate,
-                    stickyFooter: Footer,
+    @SwiftUI.State private var searchText = ""
+    @SwiftUI.State private var showSearchField = false
+    public init(searchTemplate: SearchTemplate,
+                cardTemplate: CardTemplate,
+                stickyFooter: Footer,
                 onRecipeSelected: @escaping (String) -> Void,
-                    onRecipeTapped: @escaping (String) -> Void) {
+                onRecipeTapped: @escaping (String) -> Void) {
         self.searchTemplate = searchTemplate
         self.cardTemplate = cardTemplate
-            self.stickyFooter = stickyFooter
+        self.stickyFooter = stickyFooter
         self.onRecipeSelected = onRecipeSelected
-            self.onRecipeTapped = onRecipeTapped
-            _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel())
+        self.onRecipeTapped = onRecipeTapped
+        _viewModel = StateObject(wrappedValue: MealPlannerReplaceRecipeViewModel())
     }
     @SwiftUI.State private var showingFilters = false
     @SwiftUI.State private var isLoading = false
     @AppStorage("miam_index_of_recipe_replaced") var miamIndexOfRecipeReplaced = 4
-
+    
+    
     public var body: some View {
         ZStack(alignment: .top) {
             Color.budgetBackgroundColor
@@ -51,68 +52,70 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                 searchTemplate.content(searchText: $searchText, filtersTapped: {
                     showingFilters.toggle()
                 })
-                    .onChange(of: searchText) { newValue in
+                .onChange(of: searchText) { newValue in
+                    isLoading = true
+                    viewModel.recipes = []
+                    viewModel.search(input: newValue)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
+                        isLoading = false
+                    }
+                }
+                .sheet(isPresented: $showingFilters) {
+                    showingFilters = false
+                } content: {
+                    CatalogFiltersView {
                         isLoading = true
+                        showingFilters = false
                         viewModel.recipes = []
-                        viewModel.search(input: newValue)
+                        viewModel.search(input: searchText)
                         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
                             isLoading = false
                         }
-                    }
-                    .sheet(isPresented: $showingFilters) {
+                    } close: {
                         showingFilters = false
-                    } content: {
-                        CatalogFiltersView {
-                            isLoading = true
-                            showingFilters = false
-                            viewModel.recipes = []
-                            viewModel.search(input: searchText)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
-                                isLoading = false
-                            }
-                        } close: {
-                            showingFilters = false
-                        }
                     }
-                if isLoading {
+                }
+                UIStateWrapperView(uiState: viewModel.state?.recipes) {
                     VStack {
                         Spacer()
                         ProgressLoader(color: Color.primaryColor)
                         Spacer()
                     }
-                }
-                // TODO: use ui state?
-           else if viewModel.recipes.isEmpty && searchText != "" {
-                    Text("0 idée repas")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
-                        .padding(.top, 35)
-                    NoSearchResults(message: "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.")
-                } else {
-                    // if results
-                    ScrollView {
-                        LazyVGrid(columns: [.init(), .init()]) {
-                            ForEach(viewModel.recipes.indices, id: \.self) { index in
-                                CatalogRecipeCardView(
-                                    viewModel.recipes[index].id,
-                                    cardTemplate: cardTemplate,
-                                    loadingTemplate: CoursesURecipeCardLoading(),
-                                    showDetails: onRecipeTapped,
-                                    add: { recipe in
-                                        viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
-                                        onRecipeSelected(recipe)
-                                    }).onAppear {
-                                        if index == viewModel.recipes.count - 1 {
-                                            print("replace: loading more")
-                                            // last item
-                                            viewModel.loadPage()
-                                        }
-                                    }
-                            }
-                        }.padding(Dimension.sharedInstance.lPadding)
-                            .padding(.bottom, 100)
+                } emptyView: {
+                    VStack {
+                        Text("0 idée repas")
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+                            .padding(.top, 35)
+                        NoSearchResults(message: "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.")
                     }
+                } successView: {
+                    successContent()
                 }
             }
+        }
+    }
+    func successContent() -> some View {
+        ScrollView {
+            LazyVGrid(columns: [.init(), .init()]) {
+                ForEach(viewModel.recipes.indices, id: \.self) { index in
+                    CatalogRecipeCardView(
+                        viewModel.recipes[index].id,
+                        cardTemplate: cardTemplate,
+                        loadingTemplate: CoursesURecipeCardLoading(),
+                        showDetails: onRecipeTapped,
+                        add: { recipe in
+                            viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
+                            onRecipeSelected(recipe)
+                        }).onAppear {
+                            if index == viewModel.recipes.count - 1 {
+                                print("replace: loading more")
+                                // last item
+                                viewModel.loadPage()
+                            }
+                        }
+                }
+            }.padding(Dimension.sharedInstance.lPadding)
+                .padding(.bottom, 100)
         }
     }
 }
