@@ -1,3 +1,9 @@
+# 1.0.3
+- [FIX] RecipeDetailsStepsViewTemplate now working as expected, uses new Binding activeStep 
+- [FIX] RecipeDetails showing proper price per meal, added isForMealPlanner Bool to RecipeDetailsViewTemplate
+- [FIX] Replace Screen now has proper loading & shows when no results returned
+- [FIX] 
+
 # 1.0.2
 - [FIX] Prevented Form not working due to back-end change
 - [FIX] Prevented App crashing when number of expected results greater than actual
