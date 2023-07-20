@@ -14,7 +14,7 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
     public init() {}
     
     public func content(infos: RecipeDetailsIngredientsInfos, updateGuestsAction: @escaping (Int) -> Void) -> some View {
-
+        
         if let template = Template.sharedInstance.recipeDetailsIngredientsViewTemplate {
             template(
                 infos.ingredients,
@@ -29,50 +29,57 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
                     Text("\(infos.ingredients.count) ingrédients")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                         .foregroundColor(Color.black)
-                        Spacer()
-//                    CoursesUStepperWithCallback(count: infos.currentGuests) { guestNumber in
-//                        updateGuestsAction(guestNumber)
-//                    }
+                    Spacer()
                 }.padding(.horizontal, Dimension.sharedInstance.lPadding)
             }.frame(height: 60.0, alignment: .topLeading)
             Divider()
                 .background(Color.miamColor(.borderLight))
                 .padding(.horizontal, Dimension.sharedInstance.lPadding)
-
+            
             // Ingredients ListView
             VStack {
                 VStack {
                     ForEach(infos.ingredients, id: \.self) { ingredient in
                         if let attributes = ingredient.attributes {
-                            let quantity = quantityForIngredient(ingredient, currentNumberOfGuests: infos.currentGuests,
-                                                                 recipeNumberOfGuests: infos.recipeGuests)
-                            let formattedQuantity = formatQuantity(quantity: quantity, unit: attributes.unit)
-                            RecipeDetailsIngredientRow(ingredientName: attributes.name ?? "",
-                                                       quantity: formattedQuantity)
+                            let quantity = quantityForIngredient(
+                                ingredient,
+                                currentNumberOfGuests: infos.currentGuests,
+                                recipeNumberOfGuests: infos.recipeGuests)
+                            let formattedQuantity = formatQuantity(
+                                quantity: quantity,
+                                unit: attributes.unit)
+                            RecipeDetailsIngredientRow(
+                                ingredientName: attributes.name ?? "",
+                                quantity: formattedQuantity)
                         }
                     }
-                }.padding(.vertical, Dimension.sharedInstance.lPadding)
-            }.background(Color.miamColor(.greyLighter)).cornerRadius(15.0).padding( .horizontal,
-                                                                                    Dimension.sharedInstance.lPadding)
+                }
+                .padding(.vertical, Dimension.sharedInstance.lPadding)
+            }
+            .background(Color.miamColor(.greyLighter)).cornerRadius(15.0)
+            .padding( .horizontal,Dimension.sharedInstance.lPadding)
         }
     }
-
+    
     func formatQuantity(quantity: Float, unit: String?) -> String {
         return QuantityFormatter.default().readableFloatNumber(value: quantity, unit: unit)
     }
-
-    func quantityForIngredient(_ ingredient: Ingredient, currentNumberOfGuests: Int,
-                               recipeNumberOfGuests: Int) -> Float {
+    
+    func quantityForIngredient(
+        _ ingredient: Ingredient,
+        currentNumberOfGuests: Int,
+        recipeNumberOfGuests: Int
+    ) -> Float {
         guard let quantity = ingredient.attributes?.quantity else {
             return 0.0
         }
-
+        
         let realQuantities = QuantityFormatter.default().realQuantities(
             quantity: quantity,
             currentGuest: Int32(currentNumberOfGuests),
             recipeGuest: Int32(recipeNumberOfGuests)
         )
-
+        
         return realQuantities
     }
 }

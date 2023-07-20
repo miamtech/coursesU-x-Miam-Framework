@@ -14,9 +14,7 @@ public struct CoursesURecipeDetailsStepsView: RecipeDetailsStepsViewTemplate {
     
     public init() {}
     
-    @SwiftUI.State private var activeStep = -1
-    
-    public func content(steps: [RecipeStep]) -> some View {
+    public func content(activeStep: Binding<Int>, steps: [RecipeStep]) -> some View {
 
         if let template = Template.sharedInstance.recipeDetailStepsViewTemplate {
             template(steps)
@@ -39,13 +37,13 @@ public struct CoursesURecipeDetailsStepsView: RecipeDetailsStepsViewTemplate {
             VStack {
                 VStack {
                     ForEach(Array(steps.enumerated()), id: \.element) { index, step in
-                        let isChecked = activeStep > index
+                        let isChecked = activeStep.wrappedValue > index
                         RecipeDetailsStepRow(
                             index: index,
                             step: step,
                             isCheck: isChecked,
                             onToogleCheckbox: {
-                                activeStep = index + 1
+                                activeStep.wrappedValue = index + 1
                             }
                         )
                     }

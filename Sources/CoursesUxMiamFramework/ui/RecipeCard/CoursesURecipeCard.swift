@@ -56,7 +56,7 @@ public struct CoursesURecipeCard: RecipeCard {
                                 .resizable()
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(Color.white)
-                            Text("Ajouter!")
+                            Text("Ajouter")
                                 .foregroundColor(Color.white)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }
