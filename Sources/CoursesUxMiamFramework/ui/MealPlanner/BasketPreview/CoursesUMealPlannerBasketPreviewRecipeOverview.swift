@@ -32,6 +32,9 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                     BasketPreviewCardCallToAction(actions: basketPreviewActions)
                 })
             .padding(.bottom)
+            .onTapGesture {
+                basketPreviewActions.onRecipeTapped(basketPreviewInfos.recipe.id)
+            }
             if basketPreviewInfos.isReloading {
                 ProgressView()
                     .padding(Dimension.sharedInstance.mPadding)
@@ -149,10 +152,17 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
     static var previews: some View {
         
         let recipe = FakeRecipe().createRandomFakeRecipe()
-        let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"), pricePerPerson: "12.3", numberOfProductsInBasket: 3, guests: 4, isReloading: false)
+        let basketInfos = BasketPreviewInfos(
+            recipe: recipe,
+            price: Price(price: 14.56, currency: "EUR"),
+            pricePerPerson: "12.3",
+            numberOfProductsInBasket: 3,
+            guests: 4
+            , isReloading: false
+        )
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfos: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}))
+            CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfos: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}, onRecipeTapped: {_ in}))
             .padding()
         }
     }
