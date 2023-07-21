@@ -12,10 +12,12 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
-    public init() {}
+    var onClose: () -> Void
+    public init(onClose: @escaping () -> Void) {
+        self.onClose = onClose
+    }
     let dimension = Dimension.sharedInstance
-  
-    public func content(numberOfMeals: Int, totalPrice: Price, onOurPromotions: @escaping () -> Void, onClose: @escaping () -> Void) -> some View {
+    public func content(numberOfMeals: Int, totalPrice: Price, onTapGesture: @escaping () -> Void) -> some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
@@ -55,7 +57,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                         Text("Découvrez aussi :")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         Button(action: {
-                            onOurPromotions()
+                            onTapGesture()
                                 }) {
                                     Text("Nos promotions")
                                         .foregroundColor(.white)
