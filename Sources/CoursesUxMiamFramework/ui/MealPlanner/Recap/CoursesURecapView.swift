@@ -15,16 +15,33 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
     public init() {}
     let dimension = Dimension.sharedInstance
   
-    public func content(numberOfMeals: Int, totalPrice: Price, onTapGesture: @escaping () -> Void) -> some View {
+    public func content(numberOfMeals: Int, totalPrice: Price, onOurPromotions: @escaping () -> Void, onClose: @escaping () -> Void) -> some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 CoursesUTwoMealsBackground()
                 VStack(spacing: -40.0) {
                     MealPlannerBackground()
                     VStack(spacing: 25) {
+                        
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    onClose()
+                                }, label: {
+                                    Image(packageResource: "CloseXIcon", ofType: "png")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .padding(5)
+                                        .overlay(Circle().stroke(Color.primaryColor, lineWidth: 2))
+                                })
+                            }
                         Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
                             .resizable()
                             .frame(width: 30, height: 30)
+                            
+                            
+                            
+                        
                         
                         Text("Les produits associés ont bien été ajoutés au panier")
                             .multilineTextAlignment(.center)
@@ -42,7 +59,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                         Text("Découvrez aussi :")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         Button(action: {
-                            onTapGesture()
+                            onOurPromotions()
                                 }) {
                                     Text("Nos promotions")
                                         .foregroundColor(.white)
