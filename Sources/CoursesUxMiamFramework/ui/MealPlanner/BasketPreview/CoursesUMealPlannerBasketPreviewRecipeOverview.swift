@@ -14,18 +14,29 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
    
     
     public init() {}
-    public func content(basketPreviewInfos: BasketPreviewInfos, basketPreviewActions: BasketPreviewRecipeActions) -> some View { 
+    public func content(basketPreviewInfos: BasketPreviewInfos, basketPreviewActions: BasketPreviewRecipeActions) -> some View {
+        ZStack(alignment: .topTrailing) {
             CoursesURecipeCardCoreFrame(
                 recipe: basketPreviewInfos.recipe,
                 price: basketPreviewInfos.price,
                 centerContent: {
-                    ArticlesPriceRecapCounter(numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket, pricePerPerson: basketPreviewInfos.pricePerPerson, price: basketPreviewInfos.price, guests: basketPreviewInfos.guests) { guestNumber in
+                    ArticlesPriceRecapCounter(
+                        numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket,
+                        pricePerPerson: basketPreviewInfos.pricePerPerson,
+                        price: basketPreviewInfos.price,
+                        guests: basketPreviewInfos.guests
+                    ) { guestNumber in
                         basketPreviewActions.updateGuests(guestNumber)
                     }
-            }, callToAction: {
-                BasketPreviewCardCallToAction(actions: basketPreviewActions)
-            })
+                }, callToAction: {
+                    BasketPreviewCardCallToAction(actions: basketPreviewActions)
+                })
             .padding(.bottom)
+            if basketPreviewInfos.isReloading {
+                ProgressView()
+                    .padding(Dimension.sharedInstance.mPadding)
+            }
+        }
         }
     
     @available(iOS 14, *)
@@ -46,7 +57,6 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                         Text(pricePerPerson)
                             .foregroundColor(Color.gray)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                    
                     HStack(spacing: 1) {
                         RecapPriceForRecipes(
                             leadingText: "",
@@ -87,10 +97,8 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                         showContents.toggle()
                         actions.expand()
                     }
-                    
                 } label: {
                     HStack {
-                        
                         //                            Text(Localization.basket.swapProduct.localised)
                         // TODO: localize
                         Text("Voir le détail")
@@ -118,8 +126,8 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                 } label: {
                     VStack {
                         if loading {
-                            ProgressLoader(color: Color.primaryColor)
-                                .scaleEffect(0.25)
+                            ProgressView()
+                                .padding(Dimension.sharedInstance.mPadding)
                         } else {
                             Image(packageResource: "TrashIcon", ofType: "png")
                                 .resizable()
@@ -141,7 +149,7 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
     static var previews: some View {
         
         let recipe = FakeRecipe().createRandomFakeRecipe()
-        let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"), pricePerPerson: "12.3", numberOfProductsInBasket: 3, guests: 4)
+        let basketInfos = BasketPreviewInfos(recipe: recipe, price: Price(price: 14.56, currency: "EUR"), pricePerPerson: "12.3", numberOfProductsInBasket: 3, guests: 4, isReloading: false)
         ZStack {
             Color.budgetBackgroundColor
             CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfos: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}))
