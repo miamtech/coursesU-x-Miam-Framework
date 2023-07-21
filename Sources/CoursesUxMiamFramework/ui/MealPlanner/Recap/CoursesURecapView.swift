@@ -22,7 +22,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                 VStack(spacing: -40.0) {
                     MealPlannerBackground()
                     VStack(spacing: 25) {
-                        
+                        VStack {
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -35,14 +35,10 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                                         .overlay(Circle().stroke(Color.primaryColor, lineWidth: 2))
                                 })
                             }
-                        Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            
-                            
-                            
-                        
-                        
+                            Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
                         Text("Les produits associés ont bien été ajoutés au panier")
                             .multilineTextAlignment(.center)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
