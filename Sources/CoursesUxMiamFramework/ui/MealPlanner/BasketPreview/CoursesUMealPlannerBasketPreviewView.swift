@@ -23,9 +23,12 @@ public struct CoursesUMealPlannerBasketPreviewView<
     private let productTemplate: ProductTemplate
     private let sectionTitleTemplate: SectionTitleTemplate
     private let sectionProductTemplate: SectionProductTemplate
-    
+    /// To show the final Recap page
     private let validateRecipes: () -> Void
+    /// To replace one of the items in recipe
     private let replaceProduct: (String) -> Void
+    /// To show the Recipe Page
+    private let onRecipeTapped: (String) -> Void
     
     @StateObject private var previewViewModel = MealPlannerBasketPreviewVM()
     
@@ -36,7 +39,9 @@ public struct CoursesUMealPlannerBasketPreviewView<
         sectionTitleTemplate: SectionTitleTemplate,
         sectionProductTemplate: SectionProductTemplate,
         validateRecipes: @escaping () -> Void,
-        replaceProduct: @escaping (String) -> Void) {
+        replaceProduct: @escaping (String) -> Void,
+        onRecipeTapped: @escaping (String) -> Void
+    ) {
             self.loadingTemplate = loadingTemplate
         self.recipeOverviewTemplate = recipeOverviewTemplate
         self.productTemplate = productTemplate
@@ -44,6 +49,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
             self.replaceProduct = replaceProduct
         self.sectionTitleTemplate = sectionTitleTemplate
         self.sectionProductTemplate = sectionProductTemplate
+        self.onRecipeTapped = onRecipeTapped
     }
     
     public var body: some View {
@@ -117,6 +123,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
                 sectionProductTemplate: sectionProductTemplate,
                 meal: meal,
                 replaceProduct: self.replaceProduct,
+                onRecipeTapped: self.onRecipeTapped,
                 mealViewModel: previewViewModel
             )
                 .listRowBackground(Color.clear)
@@ -135,6 +142,6 @@ struct CoursesUMealPlannerBasketPreviewView_Previews: PreviewProvider {
             productTemplate: CoursesUMealPlannerBasketPreviewProduct(),
             sectionTitleTemplate: CoursesUMealPlannerBasketPreviewSectionTitle(),
             sectionProductTemplate: CoursesUMealPlannerBasketPreviewSectionProduct(),
-            validateRecipes: { print("validating")}, replaceProduct: {_ in})
+            validateRecipes: { print("validating")}, replaceProduct: {_ in}, onRecipeTapped: {_ in})
     }
 }

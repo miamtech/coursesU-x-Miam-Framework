@@ -12,9 +12,11 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
-    public init() {}
+    var onClose: () -> Void
+    public init(onClose: @escaping () -> Void) {
+        self.onClose = onClose
+    }
     let dimension = Dimension.sharedInstance
-  
     public func content(numberOfMeals: Int, totalPrice: Price, onTapGesture: @escaping () -> Void) -> some View {
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
@@ -22,10 +24,23 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                 VStack(spacing: -40.0) {
                     MealPlannerBackground()
                     VStack(spacing: 25) {
-                        Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    onClose()
+                                }, label: {
+                                    Image(packageResource: "CloseXIcon", ofType: "png")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .padding(5)
+                                        .overlay(Circle().stroke(Color.primaryColor, lineWidth: 2))
+                                })
+                            }
+                            Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
                         Text("Les produits associés ont bien été ajoutés au panier")
                             .multilineTextAlignment(.center)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
