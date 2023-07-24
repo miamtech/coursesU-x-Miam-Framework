@@ -1,8 +1,7 @@
 # 1.0.4
 - [FEA] Added loader on Basket Preview Line for both delete & change guest count
 - [FEA] Added onClose to Recap
-- [FIX] 
-- [FIX] 
+- [FEA] Added Recipe Details page to Basket Preview Line
 
 # 1.0.3
 - [FIX] RecipeDetailsStepsViewTemplate now working as expected, uses new Binding activeStep 
