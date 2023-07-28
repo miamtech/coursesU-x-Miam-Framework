@@ -40,7 +40,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
                     CoursesURecipeDifficulty(difficulty: difficulty)
                     Spacer()
                 }
-                RecapPriceForRecipes(priceAmount:  price.formattedPrice())
+                RecapPriceForRecipes(priceAmount:  price.formattedPriceTrailing())
                 
             }
         }
@@ -112,7 +112,7 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
     
     var body: some View {
         let priceWithCurrency =
-        String(price.formattedPrice())
+        String(price.formattedPriceTrailing())
         HStack(spacing: 0.0) {
             ZStack(alignment: .topLeading) {
                 AsyncImage(url: recipe.pictureURL) { image in
