@@ -85,7 +85,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     //                { _ in }
                     CoursesUFormRow(
                         caption: "Nombre de personnes",
-                        icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
+                        icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
                             //                        Text("hello")
                         CoursesUStepperBinding(value: budgetInfos.numberOfGuests)
@@ -95,7 +95,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     // TODO: localize
                     CoursesUFormRow(
                         caption: "Nombre de repas",
-                        icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
+                        icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                         content:
                             //                        Text("hello")
                         CoursesUStepperBinding(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
