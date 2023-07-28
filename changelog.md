@@ -1,3 +1,7 @@
+# 1.0.5
+- [FIX] Added loader on Basket Preview that prevents "price of zero" issue
+- [FIX] Swapped Form Icons
+
 # 1.0.4
 - [FEA] Added loader on Basket Preview Line for both delete & change guest count
 - [FEA] Added onClose to Recap
