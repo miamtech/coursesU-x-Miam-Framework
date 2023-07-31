@@ -226,64 +226,6 @@ extension CoursesUMealPlannerPlannerView {
     
     @available(iOS 14, *)
     private func recipesList() -> some View {
-        // Create a new array that combines meals and placeholders with their respective indices
-        var combinedArray: [MealPlannerRecipe?] = []
-        for index in 0..<budgetInfos.numberOfMeals {
-            if index < viewModel.meals.count {
-                combinedArray.append(viewModel.meals[index])
-            } else {
-                combinedArray.append(nil)
-            }
-        }
-
-        return ForEach(Array(zip(0..<combinedArray.count, combinedArray)), id: \.1?.recipeId) { index, meal in
-            VStack {
-                if let meal = meal {
-                    let actions = BudgetRecipeCardActions(
-                        recipeTapped: { recipe in showRecipe(recipe) },
-                        removeTapped: { removeRecipe(meal.recipeId) },
-                        replaceTapped: {
-                            recipeToReplace = meal.recipeId
-                            miamIndexOfRecipeReplaced = index
-                            if let totalPrice = viewModel.state?.totalPrice {
-                                viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
-                                    totalPrice: totalPrice,
-                                    recipeToReplacePrice: KotlinDouble(value: meal.price)
-                                )
-                            }
-                            replaceRecipe(meal.recipeId)
-                        }
-                    )
-                    MealPlannerRecipeCardView(
-                        recipeId: meal.recipeId,
-                        price: Price(price: meal.price, currency: "EUR"),
-                        recipeCardTemplate: recipeCardTemplate,
-                        recipeCardLoadingTemplate: loadingCardTemplate,
-                        actions: actions
-                    )
-                } else {
-                    placeholderCardTemplate.content {
-                        miamIndexOfRecipeReplaced = index
-                        if let totalPrice = viewModel.state?.totalPrice {
-                            viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
-                                totalPrice: totalPrice,
-                                recipeToReplacePrice: nil
-                            )
-                        }
-                        self.replaceRecipe("")
-                    }
-                }
-            }
-            .listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets())
-            .padding(.vertical, dimension.mPadding)
-        }
-    }
-
-
-
-    @available(iOS 14, *)
-    private func recipesListTest() -> some View {
         ForEach(Array(viewModel.meals.enumerated()), id: \.1.self) { index, meal in
             // I use VStack so i can add same bg & padding to comps
             VStack {
@@ -327,11 +269,6 @@ extension CoursesUMealPlannerPlannerView {
     }
 
 }
-
-
-
-
-
 
 @available(iOS 14, *)
 extension CoursesUMealPlannerPlannerView {
