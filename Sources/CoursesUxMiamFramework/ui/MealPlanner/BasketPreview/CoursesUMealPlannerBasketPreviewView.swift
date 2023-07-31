@@ -14,12 +14,14 @@ import miamCore
 public struct CoursesUMealPlannerBasketPreviewView<
     LoadingTemplate: MealPlannerBasketPreviewLoading,
     RecipeOverviewTemplate: MealPlannerBasketPreviewRecipeOverview,
+    RecipeLoadingTemplate: MealPlannerRecipeCardLoading,
     ProductTemplate: MealPlannerBasketPreviewProduct,
     SectionTitleTemplate: MealPlannerBasketPreviewSectionTitle,
     SectionProductTemplate: MealPlannerBaskletPreviewSectionProduct
 >: View {
     private let loadingTemplate: LoadingTemplate
     private let recipeOverviewTemplate: RecipeOverviewTemplate
+    private let recipeLoadingTemplate: RecipeLoadingTemplate
     private let productTemplate: ProductTemplate
     private let sectionTitleTemplate: SectionTitleTemplate
     private let sectionProductTemplate: SectionProductTemplate
@@ -35,6 +37,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
     public init(
         loadingTemplate: LoadingTemplate,
         recipeOverviewTemplate: RecipeOverviewTemplate,
+        recipeLoadingTemplate: RecipeLoadingTemplate,
         productTemplate: ProductTemplate,
         sectionTitleTemplate: SectionTitleTemplate,
         sectionProductTemplate: SectionProductTemplate,
@@ -44,6 +47,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
     ) {
             self.loadingTemplate = loadingTemplate
         self.recipeOverviewTemplate = recipeOverviewTemplate
+        self.recipeLoadingTemplate = recipeLoadingTemplate
         self.productTemplate = productTemplate
         self.validateRecipes = validateRecipes
             self.replaceProduct = replaceProduct
@@ -59,11 +63,13 @@ public struct CoursesUMealPlannerBasketPreviewView<
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             UIStateWrapperView(uiState: previewViewModel.state?.lines) {
-                VStack {
-                    Spacer()
-                    loadingTemplate.content()
-                    Spacer()
-                }
+                
+                    VStack {
+                        Spacer()
+                        loadingTemplate.content()
+                        Spacer()
+                    }
+            
             } emptyView: {
                 VStack {
                     Spacer()
@@ -91,7 +97,9 @@ public struct CoursesUMealPlannerBasketPreviewView<
             }
             .listStyle(PlainListStyle())
             .padding(.top, 50)
-            footer()
+            if previewViewModel.totalPrice > 0.0 {
+                footer()
+            }
         }
             
     }
@@ -117,7 +125,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
     private func recipesList() -> some View {
         ForEach(previewViewModel.meals) { meal in
             MealPlannerBasketPreviewExpandableMealView(
-                recipeOverviewTemplate: recipeOverviewTemplate,
+                recipeOverviewTemplate: recipeOverviewTemplate, recipeLoadingTemplate: recipeLoadingTemplate,
                 productTemplate: productTemplate,
                 sectionTitleTemplate: sectionTitleTemplate,
                 sectionProductTemplate: sectionProductTemplate,
@@ -138,7 +146,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
 struct CoursesUMealPlannerBasketPreviewView_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUMealPlannerBasketPreviewView(
-            loadingTemplate: CoursesUMealPlannerBasketPreviewLoading(), recipeOverviewTemplate: CoursesUMealPlannerBasketPreviewRecipeOverview(),
+            loadingTemplate: CoursesUMealPlannerBasketPreviewLoading(), recipeOverviewTemplate: CoursesUMealPlannerBasketPreviewRecipeOverview(), recipeLoadingTemplate: CoursesUMealPlannerRecipeCardLoading(),
             productTemplate: CoursesUMealPlannerBasketPreviewProduct(),
             sectionTitleTemplate: CoursesUMealPlannerBasketPreviewSectionTitle(),
             sectionProductTemplate: CoursesUMealPlannerBasketPreviewSectionProduct(),

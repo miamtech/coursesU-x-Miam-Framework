@@ -8,66 +8,19 @@
 //
 import SwiftUI
 
-//@available(iOS 14, *)
-//internal struct CoursesUInputWithIcon: View {
-//    @State private var budget: Double = 0.0
-//    let caption: String?
-//    let currency: String
-//    let icon: Image
-//    public var onInputChanged: (Double) -> Void
-//    init(
-//        defaultValue: Double? = 0,
-//        currency: String = "€",
-//        caption: String? = nil,
-//        icon: Image,
-//        onInputChanged: @escaping (Double) -> Void
-//    ) {
-//        _budget = State(initialValue: defaultValue ?? 0.0)
-//        self.currency = currency
-//        self.caption = caption
-//        self.icon = icon
-//        self.onInputChanged = onInputChanged
-//    }
-//    let dimension = Dimension.sharedInstance
-//    var body: some View {
-//        HStack(spacing: Dimension.sharedInstance.sPadding) {
-//            icon
-//                .resizable()
-//                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-//                .padding(.horizontal, dimension.sPadding)
-//
-//            VStack(alignment: .leading, spacing: 0) {
-//                if let caption = caption {
-//                    Text(caption)
-//                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-//                }
-//                HStack(spacing: 2) {
-//                    Text(currency)
-////                    NumberedInputField(budget: $budget, onInputChanged: onInputChanged)
-//                }
-//            }
-//            Spacer()
-//        }
-//    }
-//}
-
 @available(iOS 14, *)
 internal struct CoursesUInputWithCurrency: View {
     @Binding public var budget: Double
     let currency: String
-//    public var onInputChanged: (Double) -> Void
 
     init(budget: Binding<Double>, currency: String = "€") {
         _budget = budget
         self.currency = currency
-        
     }
 
     var body: some View {
         HStack(alignment: .center, spacing: 2) {
-            
             Spacer()
-
             CustomTextField("Budget", value: $budget)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
             Text(currency)
@@ -120,6 +73,7 @@ internal struct CoursesUInputWithCurrency: View {
 
         class Coordinator: NSObject, UITextFieldDelegate {
             var parent: CustomTextField
+            private var hasTappedOnTextField = false
 
             init(_ parent: CustomTextField) {
                 self.parent = parent
@@ -127,6 +81,14 @@ internal struct CoursesUInputWithCurrency: View {
             
             @objc func okButtonTapped() {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                hasTappedOnTextField = false
+                }
+            
+            func textFieldDidBeginEditing(_ textField: UITextField) {
+                    if !hasTappedOnTextField {
+                        textField.text = "" // Clear the text field's content only if the user has not tapped on it before
+                    }
+                    hasTappedOnTextField = true
                 }
 
             func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

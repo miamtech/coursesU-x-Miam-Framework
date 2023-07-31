@@ -223,7 +223,7 @@ public struct CoursesUMealPlannerPlannerView<
 
 @available(iOS 14, *)
 extension CoursesUMealPlannerPlannerView {
-
+    
     @available(iOS 14, *)
     private func recipesList() -> some View {
         ForEach(Array(viewModel.meals.enumerated()), id: \.1.self) { index, meal in
@@ -267,8 +267,8 @@ extension CoursesUMealPlannerPlannerView {
             .padding(.vertical, dimension.mPadding)
         }
     }
-}
 
+}
 
 @available(iOS 14, *)
 extension CoursesUMealPlannerPlannerView {

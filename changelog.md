@@ -1,3 +1,9 @@
+# 1.0.5
+- [FEA] Input field on Budget resets when user presses it
+- [FIX] Added loader on Basket Preview that prevents "price of zero" issue
+- [FIX] Swapped Form Icons
+- [FIX] Currency symbol now trailing
+
 # 1.0.4
 - [FEA] Added loader on Basket Preview Line for both delete & change guest count
 - [FEA] Added onClose to Recap

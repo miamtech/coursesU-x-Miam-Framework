@@ -52,7 +52,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                         Spacer()
                     }
                     HStack() {
-                        Text("\(productInfo.price.formattedPrice())")
+                        Text("\(productInfo.price.formattedPriceTrailing())")
                             .foregroundColor(Color.black)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                         Spacer()

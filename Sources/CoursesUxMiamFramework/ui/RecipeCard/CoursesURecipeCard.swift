@@ -19,7 +19,7 @@ public struct CoursesURecipeCard: RecipeCard {
         var ctaAction: (String) -> Void {
             return recipeInfos.isInBasket ? actions.showDetails : actions.addToBasket
         }
-        let priceWithCurrency = String(recipeInfos.price.formattedPrice())
+        let priceWithCurrency = String(recipeInfos.price.formattedPriceTrailing())
         
         return VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {

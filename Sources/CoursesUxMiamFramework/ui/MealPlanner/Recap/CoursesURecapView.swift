@@ -46,7 +46,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         RecapPriceForRecipes(
                             leadingText: "\(String(numberOfMeals)) repas pour",
-                            priceAmount:  totalPrice.formattedPrice(),
+                            priceAmount:  totalPrice.formattedPriceTrailing(),
                             trailingText: "",
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
                             yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyle,

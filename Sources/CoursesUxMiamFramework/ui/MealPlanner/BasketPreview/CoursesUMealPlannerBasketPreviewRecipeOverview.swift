@@ -63,7 +63,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                     HStack(spacing: 1) {
                         RecapPriceForRecipes(
                             leadingText: "",
-                            priceAmount:  price.formattedPrice(),
+                            priceAmount:  price.formattedPriceTrailing(),
                             trailingText: "",
                             leadingPadding: 0, trailingPadding: 0,
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
