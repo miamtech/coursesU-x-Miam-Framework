@@ -9,8 +9,6 @@ import SwiftUI
 import miamCore
 import MiamIOSFramework
 
-import SwiftUI
-
 @available(iOS 14, *)
 public struct CoursesUMealPlannerPlannerView<
     ToolbarTemplate: MealPlannerToolbar,
@@ -41,7 +39,7 @@ public struct CoursesUMealPlannerPlannerView<
 
     @StateObject private var viewModel = MealPlannerMealsVM()
     @StateObject private var formViewModel = MealPlannerFormVM()
-    
+
     public init(toolbarTemplate: ToolbarTemplate,
                 footerTemplate: FooterTemplate,
                 loadingTemplate: LoadingTemplate,
@@ -76,7 +74,7 @@ public struct CoursesUMealPlannerPlannerView<
     @SwiftUI.State var showFormOptions = false
     @AppStorage("miam_index_of_recipe_replaced") var miamIndexOfRecipeReplaced = 4
     @AppStorage("miam_budget_remaining") var miamBudgetRemaining = 4.0
-    
+
     let dimension = Dimension.sharedInstance
     
     public var body: some View {
@@ -106,8 +104,6 @@ public struct CoursesUMealPlannerPlannerView<
             }
     }
     
-    
-    
     private func successContent() -> some View {
         let numberOfMealsInBasket = viewModel.meals.compactMap { $0 }.count
         return ZStack {
@@ -123,7 +119,6 @@ public struct CoursesUMealPlannerPlannerView<
                     }
                     recipesList()
                         .padding(.horizontal, dimension.lPadding)
-                    
                     Spacer()
                         .frame(height: 100)
                         .listRowBackground(Color.clear)
@@ -222,53 +217,49 @@ public struct CoursesUMealPlannerPlannerView<
 @available(iOS 14, *)
 extension CoursesUMealPlannerPlannerView {
     @available(iOS 14, *)
-    private func recipesList() -> some View {
-        ForEach(0..<budgetInfos.numberOfMeals, id: \.self) { index in
-            if !isLoadingRecipes {
-                if index < viewModel.meals.count, let meal = viewModel.meals[index] {
-                    let actions = BudgetRecipeCardActions(
-                        recipeTapped: { recipe in showRecipe(recipe) },
-                        removeTapped: { removeRecipe(meal.recipeId) },
-                        replaceTapped: {
-                            recipeToReplace = meal.recipeId
-                            miamIndexOfRecipeReplaced = index
-                            if let totalPrice = viewModel.state?.totalPrice {
-                                viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
-                                    totalPrice: totalPrice,
-                                    recipeToReplacePrice: KotlinDouble(value: meal.price))
-                            }
-                            replaceRecipe(meal.recipeId)
-                        }
-                    )
-                    MealPlannerRecipeCardView(
-                        recipeId: meal.recipeId,
-                        price: Price(price: meal.price, currency: "EUR"),
-                        recipeCardTemplate: recipeCardTemplate,
-                        recipeCardLoadingTemplate: loadingCardTemplate,
-                        actions: actions
-                    )
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
-                    .padding(.vertical, dimension.mPadding)
-                } else {
-                    placeholderCardTemplate.content {
-                        miamIndexOfRecipeReplaced = index
-                        if let totalPrice = viewModel.state?.totalPrice {
-                            viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
-                                totalPrice: totalPrice,
-                                recipeToReplacePrice: nil
-                            )
-                        }
-                        self.replaceRecipe("")
-                    }
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
-                    .padding(.vertical, dimension.mPadding)
-                }
-            }
-            
-        }
-    }
+       private func recipesList() -> some View {
+           ForEach(Array(viewModel.meals.enumerated()), id: \.0.self) { index, meal in
+               // I use VStack so i can add same bg & padding to comps
+               VStack {
+                   if let meal {
+                       let actions = BudgetRecipeCardActions(recipeTapped: { recipe in
+                               showRecipe(recipe)
+                           }, removeTapped: {
+                               removeRecipe(meal.recipeId)
+                           }, replaceTapped: {
+                               recipeToReplace = meal.recipeId
+                               miamIndexOfRecipeReplaced = index
+                               if let totalPrice = viewModel.state?.totalPrice {
+                                   viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
+                                       totalPrice: totalPrice,
+                                       recipeToReplacePrice: KotlinDouble(value: meal.price))
+                               }
+                               replaceRecipe(meal.recipeId)
+                           })
+                           MealPlannerRecipeCardView(
+                               recipeId: meal.recipeId,
+                               price: Price(price: meal.price, currency: "EUR"),
+                               recipeCardTemplate: recipeCardTemplate,
+                               recipeCardLoadingTemplate: loadingCardTemplate,
+                               actions: actions)
+                   } else {
+                       placeholderCardTemplate.content {
+                           miamIndexOfRecipeReplaced = index
+                           if let totalPrice = viewModel.state?.totalPrice {
+                               viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
+                                   totalPrice: totalPrice,
+                                   recipeToReplacePrice: nil)
+                           }
+                           self.replaceRecipe("")
+                       }
+                   }
+               }
+               .listRowBackground(Color.clear)
+               .listRowInsets(EdgeInsets())
+               .padding(.vertical, dimension.mPadding)
+           }
+       }
+
 }
 
 @available(iOS 14, *)
