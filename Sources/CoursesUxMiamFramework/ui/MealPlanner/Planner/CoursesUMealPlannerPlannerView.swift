@@ -49,7 +49,6 @@ public struct CoursesUMealPlannerPlannerView<
                 recipeCardTemplate: CardTemplate,
                 loadingCardTemplate: LoadingCardTemplate,
                 placeholderCardTemplate: PlaceholderCardTemplate,
-                
                 budgetInfos: BudgetInfos? = nil,
                 showRecipe: @escaping (String) -> Void,
                 validateRecipes: @escaping () -> Void,
@@ -68,9 +67,7 @@ public struct CoursesUMealPlannerPlannerView<
             formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
             formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
             formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.numberOfMeals))
-
         }
-        
         if #unavailable(iOS 16) {
             UITableView.appearance().backgroundColor = .clear
         }
@@ -97,11 +94,12 @@ public struct CoursesUMealPlannerPlannerView<
     }
     
     private func getRecipesFromVM() {
+        isLoadingRecipes = true
         formViewModel.getRecipesForBudgetConstraint(
             budget: Int32(formViewModel.budgetInfos.moneyBudget),
             mealCount: Int32(formViewModel.budgetInfos.numberOfMeals),
             guestCount: Int32(formViewModel.budgetInfos.numberOfGuests)) { recipes, error in
-                isLoadingRecipes.toggle()
+                isLoadingRecipes = false
                 guard error == nil else {
                     return
                 }
@@ -121,10 +119,11 @@ public struct CoursesUMealPlannerPlannerView<
                         NoSearchResults(message: "Aucune idée repas n’a pu être planifiée pour le budget demandé.")
                     } else {
                         Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket == 1 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                     }
                     recipesList()
                         .padding(.horizontal, dimension.lPadding)
+                    
                     Spacer()
                         .frame(height: 100)
                         .listRowBackground(Color.clear)
@@ -155,9 +154,9 @@ public struct CoursesUMealPlannerPlannerView<
         VStack{
             Spacer()
             footerTemplate.content(budgetInfos: formViewModel.budgetInfos, budgetSpent: $viewModel.totalPrice) {
-                    viewModel.addRecipesToGroceriesList()
-                    validateRecipes()
-                }
+                viewModel.addRecipesToGroceriesList()
+                validateRecipes()
+            }
         }
     }
     
@@ -199,7 +198,6 @@ public struct CoursesUMealPlannerPlannerView<
     }
     
     private func fetchAndUpdateMaxMeals() {
-        
         if formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0 {
             formViewModel.getRecipesMaxCountForBudgetConstraint(budget: Int32(formViewModel.budgetInfos.moneyBudget), guestCount: Int32(formViewModel.budgetInfos.numberOfGuests))
             updateMealPlannerWithMax(budgetInfos: formViewModel.budgetInfos)
@@ -218,23 +216,20 @@ public struct CoursesUMealPlannerPlannerView<
     }
     var combinedMealPlannerAndGuestsCount: Int {
         formViewModel.budgetInfos.numberOfGuests + Int(formViewModel.budgetInfos.moneyBudget)
-        }
+    }
 }
 
 @available(iOS 14, *)
 extension CoursesUMealPlannerPlannerView {
-    
     @available(iOS 14, *)
     private func recipesList() -> some View {
-        ForEach(Array(viewModel.meals.enumerated()), id: \.1.self) { index, meal in
-            // I use VStack so i can add same bg & padding to comps
-            VStack {
-                if let meal {
-                    let actions = BudgetRecipeCardActions(recipeTapped: { recipe in
-                            showRecipe(recipe)
-                        }, removeTapped: {
-                            removeRecipe(meal.recipeId)
-                        }, replaceTapped: {
+        ForEach(0..<budgetInfos.numberOfMeals, id: \.self) { index in
+            if !isLoadingRecipes {
+                if index < viewModel.meals.count, let meal = viewModel.meals[index] {
+                    let actions = BudgetRecipeCardActions(
+                        recipeTapped: { recipe in showRecipe(recipe) },
+                        removeTapped: { removeRecipe(meal.recipeId) },
+                        replaceTapped: {
                             recipeToReplace = meal.recipeId
                             miamIndexOfRecipeReplaced = index
                             if let totalPrice = viewModel.state?.totalPrice {
@@ -243,31 +238,37 @@ extension CoursesUMealPlannerPlannerView {
                                     recipeToReplacePrice: KotlinDouble(value: meal.price))
                             }
                             replaceRecipe(meal.recipeId)
-                        })
-                        MealPlannerRecipeCardView(
-                            recipeId: meal.recipeId,
-                            price: Price(price: meal.price, currency: "EUR"),
-                            recipeCardTemplate: recipeCardTemplate,
-                            recipeCardLoadingTemplate: loadingCardTemplate,
-                            actions: actions)
+                        }
+                    )
+                    MealPlannerRecipeCardView(
+                        recipeId: meal.recipeId,
+                        price: Price(price: meal.price, currency: "EUR"),
+                        recipeCardTemplate: recipeCardTemplate,
+                        recipeCardLoadingTemplate: loadingCardTemplate,
+                        actions: actions
+                    )
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .padding(.vertical, dimension.mPadding)
                 } else {
                     placeholderCardTemplate.content {
                         miamIndexOfRecipeReplaced = index
                         if let totalPrice = viewModel.state?.totalPrice {
                             viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
                                 totalPrice: totalPrice,
-                                recipeToReplacePrice: nil)
+                                recipeToReplacePrice: nil
+                            )
                         }
                         self.replaceRecipe("")
                     }
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .padding(.vertical, dimension.mPadding)
                 }
             }
-            .listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets())
-            .padding(.vertical, dimension.mPadding)
+            
         }
     }
-
 }
 
 @available(iOS 14, *)
@@ -292,6 +293,6 @@ struct CoursesUMealPlannerPlannerView_Previews: PreviewProvider {
             recipeCardTemplate: CoursesUMealPlannerRecipeCard(),
             loadingCardTemplate: CoursesUMealPlannerRecipeCardLoading(),
             placeholderCardTemplate: CoursesUMealPlannerRecipePlaceholder(),
-           showRecipe: {_ in}, validateRecipes: {}, replaceRecipe: {_ in})
+            showRecipe: {_ in}, validateRecipes: {}, replaceRecipe: {_ in})
     }
 }
