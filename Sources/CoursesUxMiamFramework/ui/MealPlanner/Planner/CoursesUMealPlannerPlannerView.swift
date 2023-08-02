@@ -220,12 +220,10 @@ extension CoursesUMealPlannerPlannerView {
     @available(iOS 14, *)
     private func recipesList() -> some View {
         VStack {
-            if !replacingRecipe {
+            if !isLoadingRecipes {
                 ForEach(Array(viewModel.meals.enumerated()), id: \.0) { index, meal in
                     // I use VStack so i can add same bg & padding to comps
                     VStack {
-                        
-                        
                         if let meal {
                             let actions = BudgetRecipeCardActions(recipeTapped: { recipe in
                                 showRecipe(recipe)
@@ -266,9 +264,20 @@ extension CoursesUMealPlannerPlannerView {
                 }
                
             }
+            else {
+                Spacer()
+                    .frame(height: 100.0)
+                ProgressLoader(color: .primaryColor)
+            }
         }
         .onChange(of: viewModel.meals) { newValue in
-            replacingRecipe = false
+            if replacingRecipe {
+                isLoadingRecipes = true
+                replacingRecipe = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(600), execute: {
+                    isLoadingRecipes = false
+                })
+            }
         }
     }
 
