@@ -226,6 +226,7 @@ extension CoursesUMealPlannerPlannerView {
                  [1, nil]
                  [2, meal3]
                  This leads to issues when meals are replaced, as SwiftUI ForEach does not when meal1 is replaced with meal4, because the index is the same. To handle this, we wrap the content in the isLoadingRecipes & have a small wait before setting isLoadingRecipes to false again after a user has replaced a recipe. This is not an ideal solution.
+                 if you'd like to have the ForEach depend on the meals, just change the id to 'id: \.1'
                  */
                 ForEach(Array(viewModel.meals.enumerated()), id: \.0) { index, meal in
                     // I use VStack so i can add same bg & padding to comps
