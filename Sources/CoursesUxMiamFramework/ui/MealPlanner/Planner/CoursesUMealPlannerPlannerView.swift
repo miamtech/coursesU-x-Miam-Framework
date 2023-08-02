@@ -221,6 +221,12 @@ extension CoursesUMealPlannerPlannerView {
     private func recipesList() -> some View {
         VStack {
             if !isLoadingRecipes {
+                /* PMs on our side insisted that when all recipes are empty & the user taps one, the replacement recipe will go to the placeholder they tapped. Because of this, we sort on the left side of the meals enumerated array: (ex:
+                 [0, meal1]
+                 [1, nil]
+                 [2, meal3]
+                 This leads to issues when meals are replaced, as SwiftUI ForEach does not when meal1 is replaced with meal4, because the index is the same. To handle this, we wrap the content in the isLoadingRecipes & have a small wait before setting isLoadingRecipes to false again after a user has replaced a recipe. This is not an ideal solution.
+                 */
                 ForEach(Array(viewModel.meals.enumerated()), id: \.0) { index, meal in
                     // I use VStack so i can add same bg & padding to comps
                     VStack {
@@ -262,7 +268,6 @@ extension CoursesUMealPlannerPlannerView {
                     .listRowInsets(EdgeInsets())
                     .padding(.vertical, dimension.mPadding)
                 }
-               
             }
             else {
                 Spacer()
