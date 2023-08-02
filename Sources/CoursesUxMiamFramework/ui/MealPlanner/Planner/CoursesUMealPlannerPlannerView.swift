@@ -32,6 +32,7 @@ public struct CoursesUMealPlannerPlannerView<
     
     @SwiftUI.State private var recipeToReplace: String?
     @SwiftUI.State private var isLoadingRecipes = false
+    @SwiftUI.State private var replacingRecipe = false
     
     private var budgetInfos: BudgetInfos {
         formViewModel.budgetInfos
@@ -217,48 +218,59 @@ public struct CoursesUMealPlannerPlannerView<
 @available(iOS 14, *)
 extension CoursesUMealPlannerPlannerView {
     @available(iOS 14, *)
-       private func recipesList() -> some View {
-           ForEach(Array(viewModel.meals.enumerated()), id: \.0.self) { index, meal in
-               // I use VStack so i can add same bg & padding to comps
-               VStack {
-                   if let meal {
-                       let actions = BudgetRecipeCardActions(recipeTapped: { recipe in
-                               showRecipe(recipe)
-                           }, removeTapped: {
-                               removeRecipe(meal.recipeId)
-                           }, replaceTapped: {
-                               recipeToReplace = meal.recipeId
-                               miamIndexOfRecipeReplaced = index
-                               if let totalPrice = viewModel.state?.totalPrice {
-                                   viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
-                                       totalPrice: totalPrice,
-                                       recipeToReplacePrice: KotlinDouble(value: meal.price))
-                               }
-                               replaceRecipe(meal.recipeId)
-                           })
-                           MealPlannerRecipeCardView(
-                               recipeId: meal.recipeId,
-                               price: Price(price: meal.price, currency: "EUR"),
-                               recipeCardTemplate: recipeCardTemplate,
-                               recipeCardLoadingTemplate: loadingCardTemplate,
-                               actions: actions)
-                   } else {
-                       placeholderCardTemplate.content {
-                           miamIndexOfRecipeReplaced = index
-                           if let totalPrice = viewModel.state?.totalPrice {
-                               viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
-                                   totalPrice: totalPrice,
-                                   recipeToReplacePrice: nil)
-                           }
-                           self.replaceRecipe("")
-                       }
-                   }
-               }
-               .listRowBackground(Color.clear)
-               .listRowInsets(EdgeInsets())
-               .padding(.vertical, dimension.mPadding)
-           }
-       }
+    private func recipesList() -> some View {
+        VStack {
+            if !replacingRecipe {
+                ForEach(Array(viewModel.meals.enumerated()), id: \.0) { index, meal in
+                    // I use VStack so i can add same bg & padding to comps
+                    VStack {
+                        
+                        
+                        if let meal {
+                            let actions = BudgetRecipeCardActions(recipeTapped: { recipe in
+                                showRecipe(recipe)
+                            }, removeTapped: {
+                                removeRecipe(meal.recipeId)
+                            }, replaceTapped: {
+                                replacingRecipe = true
+                                recipeToReplace = meal.recipeId
+                                miamIndexOfRecipeReplaced = index
+                                if let totalPrice = viewModel.state?.totalPrice {
+                                    viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
+                                        totalPrice: totalPrice,
+                                        recipeToReplacePrice: KotlinDouble(value: meal.price))
+                                }
+                                replaceRecipe(meal.recipeId)
+                            })
+                            MealPlannerRecipeCardView(
+                                recipeId: meal.recipeId,
+                                price: Price(price: meal.price, currency: "EUR"),
+                                recipeCardTemplate: recipeCardTemplate,
+                                recipeCardLoadingTemplate: loadingCardTemplate,
+                                actions: actions)
+                        } else {
+                            placeholderCardTemplate.content {
+                                miamIndexOfRecipeReplaced = index
+                                if let totalPrice = viewModel.state?.totalPrice {
+                                    viewModel.calculAvailableBudgetOnNavigateToReplaceRecipe(
+                                        totalPrice: totalPrice,
+                                        recipeToReplacePrice: nil)
+                                }
+                                self.replaceRecipe("")
+                            }
+                        }
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .padding(.vertical, dimension.mPadding)
+                }
+               
+            }
+        }
+        .onChange(of: viewModel.meals) { newValue in
+            replacingRecipe = false
+        }
+    }
 
 }
 
