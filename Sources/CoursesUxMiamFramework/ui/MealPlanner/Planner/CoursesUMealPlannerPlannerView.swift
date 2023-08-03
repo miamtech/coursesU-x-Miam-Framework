@@ -174,6 +174,7 @@ public struct CoursesUMealPlannerPlannerView<
             } else {
                 CoursesUMealPlannerForm(includeTitle: false, includeLogo: false, includeBackground: false).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
                     withAnimation {
+                        replacingRecipe = true
                         showFormOptions.toggle()
                         getRecipesFromVM()
                     }
