@@ -1,3 +1,9 @@
+# 1.0.6
+- [FIX] Fix Infinite Loader on BPL
+- [FEA] When a user deletes all recipes on the Meal Planner & adds one back, the recipe will be at the place they tapped.
+- [FIX] Max number of guests now set to 9, fixes issue where larger number would show first before going to 9.
+- [FEA] Added originial version of CoursesUMyMealsEmpty()
+
 # 1.0.5
 - [FEA] Input field on Budget resets when user presses it
 - [FIX] Added loader on Basket Preview that prevents "price of zero" issue
