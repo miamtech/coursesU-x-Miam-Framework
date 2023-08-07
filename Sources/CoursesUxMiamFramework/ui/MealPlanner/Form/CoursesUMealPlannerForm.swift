@@ -81,14 +81,11 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     )
                     Divider()
                     // TODO: localize
-                    //                CoursesUStepperCollapsed(caption: "Nombre de personnes", icon: Image(uiImage: UIImage(fromPodAssetName: "numberOfMealsIcon")?? UIImage())))
-                    //                { _ in }
                     CoursesUFormRow(
                         caption: "Nombre de personnes",
                         icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
-                            //                        Text("hello")
-                        CoursesUStepperBinding(value: budgetInfos.numberOfGuests)
+                        CoursesUStepperBinding(value: budgetInfos.numberOfGuests, maxValue: 9)
                         
                     )
                     Divider()
@@ -97,7 +94,6 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         caption: "Nombre de repas",
                         icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                         content:
-                            //                        Text("hello")
                         CoursesUStepperBinding(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
                         
                     )
@@ -116,9 +112,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                     Text("C'est parti !")
                                         .foregroundColor(Color.white)
                                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                                        
                                 }
-                                
                             }
                             .disabled(!budgetAndGuestsValid || !(budgetInfos.wrappedValue.numberOfMeals > 0))
                         }, buttonAction: {

@@ -26,7 +26,7 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterTemplate {
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle)
             Spacer()
           
-                RecapPriceForRecipes(leadingText: "Soit", priceAmount: priceForMeal)
+            RecapPriceForRecipes(leadingText: "Soit", priceAmount: priceForMeal, leadingPadding: 0, trailingPadding: 0)
             
                 .frame(width: 200)
             
