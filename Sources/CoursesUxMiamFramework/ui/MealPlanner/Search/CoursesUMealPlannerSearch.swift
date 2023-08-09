@@ -22,8 +22,8 @@ public struct CoursesUMealPlannerSearch: MealPlannerSearch {
                         .resizable()
                         .foregroundColor(Color.gray)
                         .frame(width: 20, height: 20)
-                    TextField("Rechercher", text: searchText, onCommit: {
-                        // TODO: Enter pressed, start searching? Or start searching everytime a char is entered?
+                    TextField("Que recherchez-vous?", text: searchText, onCommit: {
+
                     })
                     .foregroundColor(Color.gray)
                     .frame(maxWidth: .infinity)
