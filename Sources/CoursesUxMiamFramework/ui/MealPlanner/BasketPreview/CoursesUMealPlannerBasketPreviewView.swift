@@ -63,13 +63,11 @@ public struct CoursesUMealPlannerBasketPreviewView<
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
             UIStateWrapperView(uiState: previewViewModel.state?.lines) {
-                
                     VStack {
                         Spacer()
                         loadingTemplate.content()
                         Spacer()
                     }
-            
             } emptyView: {
                 VStack {
                     Spacer()
@@ -99,6 +97,8 @@ public struct CoursesUMealPlannerBasketPreviewView<
             .padding(.top, 50)
             if previewViewModel.totalPrice > 0.0 {
                 footer()
+            } else {
+                footerNoIngredients()
             }
         }
             
@@ -118,6 +118,18 @@ public struct CoursesUMealPlannerBasketPreviewView<
                 buttonAction: {
                 validateRecipes()
             })
+        }
+    }
+    func footerNoIngredients() -> some View {
+        VStack{
+            Spacer()
+            HStack {
+                NoSearchResults(message: "Vous n'avez pas d'ingrédients dans votre panier.")
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 90)
+            .background(Color.white)
+            .cornerRadius(Dimension.sharedInstance.lCornerRadius, corners: [.top])
         }
     }
     
