@@ -1,3 +1,9 @@
+# 1.0.7
+- [FIX] Meal Planner Form defaults to all 0 values 
+- [FEA] if totalPrice on BasketPreviewLine is 0, users are informed & cannot proceed
+- [FIX] CoursesUMyMealEmptyView is public
+- [FEA] Currency symbol on right side for ItemSelector
+
 # 1.0.6
 - [FIX] Fix Infinite Loader on BPL
 - [FEA] When a user deletes all recipes on the Meal Planner & adds one back, the recipe will be at the place they tapped.
