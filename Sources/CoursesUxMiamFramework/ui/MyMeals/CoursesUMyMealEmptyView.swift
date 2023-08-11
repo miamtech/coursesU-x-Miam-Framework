@@ -9,10 +9,10 @@ import SwiftUI
 import MiamIOSFramework
 
 @available(iOS 14, *)
-struct CoursesUMyMealEmptyView: View {
-    
+public struct CoursesUMyMealEmptyView: View {
+    public init() {}
     let discoverRecipes: () -> Void
-    var body: some View {
+    public var body: some View {
         VStack(spacing: Dimension.sharedInstance.lPadding) {
             Image(packageResource: "SearchWithCartonIcon", ofType: "png")
                 .resizable()
