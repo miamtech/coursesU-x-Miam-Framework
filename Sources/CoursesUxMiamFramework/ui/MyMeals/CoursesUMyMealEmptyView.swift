@@ -10,8 +10,10 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUMyMealEmptyView: View {
-    public init() {}
     let discoverRecipes: () -> Void
+    public init(discoverRecipes: @escaping () -> Void) {
+        self.discoverRecipes = discoverRecipes
+    }
     public var body: some View {
         VStack(spacing: Dimension.sharedInstance.lPadding) {
             Image(packageResource: "SearchWithCartonIcon", ofType: "png")
