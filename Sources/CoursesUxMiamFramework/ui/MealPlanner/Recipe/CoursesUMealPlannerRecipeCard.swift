@@ -38,8 +38,8 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
                     CoursesURecipePreparationTime(duration: cookingTime)
                     Divider()
                     CoursesURecipeDifficulty(difficulty: difficulty)
-//                    Spacer()
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 RecapPriceForRecipes(priceAmount:  price.formattedPriceTrailing())
                 
             }
