@@ -38,7 +38,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
                     CoursesURecipePreparationTime(duration: cookingTime)
                     Divider()
                     CoursesURecipeDifficulty(difficulty: difficulty)
-                    Spacer()
+//                    Spacer()
                 }
                 RecapPriceForRecipes(priceAmount:  price.formattedPriceTrailing())
                 
@@ -111,8 +111,6 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
     let dimension = Dimension.sharedInstance
     
     var body: some View {
-        let priceWithCurrency =
-        String(price.formattedPriceTrailing())
         HStack(spacing: 0.0) {
             ZStack(alignment: .topLeading) {
                 AsyncImage(url: recipe.pictureURL) { image in

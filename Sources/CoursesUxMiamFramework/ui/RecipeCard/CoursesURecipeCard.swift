@@ -46,7 +46,7 @@ public struct CoursesURecipeCard: RecipeCard {
                         Divider()
                             .frame(width: 5, height: 40)
                         CoursesURecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
-                        Spacer()
+//                        Spacer()
                     }
                     RecapPriceForRecipes(priceAmount: priceWithCurrency)
                     Divider()
