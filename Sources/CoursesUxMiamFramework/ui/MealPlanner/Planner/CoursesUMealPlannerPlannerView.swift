@@ -206,7 +206,8 @@ public struct CoursesUMealPlannerPlannerView<
     private func fetchAndUpdateMaxMeals() {
         if formViewModel.budgetInfos.moneyBudget > 0.0 && formViewModel.budgetInfos.numberOfGuests > 0 {
             formViewModel.getRecipesMaxCountForBudgetConstraint(budget: Int32(formViewModel.budgetInfos.moneyBudget), guestCount: Int32(formViewModel.budgetInfos.numberOfGuests))
-            updateMealPlannerWithMax(budgetInfos: formViewModel.budgetInfos)
+//            updateMealPlannerWithMax(budgetInfos: formViewModel.budgetInfos)
+            updateBudget(budgetInfos: formViewModel.budgetInfos)
         }
     }
     
@@ -215,11 +216,11 @@ public struct CoursesUMealPlannerPlannerView<
         formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
         formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.numberOfMeals))
     }
-    private func updateMealPlannerWithMax(budgetInfos: BudgetInfos) {
-        formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
-        formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
-        formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.maxRecipesForBudget))
-    }
+//    private func updateMealPlannerWithMax(budgetInfos: BudgetInfos) {
+//        formViewModel.setBudget(amount: Int32(budgetInfos.moneyBudget))
+//        formViewModel.setNumberOfGuests(amount: Int32(budgetInfos.numberOfGuests))
+//        formViewModel.setNumberOfMeals(mealCount: Int32(budgetInfos.maxRecipesForBudget))
+//    }
     var combinedMealPlannerAndGuestsCount: Int {
         formViewModel.budgetInfos.numberOfGuests + Int(formViewModel.budgetInfos.moneyBudget)
     }

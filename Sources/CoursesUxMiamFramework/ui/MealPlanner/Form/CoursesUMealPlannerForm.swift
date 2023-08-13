@@ -99,7 +99,6 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
                         CoursesUStepperBinding(value: budgetInfos.numberOfGuests, maxValue: 9)
-                        
                     )
                     Divider()
                     // TODO: localize
