@@ -73,6 +73,7 @@ public struct CoursesUMealPlannerPlannerView<
     }
     
     @SwiftUI.State var showFormOptions = false
+    @SwiftUI.State var activelyUpdatingTextField = false
     @AppStorage("miam_index_of_recipe_replaced") var miamIndexOfRecipeReplaced = 4
     @AppStorage("miam_budget_remaining") var miamBudgetRemaining = 4.0
 
@@ -172,7 +173,15 @@ public struct CoursesUMealPlannerPlannerView<
                     }
                     .padding(dimension.lPadding)
             } else {
-                CoursesUMealPlannerForm(includeTitle: false, includeLogo: false, includeBackground: false).content(budgetInfos: $formViewModel.budgetInfos, isFetchingRecipes: false, onFormValidated: { infos in
+                CoursesUMealPlannerForm(
+                    includeTitle: false,
+                    includeLogo: false,
+                    includeBackground: false
+                ).content(
+                    budgetInfos: $formViewModel.budgetInfos,
+                    activelyUpdatingTextField: $activelyUpdatingTextField,
+                    isFetchingRecipes: false,
+                    onFormValidated: { infos in
                     withAnimation {
                         replacingRecipe = true
                         showFormOptions.toggle()

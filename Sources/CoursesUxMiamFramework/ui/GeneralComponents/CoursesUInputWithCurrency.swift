@@ -11,17 +11,23 @@ import SwiftUI
 @available(iOS 14, *)
 internal struct CoursesUInputWithCurrency: View {
     @Binding public var budget: Double
+    @Binding public var activelyEditing: Bool
     let currency: String
 
-    init(budget: Binding<Double>, currency: String = "€") {
+    init(
+        budget: Binding<Double>,
+        activelyEditing: Binding<Bool>,
+        currency: String = "€"
+    ) {
         _budget = budget
+        _activelyEditing = activelyEditing
         self.currency = currency
     }
 
     var body: some View {
         HStack(alignment: .center, spacing: 2) {
             Spacer()
-            CustomTextField("Budget", value: $budget)
+            CustomTextField("Budget", value: $budget, activelyEditing: $activelyEditing)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
             Text(currency)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
@@ -32,11 +38,13 @@ internal struct CoursesUInputWithCurrency: View {
     struct CustomTextField: UIViewRepresentable {
         private var placeholder: String
         @Binding private var value: Double
+        @Binding private var activelyEditing: Bool
 
-        init(_ placeholder: String, value: Binding<Double>) {
-            self.placeholder = placeholder
-            self._value = value
-        }
+            init(_ placeholder: String, value: Binding<Double>, activelyEditing: Binding<Bool>) {
+                self.placeholder = placeholder
+                self._value = value
+                self._activelyEditing = activelyEditing
+            }
 
         func makeUIView(context: Context) -> UITextField {
             let textField = UITextField(frame: .zero)
@@ -68,28 +76,35 @@ internal struct CoursesUInputWithCurrency: View {
         }
 
         func makeCoordinator() -> Coordinator {
-            Coordinator(self)
-        }
+                Coordinator(self, activelyEditing: $activelyEditing)
+            }
 
         class Coordinator: NSObject, UITextFieldDelegate {
             var parent: CustomTextField
+            @Binding var activelyEditing: Bool
             private var hasTappedOnTextField = false
+            private var tempValue: Double = 0.0
 
-            init(_ parent: CustomTextField) {
-                self.parent = parent
-            }
+            init(_ parent: CustomTextField, activelyEditing: Binding<Bool>) {
+                    self.parent = parent
+                    self._activelyEditing = activelyEditing
+                }
             
             @objc func okButtonTapped() {
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                parent.value = tempValue // Update the parent value when OK button is pressed
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 hasTappedOnTextField = false
-                }
+                activelyEditing = false
+            }
             
             func textFieldDidBeginEditing(_ textField: UITextField) {
-                    if !hasTappedOnTextField {
-                        textField.text = "" // Clear the text field's content only if the user has not tapped on it before
-                    }
-                    hasTappedOnTextField = true
+                tempValue = parent.value // Initialize tempValue with the current value of budget
+                if !hasTappedOnTextField {
+                    textField.text = "" // Clear the text field's content only if the user has not tapped on it before
+                    activelyEditing = true
                 }
+                hasTappedOnTextField = true
+            }
 
             func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
                 let currentText = textField.text ?? ""
@@ -101,9 +116,9 @@ internal struct CoursesUInputWithCurrency: View {
                     return false
                 }
                 
-                // If the updated text can be converted to Double, then update the parent value
+                // If the updated text can be converted to Double, then update tempValue
                 if let newValue = Double(updatedText) {
-                    parent.value = newValue
+                    tempValue = newValue
                     textField.invalidateIntrinsicContentSize()
                 }
                 
@@ -112,9 +127,6 @@ internal struct CoursesUInputWithCurrency: View {
             }
         }
     }
-
-
-
 }
 //
 //@available(iOS 14, *)

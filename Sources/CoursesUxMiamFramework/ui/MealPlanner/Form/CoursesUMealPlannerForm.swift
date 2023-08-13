@@ -13,10 +13,16 @@ import MiamIOSFramework
 @available(iOS 14, *)
 public struct CoursesUBudgetFormStandaloneWrapper: View {
     @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
+    @SwiftUI.State var updating = false
     
     public init() {}
     public var body: some View {
-        CoursesUMealPlannerForm().content(budgetInfos: $budgetInfos, isFetchingRecipes: false, onFormValidated: {_ in})
+        CoursesUMealPlannerForm().content(
+            budgetInfos: $budgetInfos,
+            activelyUpdatingTextField: $updating,
+            isFetchingRecipes: false,
+            onFormValidated: {_ in}
+        )
     }
 }
 
@@ -32,13 +38,17 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
         self.includeBackground = includeBackground
     }
     
-    public func content(budgetInfos: Binding<BudgetInfos>, isFetchingRecipes: Bool, onFormValidated: @escaping (BudgetInfos) -> Void) -> some View {
+    public func content(
+        budgetInfos: Binding<BudgetInfos>,
+        activelyUpdatingTextField: Binding<Bool>,
+        isFetchingRecipes: Bool,
+        onFormValidated: @escaping (BudgetInfos) -> Void
+    ) -> some View {
         var budgetAndGuestsValid: Bool {
-//            return false
             return budgetInfos.wrappedValue.moneyBudget > 0.0 && budgetInfos.wrappedValue.numberOfGuests > 0
         }
         var colorOfSubmit: Color {
-            if budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0 {
+            if budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0 && !activelyUpdatingTextField.wrappedValue {
                 return Color.primaryColor
             } else { return Color.lightGray }
         }
@@ -63,6 +73,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                 .multilineTextAlignment(.center)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                                 .padding(.bottom, dimension.mPadding)
+                                .frame(minHeight: 70)
                             Divider()
                         }
                     }
@@ -74,7 +85,9 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         content:
                             HStack {
                                 Spacer()
-                                CoursesUInputWithCurrency(budget: budgetInfos.moneyBudget)
+                                CoursesUInputWithCurrency(
+                                    budget: budgetInfos.moneyBudget,
+                                    activelyEditing: activelyUpdatingTextField)
                             }
                             .padding(dimension.mPadding)
                         
@@ -114,7 +127,8 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                                 }
                             }
-                            .disabled(!budgetAndGuestsValid || !(budgetInfos.wrappedValue.numberOfMeals > 0))
+                            .disabled(!budgetAndGuestsValid || !(budgetInfos.wrappedValue.numberOfMeals > 0) ||
+                                      activelyUpdatingTextField.wrappedValue)
                         }, buttonAction: {
                         })
                     
