@@ -23,10 +23,19 @@ public struct CoursesUMealPlannerToolbar: MealPlannerToolbar {
     public init() {}
     public func content(budgetInfos: Binding<BudgetInfos>, isLoadingRecipes: Binding<Bool>, onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
         
+        func formattedPriceTrailing() -> String {
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .currency
+            // Set the positive format with the currency code on the trailing side
+            numberFormatter.positiveFormat = "#,##0 ¤"
+            numberFormatter.currencyCode = "EUR"
+            return numberFormatter.string(from: NSDecimalNumber(floatLiteral: budgetInfos.wrappedValue.moneyBudget)) ?? ""
+        }
     
-        HStack {
-            Spacer()
-            CoursesUFormRow(caption: String(Int(budgetInfos.wrappedValue.moneyBudget)), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
+        return HStack {
+//            Spacer()
+            CoursesUFormRow(caption: formattedPriceTrailing(), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
+                .frame(minWidth: 110)
             Divider()
             CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
             Divider()
