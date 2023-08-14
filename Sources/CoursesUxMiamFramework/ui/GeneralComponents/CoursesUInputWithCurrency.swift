@@ -106,10 +106,8 @@ internal struct CoursesUInputWithCurrency: View {
             }
             
             func textFieldDidBeginEditing(_ textField: UITextField) {
-                print("textFieldDidBeginEditing: started")
                 tempValue = 0.0 // Initialize tempValue with the current value of budget
                 if !hasTappedOnTextField {
-                    print("textFieldDidBeginEditing: in if")
                     tempValue = 0.0
                     textField.text = "" // Clear the text field's content only if the user has not tapped on it before
                     activelyEditing = true
