@@ -29,6 +29,7 @@ public struct CoursesURecipeDifficulty: View {
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
         }
+        .frame(minWidth: 60)
     }
 
     var difficultyDescription: String {

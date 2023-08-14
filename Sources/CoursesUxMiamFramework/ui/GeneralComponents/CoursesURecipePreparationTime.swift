@@ -25,6 +25,7 @@ public struct CoursesURecipePreparationTime: View {
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
         }
+        .frame(minWidth: 65)
     }
 }
 
