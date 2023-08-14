@@ -48,6 +48,7 @@ internal struct CoursesUInputWithCurrency: View {
 
         func makeUIView(context: Context) -> UITextField {
             let textField = UITextField(frame: .zero)
+            context.coordinator.textField = textField
             textField.delegate = context.coordinator
             textField.borderStyle = .none // remove border
             textField.placeholder = placeholder
@@ -71,8 +72,14 @@ internal struct CoursesUInputWithCurrency: View {
         }
 
         func updateUIView(_ uiView: UITextField, context: Context) {
-            let intValue = Int(value)
-            uiView.text = value == Double(intValue) ? String(intValue) : String(format: "%.2f", value)
+            
+            if context.coordinator.tempValue == 0.0 && context.coordinator.hasTappedOnTextField {
+                uiView.text = nil
+            } else {
+                let displayValue = context.coordinator.tempValue == 0.0 ? value : context.coordinator.tempValue
+                let intValue = Int(displayValue)
+                uiView.text = displayValue == Double(intValue) ? String(intValue) : String(format: "%.2f", displayValue)
+            }
         }
 
         func makeCoordinator() -> Coordinator {
@@ -82,8 +89,9 @@ internal struct CoursesUInputWithCurrency: View {
         class Coordinator: NSObject, UITextFieldDelegate {
             var parent: CustomTextField
             @Binding var activelyEditing: Bool
-            private var hasTappedOnTextField = false
-            private var tempValue: Double = 0.0
+            var hasTappedOnTextField = false
+            var textField: UITextField?
+            var tempValue: Double = 0.0
 
             init(_ parent: CustomTextField, activelyEditing: Binding<Bool>) {
                     self.parent = parent
@@ -98,8 +106,11 @@ internal struct CoursesUInputWithCurrency: View {
             }
             
             func textFieldDidBeginEditing(_ textField: UITextField) {
-                tempValue = parent.value // Initialize tempValue with the current value of budget
+                print("textFieldDidBeginEditing: started")
+                tempValue = 0.0 // Initialize tempValue with the current value of budget
                 if !hasTappedOnTextField {
+                    print("textFieldDidBeginEditing: in if")
+                    tempValue = 0.0
                     textField.text = "" // Clear the text field's content only if the user has not tapped on it before
                     activelyEditing = true
                 }
