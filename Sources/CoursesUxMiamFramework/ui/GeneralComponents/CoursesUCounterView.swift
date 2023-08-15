@@ -45,9 +45,6 @@ public struct CoursesUCounterView: View {
     }
 
     public var body: some View {
-//            if let template = Template.sharedInstance.counterViewTemplate {
-//                template(count, {increase()}(), {decrease()})
-//            } else {
             HStack {
                 Button {
                     decrease()
