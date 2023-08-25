@@ -45,9 +45,6 @@ public struct CoursesUCounterView: View {
     }
 
     public var body: some View {
-//            if let template = Template.sharedInstance.counterViewTemplate {
-//                template(count, {increase()}(), {decrease()})
-//            } else {
             HStack {
                 Button {
                     decrease()
@@ -63,17 +60,16 @@ public struct CoursesUCounterView: View {
                 )
                 .padding(.leading, Dimension.sharedInstance.mPadding)
                 .disabled(self.isDisable)
-
-                Spacer()
-                if isLoading {
-                    ProgressLoader(color: Color.white)
-                        .scaleEffect(0.5)
-                } else {
-                    Text("\(count)")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBoldStyle)
-                        .foregroundColor(Color.black)
-                    Spacer()
-                }
+                ZStack {
+                    if isLoading {
+                        ProgressLoader(color: Color.white)
+                            .scaleEffect(0.3)
+                    } else {
+                        Text("\(count)")
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBoldStyle)
+                            .foregroundColor(Color.black)
+                    }
+                }.frame(width: 20)
                 Button {
                    increase()
                 } label: {

@@ -69,7 +69,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                     
                     if includeTitle {
                         VStack {
-                            Text("Choissez vos repas de la semaine ou du mois selon votre budget :")
+                            Text("Choisissez vos repas de la semaine ou du mois selon votre budget :")
                                 .multilineTextAlignment(.center)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                                 .padding(.bottom, dimension.mPadding)

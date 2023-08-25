@@ -23,7 +23,6 @@ public struct CoursesUMealPlannerSearch: MealPlannerSearch {
                         .foregroundColor(Color.gray)
                         .frame(width: 20, height: 20)
                     TextField("Que recherchez-vous?", text: searchText, onCommit: {
-
                     })
                     .foregroundColor(Color.gray)
                     .frame(maxWidth: .infinity)

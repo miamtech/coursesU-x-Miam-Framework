@@ -2,6 +2,8 @@
 - [FIX] Meal Planner Form defaults to all 0 values 
 - [FEA] if totalPrice on BasketPreviewLine is 0, users are informed & cannot proceed
 - [FIX] CoursesUMyMealEmptyView is public
+- [FIX] Loader on BasketPreviewLine items
+- [FIX] Recipes on ReplaceRecipePage do not need to reload everytime
 - [FEA] Currency symbol on right side for ItemSelector
 
 # 1.0.6

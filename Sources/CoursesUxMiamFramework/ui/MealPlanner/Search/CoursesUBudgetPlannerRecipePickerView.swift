@@ -95,7 +95,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
             LazyVGrid(columns: [.init(), .init()]) {
                 ForEach(viewModel.recipes.indices, id: \.self) { index in
                     CatalogRecipeCardView(
-                        viewModel.recipes[index].id,
+                        viewModel.recipes[index],
                         cardTemplate: cardTemplate,
                         loadingTemplate: CoursesURecipeCardLoading(),
                         showDetails: onRecipeTapped,
