@@ -57,7 +57,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                                     .foregroundColor(Color.black)
                                     .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                                 Spacer()
-                                CoursesUCounterView(count: quantity)
+                                CoursesUCounterView(count: quantity, isLoading: productInfo.isLoading, isDisable: productInfo.isLoading)
                                 Spacer()
                                 TrashButton {
                                     actions.delete()
@@ -72,10 +72,6 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     .padding(dimension.mPadding)
                     .background(Color.white)
                 }
-//                if productInfo.isLoading {
-//                    ProgressView()
-//                        .padding(Dimension.sharedInstance.mPadding)
-//                }
             }
     }
     
