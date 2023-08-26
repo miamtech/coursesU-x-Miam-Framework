@@ -13,9 +13,7 @@ import MiamIOSFramework
 public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderViewTemplate {
     
     public init() {}
-    
     let imageHeight = 280.0
-    
     public func content(infos: RecipeDetailsHeaderInfos, showTitleInHeader: Binding<Bool>) -> some View {
         ZStack(alignment: .top) {
             if let picture =  URL(string: infos.mediaURL ?? "") {
@@ -61,7 +59,7 @@ public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderViewTemplate {
                                    restingTime: infos.restingTime)
             Spacer()
         }.padding(.vertical, Dimension.sharedInstance.lPadding)
-            .padding(.horizontal, Dimension.sharedInstance.lPadding)
+            .padding(.horizontal, Dimension.sharedInstance.mPadding)
     }
 }
 
@@ -82,9 +80,8 @@ struct CoursesURecipeTimeView: View {
             VStack(alignment: .leading) {
                 if preparationTime != noPreparationTime {
                     HStack {
-                        Text(RecipeDetailsText.sharedInstance.preparationTime)
+                        Text(Localization.recipe.preparationTime.localised)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
-                        
                         Text(preparationTime)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBoldStyle)
                     }
@@ -92,7 +89,7 @@ struct CoursesURecipeTimeView: View {
                 
                 if cookingTime != noCookingTime {
                     HStack {
-                        Text(RecipeDetailsText.sharedInstance.cookingTime)
+                        Text(Localization.recipe.cookTime.localised)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
                         
                         Text(cookingTime)
@@ -101,7 +98,7 @@ struct CoursesURecipeTimeView: View {
                 }
                 if restingTime != noRestingTime {
                     HStack {
-                        Text(RecipeDetailsText.sharedInstance.restingTime)
+                        Text(Localization.recipe.restingTime.localised)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
                         
                         Text(restingTime)
@@ -109,7 +106,7 @@ struct CoursesURecipeTimeView: View {
                     }
                 }
                 Spacer()
-            }.padding(.horizontal, Dimension.sharedInstance.lPadding)
+            }.padding(.horizontal, Dimension.sharedInstance.sPadding)
         }
     }
 }
