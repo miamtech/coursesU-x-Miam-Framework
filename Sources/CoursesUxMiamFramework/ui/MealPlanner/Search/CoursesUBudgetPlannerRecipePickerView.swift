@@ -96,6 +96,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                 ForEach(viewModel.recipes.indices, id: \.self) { index in
                     CatalogRecipeCardView(
                         viewModel.recipes[index],
+                        isForMealPlanner: true,
                         cardTemplate: cardTemplate,
                         loadingTemplate: CoursesURecipeCardLoading(),
                         showDetails: onRecipeTapped,
