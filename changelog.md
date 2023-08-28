@@ -1,5 +1,6 @@
 # 1.0.8
 - [FIX] Added loader on Replace Recipes page Price
+- [FIX] Form on Meal Planner has up to date max number of Recipes
 
 # 1.0.7
 - [FIX] Meal Planner Form defaults to all 0 values 
