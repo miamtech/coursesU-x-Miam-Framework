@@ -1,3 +1,6 @@
+# 1.0.8
+- [FIX] Added loader on Replace Recipes page Price
+
 # 1.0.7
 - [FIX] Meal Planner Form defaults to all 0 values 
 - [FEA] if totalPrice on BasketPreviewLine is 0, users are informed & cannot proceed

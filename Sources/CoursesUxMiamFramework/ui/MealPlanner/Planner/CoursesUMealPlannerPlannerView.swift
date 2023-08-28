@@ -170,6 +170,7 @@ public struct CoursesUMealPlannerPlannerView<
                         withAnimation {
                             showFormOptions.toggle()
                         }
+                        fetchAndUpdateMaxMeals()
                     }
                     .padding(dimension.lPadding)
             } else {
