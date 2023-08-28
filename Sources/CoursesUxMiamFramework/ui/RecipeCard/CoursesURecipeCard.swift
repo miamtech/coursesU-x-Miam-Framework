@@ -46,9 +46,15 @@ public struct CoursesURecipeCard: RecipeCard {
                         Divider()
                             .frame(width: 5, height: 40)
                         CoursesURecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
-//                        Spacer()
                     }
-                    RecapPriceForRecipes(priceAmount: priceWithCurrency)
+                    ZStack {
+                        if recipeInfos.price.price > 0 {
+                            RecapPriceForRecipes(priceAmount: priceWithCurrency)
+                        } else {
+                            ProgressLoader(color: .primaryColor)
+                                .scaleEffect(0.3)
+                        }
+                    }.frame(height: 25)
                     Divider()
                     CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: {
                         HStack {
