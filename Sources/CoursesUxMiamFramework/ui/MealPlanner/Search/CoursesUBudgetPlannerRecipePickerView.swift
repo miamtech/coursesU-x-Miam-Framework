@@ -88,6 +88,9 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     successContent()
                 }
             }
+            .onDisappear {
+                viewModel.detach()
+            }
         }
     }
     func successContent() -> some View {

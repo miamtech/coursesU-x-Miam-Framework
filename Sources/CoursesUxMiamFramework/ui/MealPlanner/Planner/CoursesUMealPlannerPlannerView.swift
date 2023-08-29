@@ -90,6 +90,9 @@ public struct CoursesUMealPlannerPlannerView<
             } successView: {
                 successContent()
             }
+            .onDisappear {
+                formViewModel.detach()
+            }
         }
     }
     

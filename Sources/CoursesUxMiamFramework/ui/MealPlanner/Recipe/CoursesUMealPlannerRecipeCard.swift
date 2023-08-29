@@ -81,7 +81,6 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
 //                                    }
             }
             .frame(maxWidth: .infinity)
-            
         }
     }
 
