@@ -88,9 +88,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     successContent()
                 }
             }
-            .onDisappear {
-                viewModel.detach()
-            }
+            .onAppear(perform: { viewModel.registerListeners()}).onDisappear(perform: { viewModel.dispose()})
         }
     }
     func successContent() -> some View {
@@ -99,7 +97,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                 ForEach(viewModel.recipes.indices, id: \.self) { index in
                     CatalogRecipeCardView(
                         viewModel.recipes[index],
-                        numberOfGuests: Int(BudgetRepository.companion.guestCount),
+//                        numberOfGuests: Int(BudgetRepository.companion.guestCount),
                         cardTemplate: cardTemplate,
                         loadingTemplate: CoursesURecipeCardLoading(),
                         showDetails: onRecipeTapped,

@@ -40,6 +40,7 @@ public struct CoursesUMealPlannerPlannerView<
 
     @StateObject private var viewModel = MealPlannerMealsVM()
     @StateObject private var formViewModel = MealPlannerFormVM()
+    let uuid = UUID()
 
     public init(toolbarTemplate: ToolbarTemplate,
                 footerTemplate: FooterTemplate,
@@ -52,6 +53,7 @@ public struct CoursesUMealPlannerPlannerView<
                 showRecipe: @escaping (String) -> Void,
                 validateRecipes: @escaping () -> Void,
                 replaceRecipe: @escaping (String) -> Void) {
+        print("stateMgmt: CoursesUMealPlannerPlannerView init \(uuid)")
         self.toolbarTemplate = toolbarTemplate
         self.footerTemplate = footerTemplate
         self.loadingTemplate = loadingTemplate
@@ -89,6 +91,9 @@ public struct CoursesUMealPlannerPlannerView<
                 emptyTemplate.content(bugetInfos: formViewModel.budgetInfos, reason: errorMessage)
             } successView: {
                 successContent()
+            }
+            .onAppear {
+                print("stateMgmt: CoursesUMealPlannerPlannerView onAppearead \(uuid)")
             }
             .onDisappear {
                 formViewModel.detach()

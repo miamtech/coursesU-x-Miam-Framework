@@ -12,12 +12,13 @@ import MiamIOSFramework
 @available(iOS 14, *)
 public struct CoursesULikeButton: View {
     private let recipeId: String
+    let uuid = UUID()
 
-    @ObservedObject var viewModel: LikeButtonVM
+    @ObservedObject var viewModel: LikeButtonVM = LikeButtonVM()
     public init(recipeId: String) {
         self.recipeId = recipeId
-        self.viewModel = LikeButtonVM()
-        self.viewModel.setRecipe(recipeId: recipeId)
+        print("stateMgmt: CoursesULikeButton init \(recipeId) \(uuid)")
+//        self.viewModel = LikeButtonVM()
     }
 
     public var body: some View {
@@ -36,7 +37,13 @@ public struct CoursesULikeButton: View {
                         emptyView: EmptyView())
                 }
             }
-        }
+        }.onAppear(perform: {
+            print("stateMgmt: CoursesULikeButton onAppeared \(recipeId) \(uuid)")
+            self.viewModel.setRecipe(recipeId: recipeId)
+            viewModel.registerListeners()
+        }).onDisappear(perform: {
+            viewModel.detach()
+            viewModel.dispose()})
     }
 }
 
