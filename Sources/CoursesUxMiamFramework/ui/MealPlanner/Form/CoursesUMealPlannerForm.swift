@@ -54,7 +54,10 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
         }
         return ZStack(alignment: .top) {
             if includeBackground {
-                Color.white
+                Color.budgetBackgroundColor.frame(maxHeight: .infinity)
+                    Image(packageResource: "WhiteWave", ofType: "png")
+                        .resizable()
+                        .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
                 CoursesUTwoMealsBackground()
             }
             VStack {

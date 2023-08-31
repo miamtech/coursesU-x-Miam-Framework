@@ -21,7 +21,7 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
                     .foregroundColor(Color.black)
                 Spacer()
             }.padding(.horizontal, Dimension.sharedInstance.lPadding)
-        }.frame(height: 60.0, alignment: .topLeading)
+        }.frame(height: 30.0, alignment: .topLeading)
         Divider()
             .background(Color.miamColor(.borderLight))
             .padding(.horizontal, Dimension.sharedInstance.lPadding)

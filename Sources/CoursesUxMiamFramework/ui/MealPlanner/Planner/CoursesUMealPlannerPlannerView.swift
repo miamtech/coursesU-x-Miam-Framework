@@ -53,7 +53,6 @@ public struct CoursesUMealPlannerPlannerView<
                 showRecipe: @escaping (String) -> Void,
                 validateRecipes: @escaping () -> Void,
                 replaceRecipe: @escaping (String) -> Void) {
-        print("stateMgmt: CoursesUMealPlannerPlannerView init \(uuid)")
         self.toolbarTemplate = toolbarTemplate
         self.footerTemplate = footerTemplate
         self.loadingTemplate = loadingTemplate
