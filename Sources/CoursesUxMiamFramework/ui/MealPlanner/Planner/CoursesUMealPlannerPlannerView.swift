@@ -93,11 +93,17 @@ public struct CoursesUMealPlannerPlannerView<
                 successContent()
             }
             .onAppear {
-                print("stateMgmt: CoursesUMealPlannerPlannerView onAppearead \(uuid)")
+                print("stateMgmt: CoursesUMealPlannerPlannerView appeared")
+                viewModel.registerListeners()
             }
             .onDisappear {
-                formViewModel.detach()
+                print("stateMgmt: CoursesUMealPlannerPlannerView disappeared")
+                viewModel.dispose()
             }
+            .onAppear {
+                formViewModel.registerListeners()
+            }
+            .onDisappear{ formViewModel.dispose() }
         }
     }
     

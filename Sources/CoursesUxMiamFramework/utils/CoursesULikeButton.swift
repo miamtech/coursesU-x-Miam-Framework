@@ -42,6 +42,7 @@ public struct CoursesULikeButton: View {
             self.viewModel.setRecipe(recipeId: recipeId)
             viewModel.registerListeners()
         }).onDisappear(perform: {
+            print("stateMgmt: CoursesULikeButton disappeared \(recipeId) \(uuid)")
             viewModel.detach()
             viewModel.dispose()})
     }
