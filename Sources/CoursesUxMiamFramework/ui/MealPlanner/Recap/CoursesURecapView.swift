@@ -24,24 +24,10 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                 VStack(spacing: -40.0) {
                     MealPlannerBackground()
                     VStack(spacing: 25) {
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    onClose()
-                                }, label: {
-                                    Image(packageResource: "CloseXIcon", ofType: "png")
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
-                                        .padding(5)
-                                        .overlay(Circle().stroke(Color.primaryColor, lineWidth: 2))
-                                })
-                            }
-                            Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                        }
-                        Text("Les produits associés ont bien été ajoutés au panier")
+                        Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                        Text("Tous les ingrédients ont bien été ajoutés au panier.")
                             .multilineTextAlignment(.center)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         RecapPriceForRecipes(
@@ -58,6 +44,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecap {
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                         Button(action: {
                             onTapGesture()
+//                            onClose()
                                 }) {
                                     Text("Nos promotions")
                                         .foregroundColor(.white)
