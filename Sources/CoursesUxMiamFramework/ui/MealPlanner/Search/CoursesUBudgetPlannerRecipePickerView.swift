@@ -59,7 +59,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                 .sheet(isPresented: $showingFilters) {
                     showingFilters = false
                 } content: {
-                    CatalogFiltersView {
+                    CatalogFiltersView(singletonFilterViewModel: MiamDI.shared.mealPlannerRecipeFilterViewModel) {
                         isLoading = true
                         showingFilters = false
                         viewModel.recipes = []
@@ -90,7 +90,6 @@ public struct CoursesUBudgetPlannerRecipePickerView<
         ScrollView {
             if viewModel.recipes.count > 0 {
             LazyVGrid(columns: [.init(), .init()]) {
-                
                     ForEach(viewModel.recipes.indices, id: \.self) { index in
                         CatalogRecipeCardView(
                             viewModel.recipes[index],
