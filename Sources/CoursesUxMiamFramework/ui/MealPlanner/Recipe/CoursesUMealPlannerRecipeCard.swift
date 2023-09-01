@@ -14,11 +14,7 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
-    let uuid = UUID()
-    public init() {
-        print("stateMgmt: CoursesUMealPlannerRecipeCard init \(uuid)")
-    }
-    
+    public init() {}
     public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
         CoursesURecipeCardCoreFrame(
             recipe: recipeInfos.recipe,
@@ -28,9 +24,6 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
         }, callToAction: {
             RecipeCardCallToAction(actions: actions)
         })
-        .onAppear {
-            print("stateMgmt: CoursesUMealPlannerRecipeCard onAppeared \(uuid)")
-        }
     }
     
     @available(iOS 14, *)
