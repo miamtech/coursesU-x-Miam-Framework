@@ -1,3 +1,10 @@
+# 1.1.1
+- [FIX] Added small UI updates to BPL, Recipe Details
+- [FIX] implemented [weak self] to reduce memory leaks
+- [FIX] update No Recipes error page & text on Replace Recipes
+
+# 1.1.0
+
 # 1.0.8
 - [FIX] Added loader on Replace Recipes page Price
 - [FIX] Form on Meal Planner has up to date max number of Recipes

@@ -13,18 +13,14 @@ import MiamIOSFramework
 public struct CoursesULikeButton: View {
     private let recipeId: String
 
-    @ObservedObject var viewModel: LikeButtonVM
+    @StateObject var viewModel: LikeButtonVM = LikeButtonVM()
     public init(recipeId: String) {
         self.recipeId = recipeId
-        self.viewModel = LikeButtonVM()
-        self.viewModel.setRecipe(recipeId: recipeId)
+//        self.viewModel = LikeButtonVM()
     }
 
     public var body: some View {
         HStack {
-            if let template = Template.sharedInstance.likeButtonTemplate {
-                template(self.viewModel.isLiked, { self.viewModel.toggleLike() })
-            } else {
                 if let state = viewModel.state {
                     ManagementResourceState(
                         resourceState: state.isLiked,
@@ -35,8 +31,12 @@ public struct CoursesULikeButton: View {
                         loadingView: CoursesULikeSuccessView(isSelected: viewModel.isLiked) {},
                         emptyView: EmptyView())
                 }
-            }
-        }
+        }.onAppear(perform: {
+            self.viewModel.setRecipe(recipeId: recipeId)
+            viewModel.registerListeners()
+        }).onDisappear(perform: {
+            viewModel.detach()
+            viewModel.dispose()})
     }
 }
 

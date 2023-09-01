@@ -54,7 +54,10 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
         }
         return ZStack(alignment: .top) {
             if includeBackground {
-                Color.white
+                Color.budgetBackgroundColor.frame(maxHeight: .infinity)
+                    Image(packageResource: "WhiteWave", ofType: "png")
+                        .resizable()
+                        .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
                 CoursesUTwoMealsBackground()
             }
             VStack {
@@ -64,9 +67,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         .frame(width: 290, height: 83)
                         .padding(.top)
                 }
-                
                 VStack(spacing: 20) {
-                    
                     if includeTitle {
                         VStack {
                             Text("Choisissez vos repas de la semaine ou du mois selon votre budget :")
@@ -77,7 +78,6 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                             Divider()
                         }
                     }
-                    
                     // TODO: localize
                     CoursesUFormRow(
                         caption: "Mon budget max",
@@ -90,7 +90,6 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                     activelyEditing: activelyUpdatingTextField)
                             }
                             .padding(dimension.mPadding)
-                        
                     )
                     Divider()
                     // TODO: localize
@@ -130,7 +129,6 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                       activelyUpdatingTextField.wrappedValue)
                         }, buttonAction: {
                         })
-                    
                 }
                 .padding(25)
                 .background(Color.white)

@@ -11,11 +11,9 @@ import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerCallToAction: MealPlannerCallToAction {
-   
     public init() {}
     let screen = UIScreen.screenSize
     public func content(onTapGesture: @escaping () -> Void) -> some View {
-//        Image(packageResource: "CTAImage", ofType: "png")
         Image(packageResource: "CTAImage", ofType: "png")
             .resizable()
             .scaledToFit()
@@ -24,7 +22,6 @@ public struct CoursesUMealPlannerCallToAction: MealPlannerCallToAction {
             .onTapGesture {
                 onTapGesture()
             }
-    
     }
 }
 

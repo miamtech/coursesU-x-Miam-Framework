@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "CoursesUxMiamFramework"
-  spec.version      = "1.0.8"
+  spec.version      = "1.1.1"
   spec.summary      = "Miam iOS SDK for Courses U"
   spec.description  = <<-DESC
 Miam iOS SDK for Courses U.
@@ -20,7 +20,7 @@ Miam iOS SDK for Courses U.
  
    spec.source_files = 'Sources/**/*.{h,m,swift}'
    
-spec.dependency 'MiamIOSFramework', '~> 3.12.11'
-spec.dependency 'miamCore', '~> 3.12.11'
+spec.dependency 'MiamIOSFramework', '~> 3.12.12'
+spec.dependency 'miamCore', '~> 3.12.12'
 
 end

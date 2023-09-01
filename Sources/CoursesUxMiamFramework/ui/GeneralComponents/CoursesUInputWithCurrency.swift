@@ -137,7 +137,7 @@ internal struct CoursesUInputWithCurrency: View {
                 let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
                 
                 // If the entered string makes the total characters more than 5, do not update the text field
-                if updatedText.count > 5 {
+                if updatedText.count > 3 {
                     return false
                 }
                 

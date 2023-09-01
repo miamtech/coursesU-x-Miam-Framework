@@ -34,7 +34,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                             if productInfo.sharedRecipeCount > 1 {
                                 UtilizedInManyRecipes(recipesUsedIn: productInfo.sharedRecipeCount)
                             }
-                            Text(productInfo.name)
+                            Text(productInfo.name.capitalizingFirstLetter())
                                 .foregroundColor(Color.black)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
                             Text(productInfo.description)
@@ -71,6 +71,8 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     .frame(height: 170)
                     .padding(dimension.mPadding)
                     .background(Color.white)
+                    Divider()
+                        .padding(.horizontal, dimension.mPadding)
                 }
             }
     }
@@ -94,7 +96,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                             .frame(width: dimension.mlButtonHeight, height: dimension.mlButtonHeight)
                     }
                 }.frame(width: dimension.mlButtonHeight, height: dimension.mlButtonHeight)
-                    .padding(dimension.mPadding)
+                    .padding(dimension.sPadding)
             }
         }
     }
@@ -115,7 +117,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                     .coursesUFontStyle(style: CoursesUFontStyleProvider().bodySmallStyle)
             }
             .padding(.trailing, dimension.mPadding)
-            .background(Color.lightGray)
+            .background(Color.lightGrayBackground)
             .clipShape(RoundedRectangle(cornerRadius: dimension.sCornerRadius, style: .continuous)) // Replace with your corner size
         }
     }

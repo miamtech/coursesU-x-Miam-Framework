@@ -77,7 +77,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
             } successView: {
                 successContent()
             }
-            
+            .onAppear(perform: { previewViewModel.registerListeners()}).onDisappear(perform: { previewViewModel.dispose()})
         }
     }
     
@@ -117,6 +117,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
                         .padding(.horizontal),
                 buttonAction: {
                 validateRecipes()
+                    previewViewModel.detach()
             })
         }
     }

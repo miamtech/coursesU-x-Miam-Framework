@@ -40,6 +40,7 @@ public struct CoursesUMealPlannerPlannerView<
 
     @StateObject private var viewModel = MealPlannerMealsVM()
     @StateObject private var formViewModel = MealPlannerFormVM()
+    let uuid = UUID()
 
     public init(toolbarTemplate: ToolbarTemplate,
                 footerTemplate: FooterTemplate,
@@ -85,11 +86,21 @@ public struct CoursesUMealPlannerPlannerView<
             UIStateWrapperView(uiState: viewModel.state?.meals) {
                 loadingTemplate.content()
             } emptyView: {
-                let errorMessage = "Aucune idée repas n’a pu être planifiée pour le budget demandé."
+                let errorMessage = "Désolé, il n'y a pas d'idée repas correspondant à cette recherche."
                 emptyTemplate.content(bugetInfos: formViewModel.budgetInfos, reason: errorMessage)
             } successView: {
                 successContent()
             }
+            .onAppear {
+                viewModel.registerListeners()
+            }
+            .onDisappear {
+                viewModel.dispose()
+            }
+            .onAppear {
+                formViewModel.registerListeners()
+            }
+            .onDisappear{ formViewModel.dispose() }
         }
     }
     
@@ -116,7 +127,7 @@ public struct CoursesUMealPlannerPlannerView<
                     if formViewModel.errorAppeared {
                         NoSearchResults(message: "Aucune idée repas n’a pu être planifiée pour le budget demandé.")
                     } else {
-                        Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket == 1 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
+                        Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket < 2 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                     }
                     recipesList()
@@ -132,7 +143,7 @@ public struct CoursesUMealPlannerPlannerView<
             } else {
                 ScrollView {
                     toolbar()
-                    Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket == 1 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
+                    Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket < 2 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                     recipesList()
                         .padding(.horizontal, dimension.lPadding)
