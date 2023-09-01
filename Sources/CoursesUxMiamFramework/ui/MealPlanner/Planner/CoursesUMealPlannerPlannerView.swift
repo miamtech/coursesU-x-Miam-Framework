@@ -86,7 +86,7 @@ public struct CoursesUMealPlannerPlannerView<
             UIStateWrapperView(uiState: viewModel.state?.meals) {
                 loadingTemplate.content()
             } emptyView: {
-                let errorMessage = "Aucune idée repas n’a pu être planifiée pour le budget demandé."
+                let errorMessage = "Désolé, il n'y a pas d'idée repas correspondant à cette recherche."
                 emptyTemplate.content(bugetInfos: formViewModel.budgetInfos, reason: errorMessage)
             } successView: {
                 successContent()

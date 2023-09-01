@@ -12,7 +12,6 @@ import MiamIOSFramework
 @available(iOS 14, *)
 public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewRecipeOverview {
    
-    
     public init() {}
     public func content(basketPreviewInfos: BasketPreviewInfos, basketPreviewActions: BasketPreviewRecipeActions) -> some View {
         ZStack(alignment: .topTrailing) {
@@ -102,8 +101,6 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                     }
                 } label: {
                     HStack {
-                        //                            Text(Localization.basket.swapProduct.localised)
-                        // TODO: localize
                         Text("Voir le détail")
                             .foregroundColor(Color.primaryColor)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
@@ -141,8 +138,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
 //                                    }
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, Dimension.sharedInstance.sPadding)
-            
+            .padding(.top, Dimension.sharedInstance.sPadding)
         }
     }
 }

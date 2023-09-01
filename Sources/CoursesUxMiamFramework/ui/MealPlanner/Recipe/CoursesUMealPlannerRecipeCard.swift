@@ -129,8 +129,7 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                 CoursesULikeButton(recipeId: recipe.id)
                 .padding(dimension.mPadding)
             }
-            
-            VStack(spacing: dimension.mPadding) {
+            VStack(alignment: .leading, spacing: dimension.mPadding) {
                 HStack {
                     Text(recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
@@ -139,12 +138,12 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                     Spacer()
                 }
                 centerContent()
-                
                 Divider()
                 callToAction()
             }
             .padding(.horizontal, dimension.mPadding)
             .padding(.vertical, dimension.mPadding)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(maxWidth: .infinity)
         .frame(height: dimension.mealPlannerRecipeCardHeight)
