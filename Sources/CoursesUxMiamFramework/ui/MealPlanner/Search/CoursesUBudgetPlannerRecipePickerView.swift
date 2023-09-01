@@ -78,12 +78,7 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                         Spacer()
                     }
                 } emptyView: {
-                    VStack {
-                        Text("0 idée repas")
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
-                            .padding(.top, 35)
-                        NoSearchResults(message: "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.")
-                    }
+                    NoRecipesAvailable()
                 } successView: {
                     successContent()
                 }
@@ -93,25 +88,41 @@ public struct CoursesUBudgetPlannerRecipePickerView<
     }
     func successContent() -> some View {
         ScrollView {
+            if viewModel.recipes.count > 0 {
             LazyVGrid(columns: [.init(), .init()]) {
-                ForEach(viewModel.recipes.indices, id: \.self) { index in
-                    CatalogRecipeCardView(
-                        viewModel.recipes[index],
-//                        numberOfGuests: Int(BudgetRepository.companion.guestCount),
-                        cardTemplate: cardTemplate,
-                        loadingTemplate: CoursesURecipeCardLoading(),
-                        showDetails: onRecipeTapped,
-                        add: { recipe in
-                            viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
-                            onRecipeSelected(recipe)
-                        }).onAppear {
-                            if index == viewModel.recipes.count - 1 { // last item
-                                viewModel.loadPage()
+                
+                    ForEach(viewModel.recipes.indices, id: \.self) { index in
+                        CatalogRecipeCardView(
+                            viewModel.recipes[index],
+                            numberOfGuests: Int(BudgetRepository.companion.guestCount),
+                            cardTemplate: cardTemplate,
+                            loadingTemplate: CoursesURecipeCardLoading(),
+                            showDetails: onRecipeTapped,
+                            add: { recipe in
+                                viewModel.addRecipeToMealPlanner(recipeId: recipe, index: Int32(miamIndexOfRecipeReplaced))
+                                onRecipeSelected(recipe)
+                            }).onAppear {
+                                if index == viewModel.recipes.count - 1 { // last item
+                                    viewModel.loadPage()
+                                }
                             }
-                        }
-                }
+                    }
+                
             }.padding(Dimension.sharedInstance.lPadding)
                 .padding(.bottom, 100)
+            } else {
+                NoRecipesAvailable()
+            }
+        }
+    }
+    internal struct NoRecipesAvailable: View {
+        var body: some View {
+            VStack {
+                Text("0 idée repas")
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+                    .padding(.top, 35)
+                NoSearchResults(message: "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.")
+            }
         }
     }
 }

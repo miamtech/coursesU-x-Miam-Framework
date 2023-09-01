@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "CoursesUxMiamFramework"
-  spec.version      = "1.1.1-alpha"
+  spec.version      = "1.1.1-alpha1"
   spec.summary      = "Miam iOS SDK for Courses U"
   spec.description  = <<-DESC
 Miam iOS SDK for Courses U.
