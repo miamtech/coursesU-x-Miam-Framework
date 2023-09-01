@@ -127,7 +127,7 @@ public struct CoursesUMealPlannerPlannerView<
                     if formViewModel.errorAppeared {
                         NoSearchResults(message: "Aucune idée repas n’a pu être planifiée pour le budget demandé.")
                     } else {
-                        Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket > 2 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
+                        Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket < 2 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                     }
                     recipesList()
@@ -143,7 +143,7 @@ public struct CoursesUMealPlannerPlannerView<
             } else {
                 ScrollView {
                     toolbar()
-                    Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket > 2 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
+                    Text("\(numberOfMealsInBasket) \(numberOfMealsInBasket < 2 ? "idée repas pour votre budget :" : "idées repas pour votre budget :")")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                     recipesList()
                         .padding(.horizontal, dimension.lPadding)
