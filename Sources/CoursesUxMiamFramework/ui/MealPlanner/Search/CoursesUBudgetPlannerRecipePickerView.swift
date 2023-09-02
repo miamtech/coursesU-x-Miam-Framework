@@ -63,7 +63,6 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                         isLoading = true
                         showingFilters = false
                         viewModel.recipes = []
-                        viewModel.search(input: searchText)
                         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
                             isLoading = false
                         }
@@ -83,7 +82,9 @@ public struct CoursesUBudgetPlannerRecipePickerView<
                     successContent()
                 }
             }
-            .onAppear(perform: { viewModel.registerListeners()}).onDisappear(perform: { viewModel.dispose()})
+            .onAppear(perform: { viewModel.registerListeners()})
+            .onDisappear(perform: {
+                viewModel.dispose()})
         }
     }
     func successContent() -> some View {
