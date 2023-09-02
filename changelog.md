@@ -1,3 +1,6 @@
+# 1.1.2
+- [FIX] Fix Issue on Meal Planner Filters 
+
 # 1.1.1
 - [FIX] Added small UI updates to BPL, Recipe Details
 - [FIX] implemented [weak self] to reduce memory leaks
