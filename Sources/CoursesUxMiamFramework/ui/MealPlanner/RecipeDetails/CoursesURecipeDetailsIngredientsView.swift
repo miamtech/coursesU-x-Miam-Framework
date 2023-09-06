@@ -68,7 +68,6 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
             currentGuest: Int32(currentNumberOfGuests),
             recipeGuest: Int32(recipeNumberOfGuests)
         )
-        
         return realQuantities
     }
 }
