@@ -174,6 +174,7 @@ public struct CoursesUMealPlannerPlannerView<
             if !showFormOptions {
                 toolbarTemplate.content(
                     budgetInfos: $formViewModel.budgetInfos,
+                    activelyEditingTextField: $activelyUpdatingTextField,
                     isLoadingRecipes: $isLoadingRecipes) { infos in
                         // This is empty because the toolbar on CoursesU does nothing, just activates the form dropdown
                     }

@@ -28,7 +28,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
     /// To show the final Recap page
     private let validateRecipes: () -> Void
     /// To replace one of the items in recipe
-    private let replaceProduct: (String) -> Void
+    private let replaceProduct: () -> Void
     /// To show the Recipe Page
     private let onRecipeTapped: (String) -> Void
     
@@ -42,7 +42,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
         sectionTitleTemplate: SectionTitleTemplate,
         sectionProductTemplate: SectionProductTemplate,
         validateRecipes: @escaping () -> Void,
-        replaceProduct: @escaping (String) -> Void,
+        replaceProduct: @escaping () -> Void,
         onRecipeTapped: @escaping (String) -> Void
     ) {
             self.loadingTemplate = loadingTemplate
@@ -62,7 +62,7 @@ public struct CoursesUMealPlannerBasketPreviewView<
             Image(packageResource: "WhiteWave", ofType: "png")
                 .resizable()
                 .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
-            UIStateWrapperView(uiState: previewViewModel.state?.lines) {
+            UIStateWrapperView(uiState: previewViewModel.state?.recipes) {
                     VStack {
                         Spacer()
                         loadingTemplate.content()
@@ -136,16 +136,15 @@ public struct CoursesUMealPlannerBasketPreviewView<
     
     @available(iOS 14, *)
     private func recipesList() -> some View {
-        ForEach(previewViewModel.meals) { meal in
+        ForEach(previewViewModel.meals, id: \.id) { meal in
             MealPlannerBasketPreviewExpandableMealView(
                 recipeOverviewTemplate: recipeOverviewTemplate, recipeLoadingTemplate: recipeLoadingTemplate,
                 productTemplate: productTemplate,
                 sectionTitleTemplate: sectionTitleTemplate,
                 sectionProductTemplate: sectionProductTemplate,
-                meal: meal,
+                recipe: meal,
                 replaceProduct: self.replaceProduct,
-                onRecipeTapped: self.onRecipeTapped,
-                mealViewModel: previewViewModel
+                onRecipeTapped: self.onRecipeTapped
             )
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
@@ -163,6 +162,6 @@ struct CoursesUMealPlannerBasketPreviewView_Previews: PreviewProvider {
             productTemplate: CoursesUMealPlannerBasketPreviewProduct(),
             sectionTitleTemplate: CoursesUMealPlannerBasketPreviewSectionTitle(),
             sectionProductTemplate: CoursesUMealPlannerBasketPreviewSectionProduct(),
-            validateRecipes: { print("validating")}, replaceProduct: {_ in}, onRecipeTapped: {_ in})
+            validateRecipes: { print("validating")}, replaceProduct: {}, onRecipeTapped: {_ in})
     }
 }

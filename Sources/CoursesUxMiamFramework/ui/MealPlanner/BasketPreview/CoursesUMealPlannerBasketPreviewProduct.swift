@@ -58,6 +58,9 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                                     .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                                 Spacer()
                                 CoursesUCounterView(count: quantity, isLoading: productInfo.isLoading, isDisable: productInfo.isLoading)
+                                    .onChange(of: quantity.wrappedValue) { qty in
+                                        actions.updateGuests(qty)
+                                    }
                                 Spacer()
                                 TrashButton {
                                     actions.delete()

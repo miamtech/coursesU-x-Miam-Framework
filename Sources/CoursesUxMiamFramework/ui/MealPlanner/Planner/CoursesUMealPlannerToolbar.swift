@@ -21,8 +21,13 @@ import MiamIOSFramework
 public struct CoursesUMealPlannerToolbar: MealPlannerToolbar {
     let dimension = Dimension.sharedInstance
     public init() {}
-    public func content(budgetInfos: Binding<BudgetInfos>, isLoadingRecipes: Binding<Bool>, onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
-        
+    public func content(
+        budgetInfos: Binding<BudgetInfos>,
+        activelyEditingTextField: Binding<Bool>,
+        isLoadingRecipes: Binding<Bool>,
+        onValidateTapped: @escaping (BudgetInfos) -> Void)
+    -> some View {
+
         func formattedPriceTrailing() -> String {
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = .currency
@@ -96,7 +101,7 @@ struct CoursesUMealPlannerToolbar_Previews: PreviewProvider {
                 Color.budgetBackgroundColor
                 VStack(spacing: -40.0) {
                     MealPlannerBackground()
-                    CoursesUMealPlannerToolbar().content(budgetInfos: .constant(BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4)),
+                    CoursesUMealPlannerToolbar().content(budgetInfos: .constant(BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4)), activelyEditingTextField: .constant(false),
                                                        isLoadingRecipes: $loading, onValidateTapped: {_ in})
                     .padding()
                     Spacer()

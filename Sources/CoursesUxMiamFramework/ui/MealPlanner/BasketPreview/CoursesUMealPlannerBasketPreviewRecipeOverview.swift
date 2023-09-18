@@ -20,7 +20,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                 price: basketPreviewInfos.price,
                 centerContent: {
                     ArticlesPriceRecapCounter(
-                        numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket,
+                        numberOfProductsInBasket: basketPreviewInfos.totalProductCount,
                         pricePerPerson: basketPreviewInfos.pricePerPerson,
                         price: basketPreviewInfos.price,
                         guests: basketPreviewInfos.guests
@@ -152,9 +152,9 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
             recipe: recipe,
             price: Price(price: 14.56, currency: "EUR"),
             pricePerPerson: "12.3",
-            numberOfProductsInBasket: 3,
-            guests: 4
-            , isReloading: false
+            guests: 4,
+            isReloading: false,
+            totalProductCount: 3
         )
         ZStack {
             Color.budgetBackgroundColor
