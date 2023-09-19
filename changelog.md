@@ -1,3 +1,7 @@
+# 1.2.2
+- [FIX] Issue with keyboard gesture recognizer
+- [FIX] Guest count was not correct on meal planner recipe detail
+
 # 1.2.0
 
 # 1.1.2
