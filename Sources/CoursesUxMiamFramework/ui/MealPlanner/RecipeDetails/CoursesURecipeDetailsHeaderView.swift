@@ -79,7 +79,7 @@ struct CoursesURecipeTimeView: View {
         } else {
             VStack(alignment: .leading) {
                 if preparationTime != noPreparationTime {
-                    HStack {
+                    HStack(spacing: 3) {
                         Text(Localization.recipe.preparationTime.localised)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
                         Text(preparationTime)
@@ -88,19 +88,17 @@ struct CoursesURecipeTimeView: View {
                 }
                 
                 if cookingTime != noCookingTime {
-                    HStack {
+                    HStack(spacing: 3) {
                         Text(Localization.recipe.cookTime.localised)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
-                        
                         Text(cookingTime)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBoldStyle)
                     }
                 }
                 if restingTime != noRestingTime {
-                    HStack {
+                    HStack(spacing: 3) {
                         Text(Localization.recipe.restingTime.localised)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
-                        
                         Text(restingTime)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBoldStyle)
                     }

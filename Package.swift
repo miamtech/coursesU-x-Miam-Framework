@@ -15,7 +15,7 @@ let package = Package(
             targets: ["CoursesUxMiamFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/miamtech/miam-sdk", branch: "main"),
+        .package(url: "https://github.com/miamtech/miam-sdk", branch: "dev/3.12.16"),
 //        .package(path: "../../miam-sdk"),
         ],
     targets: [

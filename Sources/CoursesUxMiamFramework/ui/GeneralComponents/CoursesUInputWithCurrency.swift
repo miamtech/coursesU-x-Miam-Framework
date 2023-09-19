@@ -111,25 +111,23 @@ internal struct CoursesUInputWithCurrency: View {
             }
             
             func userFinishedTyping() {
-                parent.value = tempValue
-                hasTappedOnTextField = false
-                activelyEditing = false
-            }
-            
-            @objc func okButtonTapped() {
-                userFinishedTyping()
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
-            
-            @objc func dismissKeyboard() {
-                textField?.resignFirstResponder()
-                userFinishedTyping()
-                
-                // Remove tap gesture recognizer from the main window
-                if let tapGesture = tapGesture, let window = UIApplication.shared.windows.first {
-                    window.removeGestureRecognizer(tapGesture)
-                }
-            }
+               parent.value = tempValue
+               hasTappedOnTextField = false
+               activelyEditing = false
+               textField?.resignFirstResponder()
+               // Remove tap gesture recognizer from the main window
+               if let tapGesture = tapGesture, let window = UIApplication.shared.windows.first {
+                   window.removeGestureRecognizer(tapGesture)
+               }
+           }
+           
+           @objc func okButtonTapped() {
+               userFinishedTyping()
+           }
+           
+           @objc func dismissKeyboard() {
+               userFinishedTyping()
+           }
             
             func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
                 let currentText = textField.text ?? ""
