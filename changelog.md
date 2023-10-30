@@ -1,3 +1,6 @@
+# 1.2.4
+- [FEA] Compatiable with all verions of miam-sdk up to 4.0.0
+
 # 1.2.3
 
 # 1.2.2
