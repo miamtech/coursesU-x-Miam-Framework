@@ -11,18 +11,16 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesURecipeCardLoading: RecipeCardLoading {
-    
-    private let cardHeight = 340.0
-    
+public struct CoursesURecipeCardLoading: RecipeCardLoadingProtocol {
+        
     let dimensions = Dimension.sharedInstance
     @SwiftUI.State private var opacity: Double = 0.5
     public init() {}
     
-    public func content() -> some View {
+    public func content(params: RecipeCardLoadingParameters) -> some View {
         ProgressLoader(color: Color.primaryColor)
             .frame(maxWidth: .infinity)
-            .frame(height: cardHeight)
+            .frame(height: params.recipeCardDimensions.height)
             .redacted(reason: .placeholder)
             .background(Color.white)
             .opacity(opacity)
@@ -38,6 +36,6 @@ public struct CoursesURecipeCardLoading: RecipeCardLoading {
 @available(iOS 14, *)
 struct CoursesURecipeCardLoading_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesURecipeCardLoading().content()
+        CoursesURecipeCardLoading().content(params: RecipeCardLoadingParameters(recipeCardDimensions: CGSize(width: 300, height: 300)))
     }
 }

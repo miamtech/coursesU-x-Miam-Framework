@@ -13,16 +13,19 @@ import MiamIOSFramework
 
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
+public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
     public init() {}
-    public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: BudgetRecipeCardActions) -> some View {
+    public func content(params: MealPlannerRecipeCardParameters) -> some View {
         CoursesURecipeCardCoreFrame(
-            recipe: recipeInfos.recipe,
-            price: recipeInfos.price,
+            recipe: params.recipe,
+            price: params.recipe.attributes?.price?.price ?? 0.0,
             centerContent: {
-                DifficultyTimeRecap(cookingTime: recipeInfos.recipe.cookingTimeIos, difficulty: recipeInfos.recipe.difficulty, price: recipeInfos.price)
+                DifficultyTimeRecap(
+                    cookingTime: params.recipe.cookingTimeIos,
+                    difficulty: params.recipe.difficulty,
+                    price: params.recipe.attributes?.price?.price ?? 0.0)
         }, callToAction: {
-            RecipeCardCallToAction(actions: actions)
+            RecipeCardCallToAction(removeTapped: params.onRemoveRecipeFromMealPlanner, replaceTapped: params.onReplaceRecipeFromMealPlanner)
         })
     }
     
@@ -30,7 +33,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
     internal struct DifficultyTimeRecap: View {
         var cookingTime: String
         var difficulty: Int
-        var price: Price
+        var price: Double
         var body: some View {
             VStack(spacing: Dimension.sharedInstance.mPadding) {
                 HStack() {
@@ -39,20 +42,18 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
                     CoursesURecipeDifficulty(difficulty: difficulty)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                RecapPriceForRecipes(priceAmount:  price.formattedPriceTrailing())
+                RecapPriceForRecipes(priceAmount:  price.currencyFormatted)
             }
         }
     }
 
     @available(iOS 14, *)
     internal struct RecipeCardCallToAction: View {
-        var actions: BudgetRecipeCardActions
+        let removeTapped: () -> Void
+        let replaceTapped: () -> Void
         var body: some View {
             HStack {
                 Button {
-                    guard let replaceTapped = actions.replaceTapped else {
-                        return
-                    }
                     replaceTapped()
                 } label: {
                     HStack {
@@ -64,19 +65,14 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                     }
                 }
-//                                    if #unavailable(iOS 15) {
                 Spacer()
                 Button {
-                    guard let removeTapped = actions.removeTapped else {
-                        return
-                    }
                     removeTapped()
                 } label: {
                     Image(packageResource: "TrashIcon", ofType: "png")
                         .resizable()
                         .frame(width: 20, height: 20)
                 }
-//                                    }
             }
             .frame(maxWidth: .infinity)
         }
@@ -87,16 +83,18 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCard {
 
 
 @available(iOS 14, *)
-struct CoursesURecipeCardCoreFrame<CenterContent: View,
-                                       CallToAction: View>: View {
+struct CoursesURecipeCardCoreFrame<
+    CenterContent: View,
+    CallToAction: View
+>: View {
     var recipe: Recipe
-    var price: Price
+    var price: Double
     let centerContent: () -> CenterContent
     let callToAction: () -> CallToAction
        
     public init(
         recipe: Recipe,
-        price: Price,
+        price: Double,
         centerContent: @escaping () -> CenterContent,
         callToAction: @escaping () -> CallToAction)
     {
@@ -119,7 +117,7 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
                 }
                 .frame(width: 150.0)
                 .clipped()
-                CoursesULikeButton(recipeId: recipe.id)
+//                CoursesULikeButton(recipeId: recipe.id)
                 .padding(dimension.mPadding)
             }
             VStack(alignment: .leading, spacing: dimension.mPadding) {
@@ -148,12 +146,22 @@ struct CoursesURecipeCardCoreFrame<CenterContent: View,
 @available(iOS 14, *)
 struct CoursesUMealPlannerRecipeCard_Preview: PreviewProvider {
     static var previews: some View {
-        let recipeInfosRandom = FakeRecipe().createRandomFakeRecipeInfos()
+        let recipe = RecipeFakeFactory().create(
+            id: RecipeFakeFactory().FAKE_ID,
+            attributes: RecipeFakeFactory().createAttributes(
+                title: "Parmentier de Poulet",
+                mediaUrl: "https://lh3.googleusercontent.com/tbMNuhJ4KxReIPF_aE0yve0akEHeN6O8hauty_XNUF2agWsmyprACLg0Zw6s8gW-QCS3A0QmplLVqBKiMmGf_Ctw4SdhARvwldZqAtMG"),
+            relationships: nil)
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerRecipeCard().content(recipeInfos: recipeInfosRandom, actions: BudgetRecipeCardActions(recipeTapped: {_ in}, removeTapped: {
-                print("Remove recipe card.")
-            }, replaceTapped: nil))
+            CoursesUMealPlannerRecipeCard().content(
+                params: MealPlannerRecipeCardParameters(
+                    recipeCardDimensions: CGSize(),
+                    recipe: recipe,
+                    onShowRecipeDetails: { _ in },
+                    onRemoveRecipeFromMealPlanner: {},
+                    onReplaceRecipeFromMealPlanner: {})
+            )
             .padding()
         }
     }

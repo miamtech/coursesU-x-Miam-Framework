@@ -11,14 +11,12 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerRecipeCardLoading: MealPlannerRecipeCardLoading {
+public struct CoursesUMealPlannerRecipeCardLoading: RecipeCardLoadingProtocol {
    
     let dimensions = Dimension.sharedInstance
     @SwiftUI.State private var opacity: Double = 0.5
     public init() {}
-    
-    public func content() -> some View {
-            
+    public func content(params: RecipeCardLoadingParameters) -> some View {
         ProgressLoader(color: Color.primaryColor)
             .frame(maxWidth: .infinity)
             .frame(height: dimensions.mealPlannerRecipeCardHeight)
@@ -39,7 +37,7 @@ struct CoursesUMealPlannerRecipeCardLoading_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerRecipeCardLoading().content()
+            CoursesUMealPlannerRecipeCardLoading().content(params: RecipeCardLoadingParameters(recipeCardDimensions: CGSize(width: 300, height: 300)))
                 .padding()
         }
         

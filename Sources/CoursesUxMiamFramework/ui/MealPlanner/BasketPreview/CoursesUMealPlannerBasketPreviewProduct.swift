@@ -11,18 +11,15 @@ import miamCore
 
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewProduct {
+public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
     
     public init () {}
     let dimension = Dimension.sharedInstance
-    public func content(
-        quantity: Binding<Int>,
-        productInfo: MealPlannerBasketPreviewProductInfos,
-        actions: MealPlannerBudgetPreviewProductActions) -> some View {
+    public func content(params: BasketProductParameters) -> some View {
             ZStack(alignment: .topTrailing) {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
-                        AsyncImage(url: productInfo.pictureURL) { image in
+                        AsyncImage(url: params.data.pictureURL) { image in
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -31,18 +28,17 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                         }
                         .frame(width: 75.0)
                         VStack(alignment: .leading) {
-                            if productInfo.sharedRecipeCount > 1 {
-                                UtilizedInManyRecipes(recipesUsedIn: productInfo.sharedRecipeCount)
+                            if params.data.sharedRecipeCount > 1 {
+                                UtilizedInManyRecipes(recipesUsedIn: params.data.sharedRecipeCount)
                             }
-                            Text(productInfo.name.capitalizingFirstLetter())
+                            Text(params.data.name.capitalizingFirstLetter())
                                 .foregroundColor(Color.black)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
-                            Text(productInfo.description)
+                            Text(params.data.description)
                                 .foregroundColor(Color.gray)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
-                            if productInfo.isSubstitutable {
                                 Button {
-                                    actions.changeProduct()
+                                    params.onChangeProduct()
                                 } label: {
                                     Text("Changer d'article")
                                         .underline()
@@ -51,16 +47,16 @@ public struct CoursesUMealPlannerBasketPreviewProduct: MealPlannerBasketPreviewP
                                         .padding(.vertical, dimension.sPadding)
                                 }
                                 Spacer()
-                            }
+                            
                             HStack() {
-                                Text("\(productInfo.price.formattedPriceTrailing())")
+                                Text("\(params.data.price.currencyFormatted)")
                                     .foregroundColor(Color.black)
                                     .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                                 Spacer()
-                                CoursesUCounterView(count: quantity, isLoading: productInfo.isLoading, isDisable: productInfo.isLoading)
+                                CoursesUCounterView(count: params.quantity, isLoading: params.data.isReloading, isDisable: params.data.isReloading)
                                 Spacer()
                                 TrashButton {
-                                    actions.delete()
+                                    params.onDeleteProduct()
                                 }
                                 
                             }

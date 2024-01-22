@@ -18,28 +18,26 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerToolbar: MealPlannerToolbar {
+public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
     let dimension = Dimension.sharedInstance
     public init() {}
-    public func content(budgetInfos: Binding<BudgetInfos>, isLoadingRecipes: Binding<Bool>, onValidateTapped: @escaping (BudgetInfos) -> Void) -> some View {
-        
-        func formattedPriceTrailing() -> String {
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .currency
-            // Set the positive format with the currency code on the trailing side
-            numberFormatter.positiveFormat = "#,##0 ¤"
-            numberFormatter.currencyCode = "EUR"
-            return numberFormatter.string(from: NSDecimalNumber(floatLiteral: budgetInfos.wrappedValue.moneyBudget)) ?? ""
-        }
-    
-        return HStack {
-//            Spacer()
-            CoursesUFormRow(caption: formattedPriceTrailing(), icon: Image(packageResource: "BudgetIcon", ofType: "png"), content: Spacer().frame(width: 0))
+    public func content(params: MealPlannerResultsToolbarParameters) -> some View {
+         HStack {
+             CoursesUFormRow(
+                caption: params.mealPlannerCriteria.availableBudget.wrappedValue.currencyFormatted,
+                icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+                content: Spacer().frame(width: 0))
                 .frame(minWidth: 110)
             Divider()
-            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfGuests), icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"), content: Spacer().frame(width: 0))
+             CoursesUFormRow(
+                caption: String(params.mealPlannerCriteria.numberOfGuests.wrappedValue),
+                icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
+                content: Spacer().frame(width: 0))
             Divider()
-            CoursesUFormRow(caption: String(budgetInfos.wrappedValue.numberOfMeals),icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"), content: Spacer().frame(width: 0))
+             CoursesUFormRow(
+                caption: String(params.mealPlannerCriteria.numberOfMeals.wrappedValue),
+                icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
+                content: Spacer().frame(width: 0))
         }
         .padding(.vertical, 5)
         .padding(.leading)
@@ -91,19 +89,18 @@ struct CoursesUMealPlannerToolbar_Previews: PreviewProvider {
 
     struct Preview: View {
         @SwiftUI.State var loading = false
+        @SwiftUI.State var mealPlannerCriteria = MealPlannerCriteria(
+            availableBudget: 30.0,
+            numberOfGuests: 4,
+            numberOfMeals: 4)
         var body: some View {
-            ZStack{
-                Color.budgetBackgroundColor
-                VStack(spacing: -40.0) {
-                    MealPlannerBackground()
-                    CoursesUMealPlannerToolbar().content(budgetInfos: .constant(BudgetInfos(moneyBudget: 20.0, numberOfGuests: 4, numberOfMeals: 4)),
-                                                       isLoadingRecipes: $loading, onValidateTapped: {_ in})
-                    .padding()
-                    Spacer()
-                }
-                
-            }
-            
+            CoursesUMealPlannerToolbar().content(
+                params: MealPlannerResultsToolbarParameters(
+                mealPlannerCriteria: $mealPlannerCriteria,
+                activelyEditingTextField: .constant(false),
+                isLoadingRecipes: $loading,
+                onValidateTapped: {})
+                )
         }
     }
 }

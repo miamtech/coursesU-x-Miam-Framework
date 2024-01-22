@@ -10,17 +10,17 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerCallToAction: MealPlannerCallToAction {
+public struct CoursesUMealPlannerCallToAction: MealPlannerCTAProtocol {
     public init() {}
     let screen = UIScreen.screenSize
-    public func content(onTapGesture: @escaping () -> Void) -> some View {
+    public func content(params: MealPlannerCTAViewParameters) -> some View {
         Image(packageResource: "CTAImage", ofType: "png")
             .resizable()
             .scaledToFit()
             .frame(maxWidth: .infinity)
             .padding(Dimension.sharedInstance.mPadding)
             .onTapGesture {
-                onTapGesture()
+                params.onTapGesture()
             }
     }
 }
@@ -28,8 +28,8 @@ public struct CoursesUMealPlannerCallToAction: MealPlannerCallToAction {
 @available(iOS 14, *)
 struct CoursesUMealPlannerCallToAction_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUMealPlannerCallToAction().content {
+        CoursesUMealPlannerCallToAction().content(params: MealPlannerCTAViewParameters() {
             print("hello world")
-        }
+        })
     }
 }

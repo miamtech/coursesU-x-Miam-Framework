@@ -15,8 +15,9 @@ let package = Package(
             targets: ["CoursesUxMiamFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/miamtech/miam-sdk", branch: "dev/3.12.16"),
-//        .package(path: "../../miam-sdk"),
+//        .package(url: "https://github.com/miamtech/miam-sdk", branch: "dev/3.12.16"),
+        .package(path: "../miam-sdk"),
+        .package(path: "../MealzUIModuleIOS"),
         ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -24,7 +25,8 @@ let package = Package(
         .target(
             name: "CoursesUxMiamFramework",
             dependencies: [
-                    .product(name: "MiamIOSFramework", package: "miam-sdk")
+                    .product(name: "MiamIOSFramework", package: "miam-sdk"),
+                    .product(name: "MealzUIModuleIOS", package: "MealzUIModuleIOS"),
                   ],
             resources: [.process("Resources")]),
         .testTarget(

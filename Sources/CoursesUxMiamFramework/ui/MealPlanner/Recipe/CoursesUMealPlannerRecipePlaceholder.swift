@@ -10,11 +10,11 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholder {
+public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholderProtocol {
     private let recipeCardSize = CGSize(width: 175.0, height: 175.0)
     private let dimension = Dimension.sharedInstance
     public init() {}
-    public func content(onTapGesture: @escaping () -> Void) -> some View {
+    public func content(params: MealPlannerRecipePlaceholderParameters) -> some View {
         VStack(spacing: dimension.lPadding) {
             Circle()
                 .foregroundColor(Color.primaryColor)
@@ -38,7 +38,7 @@ public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholder
         .background(Color.primaryColor)
         .cornerRadius(dimension.mCornerRadius)
         .onTapGesture {
-            onTapGesture()
+            params.onTapGesture()
         }
     }
 }
@@ -48,9 +48,8 @@ struct CoursesUMealPlannerRecipePlaceholder_Preview: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerRecipePlaceholder().content {
-                
-            }
+            CoursesUMealPlannerRecipePlaceholder().content(params: MealPlannerRecipePlaceholderParameters() {
+            })
         }
         
     }
