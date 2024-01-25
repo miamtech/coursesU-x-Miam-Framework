@@ -11,9 +11,9 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerLoading: MealPlannerLoading {
+public struct CoursesUMealPlannerLoading: LoadingProtocol {
     public init() {}
-    public func content() -> some View {
+    public func content(params: BaseLoadingParameters) -> some View {
         Text("loading")
     }
 }

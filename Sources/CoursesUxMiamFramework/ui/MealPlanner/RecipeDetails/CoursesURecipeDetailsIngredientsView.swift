@@ -7,16 +7,16 @@
 import SwiftUI
 import MiamIOSFramework
 import miamCore
+import MealzUIModuleIOS
 
 @available(iOS 14.0, *)
-public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsViewTemplate {
+public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsProtocol {
     
     public init() {}
-    
-    public func content(infos: RecipeDetailsIngredientsInfos, updateGuestsAction: @escaping (Int) -> Void) -> some View {
+    public func content(params: RecipeDetailsIngredientsParameters) -> some View {
         HStack {
             HStack {
-                Text("\(infos.ingredients.count) ingrédients")
+                Text("\(params.ingredients.count) ingrédients")
                     .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                     .foregroundColor(Color.black)
                 Spacer()
@@ -29,16 +29,16 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
         // Ingredients ListView
         VStack {
             VStack {
-                ForEach(infos.ingredients, id: \.self) { ingredient in
+                ForEach(params.ingredients, id: \.self) { ingredient in
                     if let attributes = ingredient.attributes {
                         let quantity = quantityForIngredient(
                             ingredient,
-                            currentNumberOfGuests: infos.currentGuests,
-                            recipeNumberOfGuests: infos.recipeGuests)
+                            currentNumberOfGuests: params.currentGuests,
+                            recipeNumberOfGuests: params.recipeGuests)
                         let formattedQuantity = formatQuantity(
                             quantity: quantity,
                             unit: attributes.unit)
-                        RecipeDetailsIngredientRow(
+                        MealzRecipeDetailsIngredientRow(
                             ingredientName: attributes.name ?? "",
                             quantity: formattedQuantity)
                     }
@@ -76,7 +76,8 @@ public struct CoursesURecipeDetailsIngredientsView: RecipeDetailsIngredientsView
 @available(iOS 14.0, *)
 struct CoursesURecipeDetailsIngredientsView_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesURecipeDetailsIngredientsView().content(infos: RecipeDetailsIngredientsInfos(ingredients: [], recipeGuests: 4, currentGuests: 6, guestUpdating: false)) {_ in
-        }
+        CoursesURecipeDetailsIngredientsView().content(
+            params: RecipeDetailsIngredientsParameters(
+                ingredients: [], recipeGuests: 4, currentGuests: 6))
     }
 }

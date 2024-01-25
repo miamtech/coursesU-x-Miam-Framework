@@ -10,31 +10,30 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketPreviewRecipeOverview {
-   
+public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOverviewProtocol {
     public init() {}
-    public func content(basketPreviewInfos: BasketPreviewInfos, basketPreviewActions: BasketPreviewRecipeActions) -> some View {
+    public func content(params: BasketRecipeOverviewParameters) -> some View {
         ZStack(alignment: .topTrailing) {
             CoursesURecipeCardCoreFrame(
-                recipe: basketPreviewInfos.recipe,
-                price: basketPreviewInfos.price,
+                recipe: params.data.recipe,
+                price: params.data.price,
                 centerContent: {
                     ArticlesPriceRecapCounter(
-                        numberOfProductsInBasket: basketPreviewInfos.numberOfProductsInBasket,
-                        pricePerPerson: basketPreviewInfos.pricePerPerson,
-                        price: basketPreviewInfos.price,
-                        guests: basketPreviewInfos.guests
+                        numberOfProductsInBasket: params.data.totalProductCount,
+                        pricePerPerson: params.data.price.pricePerPersonWithText(numberOfGuests: params.data.guests),
+                        price: params.data.price,
+                        guests: params.data.guests
                     ) { guestNumber in
-                        basketPreviewActions.updateGuests(guestNumber)
+                        params.onUpdateGuests(guestNumber)
                     }
                 }, callToAction: {
-                    BasketPreviewCardCallToAction(actions: basketPreviewActions)
+                    BasketPreviewCardCallToAction(onDelete: params.onDeleteRecipe, expand: params.onExpand)
                 })
             .padding(.bottom)
             .onTapGesture {
-                basketPreviewActions.onRecipeTapped(basketPreviewInfos.recipe.id)
+                params.onShowRecipeDetails(params.data.recipe.id)
             }
-            if basketPreviewInfos.isReloading {
+            if params.data.isReloading {
                 ProgressView()
                     .padding(Dimension.sharedInstance.mPadding)
             }
@@ -45,7 +44,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
     internal struct ArticlesPriceRecapCounter: View {
         var numberOfProductsInBasket: Int
         var pricePerPerson: String
-        var price: Price
+        var price: Double
         var guests: Int
         var updateGuests: (Int) -> Void
         var body: some View {
@@ -62,7 +61,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                     HStack(spacing: 1) {
                         RecapPriceForRecipes(
                             leadingText: "",
-                            priceAmount:  price.formattedPriceTrailing(),
+                            priceAmount:  price.currencyFormatted,
                             trailingText: "",
                             leadingPadding: 0, trailingPadding: 0,
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
@@ -89,7 +88,8 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
 
     @available(iOS 14, *)
     internal struct BasketPreviewCardCallToAction: View {
-        var actions: BasketPreviewRecipeActions
+        let onDelete: () -> Void
+        let expand: () -> Void
         @SwiftUI.State private var showContents = false
         @SwiftUI.State private var loading = false
         var body: some View {
@@ -97,7 +97,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                 Button {
                     withAnimation {
                         showContents.toggle()
-                        actions.expand()
+                        expand()
                     }
                 } label: {
                     HStack {
@@ -118,11 +118,10 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                         
                     }
                 }
-//                                    if #unavailable(iOS 15) {
                 Spacer()
                 Button {
                     loading.toggle()
-                    actions.delete()
+                    onDelete()
                 } label: {
                     VStack {
                         if loading {
@@ -135,7 +134,6 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: MealPlannerBasketP
                         }
                     }.frame(width: 20, height: 20)
                 }
-//                                    }
             }
             .frame(maxWidth: .infinity)
             .padding(.top, Dimension.sharedInstance.sPadding)
@@ -148,17 +146,24 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
     static var previews: some View {
         
         let recipe = FakeRecipe().createRandomFakeRecipe()
-        let basketInfos = BasketPreviewInfos(
+        let basketData = BasketRecipeData(
             recipe: recipe,
-            price: Price(price: 14.56, currency: "EUR"),
-            pricePerPerson: "12.3",
-            numberOfProductsInBasket: 3,
-            guests: 4
-            , isReloading: false
+            price: 14.56,
+            guests: 3,
+            isReloading: false,
+            totalProductCount: 4,
+            isExpandable: false,
+            isExpanded: false
         )
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerBasketPreviewRecipeOverview().content(basketPreviewInfos: basketInfos, basketPreviewActions: BasketPreviewRecipeActions(delete: {}, expand: {}, updateGuests: {_ in}, onRecipeTapped: {_ in}))
+            CoursesUMealPlannerBasketPreviewRecipeOverview().content(params: BasketRecipeOverviewParameters(
+                recipeCardDimensions: CGSize(width: 300, height: 300),
+                data: basketData,
+                onDeleteRecipe: {},
+                onExpand: {},
+                onUpdateGuests: {_ in},
+                onShowRecipeDetails: {_ in}))
             .padding()
         }
     }

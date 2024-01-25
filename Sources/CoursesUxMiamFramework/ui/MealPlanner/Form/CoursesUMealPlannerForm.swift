@@ -1,6 +1,6 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by didi on 6/6/23.
 //
@@ -9,25 +9,24 @@ import SwiftUI
 import miamCore
 import MiamIOSFramework
 
-// just used for preview 
+// just used for preview
 @available(iOS 14, *)
 public struct CoursesUBudgetFormStandaloneWrapper: View {
-    @SwiftUI.State var budgetInfos = BudgetInfos(moneyBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
+    @SwiftUI.State var mealPlannerCriteria = MealPlannerCriteria(availableBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
     @SwiftUI.State var updating = false
     
     public init() {}
     public var body: some View {
-        CoursesUMealPlannerForm().content(
-            budgetInfos: $budgetInfos,
+        CoursesUMealPlannerForm().content(params: MealPlannerFormViewParameters(
+            mealPlannerCriteria: $mealPlannerCriteria,
             activelyUpdatingTextField: $updating,
             isFetchingRecipes: false,
-            onFormValidated: {_ in}
-        )
+            onFormValidated: { _ in }))
     }
 }
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerForm: MealPlannerForm {
+public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
     var includeTitle: Bool
     var includeLogo: Bool
     var includeBackground: Bool
@@ -38,26 +37,23 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
         self.includeBackground = includeBackground
     }
     
-    public func content(
-        budgetInfos: Binding<BudgetInfos>,
-        activelyUpdatingTextField: Binding<Bool>,
-        isFetchingRecipes: Bool,
-        onFormValidated: @escaping (BudgetInfos) -> Void
-    ) -> some View {
+    public func content(params: MealPlannerFormViewParameters) -> some View {
         var budgetAndGuestsValid: Bool {
-            return budgetInfos.wrappedValue.moneyBudget > 0.0 && budgetInfos.wrappedValue.numberOfGuests > 0
+            return params.mealPlannerCriteria.availableBudget.wrappedValue > 0.0
+            && params.mealPlannerCriteria.numberOfGuests.wrappedValue > 0
         }
         var colorOfSubmit: Color {
-            if budgetAndGuestsValid && budgetInfos.wrappedValue.numberOfMeals > 0 && !activelyUpdatingTextField.wrappedValue {
+            if budgetAndGuestsValid && params.mealPlannerCriteria.numberOfMeals.wrappedValue > 0
+                && !params.activelyUpdatingTextField.wrappedValue {
                 return Color.primaryColor
             } else { return Color.lightGray }
         }
         return ZStack(alignment: .top) {
             if includeBackground {
                 Color.budgetBackgroundColor.frame(maxHeight: .infinity)
-                    Image(packageResource: "WhiteWave", ofType: "png")
-                        .resizable()
-                        .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
+                Image(packageResource: "WhiteWave", ofType: "png")
+                    .resizable()
+                    .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.2)
                 CoursesUTwoMealsBackground()
             }
             VStack {
@@ -86,8 +82,8 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                             HStack {
                                 Spacer()
                                 CoursesUInputWithCurrency(
-                                    budget: budgetInfos.moneyBudget,
-                                    activelyEditing: activelyUpdatingTextField)
+                                    budget: params.mealPlannerCriteria.availableBudget,
+                                    activelyEditing: params.activelyUpdatingTextField)
                             }
                             .padding(dimension.mPadding)
                     )
@@ -97,7 +93,7 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         caption: "Nombre de personnes",
                         icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
-                        CoursesUStepperBinding(value: budgetInfos.numberOfGuests, maxValue: 9)
+                            CoursesUStepperBinding(value: params.mealPlannerCriteria.numberOfGuests, maxValue: 9)
                     )
                     Divider()
                     // TODO: localize
@@ -105,7 +101,10 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         caption: "Nombre de repas",
                         icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                         content:
-                        CoursesUStepperBinding(value: budgetInfos.numberOfMeals, maxValue: budgetInfos.wrappedValue.maxRecipesForBudget, disableButton: !budgetAndGuestsValid)
+                            CoursesUStepperBinding(
+                                value: params.mealPlannerCriteria.numberOfMeals,
+                                maxValue: params.mealPlannerCriteria.maxRecipesForBudget.wrappedValue,
+                                disableButton: !budgetAndGuestsValid)
                         
                     )
                     .addOpacity(!budgetAndGuestsValid)
@@ -114,7 +113,8 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                         backgroundColor: colorOfSubmit,
                         content: {
                             Button {
-                                onFormValidated(budgetInfos.wrappedValue)
+                                print("Form pressed")
+                                params.onFormValidated(params.mealPlannerCriteria.wrappedValue)
                             } label: {
                                 HStack {
                                     Image(packageResource: "searchIcon", ofType: "png")
@@ -125,8 +125,9 @@ public struct CoursesUMealPlannerForm: MealPlannerForm {
                                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                                 }
                             }
-                            .disabled(!budgetAndGuestsValid || !(budgetInfos.wrappedValue.numberOfMeals > 0) ||
-                                      activelyUpdatingTextField.wrappedValue)
+                            .disabled(!budgetAndGuestsValid
+                                      || !(params.mealPlannerCriteria.numberOfMeals.wrappedValue > 0)
+                                      || params.activelyUpdatingTextField.wrappedValue)
                         }, buttonAction: {
                         })
                 }
@@ -166,46 +167,46 @@ internal struct CoursesUStepperBinding: View {
     
     var body: some View {
         
-            HStack(spacing: dimension.lPadding) {
-                Button(action: {
-                    if value > minValue {
-                        value -= 1
-                    }
-                }, label: {
-                    Image(systemName: "minus")
-//                            .resizable()
-                        .foregroundColor(minButtonColor)
-                    
-                        .padding(dimension.sPadding)
-                        .overlay(
-                            Circle()
-                                .stroke(minButtonColor, lineWidth: 1)
-                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                        )
-                })
-                .disabled(value <= minValue)
-                .disabled(disableButton)
-                Text("\(value)")
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-                Button(action: {
-                    if value < maxValue {
-                        value += 1
-                    }
-                }, label: {
-                    Image(systemName: "plus")
-                    //                            .resizable()
-                        .foregroundColor(maxButtonColor)
-                        .padding(dimension.sPadding)
-                        .overlay(
-                            Circle()
-                                .stroke(maxButtonColor, lineWidth: 1)
-                                .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
-                        )
-                })
-                .disabled(value >= maxValue)
-                .disabled(disableButton)
-            }
-            .padding(dimension.mPadding)
+        HStack(spacing: dimension.lPadding) {
+            Button(action: {
+                if value > minValue {
+                    value -= 1
+                }
+            }, label: {
+                Image(systemName: "minus")
+                //                            .resizable()
+                    .foregroundColor(minButtonColor)
+                
+                    .padding(dimension.sPadding)
+                    .overlay(
+                        Circle()
+                            .stroke(minButtonColor, lineWidth: 1)
+                            .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                    )
+            })
+            .disabled(value <= minValue)
+            .disabled(disableButton)
+            Text("\(value)")
+                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+            Button(action: {
+                if value < maxValue {
+                    value += 1
+                }
+            }, label: {
+                Image(systemName: "plus")
+                //                            .resizable()
+                    .foregroundColor(maxButtonColor)
+                    .padding(dimension.sPadding)
+                    .overlay(
+                        Circle()
+                            .stroke(maxButtonColor, lineWidth: 1)
+                            .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
+                    )
+            })
+            .disabled(value >= maxValue)
+            .disabled(disableButton)
+        }
+        .padding(dimension.mPadding)
         
     }
 }
@@ -245,53 +246,53 @@ internal struct CoursesUStepperWithCallback: View {
     
     var body: some View {
         
-            HStack(spacing: dimension.mPadding) {
-                Button(action: {
-                    if count > minValue {
-                        count -= 1
-                        onValueChanged(count)
-                    }
-                }, label: {
-                    Image(systemName: "minus")
-//                            .resizable()
-                        .foregroundColor(minButtonColor)
-                    
-                        .padding(dimension.sPadding)
-                        .overlay(
-                            Circle()
-                                .stroke(minButtonColor, lineWidth: 2)
-                                .frame(width: buttonSize, height: buttonSize)
-                        )
-                })
-                .disabled(count <= minValue)
-                .disabled(disableButton)
-                    VStack {
-                        Text("\(count)")
-                            .coursesUFontStyle(style: textFontStyle)
-                        if textToDisplay != "" {
-                            Text(textToDisplay)
-                                .coursesUFontStyle(style: subtextFontStyle)
-                        }
-                    }
-                Button(action: {
-                    if count < maxValue {
-                        count += 1
-                        onValueChanged(count)
-                    }
-                }, label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(maxButtonColor)
-                        .padding(dimension.sPadding)
-                        .overlay(
-                            Circle()
-                                .stroke(maxButtonColor, lineWidth: 2)
-                                .frame(width: buttonSize, height: buttonSize)
-                        )
-                })
-                .disabled(count >= maxValue)
-                .disabled(disableButton)
+        HStack(spacing: dimension.mPadding) {
+            Button(action: {
+                if count > minValue {
+                    count -= 1
+                    onValueChanged(count)
+                }
+            }, label: {
+                Image(systemName: "minus")
+                //                            .resizable()
+                    .foregroundColor(minButtonColor)
+                
+                    .padding(dimension.sPadding)
+                    .overlay(
+                        Circle()
+                            .stroke(minButtonColor, lineWidth: 2)
+                            .frame(width: buttonSize, height: buttonSize)
+                    )
+            })
+            .disabled(count <= minValue)
+            .disabled(disableButton)
+            VStack {
+                Text("\(count)")
+                    .coursesUFontStyle(style: textFontStyle)
+                if textToDisplay != "" {
+                    Text(textToDisplay)
+                        .coursesUFontStyle(style: subtextFontStyle)
+                }
             }
-            .padding(dimension.mPadding)
+            Button(action: {
+                if count < maxValue {
+                    count += 1
+                    onValueChanged(count)
+                }
+            }, label: {
+                Image(systemName: "plus")
+                    .foregroundColor(maxButtonColor)
+                    .padding(dimension.sPadding)
+                    .overlay(
+                        Circle()
+                            .stroke(maxButtonColor, lineWidth: 2)
+                            .frame(width: buttonSize, height: buttonSize)
+                    )
+            })
+            .disabled(count >= maxValue)
+            .disabled(disableButton)
+        }
+        .padding(dimension.mPadding)
         
     }
 }
@@ -361,8 +362,6 @@ struct CoursesUBudgetForm_Previews: PreviewProvider {
     }
     
     struct BudgetFormPreview: View {
-        
-        @SwiftUI.State var budgetInfoss = BudgetInfos(moneyBudget: 40.0, numberOfGuests: 3, numberOfMeals: 2)
         var body: some View {
             CoursesUBudgetFormStandaloneWrapper()
             
@@ -374,9 +373,7 @@ struct CoursesUBudgetForm_Previews: PreviewProvider {
                     Spacer()
                         .frame(height: 80)
                 }
-                
             }
         }
     }
-    
 }

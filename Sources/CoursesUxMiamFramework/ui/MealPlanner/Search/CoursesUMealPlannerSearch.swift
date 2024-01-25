@@ -11,10 +11,10 @@ import MiamIOSFramework
 import miamCore
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerSearch: MealPlannerSearch {
+public struct CoursesUMealPlannerSearch: SearchProtocol {
     public init() {}
     let dimension = Dimension.sharedInstance
-    public func content(searchText: Binding<String>, filtersTapped: @escaping () -> Void) -> some View {
+    public func content(params: SearchParameters) -> some View {
         VStack(spacing: 0) {
             HStack(spacing: dimension.mPadding) {
                 HStack(spacing: dimension.lPadding) {
@@ -22,7 +22,7 @@ public struct CoursesUMealPlannerSearch: MealPlannerSearch {
                         .resizable()
                         .foregroundColor(Color.gray)
                         .frame(width: 20, height: 20)
-                    TextField("Que recherchez-vous?", text: searchText, onCommit: {
+                    TextField("Que recherchez-vous?", text: params.searchText, onCommit: {
                     })
                     .foregroundColor(Color.gray)
                     .frame(maxWidth: .infinity)
@@ -30,9 +30,9 @@ public struct CoursesUMealPlannerSearch: MealPlannerSearch {
                     .overlay(
                         HStack {
                             Spacer()
-                            if !searchText.wrappedValue.isEmpty {
+                            if !params.searchText.wrappedValue.isEmpty {
                                 Button(action: {
-                                    searchText.wrappedValue = ""
+                                    params.searchText.wrappedValue = ""
                                 }) {
                                     Image(systemName: "multiply.circle.fill")
                                         .foregroundColor(.gray)
@@ -48,7 +48,7 @@ public struct CoursesUMealPlannerSearch: MealPlannerSearch {
                 Divider()
                     .foregroundColor(Color.lightGray)
                 Button {
-                    filtersTapped()
+                    params.onApply()
                 } label: {
                     Image(packageResource: "FiltersIcon", ofType: "png")
                         .resizable()
@@ -84,7 +84,8 @@ struct CoursesUMealPlannerSearch_Previews: PreviewProvider {
         
         var body: some View {
             VStack {
-                CoursesUMealPlannerSearch().content(searchText: $text, filtersTapped: {})
+                CoursesUMealPlannerSearch()
+                    .content(params: SearchParameters(searchText: $text, onApply: {}))
             }
         }
     }

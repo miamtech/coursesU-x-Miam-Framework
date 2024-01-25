@@ -12,15 +12,13 @@ import MiamIOSFramework
 
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerFooter: MealPlannerFooter {
-    
-    
+public struct CoursesUMealPlannerFooter: MealPlannerResultsFooterProtocol {
 
     public init() {}
-    public func content(budgetInfos: BudgetInfos, budgetSpent: Binding<Double>, validateTapped: @escaping () -> Void) -> some View {
+    public func content(params: MealPlannerResultsFooterParameters) -> some View {
         CoursesUBudgetPlannerStickyFooter(
-            budgetSpent: budgetSpent.wrappedValue,
-            totalBudgetPermitted: budgetInfos.moneyBudget,
+            budgetSpent: params.budgetSpent.wrappedValue,
+            totalBudgetPermitted: params.mealPlannerCriteria.availableBudget,
             footerContent:
                 HStack {
                     Image(packageResource: "ShoppingCartIcon", ofType: "png")
@@ -32,7 +30,7 @@ public struct CoursesUMealPlannerFooter: MealPlannerFooter {
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                 }
         ) {
-            validateTapped()
+            params.onValidateTapped()
         }
     }
 }
@@ -158,21 +156,30 @@ struct ChatBubbleShape: Shape {
     }
 }
 
+#if DEBUG
 @available(iOS 14, *)
 struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
     static var previews: some View {
-        let budgetInfos = BudgetInfos(moneyBudget: 40.0, numberOfGuests: 3, numberOfMeals: 5)
+        let criteria = MealPlannerCriteria(availableBudget: 40, numberOfGuests: 4, numberOfMeals: 5)
         ZStack {
             Color.budgetBackgroundColor
             VStack {
-                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
-                }
-                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(50.0)) { print("hello world")
-                }
-                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(20.0)) { print("hello world")
-                }
-                CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(30.0)) { print("hello world")
-                }
+                CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
+                    mealPlannerCriteria: criteria,
+                    budgetSpent: .constant(40),
+                    onValidateTapped: {}))
+                CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
+                    mealPlannerCriteria: criteria,
+                    budgetSpent: .constant(50.0),
+                    onValidateTapped: {}))
+                CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
+                    mealPlannerCriteria: criteria,
+                    budgetSpent: .constant(30.0),
+                    onValidateTapped: {}))
+                CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
+                    mealPlannerCriteria: criteria,
+                    budgetSpent: .constant(20),
+                    onValidateTapped: {}))
             }
         }
 
@@ -197,8 +204,10 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                     }
                 }
                 StickyFooter(safeArea: safeArea) {
-                    CoursesUMealPlannerFooter().content(budgetInfos: budgetInfos, budgetSpent: .constant(10.0)) { print("hello world")
-                    }
+                    CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
+                        mealPlannerCriteria: criteria,
+                        budgetSpent: .constant(20),
+                        onValidateTapped: {}))
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -213,6 +222,7 @@ struct StickyFooter<Content: View>: View {
     var body: some View {
         content()
             .padding(.bottom, safeArea.bottom)
-            .background(Color.miamColor(.white))
+            .background(Color.mealzColor(.white))
     }
 }
+#endif

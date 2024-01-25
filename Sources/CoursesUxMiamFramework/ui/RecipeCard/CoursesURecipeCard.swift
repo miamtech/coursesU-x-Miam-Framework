@@ -11,20 +11,19 @@ import miamCore
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesURecipeCard: RecipeCard {
+public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
     public init() {}
-    public func content(recipeInfos: MiamIOSFramework.RecipeInfos, actions: RecipeCardActions) -> some View {
+    public func content(params: CatalogRecipeCardParameters) -> some View {
         let cardHeight = 370.0
         let dimensions = Dimension.sharedInstance
         var ctaAction: (String) -> Void {
-            return recipeInfos.isInBasket ? actions.showDetails : actions.addToBasket
+            return params.isCurrentlyInBasket ? params.onShowRecipeDetails : params.onAddToBasket
         }
-        let priceWithCurrency = String(recipeInfos.price.formattedPriceTrailing())
         
         return VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
                 ZStack(alignment: .topTrailing) {
-                    AsyncImage(url: recipeInfos.recipe.pictureURL) { image in
+                    AsyncImage(url: params.recipe.pictureURL) { image in
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -33,23 +32,23 @@ public struct CoursesURecipeCard: RecipeCard {
                     }.frame(height: 150.0)
                         .clipped()
                     
-                    CoursesULikeButton(recipeId: recipeInfos.recipe.id)
-                    .padding(dimensions.mPadding)
+//                    CoursesULikeButton(recipeId: params.recipe.id)
+//                        .padding(dimensions.mPadding)
                 }
                 VStack(spacing: dimensions.mPadding) {
-                    Text(recipeInfos.recipe.title + "\n")
+                    Text(params.recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyMediumBoldStyle)
                         .lineLimit(2)
                         .padding(.top, dimensions.sPadding)
                     HStack(spacing: dimensions.mPadding) {
-                        CoursesURecipePreparationTime(duration: recipeInfos.recipe.cookingTimeIos)
+                        CoursesURecipePreparationTime(duration: params.recipe.cookingTimeIos)
                         Divider()
                             .frame(width: 5, height: 40)
-                        CoursesURecipeDifficulty(difficulty: recipeInfos.recipe.difficulty)
+                        CoursesURecipeDifficulty(difficulty: params.recipe.difficulty)
                     }
                     ZStack {
-                        if recipeInfos.price.price > 0 {
-                            RecapPriceForRecipes(priceAmount: priceWithCurrency)
+                        if params.recipePrice > 0 {
+                            RecapPriceForRecipes(priceAmount: params.recipePrice.currencyFormatted)
                         } else {
                             ProgressLoader(color: .primaryColor)
                                 .scaleEffect(0.3)
@@ -68,8 +67,8 @@ public struct CoursesURecipeCard: RecipeCard {
                         }
                         
                     }, buttonAction: {
-//                        actions.addToBasket(recipeInfos.recipe.id)
-                        ctaAction(recipeInfos.recipe.id)
+                        //                        actions.addToBasket(recipeInfos.recipe.id)
+                        ctaAction(params.recipe.id)
                     })
                     .padding(.bottom, dimensions.sPadding)
                 }
@@ -90,10 +89,26 @@ public struct CoursesURecipeCard: RecipeCard {
 @available(iOS 14, *)
 struct CoursesURecipeCard_Previews: PreviewProvider {
     static var previews: some View {
-        let recipeInfos = FakeRecipe().createRandomFakeRecipeInfos()
+        let recipe = RecipeFakeFactory().create(
+            id: RecipeFakeFactory().FAKE_ID,
+            attributes: RecipeFakeFactory().createAttributes(
+                title: "Parmentier de Poulet",
+                mediaUrl: "https://lh3.googleusercontent.com/tbMNuhJ4KxReIPF_aE0yve0akEHeN6O8hauty_XNUF2agWsmyprACLg0Zw6s8gW-QCS3A0QmplLVqBKiMmGf_Ctw4SdhARvwldZqAtMG"),
+            relationships: nil)
         ZStack {
             Color.budgetBackgroundColor
-            CoursesURecipeCard().content(recipeInfos: recipeInfos, actions: RecipeCardActions( addToBasket: {_ in }, showDetails: { _ in}))
+            CoursesURecipeCard()
+                .content(
+                    params: CatalogRecipeCardParameters(
+                        recipeCardDimensions: CGSize(width: 380, height: 100),
+                        recipe: recipe,
+                        recipePrice: 12.4,
+                        numberOfGuests: 4,
+                        isCurrentlyInBasket: false,
+                        onAddToBasket: {_ in },
+                        onShowRecipeDetails: {_ in}
+                    )
+                )
                 .padding(80.0)
         }
         

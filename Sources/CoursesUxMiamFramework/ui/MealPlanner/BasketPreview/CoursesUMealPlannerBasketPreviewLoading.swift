@@ -9,9 +9,9 @@ import SwiftUI
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerBasketPreviewLoading: MealPlannerBasketPreviewLoading {
+public struct CoursesUMealPlannerBasketPreviewLoading: LoadingProtocol {
     public init() {}
-    public func content() -> some View {
+    public func content(params: BaseLoadingParameters) -> some View {
         ProgressLoader(color: Color.primaryColor)
     }
 }

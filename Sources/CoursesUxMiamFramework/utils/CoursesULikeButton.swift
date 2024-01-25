@@ -8,40 +8,6 @@
 import SwiftUI
 import MiamIOSFramework
 
-
-@available(iOS 14, *)
-public struct CoursesULikeButton: View {
-    private let recipeId: String
-
-    @StateObject var viewModel: LikeButtonVM = LikeButtonVM()
-    public init(recipeId: String) {
-        self.recipeId = recipeId
-//        self.viewModel = LikeButtonVM()
-    }
-
-    public var body: some View {
-        HStack {
-                if let state = viewModel.state {
-                    ManagementResourceState(
-                        resourceState: state.isLiked,
-                        successView: CoursesULikeSuccessView(
-                            isSelected:  viewModel.isLiked) {
-                                self.viewModel.toggleLike()
-                            },
-                        loadingView: CoursesULikeSuccessView(isSelected: viewModel.isLiked) {},
-                        emptyView: EmptyView())
-                }
-        }.onAppear(perform: {
-            self.viewModel.setRecipe(recipeId: recipeId)
-            viewModel.registerListeners()
-        }).onDisappear(perform: {
-            viewModel.detach()
-            viewModel.dispose()})
-    }
-}
-
-
-
 @available(iOS 14, *)
 struct CoursesULikeSuccessView: View {
     var isSelected: Bool
@@ -81,7 +47,7 @@ struct CoursesULikeButton_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.budgetBackgroundColor
-            CoursesULikeButton(recipeId: "23")
+//            CoursesULikeButton(recipeId: "23")
         }
        
     }
