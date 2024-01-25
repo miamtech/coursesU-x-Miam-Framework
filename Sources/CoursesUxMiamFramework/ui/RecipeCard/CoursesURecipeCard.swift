@@ -14,7 +14,6 @@ import MiamIOSFramework
 public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
     public init() {}
     public func content(params: CatalogRecipeCardParameters) -> some View {
-        let cardHeight = 370.0
         let dimensions = Dimension.sharedInstance
         var ctaAction: (String) -> Void {
             return params.isCurrentlyInBasket ? params.onShowRecipeDetails : params.onAddToBasket
@@ -78,7 +77,7 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
         }
         .padding(0)
         .frame(maxWidth: .infinity)
-        .frame(height: cardHeight)
+        .frame(height: params.recipeCardDimensions.height)
         .background(Color.white)
         .cornerRadius(12.0)
         

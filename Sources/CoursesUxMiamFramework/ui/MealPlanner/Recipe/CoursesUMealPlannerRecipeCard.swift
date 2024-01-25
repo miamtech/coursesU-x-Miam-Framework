@@ -124,7 +124,7 @@ struct CoursesURecipeCardCoreFrame<
                 HStack {
                     Text(recipe.title + "\n")
                         .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
-                        .lineLimit(3)
+                        .lineLimit(2)
                         .multilineTextAlignment(.leading)
                     Spacer()
                 }

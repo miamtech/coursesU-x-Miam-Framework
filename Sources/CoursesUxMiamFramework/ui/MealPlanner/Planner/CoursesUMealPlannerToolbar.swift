@@ -22,33 +22,64 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
     let dimension = Dimension.sharedInstance
     public init() {}
     public func content(params: MealPlannerResultsToolbarParameters) -> some View {
-         HStack {
-             CoursesUFormRow(
-                caption: params.mealPlannerCriteria.availableBudget.wrappedValue.currencyFormatted,
-                icon: Image(packageResource: "BudgetIcon", ofType: "png"),
-                content: Spacer().frame(width: 0))
-                .frame(minWidth: 110)
-            Divider()
-             CoursesUFormRow(
-                caption: String(params.mealPlannerCriteria.numberOfGuests.wrappedValue),
-                icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
-                content: Spacer().frame(width: 0))
-            Divider()
-             CoursesUFormRow(
-                caption: String(params.mealPlannerCriteria.numberOfMeals.wrappedValue),
-                icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
-                content: Spacer().frame(width: 0))
+        VStack {
+            if !params.activelyEditingTextField {
+                ToolbarPlaceholderButton(params: params)
+                    .onTapGesture { withAnimation {
+                        params.activelyEditingTextField = true
+                    }}
+            } else {
+                CoursesUMealPlannerForm(
+                    includeTitle: false,
+                    includeLogo: false,
+                    includeBackground: false
+                ).content(params: MealPlannerFormViewParameters(
+                    mealPlannerCriteria: params.mealPlannerCriteria,
+                    activelyUpdatingTextField: .constant(false),
+                    isFetchingRecipes: params.isLoadingRecipes,
+                    onFormValidated: { criteria in
+                        withAnimation {
+                            params.activelyEditingTextField = false
+                        }
+                        params.onValidateTapped()
+                    }))
+            }
         }
-        .padding(.vertical, 5)
-        .padding(.leading)
-        .padding(.trailing, 1)
-        .background(Color.white)
-        .frame(height: 60)
-        .cornerRadius(dimension.xlCornerRadius)
-        .overlay(
-            RoundedRectangle(cornerRadius: Dimension.sharedInstance.xlCornerRadius)
-                .stroke(Color.gray, lineWidth: 0.5)
-        )
+    }
+}
+
+@available (iOS 14, *)
+internal struct ToolbarPlaceholderButton: View {
+    let params: MealPlannerResultsToolbarParameters
+    let dimension = Dimension.sharedInstance
+    var body: some View {
+        HStack {
+            CoursesUFormRow(
+               caption: params.mealPlannerCriteria.availableBudget.wrappedValue.currencyFormattedWholeNumber,
+               icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+               content: Spacer().frame(width: 0))
+               .frame(minWidth: 110)
+           Divider()
+            CoursesUFormRow(
+               caption: String(params.mealPlannerCriteria.numberOfGuests.wrappedValue),
+               icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
+               content: Spacer().frame(width: 0))
+           Divider()
+            CoursesUFormRow(
+               caption: String(params.mealPlannerCriteria.numberOfMeals.wrappedValue),
+               icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
+               content: Spacer().frame(width: 0))
+       }
+       .padding(.vertical, 5)
+       .padding(.leading)
+       .padding(.trailing, 1)
+       .background(Color.white)
+       .frame(height: 60)
+       .cornerRadius(dimension.xlCornerRadius)
+       .overlay(
+           RoundedRectangle(cornerRadius: Dimension.sharedInstance.xlCornerRadius)
+               .stroke(Color.gray, lineWidth: 0.5)
+       )
     }
 }
 
