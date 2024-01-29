@@ -4,31 +4,29 @@
 import PackageDescription
 
 let package = Package(
-    name: "FranprixUIMealzIOS",
+    name: "CoursesUxMiamFramework",
     platforms: [
         .iOS(.v12),
       ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "FranprixUIMealzIOS",
-            targets: ["FranprixUIMealzIOS"]),
+            name: "CoursesUxMiamFramework",
+            targets: ["CoursesUxMiamFramework"]),
     ],
     dependencies: [
 //        .package(url: "https://github.com/miamtech/miam-sdk", branch: "dev/3.12.16"),
-        .package(path: "../MealzUIModuleIOS"),
-        .package(path: "../MealzNavModuleIOS"),
         .package(path: "../miam-sdk"),
+        .package(path: "../MealzUIModuleIOS"),
         ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "FranprixUIMealzIOS",
+            name: "CoursesUxMiamFramework",
             dependencies: [
-                    .product(name: "MealzNavModuleIOS", package: "MealzNavModuleIOS"),
-                    .product(name: "MealzUIModuleIOS", package: "MealzUIModuleIOS"),
                     .product(name: "MiamIOSFramework", package: "miam-sdk"),
+                    .product(name: "MealzUIModuleIOS", package: "MealzUIModuleIOS"),
                   ],
             resources: [.process("Resources")]),
     ]

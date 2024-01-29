@@ -1,0 +1,168 @@
+//
+//  MiamBudgetRecipeCard.swift
+//  MiamIOSFramework
+//
+//  Created by Vincent Kergonna on 26/04/2023.
+//  Copyright © 2023 Miam. All rights reserved.
+//
+
+import SwiftUI
+import miamCore
+import MiamIOSFramework
+
+
+
+@available(iOS 14, *)
+public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
+    public init() {}
+    public func content(params: MealPlannerRecipeCardParameters) -> some View {
+        CoursesURecipeCardCoreFrame(
+            recipe: params.recipe,
+            price: params.recipe.attributes?.price?.price ?? 0.0,
+            centerContent: {
+                DifficultyTimeRecap(
+                    cookingTime: params.recipe.cookingTimeIos,
+                    difficulty: params.recipe.difficulty,
+                    price: params.recipe.attributes?.price?.price ?? 0.0)
+        }, callToAction: {
+            RecipeCardCallToAction(removeTapped: params.onRemoveRecipeFromMealPlanner, replaceTapped: params.onReplaceRecipeFromMealPlanner)
+        })
+    }
+    
+    @available(iOS 14, *)
+    internal struct DifficultyTimeRecap: View {
+        var cookingTime: String
+        var difficulty: Int
+        var price: Double
+        var body: some View {
+            VStack(spacing: Dimension.sharedInstance.mPadding) {
+                HStack() {
+                    CoursesURecipePreparationTime(duration: cookingTime)
+                    Divider()
+                    CoursesURecipeDifficulty(difficulty: difficulty)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                RecapPriceForRecipes(priceAmount:  price.currencyFormatted)
+            }
+        }
+    }
+
+    @available(iOS 14, *)
+    internal struct RecipeCardCallToAction: View {
+        let removeTapped: () -> Void
+        let replaceTapped: () -> Void
+        var body: some View {
+            HStack {
+                Button {
+                    replaceTapped()
+                } label: {
+                    HStack {
+                        Image(packageResource: "ReloadIcon", ofType: "png")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text("Changer")
+                            .foregroundColor(Color.primaryColor)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+                    }
+                }
+                Spacer()
+                Button {
+                    removeTapped()
+                } label: {
+                    Image(packageResource: "TrashIcon", ofType: "png")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+
+}
+
+
+
+@available(iOS 14, *)
+struct CoursesURecipeCardCoreFrame<
+    CenterContent: View,
+    CallToAction: View
+>: View {
+    var recipe: Recipe
+    var price: Double
+    let centerContent: () -> CenterContent
+    let callToAction: () -> CallToAction
+       
+    public init(
+        recipe: Recipe,
+        price: Double,
+        centerContent: @escaping () -> CenterContent,
+        callToAction: @escaping () -> CallToAction)
+    {
+        self.recipe = recipe
+        self.price = price
+        self.centerContent = centerContent
+        self.callToAction = callToAction
+    }
+    let dimension = Dimension.sharedInstance
+    
+    var body: some View {
+        HStack(spacing: 0.0) {
+            ZStack(alignment: .topLeading) {
+                AsyncImage(url: recipe.pictureURL) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .padding(0)
+                        .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .frame(width: 150.0)
+                .clipped()
+//                CoursesULikeButton(recipeId: recipe.id)
+                .padding(dimension.mPadding)
+            }
+            VStack(alignment: .leading, spacing: dimension.mPadding) {
+                HStack {
+                    Text(recipe.title + "\n")
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                }
+                centerContent()
+                Divider()
+                callToAction()
+            }
+            .padding(.horizontal, dimension.mPadding)
+            .padding(.vertical, dimension.mPadding)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: dimension.mealPlannerRecipeCardHeight)
+        .background(Color.white)
+        .cornerRadius(dimension.mCornerRadius)
+    }
+}
+
+@available(iOS 14, *)
+struct CoursesUMealPlannerRecipeCard_Preview: PreviewProvider {
+    static var previews: some View {
+        let recipe = RecipeFakeFactory().create(
+            id: RecipeFakeFactory().FAKE_ID,
+            attributes: RecipeFakeFactory().createAttributes(
+                title: "Parmentier de Poulet",
+                mediaUrl: "https://lh3.googleusercontent.com/tbMNuhJ4KxReIPF_aE0yve0akEHeN6O8hauty_XNUF2agWsmyprACLg0Zw6s8gW-QCS3A0QmplLVqBKiMmGf_Ctw4SdhARvwldZqAtMG"),
+            relationships: nil)
+        ZStack {
+            Color.budgetBackgroundColor
+            CoursesUMealPlannerRecipeCard().content(
+                params: MealPlannerRecipeCardParameters(
+                    recipeCardDimensions: CGSize(),
+                    recipe: recipe,
+                    onShowRecipeDetails: { _ in },
+                    onRemoveRecipeFromMealPlanner: {},
+                    onReplaceRecipeFromMealPlanner: {})
+            )
+            .padding()
+        }
+    }
+}
