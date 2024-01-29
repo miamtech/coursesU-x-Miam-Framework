@@ -1,3 +1,3 @@
-# coursesU-iOS-template
+# FranprixUIMealzIOS
 
 A description of this package.
