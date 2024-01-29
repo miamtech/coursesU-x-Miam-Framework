@@ -15,7 +15,7 @@ public struct CoursesUMealPlannerBasketPreviewSectionProduct: NotInBasketProduct
     public func content(params: NotInBasketProductParameters) -> some View {
         HStack {
             HStack {
-                Text(params.item.name.capitalizingFirstLetter())
+                Text(params.ingredientName.capitalizingFirstLetter())
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
                 Spacer()
                 //                }
