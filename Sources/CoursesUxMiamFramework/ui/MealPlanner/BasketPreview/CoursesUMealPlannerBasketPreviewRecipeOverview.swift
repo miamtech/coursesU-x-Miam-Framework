@@ -1,6 +1,6 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by didi on 6/15/23.
 //
@@ -28,7 +28,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                     }
                 }, callToAction: {
                     BasketPreviewCardCallToAction(onDelete: params.onDeleteRecipe, expand: params.onExpand)
-                })
+                }, showRecipeDetails: params.onShowRecipeDetails)
             .padding(.bottom)
             .onTapGesture {
                 params.onShowRecipeDetails(params.data.recipe.id)
@@ -38,7 +38,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                     .padding(Dimension.sharedInstance.mPadding)
             }
         }
-        }
+    }
     
     @available(iOS 14, *)
     internal struct ArticlesPriceRecapCounter: View {
@@ -55,9 +55,9 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                             .foregroundColor(Color.gray)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                     }
-                        Text(pricePerPerson)
-                            .foregroundColor(Color.gray)
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                    Text(pricePerPerson)
+                        .foregroundColor(Color.gray)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                     HStack(spacing: 1) {
                         RecapPriceForRecipes(
                             leadingText: "",
@@ -81,11 +81,11 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                     }
                     
                 }
-//                Spacer()
+                //                Spacer()
             }
         }
     }
-
+    
     @available(iOS 14, *)
     internal struct BasketPreviewCardCallToAction: View {
         let onDelete: () -> Void
