@@ -26,7 +26,8 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
                     price: params.recipe.attributes?.price?.price ?? 0.0)
         }, callToAction: {
             RecipeCardCallToAction(removeTapped: params.onRemoveRecipeFromMealPlanner, replaceTapped: params.onReplaceRecipeFromMealPlanner)
-        })
+        }, showRecipeDetails: params.onShowRecipeDetails)
+        .frame(height: params.recipeCardDimensions.height)
     }
     
     @available(iOS 14, *)
@@ -91,17 +92,20 @@ struct CoursesURecipeCardCoreFrame<
     var price: Double
     let centerContent: () -> CenterContent
     let callToAction: () -> CallToAction
+    let showRecipeDetails: (String) -> Void
        
     public init(
         recipe: Recipe,
         price: Double,
         centerContent: @escaping () -> CenterContent,
-        callToAction: @escaping () -> CallToAction)
-    {
+        callToAction: @escaping () -> CallToAction,
+        showRecipeDetails: @escaping (String) -> Void
+    ) {
         self.recipe = recipe
         self.price = price
         self.centerContent = centerContent
         self.callToAction = callToAction
+        self.showRecipeDetails = showRecipeDetails
     }
     let dimension = Dimension.sharedInstance
     
@@ -137,9 +141,11 @@ struct CoursesURecipeCardCoreFrame<
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: dimension.mealPlannerRecipeCardHeight)
         .background(Color.white)
         .cornerRadius(dimension.mCornerRadius)
+        .onTapGesture {
+            showRecipeDetails(recipe.id)
+        }
     }
 }
 

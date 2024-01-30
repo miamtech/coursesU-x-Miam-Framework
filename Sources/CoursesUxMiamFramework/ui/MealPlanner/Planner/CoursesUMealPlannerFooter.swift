@@ -32,6 +32,7 @@ public struct CoursesUMealPlannerFooter: MealPlannerResultsFooterProtocol {
         ) {
             params.onValidateTapped()
         }
+        .frame(height: params.heightOfFooter)
     }
 }
 
@@ -166,18 +167,23 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
             VStack {
                 CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
                     mealPlannerCriteria: criteria,
+                    heightOfFooter: 80,
                     budgetSpent: .constant(40),
                     onValidateTapped: {}))
                 CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
                     mealPlannerCriteria: criteria,
+                    heightOfFooter: 80,
                     budgetSpent: .constant(50.0),
                     onValidateTapped: {}))
                 CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
                     mealPlannerCriteria: criteria,
+                    heightOfFooter: 80,
                     budgetSpent: .constant(30.0),
                     onValidateTapped: {}))
                 CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
                     mealPlannerCriteria: criteria,
+                    heightOfFooter: 80,
+                    
                     budgetSpent: .constant(20),
                     onValidateTapped: {}))
             }
@@ -206,6 +212,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                 StickyFooter(safeArea: safeArea) {
                     CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
                         mealPlannerCriteria: criteria,
+                        heightOfFooter: 80,
                         budgetSpent: .constant(20),
                         onValidateTapped: {}))
                 }

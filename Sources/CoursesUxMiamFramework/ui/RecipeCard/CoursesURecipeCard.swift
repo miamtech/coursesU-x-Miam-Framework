@@ -82,6 +82,9 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
         .cornerRadius(12.0)
         
         .overlay(RoundedRectangle(cornerRadius: 12.0).stroke(Color.lightGray, lineWidth: 1.0))
+        .onTapGesture {
+            params.onShowRecipeDetails(params.recipe.id)
+        }
     }
 }
 
