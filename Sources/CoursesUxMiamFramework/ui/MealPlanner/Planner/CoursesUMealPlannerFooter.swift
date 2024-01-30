@@ -16,22 +16,22 @@ public struct CoursesUMealPlannerFooter: MealPlannerResultsFooterProtocol {
 
     public init() {}
     public func content(params: MealPlannerResultsFooterParameters) -> some View {
-        CoursesUBudgetPlannerStickyFooter(
-            budgetSpent: params.budgetSpent.wrappedValue,
-            totalBudgetPermitted: params.mealPlannerCriteria.availableBudget,
-            footerContent:
-                HStack {
-                    Image(packageResource: "ShoppingCartIcon", ofType: "png")
-                        .resizable()
-                        .foregroundColor(Color.white)
-                        .frame(width: 20, height: 20)
-                    Text("Tout ajouter")
-                        .foregroundColor(Color.white)
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                }
-        ) {
-            params.onValidateTapped()
-        }
+            CoursesUBudgetPlannerStickyFooter(
+                budgetSpent: params.budgetSpent.wrappedValue,
+                totalBudgetPermitted: params.mealPlannerCriteria.availableBudget,
+                footerContent:
+                    HStack {
+                        Image(packageResource: "ShoppingCartIcon", ofType: "png")
+                            .resizable()
+                            .foregroundColor(Color.white)
+                            .frame(width: 20, height: 20)
+                        Text("Tout ajouter")
+                            .foregroundColor(Color.white)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                    }
+            ) {
+                params.onValidateTapped()
+            }
         .frame(height: params.heightOfFooter)
     }
 }
@@ -55,8 +55,7 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
             })
             Spacer()
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: 90)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
         .cornerRadius(dimension.lCornerRadius, corners: [.top])
     }
@@ -112,11 +111,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         .padding(5)
                         .background(
-                            //                            RoundedRectangle(cornerRadius: dimension.mCornerRadius)
-                            ChatBubbleShape()
-                            
-                                .fill(Color.overBudgetBackgroundColor)
-                            
+                            ChatBubbleShape().fill(Color.overBudgetBackgroundColor)
                         )
                 }
             }

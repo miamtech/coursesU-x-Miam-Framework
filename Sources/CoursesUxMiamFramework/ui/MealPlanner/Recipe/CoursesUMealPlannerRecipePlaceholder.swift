@@ -34,7 +34,7 @@ public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholder
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: dimension.mealPlannerRecipeCardHeight)
+        .frame(height: params.recipeCardDimensions.height)
         .background(Color.primaryColor)
         .cornerRadius(dimension.mCornerRadius)
         .onTapGesture {
@@ -48,9 +48,8 @@ struct CoursesUMealPlannerRecipePlaceholder_Preview: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.budgetBackgroundColor
-            CoursesUMealPlannerRecipePlaceholder().content(params: MealPlannerRecipePlaceholderParameters() {
+            CoursesUMealPlannerRecipePlaceholder().content(params: MealPlannerRecipePlaceholderParameters(recipeCardDimensions: CGSize(width: 300, height: 150)) {
             })
         }
-        
     }
 }
