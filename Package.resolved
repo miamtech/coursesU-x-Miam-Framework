@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "kmm-miam-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitlab.com/miam/kmm-miam-sdk.git",
+      "state" : {
+        "revision" : "45380e58f9a3df93baec904d2c5f6b60c9ddc255",
+        "version" : "4.0.0-beta1"
+      }
+    },
+    {
+      "identity" : "mealzuimoduleios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/miamtech/MealzUIModuleIOS",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2583cbcc40cf81a6edc9376ec32384b3479aaab3"
+      }
+    }
+  ],
+  "version" : 2
+}
