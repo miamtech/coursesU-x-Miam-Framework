@@ -54,6 +54,9 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
                                     .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
                                 Spacer()
                                 CoursesUCounterView(count: params.quantity, isLoading: params.data.isReloading, isDisable: params.data.isReloading)
+                                    .onChange(of: params.quantity.wrappedValue) { newQty in
+                                        params.onQuantityChanged(newQty)
+                                    }
                                 Spacer()
                                 TrashButton {
                                     params.onDeleteProduct()
