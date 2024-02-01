@@ -23,11 +23,8 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
     public init() {}
     public func content(params: MealPlannerResultsToolbarParameters) -> some View {
         VStack {
-            if !params.activelyEditingTextField {
+            if !params.activelyEditingCriteria {
                 ToolbarPlaceholderButton(params: params)
-                    .onTapGesture { withAnimation {
-                        params.activelyEditingTextField = true
-                    }}
             } else {
                 CoursesUMealPlannerForm(
                     includeTitle: false,
@@ -35,7 +32,7 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
                     includeBackground: false
                 ).content(params: MealPlannerFormViewParameters(
                     mealPlannerCriteria: params.mealPlannerCriteria,
-                    activelyUpdatingTextField: .constant(false),
+                    activelyUpdatingTextField: params.$activelyEditingTextField,
                     isFetchingRecipes: params.isLoadingRecipes,
                     onFormValidated: { criteria in
                         withAnimation {
@@ -44,6 +41,13 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
                         params.onValidateTapped()
                     }))
             }
+            Text(String(format: String.localizedStringWithFormat(
+                Localization.myBudget.mealPlannerMealsFor(
+                    numberOfMeals: Int32(params.numberOfResults)).localised,
+                params.numberOfResults), params.numberOfResults))
+                .foregroundColor(Color.black)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+                .padding(.top, 12)
         }
     }
 }
@@ -55,31 +59,31 @@ internal struct ToolbarPlaceholderButton: View {
     var body: some View {
         HStack {
             CoursesUFormRow(
-               caption: params.mealPlannerCriteria.availableBudget.wrappedValue.currencyFormattedWholeNumber,
-               icon: Image(packageResource: "BudgetIcon", ofType: "png"),
-               content: Spacer().frame(width: 0))
-               .frame(minWidth: 110)
-           Divider()
+                caption: params.mealPlannerCriteria.availableBudget.wrappedValue.currencyFormattedWholeNumber,
+                icon: Image(packageResource: "BudgetIcon", ofType: "png"),
+                content: Spacer().frame(width: 0))
+            .frame(minWidth: 110)
+            Divider()
             CoursesUFormRow(
-               caption: String(params.mealPlannerCriteria.numberOfGuests.wrappedValue),
-               icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
-               content: Spacer().frame(width: 0))
-           Divider()
+                caption: String(params.mealPlannerCriteria.numberOfGuests.wrappedValue),
+                icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
+                content: Spacer().frame(width: 0))
+            Divider()
             CoursesUFormRow(
-               caption: String(params.mealPlannerCriteria.numberOfMeals.wrappedValue),
-               icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
-               content: Spacer().frame(width: 0))
-       }
-       .padding(.vertical, 5)
-       .padding(.leading)
-       .padding(.trailing, 1)
-       .background(Color.white)
-       .frame(height: 60)
-       .cornerRadius(dimension.xlCornerRadius)
-       .overlay(
-           RoundedRectangle(cornerRadius: Dimension.sharedInstance.xlCornerRadius)
-               .stroke(Color.gray, lineWidth: 0.5)
-       )
+                caption: String(params.mealPlannerCriteria.numberOfMeals.wrappedValue),
+                icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
+                content: Spacer().frame(width: 0))
+        }
+        .padding(.vertical, 5)
+        .padding(.leading)
+        .padding(.trailing, 1)
+        .background(Color.white)
+        .frame(height: 60)
+        .cornerRadius(dimension.xlCornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: Dimension.sharedInstance.xlCornerRadius)
+                .stroke(Color.gray, lineWidth: 0.5)
+        )
     }
 }
 
@@ -117,7 +121,7 @@ struct CoursesUMealPlannerToolbar_Previews: PreviewProvider {
     static var previews: some View {
         Preview()
     }
-
+    
     struct Preview: View {
         @SwiftUI.State var loading = false
         @SwiftUI.State var mealPlannerCriteria = MealPlannerCriteria(
@@ -127,11 +131,13 @@ struct CoursesUMealPlannerToolbar_Previews: PreviewProvider {
         var body: some View {
             CoursesUMealPlannerToolbar().content(
                 params: MealPlannerResultsToolbarParameters(
-                mealPlannerCriteria: $mealPlannerCriteria,
-                activelyEditingTextField: .constant(false),
-                isLoadingRecipes: $loading,
-                onValidateTapped: {})
-                )
+                    mealPlannerCriteria: $mealPlannerCriteria,
+                    numberOfResults: 3,
+                    activelyEditingCriteria: .constant(true),
+                    activelyEditingTextField: .constant(false),
+                    isLoadingRecipes: $loading,
+                    onValidateTapped: {})
+            )
         }
     }
 }

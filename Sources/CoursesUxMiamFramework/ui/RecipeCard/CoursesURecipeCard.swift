@@ -18,7 +18,7 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
         var ctaAction: (String) -> Void {
             return params.isCurrentlyInBasket ? params.onShowRecipeDetails : params.onAddToBasket
         }
-        
+        let recipePrice = params.recipePrice * Double(params.numberOfGuests)
         return VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
                 ZStack(alignment: .topTrailing) {
@@ -31,8 +31,8 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     }.frame(height: 150.0)
                         .clipped()
                     
-//                    CoursesULikeButton(recipeId: params.recipe.id)
-//                        .padding(dimensions.mPadding)
+                    CoursesULikeButton(recipeId: params.recipe.id)
+                        .padding(dimensions.mPadding)
                 }
                 VStack(spacing: dimensions.mPadding) {
                     Text(params.recipe.title + "\n")
@@ -47,7 +47,7 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     }
                     ZStack {
                         if params.recipePrice > 0 {
-                            RecapPriceForRecipes(priceAmount: params.recipePrice.currencyFormatted)
+                            RecapPriceForRecipes(priceAmount: recipePrice.currencyFormatted)
                         } else {
                             ProgressLoader(color: .primaryColor)
                                 .scaleEffect(0.3)
@@ -60,7 +60,7 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                 .resizable()
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(Color.white)
-                            Text("Ajouter")
+                            Text(Localization.recipe.add.localised)
                                 .foregroundColor(Color.white)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }
@@ -70,6 +70,7 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                         ctaAction(params.recipe.id)
                     })
                     .padding(.bottom, dimensions.sPadding)
+                    .frame(maxHeight: 50)
                 }
                 .padding(.horizontal, dimensions.mPadding)
                 .frame(maxHeight: .infinity)
@@ -77,14 +78,13 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
         }
         .padding(0)
         .frame(maxWidth: .infinity)
-        .frame(height: params.recipeCardDimensions.height)
         .background(Color.white)
         .cornerRadius(12.0)
-        
         .overlay(RoundedRectangle(cornerRadius: 12.0).stroke(Color.lightGray, lineWidth: 1.0))
         .onTapGesture {
             params.onShowRecipeDetails(params.recipe.id)
         }
+        .frame(height: params.recipeCardDimensions.height)
     }
 }
 

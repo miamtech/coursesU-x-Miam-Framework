@@ -22,8 +22,10 @@ public struct CoursesUMealPlannerSearch: SearchProtocol {
                         .resizable()
                         .foregroundColor(Color.gray)
                         .frame(width: 20, height: 20)
-                    TextField("Que recherchez-vous?", text: params.searchText, onCommit: {
-                    })
+                    TextField(
+                        Localization.myBudget.searchForRecipe.localised,
+                        text: params.searchText,
+                        onCommit: {})
                     .foregroundColor(Color.gray)
                     .frame(maxWidth: .infinity)
                     .autocorrectionDisabled(true)

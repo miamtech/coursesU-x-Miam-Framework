@@ -23,11 +23,14 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
                 Image(packageResource: "GreenCheckmarkIcon", ofType: "png")
                     .resizable()
                     .frame(width: 30, height: 30)
-                Text("Tous les ingrédients ont bien été ajoutés au panier.")
+                Text(Localization.myBudget.mealPlannerFinalize.localised)
                     .multilineTextAlignment(.center)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                 RecapPriceForRecipes(
-                    leadingText: "\(String(params.numberOfMeals)) repas pour",
+                    leadingText: String(format: String.localizedStringWithFormat(
+                        Localization.myBudget.mealPlannerMealsFor(
+                            numberOfMeals: Int32(params.numberOfMeals)).localised,
+                        params.numberOfMeals), params.numberOfMeals),
                     priceAmount:  params.totalPrice.currencyFormatted,
                     trailingText: "",
                     textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
@@ -36,7 +39,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
                 
                 
                 Divider()
-                Text("Découvrez aussi :")
+                Text(Localization.myBudget.mealPlannerDiscover.localised)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                 Button(action: {
                     params.onTapGesture()

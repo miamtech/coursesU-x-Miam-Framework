@@ -40,7 +40,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
                                 Button {
                                     params.onChangeProduct()
                                 } label: {
-                                    Text("Changer d'article")
+                                    Text(Localization.basket.swapProduct.localised)
                                         .underline()
                                         .foregroundColor(Color.primaryColor)
                                         .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)

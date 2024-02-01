@@ -66,7 +66,7 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                 VStack(spacing: 20) {
                     if includeTitle {
                         VStack {
-                            Text("Choisissez vos repas de la semaine ou du mois selon votre budget :")
+                            Text(Localization.myBudget.recipeCollectionTitle.localised)
                                 .multilineTextAlignment(.center)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                                 .padding(.bottom, dimension.mPadding)
@@ -76,7 +76,7 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                     }
                     // TODO: localize
                     CoursesUFormRow(
-                        caption: "Mon budget max",
+                        caption: Localization.myBudget.totalBudgetTitle.localised,
                         icon: Image(packageResource: "BudgetIcon", ofType: "png"),
                         content:
                             HStack {
@@ -90,7 +90,7 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                     Divider()
                     // TODO: localize
                     CoursesUFormRow(
-                        caption: "Nombre de personnes",
+                        caption: Localization.myBudget.numberOfGuestsTitle.localised,
                         icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
                             CoursesUStepperBinding(value: params.mealPlannerCriteria.numberOfGuests, maxValue: 9)
@@ -98,7 +98,7 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                     Divider()
                     // TODO: localize
                     CoursesUFormRow(
-                        caption: "Nombre de repas",
+                        caption: Localization.myBudget.numberOfMealsTitle.localised,
                         icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                         content:
                             CoursesUStepperBinding(
@@ -113,14 +113,13 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                         backgroundColor: colorOfSubmit,
                         content: {
                             Button {
-                                print("Form pressed")
                                 params.onFormValidated(params.mealPlannerCriteria.wrappedValue)
                             } label: {
                                 HStack {
                                     Image(packageResource: "searchIcon", ofType: "png")
                                         .resizable()
                                         .frame(width: 20, height: 20)
-                                    Text("C'est parti !")
+                                    Text(Localization.myBudget.planMealsTitle.localised)
                                         .foregroundColor(Color.white)
                                         .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                                 }
