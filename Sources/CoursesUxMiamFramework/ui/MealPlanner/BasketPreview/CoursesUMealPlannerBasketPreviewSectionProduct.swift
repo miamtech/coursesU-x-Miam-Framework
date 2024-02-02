@@ -28,7 +28,7 @@ public struct CoursesUMealPlannerBasketPreviewSectionProduct: NotInBasketProduct
                                 .resizable()
                                 .foregroundColor(Color.black)
                                 .frame(width: 15, height: 15)
-                            Text("Ajouter")
+                            Text(Localization.recipe.add.localised)
                                 .foregroundColor(Color.black)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }

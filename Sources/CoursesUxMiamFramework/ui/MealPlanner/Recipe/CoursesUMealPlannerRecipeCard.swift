@@ -61,7 +61,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
                         Image(packageResource: "ReloadIcon", ofType: "png")
                             .resizable()
                             .frame(width: 20, height: 20)
-                        Text("Changer")
+                        Text(Localization.myBudget.replaceItem.localised)
                             .foregroundColor(Color.primaryColor)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                     }
@@ -121,7 +121,7 @@ struct CoursesURecipeCardCoreFrame<
                 }
                 .frame(width: 150.0)
                 .clipped()
-//                CoursesULikeButton(recipeId: recipe.id)
+                CoursesULikeButton(recipeId: recipe.id)
                 .padding(dimension.mPadding)
             }
             VStack(alignment: .leading, spacing: dimension.mPadding) {

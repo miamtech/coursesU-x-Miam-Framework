@@ -73,7 +73,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                             count: guests,
                             buttonSize: Dimension.sharedInstance.mlButtonHeight,
                             textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyle,
-                            textToDisplay: "pers.",
+                            textToDisplay: Localization.myMeals.perPerson.localised,
                             subtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
                             onValueChanged: { guestNumber in
                                 updateGuests(guestNumber)
@@ -101,7 +101,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                     }
                 } label: {
                     HStack {
-                        Text("Voir le détail")
+                        Text(Localization.recipe.showDetails.localised)
                             .foregroundColor(Color.primaryColor)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                         if showContents {

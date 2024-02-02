@@ -29,7 +29,7 @@ public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholder
                         .foregroundColor(Color.white)
                         .frame(width: dimension.mButtonHeight, height: dimension.mButtonHeight)
                 )
-            Text("Ajouter une idée repas")
+            Text(Localization.myBudget.addMealIdea.localised)
                 .foregroundColor(Color.white)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.subtitleStyle)
         }
