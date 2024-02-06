@@ -111,7 +111,10 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
                                     .foregroundColor(.black)
                     .frame(width: dimension.mButtonHeight, height: dimension.mButtonHeight)
                     .padding(dimension.sPadding)
-                Text("Utilisé dans \(recipesUsedIn) repas")
+                Text(String(format: String.localizedStringWithFormat(
+                    Localization.basket.forRecipe(
+                        numberOfRecipe: Int32(recipesUsedIn)).localised,
+                    recipesUsedIn), recipesUsedIn))
                     .foregroundColor(Color.gray)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider().bodySmallStyle)
             }

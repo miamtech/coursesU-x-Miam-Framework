@@ -46,7 +46,7 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
                     numberOfMeals: Int32(params.numberOfResults)).localised,
                 params.numberOfResults), params.numberOfResults))
                 .foregroundColor(Color.black)
-                .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
                 .padding(.top, 12)
         }
     }
