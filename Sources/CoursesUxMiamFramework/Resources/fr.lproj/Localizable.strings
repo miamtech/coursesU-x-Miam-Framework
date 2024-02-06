@@ -6,10 +6,12 @@ Created by miam x didi on 27/10/2023.
 
 */
 
+// MAKE SURE YOU ADD AN ";" TO THE END OF EACH LINE
+
 //-------------------------------- Meal Planner -----------------------------------
 "com_miam_budget_headline_button" = "Mon budget, mes repas " ;
 "com_miam_budget_subtext_button" = "Je planifie ... " ;
-"com_miam_budget_replace_item" = "Remplacer " ;
+"com_miam_budget_replace_item" = "Changer " ;
 "com_miam_budget_add_a_meal" = "Ajouter une idée repas " ;
 "com_miam_budget_plan_meals_title" = "C'est parti !" ;
 "com_miam_budget_our_collection_title" = "Choisissez vos repas de la semaine ou du mois selon votre budget :" ;
@@ -21,3 +23,9 @@ Created by miam x didi on 27/10/2023.
 "com_miam_meal_planner_discover" = "Découvrez aussi :";
 "com_miam_budget_search_for_recipe" = "Que recherchez-vous?";
 "com_miam_recipe_add" = "Ajouter";
+"com_miam_meal_planner_meals_for" = "%d idées repas pour votre budget :";
+"com_miam_basket_swap_product" = "Changer d'article";
+"com_miam_basket_continue_shopping" = "Finaliser";
+"com_miam_meal_planner_finalize" = "Tous les ingrédients ont bien été ajoutés au panier.";
+"com_miam_recipe_difficulty_medium" = "Avancé";
+"com_miam_catalog_no_recipe_found" = "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.";
