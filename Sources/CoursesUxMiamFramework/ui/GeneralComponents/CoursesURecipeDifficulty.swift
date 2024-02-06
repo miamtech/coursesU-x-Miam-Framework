@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import miamCore
+import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesURecipeDifficulty: View {
@@ -35,9 +36,9 @@ public struct CoursesURecipeDifficulty: View {
     var difficultyDescription: String {
 
         switch difficulty {
-        case 1: return "Débutant"
-        case 2: return "Avancé"
-        default: return "Confirmé"
+        case 1: return Localization.recipe.lowDifficulty.localised
+        case 2: return Localization.recipe.mediumDifficulty.localised
+        default: return Localization.recipe.highDifficulty.localised
         }
     }
 }
