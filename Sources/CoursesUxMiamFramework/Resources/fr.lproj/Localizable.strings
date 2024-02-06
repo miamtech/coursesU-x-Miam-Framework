@@ -6,7 +6,7 @@ Created by miam x didi on 27/10/2023.
 
 */
 
-//-------------------------------- Override Miam -----------------------------------
+//-------------------------------- Meal Planner -----------------------------------
 "com_miam_budget_headline_button" = "Mon budget, mes repas " ;
 "com_miam_budget_subtext_button" = "Je planifie ... " ;
 "com_miam_budget_replace_item" = "Remplacer " ;
@@ -20,4 +20,4 @@ Created by miam x didi on 27/10/2023.
 "com_miam_meal_planner_products_added_to_basket" = "Tous les ingrédients ont bien été ajoutés au panier.";
 "com_miam_meal_planner_discover" = "Découvrez aussi :";
 "com_miam_budget_search_for_recipe" = "Que recherchez-vous?";
-"com_miam_recipe_add" = "Ajouter"
+"com_miam_recipe_add" = "Ajouter";
