@@ -8,16 +8,6 @@
 
 import Foundation
 import SwiftUI
-//
-//  CoursesUFontStyle.swift
-//  CoursesUIOSFramework
-//
-//  Created by Vincent Kergonna on 25/11/2022.
-//  Copyright © 2022 CoursesU. All rights reserved.
-//
-
-import Foundation
-import SwiftUI
 
 @available(iOS 14, *)
 

@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-@available (iOS 14, *)
+import MiamIOSFramework
 
+@available (iOS 14, *)
 struct CoursesUButtonStyle<Content: View>: View {
     let backgroundColor: Color
     let buttonStrokeColor: Color

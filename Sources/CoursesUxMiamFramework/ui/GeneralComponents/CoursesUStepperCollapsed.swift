@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import MiamIOSFramework
 
 @available(iOS 14, *)
 internal struct CoursesUStepperCollapsed: View {
