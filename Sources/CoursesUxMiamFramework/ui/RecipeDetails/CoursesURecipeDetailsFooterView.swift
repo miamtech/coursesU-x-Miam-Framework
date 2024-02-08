@@ -96,7 +96,7 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
             })
             .padding(Dimension.sharedInstance.mlPadding)
             .background(Color.mealzColor(.primary))
-            .cornerRadius(Dimension.sharedInstance.mPadding)
+            .cornerRadius(Dimension.sharedInstance.buttonCornerRadius)
         }
     }
     
@@ -113,7 +113,7 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
             })
             .padding(Dimension.sharedInstance.mlPadding)
             .overlay( /// apply a rounded border
-                RoundedRectangle(cornerRadius: Dimension.sharedInstance.mCornerRadius)
+                RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
                     .stroke(Color.mealzColor(.primary), lineWidth: 1)
             )
             .disabled(disableButton)

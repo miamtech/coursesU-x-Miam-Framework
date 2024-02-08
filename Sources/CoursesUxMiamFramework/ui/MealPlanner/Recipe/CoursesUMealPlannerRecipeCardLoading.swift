@@ -19,7 +19,7 @@ public struct CoursesUMealPlannerRecipeCardLoading: RecipeCardLoadingProtocol {
     public func content(params: RecipeCardLoadingParameters) -> some View {
         ProgressLoader(color: Color.primaryColor)
             .frame(maxWidth: .infinity)
-            .frame(height: dimensions.mealPlannerRecipeCardHeight)
+            .frame(height: params.recipeCardDimensions.height)
             .redacted(reason: .placeholder)
             .background(Color.white)
             .opacity(opacity)
