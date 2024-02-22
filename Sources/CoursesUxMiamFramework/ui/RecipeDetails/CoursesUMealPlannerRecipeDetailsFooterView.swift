@@ -14,23 +14,33 @@ import MiamIOSFramework
 public struct CoursesUMealPlannerRecipeDetailsFooterView: RecipeDetailsFooterProtocol {
     public init() {}
     public func content(params: RecipeDetailsFooterParameters) -> some View {
+        let recipeStickerPriceByGuest = params.recipeStickerPrice / Double(params.numberOfGuests)
         CoursesURecipeDetailsFooterCore(
             params: params,
             cookOnlyContent:
-                CookOnlyModeFooter(pricePerGuest: params.totalPriceOfProductsAddedPerGuest)
+                CookOnlyModeFooter(
+                    recipeStickerPrice: params.recipeStickerPrice,
+                    numberOfGuests: params.numberOfGuests)
         )
     }
     
     internal struct CookOnlyModeFooter: View {
-        private let pricePerGuest: Double
-        init(pricePerGuest: Double) {
-            self.pricePerGuest = pricePerGuest
+        private let recipeStickerPrice: Double
+        private let numberOfGuests: Int
+        init(recipeStickerPrice: Double, numberOfGuests: Int) {
+            self.recipeStickerPrice = recipeStickerPrice
+            self.numberOfGuests = numberOfGuests
         }
         var body: some View {
             HStack {
+                Text((recipeStickerPrice / Double(numberOfGuests)).currencyFormatted)
+                    .foregroundColor(Color.black)
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyle)
+                Text(Localization.myMeals.perPerson.localised)
+                    .foregroundColor(Color.gray)
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle)
                 Spacer()
-                CoursesUPricePerPerson(pricePerGuest: pricePerGuest)
-                Spacer()
+                RecapPriceForRecipes(priceAmount:  recipeStickerPrice.currencyFormatted)
             }
         }
     }

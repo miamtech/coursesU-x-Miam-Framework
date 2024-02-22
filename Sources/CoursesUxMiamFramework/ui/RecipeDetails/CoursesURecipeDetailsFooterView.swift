@@ -14,10 +14,15 @@ import MiamIOSFramework
 public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
     public init() {}
     public func content(params: RecipeDetailsFooterParameters) -> some View {
-        CoursesURecipeDetailsFooterCore(
+        let recipeStickerPriceByGuest = params.recipeStickerPrice / Double(params.numberOfGuests)
+        var pricePerGuest: Double { // show full price unless items are in the basket
+            if params.totalPriceOfProductsAddedPerGuest > 0 { return params.totalPriceOfProductsAddedPerGuest }
+            else { return recipeStickerPriceByGuest }
+        }
+        return CoursesURecipeDetailsFooterCore(
             params: params,
             cookOnlyContent:
-                CookOnlyModeFooter(pricePerGuest: params.totalPriceOfProductsAddedPerGuest)
+                CookOnlyModeFooter(pricePerGuest: pricePerGuest)
         )
     }
     
