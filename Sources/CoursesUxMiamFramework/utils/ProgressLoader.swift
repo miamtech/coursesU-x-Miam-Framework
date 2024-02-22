@@ -13,14 +13,16 @@ public struct ProgressLoader: View {
     @State private var isAnimating = false
     @State private var showProgress = false
     private var color: Color
+    private let size: CGFloat
 
     var foreverAnimation: Animation {
         Animation.linear(duration: 0.5)
             .repeatForever(autoreverses: false)
     }
 
-    public init(color: Color) {
+    public init(color: Color, size: CGFloat = 60) {
         self.color = color
+        self.size = size
     }
 
     public var body: some View {
@@ -42,6 +44,6 @@ public struct ProgressLoader: View {
                         }
                     }
                 }
-        }.frame(width: 60, height: 60)
+        }.frame(width: size, height: size)
     }
 }
