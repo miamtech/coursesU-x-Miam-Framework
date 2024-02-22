@@ -20,7 +20,7 @@ public struct CoursesUPricePerPerson: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 1) {
             Text(pricePerGuest.currencyFormatted)
-                .foregroundColor(Color.mealzColor(.standardDarkText))
+                .foregroundColor(Color.mealzColor(.primaryText))
                 .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
             Text(Localization.myMeals.perPerson.localised)
                 .foregroundColor(Color.mealzColor(.grayText))

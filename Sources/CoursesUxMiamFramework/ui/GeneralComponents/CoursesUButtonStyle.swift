@@ -17,7 +17,7 @@ struct CoursesUButtonStyle<Content: View>: View {
     let buttonAction: () -> Void
     init(backgroundColor: Color,
          buttonStrokeColor: Color = Color.clear,
-         cornerRadius: CGFloat = Dimension.sharedInstance.xlCornerRadius,
+         cornerRadius: CGFloat = Dimension.sharedInstance.buttonCornerRadius,
          content: @escaping () -> Content,
          buttonAction: @escaping () -> Void
     ) {

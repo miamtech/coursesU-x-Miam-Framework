@@ -59,8 +59,8 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                                 Image.mealzIcon(icon: .trash)
                                     .renderingMode(.template)
                                     .resizable()
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color.mealzColor(.grayText))
+                                    .frame(width: 20, height: 25)
+                                    .foregroundColor(Color.mealzColor(.primaryText))
                             }
                         }
                     }

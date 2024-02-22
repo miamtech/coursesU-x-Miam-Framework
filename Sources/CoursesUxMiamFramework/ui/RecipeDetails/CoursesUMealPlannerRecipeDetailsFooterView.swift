@@ -41,6 +41,7 @@ public struct CoursesUMealPlannerRecipeDetailsFooterView: RecipeDetailsFooterPro
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle)
                 Spacer()
                 RecapPriceForRecipes(priceAmount:  recipeStickerPrice.currencyFormatted)
+                    .frame(width: 180)
             }
         }
     }

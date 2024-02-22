@@ -13,7 +13,15 @@ import MealzUIModuleIOS
 
 @available(iOS 14, *)
 public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
-    public init() {}
+    let showYellowBanner: Bool
+    let showingOnCatalogResults: Bool
+    public init(
+        showYellowBanner: Bool = false,
+        showingOnCatalogResults: Bool = false
+    ) {
+        self.showYellowBanner = showYellowBanner
+        self.showingOnCatalogResults = showingOnCatalogResults
+    }
     public func content(params: CatalogRecipeCardParameters) -> some View {
         let dimensions = Dimension.sharedInstance
         let callToActionHeight: CGFloat = 70
@@ -43,11 +51,20 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                         endPoint: .bottom
                     )
                     VStack(alignment: .trailing, spacing: 0) {
-                        LikeButton(
-                            likeButtonInfo: LikeButtonInfo(
-                                recipeId: params.recipe.id
-                            ))
-                        .padding(dimensions.mPadding)
+                            HStack {
+                                if showYellowBanner {
+                                    Image(packageResource: "MealIdeas", ofType: "png")
+                                        .resizable()
+                                        .frame(width: 119, height: 40)
+                                    Spacer()
+                                }
+                                if showingOnCatalogResults {
+                                    LikeButton(
+                                        likeButtonInfo: LikeButtonInfo(
+                                            recipeId: params.recipe.id
+                                        ))
+                                }
+                            }.padding(dimensions.mPadding)
                         Spacer()
                         HStack {
                             Text(params.recipe.title)
@@ -67,6 +84,13 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                 HStack {
                     CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                     Spacer()
+                    if !showingOnCatalogResults {
+                        LikeButton(
+                            likeButtonInfo: LikeButtonInfo(
+                                recipeId: params.recipe.id,
+                                backgroundColor: Color.clear
+                            ))
+                    }
                     CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                         params.onAddToBasket(params.recipe.id)
                     }
@@ -93,32 +117,28 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
         let callToAction: () -> Void
         var body: some View {
             VStack {
-                if cardWidth >= 225 {
-                    MealzAddAllToBasketCTA(callToAction: callToAction, isCurrentlyInBasket: isCurrentlyInBasket)
-                } else {
-                    Button(action: callToAction, label: {
-                        if isCurrentlyInBasket {
-                            Image.mealzIcon(icon: .basketCheck)
-//                                .renderingMode(.template)
-                                .resizable()
-//                                .foregroundColor(Color.mealzColor(.primary))
-                                .frame(width: 24, height: 24)
-                        } else {
-                            Image.mealzIcon(icon: .basket)
-                                .renderingMode(.template)
-                                .resizable()
-                                .foregroundColor(Color.mealzColor(.white))
-                                .frame(width: 24, height: 24)
-                        }
-                    })
-                    .padding(Dimension.sharedInstance.mlPadding)
-                    .background(Color.mealzColor(isCurrentlyInBasket ? .white : .primary))
-                    .cornerRadius(Dimension.sharedInstance.buttonCornerRadius)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
-                            .stroke(isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear, lineWidth: 1)
-                    )
-                }
+                Button(action: callToAction, label: {
+                    if isCurrentlyInBasket {
+                        Image.mealzIcon(icon: .basketCheck)
+                            .renderingMode(.template)
+                            .resizable()
+                            .foregroundColor(Color.mealzColor(.primary))
+                            .frame(width: 24, height: 24)
+                    } else {
+                        Image.mealzIcon(icon: .basket)
+                            .renderingMode(.template)
+                            .resizable()
+                            .foregroundColor(Color.mealzColor(.white))
+                            .frame(width: 24, height: 24)
+                    }
+                })
+                .padding(Dimension.sharedInstance.mlPadding)
+                .background(Color.mealzColor(isCurrentlyInBasket ? .white : .primary))
+                .cornerRadius(Dimension.sharedInstance.buttonCornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
+                        .stroke(isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear, lineWidth: 1)
+                )
             }
         }
     }

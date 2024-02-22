@@ -21,6 +21,7 @@ public struct CoursesUCatalogPackageCTA: CatalogPackageCTAProtocol {
                     Text(subtitle)
                         .foregroundColor(Color.mealzColor(.grayText))
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
+                        .lineLimit(1)
                 }
                 Spacer()
                 Button( action: {
@@ -30,7 +31,7 @@ public struct CoursesUCatalogPackageCTA: CatalogPackageCTAProtocol {
                         Text(Localization.catalog.showAll.localised)
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                             .foregroundColor(Color.mealzColor(.primary))
-                        Image.mealzIcon(icon: .arrow)
+                        Image.mealzIcon(icon: .caret)
                             .renderingMode(.template)
                             .foregroundColor(Color.mealzColor(.primary))
                     }
