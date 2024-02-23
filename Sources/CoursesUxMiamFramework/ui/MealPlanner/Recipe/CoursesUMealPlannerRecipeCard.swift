@@ -61,7 +61,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
                         Image(packageResource: "ReloadIcon", ofType: "png")
                             .resizable()
                             .frame(width: 20, height: 20)
-                        Text(Localization.myBudget.replaceItem.localised)
+                        Text(Localization.myBudget.myBudgetChangeRecipe.localised)
                             .foregroundColor(Color.primaryColor)
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                     }
