@@ -13,9 +13,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%d repas ajouté</string>
+			<string>Vous avez %d repas dans votre panier</string>
 			<key>other</key>
-			<string>%d repas ajoutés</string>
+			<string>Vous avez %d repas dans votre panier</string>
 		</dict>
 	</dict>
 	<key>com_miam_basket_product</key>
