@@ -42,13 +42,13 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                 .clipped()
                 Spacer()
                     .frame(width: Dimension.sharedInstance.mPadding)
-                VStack(alignment: .leading, spacing: Dimension.sharedInstance.mPadding) {
+                VStack(alignment: .leading,spacing: 0/*, spacing: Dimension.sharedInstance.mPadding*/) {
                     HStack(alignment: .top) {
                         Text(params.recipe.title)
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
                             .lineLimit(2)
                             .minimumScaleFactor(0.8)
-                            .frame(height: 40)
+                            
                         Spacer()
                         Button {
                             params.onDeleteRecipe()
@@ -63,7 +63,8 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                                     .foregroundColor(Color.mealzColor(.primaryText))
                             }
                         }
-                    }
+                    }.frame(minHeight:20, maxHeight: 40, alignment: .top)
+                        .fixedSize(horizontal: false, vertical: true)
                     Text(String(format: String.localizedStringWithFormat(
                         Localization.myMeals.products(
                             numberOfProducts: Int32(params.numberOfProductsInRecipe)).localised,
@@ -72,6 +73,7 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
                     .foregroundColor(Color.mealzColor(.grayText))
                     PricePerPersonView(price: params.recipePrice, numberOfGuests: params.numberOfGuests)
+                    Spacer()
                     Button(action: {
                         params.onShowRecipeDetails(params.recipe.id)
                     }, label: {

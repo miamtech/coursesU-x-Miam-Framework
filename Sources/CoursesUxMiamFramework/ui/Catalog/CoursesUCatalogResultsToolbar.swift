@@ -14,7 +14,9 @@ public struct CoursesUCatalogResultsToolbar: CatalogToolbarProtocol {
     public func content(params: CatalogToolbarParameters) -> some View {
         VStack(alignment: .leading, spacing: Dimension.sharedInstance.lPadding) {
             HStack {
-                Text(Localization.catalog.resultsTitle.localised)
+                Text(
+                    params.isFavorite ? Localization.favorites.title.localised :
+                    Localization.catalog.resultsTitle.localised)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
                     .foregroundColor(Color.mealzColor(.white))
                 Spacer()
