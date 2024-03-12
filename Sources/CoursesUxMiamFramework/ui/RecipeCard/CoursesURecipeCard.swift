@@ -133,11 +133,11 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     }
                 })
                 .padding(Dimension.sharedInstance.mlPadding)
-                .background(Color.mealzColor(isCurrentlyInBasket ? .white : .primary))
-                .cornerRadius(Dimension.sharedInstance.buttonCornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
+                 .background(
+                    Circle()
                         .stroke(isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear, lineWidth: 1)
+                        .background(Circle().fill(!isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear))
+                        
                 )
             }
         }

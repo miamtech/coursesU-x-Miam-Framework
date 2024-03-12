@@ -17,7 +17,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
     public init() {}
     let dim = Dimension.sharedInstance
     public func content(params: RecipeDetailsAddedProductParameters) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 Text(params.data.ingredientName.capitalizingFirstLetter())
                     .padding(dim.mPadding)
@@ -87,14 +87,16 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                                params.data.numberOfOtherRecipesSharingThisIngredient)
                     )
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
+                    .padding(.vertical, Dimension.sharedInstance.mPadding)
                     .foregroundColor(Color.mealzColor(.grayText))
+                   
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, Dimension.sharedInstance.mPadding)
                 .background(Color.mealzColor(.lightBackground))
             }
         }
         .frame(height: mealzProductHeight)
+        .clipped()
         .overlay( /// apply a rounded border
             RoundedRectangle(cornerRadius: dim.mCornerRadius)
                 .stroke(Color.mealzColor(.primary), lineWidth: 1)

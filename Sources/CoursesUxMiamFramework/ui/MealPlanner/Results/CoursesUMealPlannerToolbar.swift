@@ -23,6 +23,10 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
     public init() {}
     public func content(params: MealPlannerResultsToolbarParameters) -> some View {
         VStack {
+            Image(packageResource: "BudgetRepasLogo", ofType: "png")
+                .resizable()
+                .frame(width: 290, height: 83)
+                .padding(.top)
             if !params.activelyEditingCriteria {
                 ToolbarPlaceholderButton(params: params)
             } else {
@@ -41,13 +45,12 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
                         params.onValidateTapped()
                     }))
             }
-            Text(String(format: String.localizedStringWithFormat(
-                Localization.myBudget.mealPlannerMealsFor(
-                    numberOfMeals: Int32(params.numberOfResults)).localised,
-                params.numberOfResults), params.numberOfResults))
+            Text(String(format:Localization.myBudget.mealPlannerMealsFor(numberOfMeals: Int32(1)).localised, 1))
+            
                 .foregroundColor(Color.black)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
                 .padding(.top, 12)
+            
         }
     }
 }
