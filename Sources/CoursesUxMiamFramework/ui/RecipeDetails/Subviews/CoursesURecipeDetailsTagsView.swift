@@ -38,7 +38,7 @@ public struct CoursesURecipeDetailsTagsView: View {
                 }
             }
             .frame(maxWidth: .infinity)
+            .padding(Dimension.sharedInstance.lPadding)
         }
-        .padding(Dimension.sharedInstance.sPadding)
     }
 }
