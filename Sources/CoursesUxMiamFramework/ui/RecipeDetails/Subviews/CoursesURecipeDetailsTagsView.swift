@@ -17,26 +17,28 @@ public struct CoursesURecipeDetailsTagsView: View {
         self.tags = tags
     }
     public var body: some View {
-        HStack {
-            ForEach(tags, id: \.id) { tag in
-                HStack {
-                    Image.mealzIcon(icon: tag.picto)
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(Color.mealzColor(.standardDarkText))
-                    Text(tag.text)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
-                        .foregroundColor(Color.mealzColor(.standardDarkText))
-                        .lineLimit(1)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(tags, id: \.id) { tag in
+                    HStack {
+                        Image.mealzIcon(icon: tag.picto)
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(Color.mealzColor(.standardDarkText))
+                        Text(tag.text)
+                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                            .foregroundColor(Color.mealzColor(.standardDarkText))
+                            .lineLimit(1)
+                    }
+                    .padding(Dimension.sharedInstance.mPadding)
+                    .overlay(RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
+                        .stroke(Color.mealzColor(.lightGray), lineWidth: 1.0)
+                    )
                 }
-                .padding(Dimension.sharedInstance.mPadding)
-                .overlay(RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
-                    .stroke(Color.mealzColor(.lightGray), lineWidth: 1.0)
-                )
             }
+            .frame(maxWidth: .infinity)
         }
-        .frame(maxWidth: .infinity)
         .padding(Dimension.sharedInstance.sPadding)
     }
 }
