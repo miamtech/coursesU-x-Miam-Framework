@@ -29,7 +29,7 @@ public struct CoursesUCatalogToolbar: CatalogToolbarProtocol {
                 if params.usesPreferences {
                     CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .chefHat), action: params.onPreferencesTapped)
                 }
-                CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .heart), action: params.onFavoritesTapped)
+                CatalogToolbarButtonFormat(icon:Image(packageResource: "heart-toolbar", ofType: "png"), action: params.onFavoritesTapped)
             }
             .padding([.horizontal, .bottom], Dimension.sharedInstance.lPadding)
         }

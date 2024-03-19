@@ -45,8 +45,7 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
                         params.onValidateTapped()
                     }))
             }
-            Text(String(format:Localization.myBudget.mealPlannerMealsFor(numberOfMeals: Int32(1)).localised, 1))
-            
+            Text(String(format:Localization.myBudget.mealPlannerMealsFor(numberOfMeals: Int32(Int32(params.numberOfResults))).localised, Int32(params.numberOfResults)))
                 .foregroundColor(Color.black)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
                 .padding(.top, 12)
