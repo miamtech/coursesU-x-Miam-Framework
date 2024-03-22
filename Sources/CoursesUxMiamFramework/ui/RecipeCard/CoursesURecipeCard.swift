@@ -122,7 +122,7 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                         Image.mealzIcon(icon: .basketCheck)
                             .renderingMode(.template)
                             .resizable()
-                            .foregroundColor(Color.mealzColor(.primary))
+                            .foregroundColor(Color.primaryColor)
                             .frame(width: 24, height: 24)
                     } else {
                         Image.mealzIcon(icon: .basket)
@@ -133,12 +133,13 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     }
                 })
                 .padding(Dimension.sharedInstance.mlPadding)
-                 .background(
+                .background(
                     Circle()
-                        .stroke(isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear, lineWidth: 1)
-                        .background(Circle().fill(!isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear))
-                        
+                        .stroke(Color.primaryColor, lineWidth: 1)
+                        .background(Circle().fill(!isCurrentlyInBasket ? Color.primaryColor : Color.clear))
                 )
+                .frame(width: 34, height: 34)
+                
             }
         }
     }

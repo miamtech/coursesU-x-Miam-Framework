@@ -54,7 +54,7 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                             params.onDeleteRecipe()
                         } label: {
                             if params.isDeleting {
-                                ProgressLoader(color: Color.mealzColor(.primary), size: 20)
+                                ProgressLoader(color: Color.primaryColor, size: 20)
                             } else {
                                 Image.mealzIcon(icon: .trash)
                                     .renderingMode(.template)
@@ -79,7 +79,7 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                     }, label: {
                         HStack {
                             Text(Localization.myMeals.seeProducts.localised)
-                                .foregroundColor(Color.mealzColor(.primary))
+                                .foregroundColor(Color.primaryColor)
                                 .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
                             Spacer()
                             Image.mealzIcon(icon: .arrow)
@@ -92,7 +92,7 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                     .padding(Dimension.sharedInstance.mPadding)
                     .overlay( /// apply a rounded border
                         RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
-                            .stroke(Color.mealzColor(.primary), lineWidth: 1)
+                            .stroke(Color.primaryColor, lineWidth: 1)
                     )
                     .frame(maxHeight: 40)
                 }
