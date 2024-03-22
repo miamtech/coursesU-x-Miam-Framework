@@ -57,7 +57,7 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
-        .cornerRadius(dimension.lCornerRadius, corners: [.top])
+        .cornerRadius(dimension.lCornerRadius, corners: [.top]).edgesIgnoringSafeArea(.bottom)
     }
 }
 

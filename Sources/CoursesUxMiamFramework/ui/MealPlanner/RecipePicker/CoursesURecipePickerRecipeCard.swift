@@ -59,7 +59,7 @@ public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
                                 .resizable()
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(Color.white)
-                            Text(Localization.recipe.add.localised)
+                            Text(Localization.preferences.addTag.localised)
                                 .foregroundColor(Color.white)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }
