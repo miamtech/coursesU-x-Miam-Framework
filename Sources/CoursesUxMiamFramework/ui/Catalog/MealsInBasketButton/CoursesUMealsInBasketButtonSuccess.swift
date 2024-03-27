@@ -37,7 +37,7 @@ public struct CoursesUMealsInBasketButtonSuccess: MealsInBasketButtonSuccessProt
             .padding(Dimension.sharedInstance.lPadding)
             .padding(.horizontal, Dimension.sharedInstance.xlPadding)
         }
-        .background(Color.primaryColor)
+        .background(Color.mealzColor(.primary))
         .foregroundColor(Color.mealzColor(.standardLightText))
         .cornerRadius(Dimension.sharedInstance.buttonCornerRadius, corners: [.top])
         .padding(.horizontal, Dimension.sharedInstance.lPadding)

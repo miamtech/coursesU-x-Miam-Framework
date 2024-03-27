@@ -16,7 +16,16 @@ public struct CoursesUCatalogResultsToolbar: CatalogToolbarProtocol {
              HStack(spacing: Dimension.sharedInstance.xlPadding) {
                 CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .search), action: params.onSearchTapped)
                 Spacer()
-                CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .filters), action: params.onFiltersTapped)
+                 
+                 ZStack(alignment: .topTrailing) {
+                     CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .filters), action: params.onFiltersTapped).padding(8)
+                     if params.numberOfActiveFilters > 0 {
+                         Text("\(params.numberOfActiveFilters)")
+                             .foregroundColor(Color.white)
+                             .padding(4)
+                             .background(Circle().fill(Color.red))
+                     }
+                 }
                 if params.usesPreferences {
                     CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .chefHat), action: params.onPreferencesTapped)
                 }
@@ -30,7 +39,7 @@ struct CoursesUCatalogResultsToolbar_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUCatalogToolbar().content(
             params: CatalogToolbarParameters(
-            usesPreferences: true,
+                numberOfActiveFilters: 1, usesPreferences: true,
             onFiltersTapped: {},
             onSearchTapped: {},
             onFavoritesTapped: {},

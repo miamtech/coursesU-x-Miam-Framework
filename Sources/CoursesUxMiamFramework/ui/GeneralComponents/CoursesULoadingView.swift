@@ -13,6 +13,6 @@ import SwiftUI
 public struct CoursesULoadingView: LoadingProtocol {
     public init() {}
     public func content(params: BaseLoadingParameters) -> some View {
-        ProgressLoader(color: Color.primaryColor)
+        ProgressLoader(color: Color.mealzColor(.primary))
     }
 }

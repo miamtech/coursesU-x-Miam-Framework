@@ -61,7 +61,8 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                 if showingOnCatalogResults {
                                     LikeButton(
                                         likeButtonInfo: LikeButtonInfo(
-                                            recipeId: params.recipe.id
+                                            recipeId: params.recipe.id,
+                                            backgroundColor: Color.white
                                         ))
                                 }
                             }.padding(dimensions.mPadding)
@@ -85,10 +86,12 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                     Spacer()
                     if !showingOnCatalogResults {
+                        
+                        
                         LikeButton(
                             likeButtonInfo: LikeButtonInfo(
                                 recipeId: params.recipe.id,
-                                backgroundColor: Color.clear
+                                backgroundColor: Color.white
                             ))
                     }
                     CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
@@ -122,7 +125,7 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                         Image.mealzIcon(icon: .basketCheck)
                             .renderingMode(.template)
                             .resizable()
-                            .foregroundColor(Color.primaryColor)
+                            .foregroundColor(Color.mealzColor(.primary))
                             .frame(width: 24, height: 24)
                     } else {
                         Image.mealzIcon(icon: .basket)
@@ -135,8 +138,8 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                 .padding(Dimension.sharedInstance.mlPadding)
                 .background(
                     Circle()
-                        .stroke(Color.primaryColor, lineWidth: 1)
-                        .background(Circle().fill(!isCurrentlyInBasket ? Color.primaryColor : Color.clear))
+                        .stroke(Color.mealzColor(.primary), lineWidth: 1)
+                        .background(Circle().fill(!isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear))
                 )
                 .frame(width: 34, height: 34)
                 

@@ -62,7 +62,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
                             .resizable()
                             .frame(width: 20, height: 20)
                         Text(Localization.myBudget.myBudgetChangeRecipe.localised)
-                            .foregroundColor(Color.primaryColor)
+                            .foregroundColor(Color.mealzColor(.primary))
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                     }
                 }
@@ -72,6 +72,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
                 } label: {
                     Image(packageResource: "TrashIcon", ofType: "png")
                         .resizable()
+                        .aspectRatio(contentMode: .fit)
                         .frame(width: 20, height: 20)
                 }
             }
