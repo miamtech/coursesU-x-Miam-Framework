@@ -60,7 +60,7 @@ struct CoursesUCatalogToolbar_Previews: PreviewProvider {
     static var previews: some View {
         CoursesUCatalogToolbar().content(
             params: CatalogToolbarParameters(
-                usesPreferences: true,
+                numberOfActiveFilters: 0, usesPreferences: true,
                 onFiltersTapped: {},
                 onSearchTapped: {},
                 onFavoritesTapped: {},

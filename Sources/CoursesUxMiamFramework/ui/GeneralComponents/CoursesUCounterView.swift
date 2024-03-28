@@ -39,10 +39,10 @@ public struct CoursesUCounterView: View {
     }
     
     var maxButtonColor: Color {
-        return (count >= maxValue || isDisable) ? Color.gray : Color.primaryColor
+        return (count >= maxValue || isDisable) ? Color.gray : Color.mealzColor(.primary)
     }
     var minButtonColor: Color {
-        return (count <= minValue || isDisable) ? Color.gray : Color.primaryColor
+        return (count <= minValue || isDisable) ? Color.gray : Color.mealzColor(.primary)
     }
     
     public var body: some View {

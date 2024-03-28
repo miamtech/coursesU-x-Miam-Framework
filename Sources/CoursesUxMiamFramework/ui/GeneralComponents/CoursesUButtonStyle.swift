@@ -53,7 +53,7 @@ struct CoursesUButtonStyle_Previews: PreviewProvider {
         @State private var isLoading = false
 
         var body: some View {
-            let primColor = Color.primaryColor
+            let primColor = Color.mealzColor(.primary)
             let white =  Color.white
 
             return VStack {

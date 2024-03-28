@@ -67,6 +67,9 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 .padding(.horizontal, dim.mlPadding)
                 .padding(.top, dim.mPadding)
             }
+            if params.data.numberOfOtherRecipesSharingThisIngredient < 2 {
+             Spacer()
+            }
             HStack {
                 Text(params.data.formattedProductPrice)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
@@ -75,9 +78,9 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 Spacer()
                 QuantityCounter(params: params)
             }
-            Spacer()
             if params.data.numberOfOtherRecipesSharingThisIngredient > 1 {
-                HStack(alignment: .center) {
+                Spacer()
+                    HStack(alignment: .center) {
                     Text(
                         String(format: String.localizedStringWithFormat(
                             Localization.ingredient.productsSharedRecipe(

@@ -9,11 +9,14 @@ import SwiftUI
 import MiamIOSFramework
 
 @available(iOS 14, *)
-public struct CoursesUMyMealEmptyView: View {
-    let discoverRecipes: () -> Void
-    public init(discoverRecipes: @escaping () -> Void) {
-        self.discoverRecipes = discoverRecipes
+
+@available(iOS 14, *)
+public struct CoursesUMyMealEmptyView: EmptyProtocol {
+    public init() {}
+    public func content(params: BaseEmptyParameters) -> some View {
+        body
     }
+    
     public var body: some View {
         VStack(spacing: Dimension.sharedInstance.lPadding) {
             Image(packageResource: "SearchWithCartonIcon", ofType: "png")
@@ -23,21 +26,9 @@ public struct CoursesUMyMealEmptyView: View {
                 .foregroundColor(Color.white)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleMediumStyle)
                 .multilineTextAlignment(.center)
-            CoursesUButtonStyle(backgroundColor: Color.white, content: {
-                Text("Je découvre les recettes")
-                    .foregroundColor(Color.primaryColor)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-            }, buttonAction: discoverRecipes)
+                .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.primaryColor)
+        .background(Color.mealzColor(.primary))
     }
 }
-
-@available(iOS 14, *)
-struct CoursesUMyMealEmptyView_Previews: PreviewProvider {
-    static var previews: some View {
-        CoursesUMyMealEmptyView(discoverRecipes: {})
-    }
-}
-

@@ -59,7 +59,8 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                                 Image.mealzIcon(icon: .trash)
                                     .renderingMode(.template)
                                     .resizable()
-                                    .frame(width: 20, height: 25)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
                                     .foregroundColor(Color.mealzColor(.primaryText))
                             }
                         }
@@ -72,6 +73,11 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                                 params.numberOfProductsInRecipe))
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
                     .foregroundColor(Color.mealzColor(.grayText))
+                    Text(params.recipePrice.currencyFormatted)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                        .foregroundColor(Color.mealzColor(.standardDarkText))
+                        .multilineTextAlignment(.leading)
+                    
                     PricePerPersonView(price: params.recipePrice, numberOfGuests: params.numberOfGuests)
                     Spacer()
                     Button(action: {
@@ -125,8 +131,8 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
         var body: some View {
             HStack(alignment: .bottom, spacing: 2) {
                 Text(pricePerPerson.currencyFormatted)
-                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
-                    .foregroundColor(Color.mealzColor(.standardDarkText))
+                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
+                    .foregroundColor(Color.mealzColor(.grayText))
                     .multilineTextAlignment(.leading)
                 Text(Localization.myMeals.perPerson.localised)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)

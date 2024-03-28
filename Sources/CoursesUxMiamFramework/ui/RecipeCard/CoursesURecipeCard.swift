@@ -61,7 +61,8 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                 if showingOnCatalogResults {
                                     LikeButton(
                                         likeButtonInfo: LikeButtonInfo(
-                                            recipeId: params.recipe.id
+                                            recipeId: params.recipe.id,
+                                            backgroundColor: Color.white
                                         ))
                                 }
                             }.padding(dimensions.mPadding)
@@ -85,10 +86,12 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                     Spacer()
                     if !showingOnCatalogResults {
+                        
+                        
                         LikeButton(
                             likeButtonInfo: LikeButtonInfo(
                                 recipeId: params.recipe.id,
-                                backgroundColor: Color.clear
+                                backgroundColor: Color.white
                             ))
                     }
                     CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
@@ -133,12 +136,13 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     }
                 })
                 .padding(Dimension.sharedInstance.mlPadding)
-                 .background(
+                .background(
                     Circle()
-                        .stroke(isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear, lineWidth: 1)
+                        .stroke(Color.mealzColor(.primary), lineWidth: 1)
                         .background(Circle().fill(!isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear))
-                        
                 )
+                .frame(width: 34, height: 34)
+                
             }
         }
     }

@@ -17,7 +17,7 @@ public struct CoursesUMealPlannerRecipeCardLoading: RecipeCardLoadingProtocol {
     @SwiftUI.State private var opacity: Double = 0.5
     public init() {}
     public func content(params: RecipeCardLoadingParameters) -> some View {
-        ProgressLoader(color: Color.primaryColor)
+        ProgressLoader(color: Color.mealzColor(.primary))
             .frame(maxWidth: .infinity)
             .frame(height: params.recipeCardDimensions.height)
             .redacted(reason: .placeholder)
@@ -26,7 +26,7 @@ public struct CoursesUMealPlannerRecipeCardLoading: RecipeCardLoadingProtocol {
             .overlay(
                 RoundedRectangle(cornerRadius: dimensions.mPadding)
                     .stroke(style: StrokeStyle(lineWidth: 4, dash: [15, 20]))
-                    .foregroundColor(Color.primaryColor)
+                    .foregroundColor(Color.mealzColor(.primary))
             )
             .cornerRadius(Dimension.sharedInstance.mCornerRadius)
     }

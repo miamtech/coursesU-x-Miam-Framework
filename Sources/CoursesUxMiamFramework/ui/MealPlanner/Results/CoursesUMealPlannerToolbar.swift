@@ -45,7 +45,8 @@ public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {
                         params.onValidateTapped()
                     }))
             }
-            Text(String(format:Localization.myBudget.mealPlannerMealsFor(numberOfMeals: Int32(Int32(params.numberOfResults))).localised, Int32(params.numberOfResults)))
+            Text(String(format: String.localizedStringWithFormat(Localization.myBudget.mealPlannerMealsFor(numberOfMeals: Int32(params.numberOfResults)).localised,params.numberOfResults),params.numberOfResults))
+            
                 .foregroundColor(Color.black)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
                 .padding(.top, 12)
@@ -113,7 +114,7 @@ internal struct SubmitButtonCollapsed: View {
             }
         }
         
-        .background(Color.primaryColor)
+        .background(Color.mealzColor(.primary))
         .clipShape(Circle())
     }
 }
