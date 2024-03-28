@@ -42,13 +42,13 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                 .clipped()
                 Spacer()
                     .frame(width: Dimension.sharedInstance.mPadding)
-                VStack(alignment: .leading, spacing: Dimension.sharedInstance.mPadding) {
+                VStack(alignment: .leading,spacing: 0/*, spacing: Dimension.sharedInstance.mPadding*/) {
                     HStack(alignment: .top) {
                         Text(params.recipe.title)
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
                             .lineLimit(2)
                             .minimumScaleFactor(0.8)
-                            .frame(height: 40)
+                            
                         Spacer()
                         Button {
                             params.onDeleteRecipe()
@@ -59,11 +59,13 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                                 Image.mealzIcon(icon: .trash)
                                     .renderingMode(.template)
                                     .resizable()
-                                    .frame(width: 20, height: 25)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
                                     .foregroundColor(Color.mealzColor(.primaryText))
                             }
                         }
-                    }
+                    }.frame(minHeight:20, maxHeight: 40, alignment: .top)
+                        .fixedSize(horizontal: false, vertical: true)
                     Text(String(format: String.localizedStringWithFormat(
                         Localization.myMeals.products(
                             numberOfProducts: Int32(params.numberOfProductsInRecipe)).localised,
@@ -71,7 +73,13 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                                 params.numberOfProductsInRecipe))
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
                     .foregroundColor(Color.mealzColor(.grayText))
+                    Text(params.recipePrice.currencyFormatted)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                        .foregroundColor(Color.mealzColor(.standardDarkText))
+                        .multilineTextAlignment(.leading)
+                    
                     PricePerPersonView(price: params.recipePrice, numberOfGuests: params.numberOfGuests)
+                    Spacer()
                     Button(action: {
                         params.onShowRecipeDetails(params.recipe.id)
                     }, label: {
@@ -123,8 +131,8 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
         var body: some View {
             HStack(alignment: .bottom, spacing: 2) {
                 Text(pricePerPerson.currencyFormatted)
-                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
-                    .foregroundColor(Color.mealzColor(.standardDarkText))
+                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
+                    .foregroundColor(Color.mealzColor(.grayText))
                     .multilineTextAlignment(.leading)
                 Text(Localization.myMeals.perPerson.localised)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)

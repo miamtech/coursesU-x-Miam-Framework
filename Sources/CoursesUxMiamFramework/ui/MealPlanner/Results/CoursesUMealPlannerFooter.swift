@@ -48,7 +48,7 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
             Spacer()
             CoursesUBudgetPlannerBudgetFooter(budgetSpent: budgetSpent, totalBudgetPermitted: totalBudgetPermitted)
             Spacer()
-            CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: {
+            CoursesUButtonStyle(backgroundColor: Color.mealzColor(.primary), content: {
                 footerContent
             }, buttonAction: {
                 buttonAction()
@@ -57,7 +57,7 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
-        .cornerRadius(dimension.lCornerRadius, corners: [.top])
+        .cornerRadius(dimension.lCornerRadius, corners: [.top]).edgesIgnoringSafeArea(.bottom)
     }
 }
 
@@ -116,7 +116,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
                 }
             }
             ProgressView(value: budgetSpent, total: totalBudgetPermitted)
-                .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.primaryColor, overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
+                .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.mealzColor(.primary), overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
             HStack {
                 Spacer()
                 YellowSubtext(text: String(format: "%.2f €",budgetSpent), fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)

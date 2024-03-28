@@ -65,33 +65,34 @@ internal struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View
                     MiamIOSFramework.ProgressLoader(color: .primary, size: 24)
                 } else {
                     if params.totalPriceOfProductsAdded > 0 {
-                        CoursesUPricePerPerson(pricePerGuest: params.totalPriceOfProductsAddedPerGuest)
+                        VStack(alignment: .leading) {
+                            Text("\(params.totalPriceOfProductsAddedPerGuest.currencyFormatted)")
+                                .foregroundColor(Color.mealzColor(.primaryText))
+                                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                            Text(Localization.recipeDetails.inMyBasket.localised)
+                                .foregroundColor(Color.mealzColor(.primaryText))
+                                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyExtraSmallStyle)
+                        }
                     }
                 }
                 Spacer()
                 if params.isAddingAllIngredients {
                     LoadingButton()
                 } else {
-                    switch params.ingredientsStatus.type {
-                    case .noMoreToAdd:
-                        ContinueMyShoppingCTA(
-                            callToAction: params.callToAction,
-                            buttonText: Localization.recipeDetails.continueShopping.localised,
-                            disableButton: lockButton)
-                    case .initialState:
-                        MealzAddAllToBasketCTA(
-                            callToAction: params.callToAction,
-                            buttonText: Localization.recipeDetails.addAllProducts.localised,
-                            disableButton: lockButton)
-                    default:
-                        MealzAddAllToBasketCTA(
-                            callToAction: params.callToAction,
-                            buttonText: String(format: String.localizedStringWithFormat(
-                                Localization.ingredient.addProduct(numberOfProducts: params.ingredientsStatus.count).localised,
-                                params.ingredientsStatus.count),
-                                               params.ingredientsStatus.count),
-                            disableButton: lockButton)
-                    }
+                        if params.ingredientsStatus.type == IngredientStatusTypes.noMoreToAdd {
+                            ContinueMyShoppingCTA(
+                                callToAction: params.callToAction,
+                                buttonText: Localization.recipeDetails.continueShopping.localised,
+                                disableButton: lockButton)
+                        }else{
+                            MealzAddAllToBasketCTA(
+                                callToAction: params.callToAction,
+                                buttonText: String(format: String.localizedStringWithFormat(
+                                    Localization.ingredient.addProduct(numberOfProducts: params.ingredientsStatus.count).localised,
+                                    params.ingredientsStatus.count),
+                                                   params.ingredientsStatus.count).appending(" (\(params.totalPriceOfRemainingProducts.currencyFormatted))"),
+                                disableButton: lockButton)
+                       }
                 }
             }
         }

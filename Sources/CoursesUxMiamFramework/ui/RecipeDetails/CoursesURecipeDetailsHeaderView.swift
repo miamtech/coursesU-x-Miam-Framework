@@ -11,12 +11,12 @@ import MiamIOSFramework
 @available(iOS 14, *)
 public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderProtocol {
     public init() {}
-    let imageHeight:CGFloat = 400
+    let imageHeight:CGFloat = (UIScreen.screenHeight > 900) ? 400 : 300
     public func content(params: RecipeDetailsHeaderParameters) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
-                    Button {
+                    /*Button {
                         params.onRecipeDetailsClosed()
                     } label: {
                         Image.mealzIcon(icon: .caret)
@@ -26,8 +26,9 @@ public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderProtocol {
                         .foregroundColor(Color.mealzColor(.primary))
                         .background(Color.white)
                         .clipShape(Circle()).padding()
+                     */
                     Spacer()
-                    LikeButton(likeButtonInfo: LikeButtonInfo(recipeId: params.recipeId)).padding(16)
+                    LikeButton(likeButtonInfo: LikeButtonInfo(recipeId: params.recipeId, backgroundColor: Color.white)).padding(16)
                 }
                 Spacer()
                 if !params.isForMealPlanner {
