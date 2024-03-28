@@ -30,10 +30,10 @@ public struct CoursesUCatalogPackageCTA: CatalogPackageCTAProtocol {
                     HStack {
                         Text(Localization.catalog.showAll.localised)
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-                            .foregroundColor(Color.primaryColor)
+                            .foregroundColor(Color.mealzColor(.primary))
                         Image.mealzIcon(icon: .caret)
                             .renderingMode(.template)
-                            .foregroundColor(Color.primaryColor)
+                            .foregroundColor(Color.mealzColor(.primary))
                     }
                 })
             }

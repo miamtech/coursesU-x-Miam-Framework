@@ -28,7 +28,7 @@ public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderProtocol {
                         .clipShape(Circle()).padding()
                      */
                     Spacer()
-                    LikeButton(likeButtonInfo: LikeButtonInfo(recipeId: params.recipeId)).padding(16)
+                    LikeButton(likeButtonInfo: LikeButtonInfo(recipeId: params.recipeId, backgroundColor: Color.white)).padding(16)
                 }
                 Spacer()
                 if !params.isForMealPlanner {

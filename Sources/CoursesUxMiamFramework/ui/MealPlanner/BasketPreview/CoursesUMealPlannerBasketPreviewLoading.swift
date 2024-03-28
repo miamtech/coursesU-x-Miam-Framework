@@ -12,6 +12,6 @@ import MiamIOSFramework
 public struct CoursesUMealPlannerBasketPreviewLoading: LoadingProtocol {
     public init() {}
     public func content(params: BaseLoadingParameters) -> some View {
-        ProgressLoader(color: Color.primaryColor)
+        ProgressLoader(color: Color.mealzColor(.primary))
     }
 }
