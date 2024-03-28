@@ -46,12 +46,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         }
                         .contentShape(Rectangle()) // this fixes gesture detector overflow to other cards
                         .padding(0)
-                        /*LinearGradient(
-                         gradient: Gradient(
-                         colors: [Color.clear, Color.black.opacity(0.3)]),
-                         startPoint: .top,
-                         endPoint: .bottom
-                         )*/
+                        
                         VStack(spacing: 0) {
                             HStack {
                                 if showYellowBanner {
