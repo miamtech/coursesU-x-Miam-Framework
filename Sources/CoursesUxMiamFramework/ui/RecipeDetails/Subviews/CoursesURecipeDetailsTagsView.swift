@@ -16,6 +16,22 @@ public struct CoursesURecipeDetailsTagsView: View {
     public init(tags: [RecipeDetailTags]) {
         self.tags = tags
     }
+    
+    func getCoursesUDifficulty(diff: String) -> String {
+        switch(diff) {
+            case "Débutant":
+                return Localization.recipe.lowDifficulty.localised
+        case "Avancé":
+            return Localization.recipe.mediumDifficulty.localised
+        case "Confirmé":
+            return Localization.recipe.highDifficulty.localised
+        default:
+            return Localization.recipe.lowDifficulty.localised
+
+        }
+    }
+    
+    
     public var body: some View {
         HStack {
             ForEach(tags, id: \.id) { tag in
@@ -25,7 +41,7 @@ public struct CoursesURecipeDetailsTagsView: View {
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color.mealzColor(.standardDarkText))
-                    Text(tag.text)
+                    Text(getCoursesUDifficulty(diff: tag.text))
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
                         .foregroundColor(Color.mealzColor(.standardDarkText))
                         .lineLimit(1)

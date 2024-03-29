@@ -15,26 +15,33 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
     public init() {}
     public func content(params: RecipeDetailsFooterParameters) -> some View {
         let recipeStickerPriceByGuest = params.recipeStickerPrice / Double(params.numberOfGuests)
-        var pricePerGuest: Double { // show full price unless items are in the basket
-            if params.totalPriceOfProductsAddedPerGuest > 0 { return params.totalPriceOfProductsAddedPerGuest }
-            else { return recipeStickerPriceByGuest }
+        var price: Double { // show full price unless items are in the basket
+            if params.totalPriceOfProductsAdded > 0 { return params.totalPriceOfProductsAdded }
+            else { return 0 }
         }
         return CoursesURecipeDetailsFooterCore(
             params: params,
             cookOnlyContent:
-                CookOnlyModeFooter(pricePerGuest: pricePerGuest)
+                CookOnlyModeFooter(price: price)
         )
     }
     
     internal struct CookOnlyModeFooter: View {
-        private let pricePerGuest: Double
-        init(pricePerGuest: Double) {
-            self.pricePerGuest = pricePerGuest
+        private let price: Double
+        init(price: Double) {
+            self.price = price
         }
         var body: some View {
             HStack {
                 Spacer()
-                CoursesUPricePerPerson(pricePerGuest: pricePerGuest)
+                //CoursesUPricePerPerson(pricePerGuest: pricePerGuest)
+                if price == 0 {
+                    EmptyView()
+                }else{
+                    Text("\(price.currencyFormatted)")
+                        .foregroundColor(Color.mealzColor(.primaryText))
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                }
                 Spacer()
             }
         }
@@ -66,7 +73,7 @@ internal struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View
                 } else {
                     if params.totalPriceOfProductsAdded > 0 {
                         VStack(alignment: .leading) {
-                            Text("\(params.totalPriceOfProductsAddedPerGuest.currencyFormatted)")
+                            Text("\(params.totalPriceOfProductsAdded.currencyFormatted)")
                                 .foregroundColor(Color.mealzColor(.primaryText))
                                 .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
                             Text(Localization.recipeDetails.inMyBasket.localised)

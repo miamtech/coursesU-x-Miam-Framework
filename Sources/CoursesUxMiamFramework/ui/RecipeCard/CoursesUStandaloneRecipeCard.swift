@@ -41,7 +41,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .padding(0)
-                                .frame(width: reader.size.width,  height: 250)
+                                .frame(width: reader.size.width,  height: 200)
                                 .clipped()
                         }
                         .contentShape(Rectangle()) // this fixes gesture detector overflow to other cards
@@ -64,7 +64,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         }
                     }
                     .padding(0)
-                    .frame( height: 250)
+                    .frame( height: 200)
                     .frame(maxWidth: .infinity)
                     .clipped()
                 }
@@ -78,6 +78,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                     Spacer()
                     HStack(spacing:0) {
                         CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
+                        Spacer()
 
                         LikeButton(
                             likeButtonInfo: LikeButtonInfo(
@@ -87,7 +88,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                             ))
                         CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                             params.onAddToBasket(params.recipe.id)
-                        }
+                        }.padding(.trailing, 6)
                     }
                     
                     
@@ -100,7 +101,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
             params.onShowRecipeDetails(params.recipe.id)
         }
         .padding(0)
-        .frame(height: 250)
+        .frame(height: 200)
         .frame(maxWidth: .infinity)
         .background(Color.mealzColor(.white))
         .cornerRadius(Dimension.sharedInstance.lCornerRadius)
