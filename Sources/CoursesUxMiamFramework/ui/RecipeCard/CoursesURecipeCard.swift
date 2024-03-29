@@ -59,11 +59,12 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                     Spacer()
                                 }
                                 if showingOnCatalogResults {
-                                    LikeButton(
+                                    CoursesULikeButton(recipeId: params.recipe.id)
+                                    /*LikeButton(
                                         likeButtonInfo: LikeButtonInfo(
                                             recipeId: params.recipe.id,
                                             backgroundColor: Color.white
-                                        ))
+                                        ))*/
                                 }
                             }.padding(dimensions.mPadding)
                         Spacer()
@@ -87,12 +88,12 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     Spacer()
                     if !showingOnCatalogResults {
                         
-                        
-                        LikeButton(
+                        CoursesULikeButton(recipeId: params.recipe.id)
+                        /*LikeButton(
                             likeButtonInfo: LikeButtonInfo(
                                 recipeId: params.recipe.id,
                                 backgroundColor: Color.white
-                            ))
+                            ))*/
                     }
                     CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                         params.onAddToBasket(params.recipe.id)

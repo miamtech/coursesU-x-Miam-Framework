@@ -80,12 +80,13 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                         Spacer()
 
-                        LikeButton(
+                        CoursesULikeButton(recipeId: params.recipe.id)
+                        /*LikeButton(
                             likeButtonInfo: LikeButtonInfo(
                                 recipeId: params.recipe.id,
                                 iconSize: CGSize(width: 20, height: 20),
                                 backgroundColor: Color.white
-                            ))
+                            ))*/
                         CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                             params.onAddToBasket(params.recipe.id)
                         }.padding(.trailing, 6)
