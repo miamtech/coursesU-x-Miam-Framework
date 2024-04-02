@@ -38,9 +38,14 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
                 if price == 0 {
                     EmptyView()
                 }else{
-                    Text("\(price.currencyFormatted)")
-                        .foregroundColor(Color.mealzColor(.primaryText))
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                    VStack(spacing: 0) {
+                        Text("\(price.currencyFormatted)")
+                            .foregroundColor(Color.mealzColor(.primaryText))
+                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                        Text(Localization.recipeDetails.inMyBasket.localised)
+                            .foregroundColor(Color.mealzColor(.primaryText))
+                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyExtraSmallStyle)
+                    }
                 }
                 Spacer()
             }

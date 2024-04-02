@@ -41,7 +41,7 @@ public struct CoursesURecipeDetailsTagsView: View {
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color.mealzColor(.standardDarkText))
-                    Text(getCoursesUDifficulty(diff: tag.text))
+                    Text(tag.text)
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
                         .foregroundColor(Color.mealzColor(.standardDarkText))
                         .lineLimit(1)
