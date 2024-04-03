@@ -20,9 +20,9 @@ public struct CoursesUMyMealEmptyView: EmptyProtocol {
     public var body: some View {
         VStack(spacing: Dimension.sharedInstance.lPadding) {
             Image(packageResource: "SearchWithCartonIcon", ofType: "png")
-                .resizable()
+                    .resizable()
                 .frame(width: 100, height: 100)
-            Text("Vous n’avez aucune idée repas dans votre panier.")
+            Text("Vous n’avez aucune idées repas.")
                 .foregroundColor(Color.white)
                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleMediumStyle)
                 .multilineTextAlignment(.center)
