@@ -16,7 +16,9 @@ public struct CoursesUCatalogFavoriteEmptyView: CatalogRecipesListNoResultsProto
     public init() {}
     public func content(params: CatalogRecipesListNoResultsParameters) -> some View {
         if params.catalogContent == CatalogContent.favorite {
-            return AnyView(CoursesUNoFavoritesEmptyView())
+            return AnyView(CoursesUNoFavoritesEmptyView(onNoResultsRedirect: {
+                params.onNoResultsRedirect()
+            }))
         }
         return AnyView(MealzCatalogRecipesListNoResults().content(params: params))
         
@@ -25,17 +27,18 @@ public struct CoursesUCatalogFavoriteEmptyView: CatalogRecipesListNoResultsProto
 
 @available(iOS 14, *)
 public struct CoursesUFavoriteEmptyView: EmptyProtocol {
+
     public init() {}
     public func content(params: BaseEmptyParameters) -> some View {
-        CoursesUNoFavoritesEmptyView()
+        CoursesUNoFavoritesEmptyView(onNoResultsRedirect: nil)
     }
-    
-    
 }
-
 
 @available(iOS 14, *)
 public struct CoursesUNoFavoritesEmptyView: View {
+    public let onNoResultsRedirect: (() -> Void)?
+
+    
     public var body: some View {
         VStack(spacing: Dimension.sharedInstance.lPadding) {
             Image(packageResource: "SearchWithCartonIcon", ofType: "png")
