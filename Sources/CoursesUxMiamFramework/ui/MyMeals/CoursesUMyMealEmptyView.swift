@@ -14,10 +14,6 @@ import MiamIOSFramework
 public struct CoursesUMyMealEmptyView: EmptyProtocol {
     public init() {}
     public func content(params: BaseEmptyParameters) -> some View {
-        body
-    }
-    
-    public var body: some View {
         VStack(spacing: Dimension.sharedInstance.lPadding) {
             Image(packageResource: "SearchWithCartonIcon", ofType: "png")
                     .resizable()
