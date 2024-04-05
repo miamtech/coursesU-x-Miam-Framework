@@ -88,7 +88,7 @@ internal struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View
                     }
                 }
                 Spacer()
-                if params.isAddingAllIngredients {
+                if params.isAddingAllIngredients || lockButton {
                     LoadingButton()
                 } else {
                         if params.ingredientsStatus.type == IngredientStatusTypes.noMoreToAdd {
