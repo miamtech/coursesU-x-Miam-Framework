@@ -19,11 +19,15 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
             if params.totalPriceOfProductsAdded > 0 { return params.totalPriceOfProductsAdded }
             else { return 0 }
         }
-        return CoursesURecipeDetailsFooterCore(
+        if params.cookOnlyMode {
+            return AnyView(CoursesURecipeDetailsFooterMealsPlanner(priceByPerson: (params.totalPriceOfRemainingProducts + params.totalPriceOfProductsAdded)/Double(params.numberOfGuests), totalPrice: params.totalPriceOfRemainingProducts + params.totalPriceOfProductsAdded))
+        }
+        
+        return AnyView(CoursesURecipeDetailsFooterCore(
             params: params,
             cookOnlyContent:
                 CookOnlyModeFooter(price: price)
-        )
+        ))
     }
     
     internal struct CookOnlyModeFooter: View {
@@ -51,7 +55,46 @@ public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
             }
         }
     }
+    
+    internal struct CoursesURecipeDetailsFooterMealsPlanner: View {
+        var priceByPerson: Double
+        var totalPrice : Double
+        
+        public var body: some View {
+            HStack(spacing: 0) {
+                Text(priceByPerson.currencyFormatted)
+                .foregroundColor(Color.black)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                
+                Text(Localization.price.perGuest.localised)
+                    .foregroundColor(Color.mealzColor(.grayText))
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle)
+                Spacer()
+                HStack(spacing: 0) {
+                    Text("Soit ")
+                        .foregroundColor(Color.black)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                    YellowSubtext(text: totalPrice.currencyFormatted, fontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle, imageWidth: 55)
+                    Text("le repas")
+                        .foregroundColor(Color.black)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                }.padding(.leading, 10)
+                    .padding(.trailing, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.recapTheRecipes)
+                    .cornerRadius(Dimension.sharedInstance.sCornerRadius)
+               
+            }
+            .padding(Dimension.sharedInstance.lPadding)
+            .frame(maxWidth: .infinity)
+            .frame(height: 70)
+            .background(Color.white)
+        }
+    }
 }
+
+
+
 
 @available(iOS 14, *)
 internal struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View {
