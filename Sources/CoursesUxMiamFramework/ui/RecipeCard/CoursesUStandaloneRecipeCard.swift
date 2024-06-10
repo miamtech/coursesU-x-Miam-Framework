@@ -59,17 +59,17 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                             Spacer()
                             HStack {
                                 /*if params.recipe.isSponsored{
-                                    if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
-                                        AsyncImage(url:url) { image in
-                                            image
-                                                .resizable() // Make image resizable
-                                                .scaledToFit().padding(8)
-                                                .background(Capsule().fill(Color.white))
-                                            
-                                        }.frame( width : 60, height: 60, alignment: .trailing)
-                                        Spacer()
-                                    }
-                                }*/
+                                 if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
+                                 AsyncImage(url:url) { image in
+                                 image
+                                 .resizable() // Make image resizable
+                                 .scaledToFit().padding(8)
+                                 .background(Capsule().fill(Color.white))
+                                 
+                                 }.frame( width : 60, height: 60, alignment: .trailing)
+                                 Spacer()
+                                 }
+                                 }*/
                                 Spacer()
                                 MealzSmallGuestView(guests: Int(params.numberOfGuests))
                             }.padding(Dimension.sharedInstance.mlPadding)
@@ -91,20 +91,12 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                     HStack(spacing:0) {
                         CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                         Spacer()
-
+                        
                         CoursesULikeButton(recipeId: params.recipe.id)
-                        /*LikeButton(
-                            likeButtonInfo: LikeButtonInfo(
-                                recipeId: params.recipe.id,
-                                iconSize: CGSize(width: 20, height: 20),
-                                backgroundColor: Color.white
-                            ))*/
                         CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                             params.onAddToBasket(params.recipe.id)
                         }.padding(.trailing, 6)
                     }
-                    
-                    
                 }
                 .frame(maxWidth: .infinity)
                 .padding(Dimension.sharedInstance.mlPadding)
@@ -120,7 +112,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
         .cornerRadius(Dimension.sharedInstance.lCornerRadius)
         .overlay(
             RoundedRectangle(cornerRadius: Dimension.sharedInstance.lCornerRadius)
-            .stroke(Color.mealzColor(.border), lineWidth: 1.0))
+                .stroke(Color.mealzColor(.border), lineWidth: 1.0))
     }
     
     internal struct CallToAction: View {
@@ -151,8 +143,6 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         .stroke(Color.primaryColor, lineWidth: 1)
                         .background(Circle().fill(!isCurrentlyInBasket ? Color.primaryColor : Color.clear))
                 )
-                
-                
             }
         }
     }
