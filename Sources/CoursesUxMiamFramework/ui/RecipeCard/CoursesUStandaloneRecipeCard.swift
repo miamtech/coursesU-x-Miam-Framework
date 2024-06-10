@@ -89,7 +89,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                     HStack(spacing: 0) {
                         CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                         Spacer()
-
+                        
                         CoursesULikeButton(recipeId: params.recipe.id)
                         CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                             params.onAddToBasket(params.recipe.id)
