@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
     spec.name         = "CoursesUxMiamFramework"
-    spec.version      = "2.0.0"
+    spec.version      = "2.0.3"
     spec.summary      = "Miam iOS SDK for Courses U"
     spec.description  = <<-DESC
     Miam iOS SDK for Courses U.
@@ -14,6 +14,6 @@ Pod::Spec.new do |spec|
     spec.resources = "Sources/CoursesUxMiamFramework/Resources/**/*.png"
     spec.source       = { :git => "https://github.com/miamtech/coursesU-x-Miam-Framework.git", :tag => "#{spec.version}" }
     spec.source_files = 'Sources/**/*.{h,m,swift}'
-    spec.dependency 'MealzUIModuleIOS', '~> 1.0.0'
+    spec.dependency 'MealzUIModuleIOS', '~> 1.0.4'
     spec.static_framework = true
 end

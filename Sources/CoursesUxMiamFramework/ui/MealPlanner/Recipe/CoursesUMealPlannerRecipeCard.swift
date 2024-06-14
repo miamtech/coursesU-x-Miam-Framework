@@ -114,16 +114,32 @@ struct CoursesURecipeCardCoreFrame<
             ZStack(alignment: .topLeading) {
                 AsyncImage(url: recipe.pictureURL) { image in
                     image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .resizable() // Make image resizable
+                        .scaledToFill()
                         .padding(0)
                         .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .frame(width: 150.0)
                 .clipped()
-                CoursesULikeButton(recipeId: recipe.id)
-                .padding(dimension.mPadding)
-            }
+                HStack {
+                    if recipe.isSponsored{
+                        if let urlString = recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
+                            AsyncImage(url:url) { image in
+                                image
+                                    .resizable() // Make image resizable
+                                    .scaledToFit().padding(8)
+                                    .background(Capsule().fill(Color.white))
+                                
+                            }.frame( width : 60, height: 60, alignment: .trailing)
+                            Spacer()
+                        }
+                    }
+                    Spacer()
+                    CoursesULikeButton(recipeId: recipe.id)
+                    .padding(dimension.mPadding)
+                }
+                
+            } .frame(width: 150.0)
             VStack(alignment: .leading, spacing: dimension.mPadding) {
                 HStack {
                     Text(recipe.title + "\n")
