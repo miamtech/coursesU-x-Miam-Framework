@@ -64,18 +64,18 @@ public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
                         if params.recipePrice > 0 {
                             RecapPriceForRecipes(priceAmount: recipePrice.currencyFormatted)
                         } else {
-                            ProgressLoader(color: .primaryColor)
+                            ProgressLoader(color: .mealzColor(.primary))
                                 .scaleEffect(0.3)
                         }
                     }.frame(height: 25)
                     Divider()
-                    CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: {
+                    CoursesUButtonStyle(backgroundColor: Color.mealzColor(.primary), content: {
                         HStack {
                             Image(systemName: "plus")
                                 .resizable()
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(Color.white)
-                            Text(Localization.recipe.add.localised)
+                            Text(Localization.preferences.addTag.localised)
                                 .foregroundColor(Color.white)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }

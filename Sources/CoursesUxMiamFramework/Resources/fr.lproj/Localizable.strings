@@ -22,12 +22,14 @@ Created by miam x didi on 27/10/2023.
 "com_miam_meal_planner_discover" = "Découvrez aussi :";
 "com_miam_budget_search_for_recipe" = "Que recherchez-vous?";
 "com_miam_recipe_add" = "Ajouter";
-"com_miam_meal_planner_meals_for" = "%d idées repas pour votre budget :";
 "com_miam_basket_swap_product" = "Changer d'article";
 "com_miam_basket_continue_shopping" = "Finaliser";
 "com_miam_meal_planner_finalize" = "Tous les ingrédients ont bien été ajoutés au panier.";
 "com_miam_recipe_difficulty_medium" = "Avancé";
 "com_miam_catalog_no_recipe_found" = "Désolé, il n'y a pas d'idée repas correspondant à cette recherche.";
-
+"com_miam_preferences_add_tag" = "Ajouter";
 
 "com_miam_item_selector_selected" = "Déjà sélectionné";
+"com_miam_recipe_difficulty_low" = "Facile";
+"com_miam_recipe_difficulty_medium" = "Moyen";
+"com_miam_recipe_difficulty_high" = "Difficile";

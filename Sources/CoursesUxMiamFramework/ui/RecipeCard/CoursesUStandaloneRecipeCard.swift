@@ -22,7 +22,6 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
         self.showYellowBanner = showYellowBanner
         self.showingOnCatalogResults = showingOnCatalogResults
     }
-
     public func content(params: CatalogRecipeCardParameters) -> some View {
         let dimensions = Dimension.sharedInstance
         let callToActionHeight: CGFloat = 70
@@ -46,7 +45,6 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         }
                         .contentShape(Rectangle()) // this fixes gesture detector overflow to other cards
                         .padding(0)
-
                         VStack(spacing: 0) {
                             HStack {
                                 if showYellowBanner {

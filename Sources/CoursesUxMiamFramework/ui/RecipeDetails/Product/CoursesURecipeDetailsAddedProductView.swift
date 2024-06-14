@@ -17,7 +17,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
     public init() {}
     let dim = Dimension.sharedInstance
     public func content(params: RecipeDetailsAddedProductParameters) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 Text(params.data.ingredientName.capitalizingFirstLetter())
                     .padding(dim.mPadding)
@@ -67,6 +67,9 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 .padding(.horizontal, dim.mlPadding)
                 .padding(.top, dim.mPadding)
             }
+            if params.data.numberOfOtherRecipesSharingThisIngredient < 2 {
+             Spacer()
+            }
             HStack {
                 Text(params.data.formattedProductPrice)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
@@ -75,9 +78,9 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 Spacer()
                 QuantityCounter(params: params)
             }
-            Spacer()
             if params.data.numberOfOtherRecipesSharingThisIngredient > 1 {
-                HStack(alignment: .center) {
+                Spacer()
+                    HStack(alignment: .center) {
                     Text(
                         String(format: String.localizedStringWithFormat(
                             Localization.ingredient.productsSharedRecipe(
@@ -87,14 +90,16 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                                params.data.numberOfOtherRecipesSharingThisIngredient)
                     )
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
+                    .padding(.vertical, Dimension.sharedInstance.mPadding)
                     .foregroundColor(Color.mealzColor(.grayText))
+                   
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, Dimension.sharedInstance.mPadding)
                 .background(Color.mealzColor(.lightBackground))
             }
         }
         .frame(height: mealzProductHeight)
+        .clipped()
         .overlay( /// apply a rounded border
             RoundedRectangle(cornerRadius: dim.mCornerRadius)
                 .stroke(Color.mealzColor(.primary), lineWidth: 1)

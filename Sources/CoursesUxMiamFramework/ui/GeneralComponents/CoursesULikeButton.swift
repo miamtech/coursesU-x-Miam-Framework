@@ -18,6 +18,7 @@ public struct CoursesULikeButton: View {
         LikeButton(likeButtonInfo: LikeButtonInfo(
             recipeId: recipeId
         ))
+        .background(Circle().foregroundColor(Color.white).offset(CGSize(width: -2, height: 0)))
     }
 }
 
