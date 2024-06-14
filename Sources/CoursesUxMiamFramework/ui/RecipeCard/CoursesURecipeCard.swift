@@ -52,6 +52,18 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     )
                     VStack(alignment: .trailing, spacing: 0) {
                             HStack {
+                                if params.recipe.isSponsored{
+                                    if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
+                                        AsyncImage(url:url) { image in
+                                            image
+                                                .resizable() // Make image resizable
+                                                .scaledToFit().padding(8)
+                                                .background(Capsule().fill(Color.white))
+                                            
+                                        }.frame( width : 60, height: 60, alignment: .trailing)
+                                        Spacer()
+                                    }
+                                }
                                 if showYellowBanner {
                                     Image(packageResource: "MealIdeas", ofType: "png")
                                         .resizable()

@@ -30,8 +30,24 @@ public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
                     }.frame(height: 150.0)
                         .clipped()
                     
-                    CoursesULikeButton(recipeId: params.recipe.id)
-                        .padding(dimensions.mPadding)
+                   
+                    HStack {
+                        if params.recipe.isSponsored{
+                            if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
+                                AsyncImage(url:url) { image in
+                                    image
+                                        .resizable() // Make image resizable
+                                        .scaledToFit().padding(8)
+                                        .background(Capsule().fill(Color.white))
+                                    
+                                }.frame( width : 60, height: 60, alignment: .trailing)
+                                Spacer()
+                            }
+                        }
+                        Spacer()
+                        CoursesULikeButton(recipeId: params.recipe.id)
+                            .padding(dimensions.mPadding)
+                    }
                 }
                 VStack(spacing: dimensions.mPadding) {
                     Text(params.recipe.title + "\n")

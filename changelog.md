@@ -1,3 +1,6 @@
+# 2.0.3
+- [FIX] Correction sponsor not displayed on catalog and shelves
+
 # 1.2.4
 - [FEA] Compatiable with all verions of miam-sdk up to 4.0.0
 
