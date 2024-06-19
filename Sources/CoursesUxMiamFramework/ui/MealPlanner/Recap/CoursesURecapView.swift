@@ -12,7 +12,7 @@ import SwiftUI
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
     var showPromotions: () -> Void
-    // viewModel.homeCoordinator?.showHomeMyContentDetails(with: .promotions)
+
     public init(showPromotions: @escaping () -> Void) {
         self.showPromotions = showPromotions
     }
@@ -47,8 +47,6 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
                 Button(action: {
                     params.onTapGesture()
                     showPromotions()
-
-                    //                            onClose()
                 }) {
                     Text("Nos promotions")
                         .foregroundColor(.white)
@@ -71,10 +69,3 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
     }
     }
 }
-
-// @available(iOS 14, *)
-// struct CoursesUMealPlannerRecapView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CoursesUMealPlannerRecapView().content(onTapGesture: {print("hello")})
-//    }
-// }
