@@ -5,16 +5,20 @@
 //  Created by didi on 6/13/23.
 //
 
-import SwiftUI
 import miamCore
 import MiamIOSFramework
-
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
-    public init() {}
+    var showPromotions: () -> Void
+
+    public init(showPromotions: @escaping () -> Void) {
+        self.showPromotions = showPromotions
+    }
+
     let dimension = Dimension.sharedInstance
-    public func content(params: MealPlannerRecapViewParameters) -> some View {            ZStack(alignment: .top) {
+    public func content(params: MealPlannerRecapViewParameters) -> some View { ZStack(alignment: .top) {
         Color.budgetBackgroundColor
         CoursesUTwoMealsBackground()
         VStack(spacing: -40.0) {
@@ -31,19 +35,18 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
                         Localization.myBudget.mealPlannerMealsFor(
                             numberOfMeals: Int32(params.numberOfMeals)).localised,
                         params.numberOfMeals), params.numberOfMeals),
-                    priceAmount:  params.totalPrice.currencyFormatted,
+                    priceAmount: params.totalPrice.currencyFormatted,
                     trailingText: "",
                     textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
                     yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyle,
                     yellowSubtextWidth: CGFloat(60))
-                
-                
+
                 Divider()
                 Text(Localization.myBudget.mealPlannerDiscover.localised)
                     .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
                 Button(action: {
                     params.onTapGesture()
-                    //                            onClose()
+                    showPromotions()
                 }) {
                     Text("Nos promotions")
                         .foregroundColor(.white)
@@ -51,7 +54,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
                         .padding(dimension.lPadding)
                 }
                 .background(Color.red)
-                .cornerRadius(50)  // Making the corner radius large for pill-shaped button
+                .cornerRadius(50) // Making the corner radius large for pill-shaped button
                 .buttonStyle(PlainButtonStyle())
             }
             .padding(25)
@@ -66,10 +69,3 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
     }
     }
 }
-
-//@available(iOS 14, *)
-//struct CoursesUMealPlannerRecapView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CoursesUMealPlannerRecapView().content(onTapGesture: {print("hello")})
-//    }
-//}
