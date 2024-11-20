@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 // just used for preview
 @available(iOS 14, *)
@@ -158,10 +158,10 @@ internal struct CoursesUStepperBinding: View {
     }
     
     var maxButtonColor: Color {
-        return (value >= maxValue || disableButton) ? Color.gray : Color.primaryColor
+        return (value >= maxValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
     var minButtonColor: Color {
-        return (value <= minValue || disableButton) ? Color.gray : Color.primaryColor
+        return (value <= minValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
     
     var body: some View {
@@ -236,10 +236,10 @@ internal struct CoursesUStepperWithCallback: View {
     }
     
     var maxButtonColor: Color {
-        return (count >= maxValue || disableButton) ? Color.gray : Color.primaryColor
+        return (count >= maxValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
     var minButtonColor: Color {
-        return (count <= minValue || disableButton) ? Color.gray : Color.primaryColor
+        return (count <= minValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
     
     

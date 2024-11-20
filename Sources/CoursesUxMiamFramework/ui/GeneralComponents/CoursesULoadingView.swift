@@ -6,13 +6,14 @@
 //
 
 import Foundation
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesULoadingView: LoadingProtocol {
     public init() {}
     public func content(params: BaseLoadingParameters) -> some View {
-        ProgressLoader(color: Color.primaryColor)
+        ProgressLoader(color: Color.mealzColor(.primary))
     }
 }

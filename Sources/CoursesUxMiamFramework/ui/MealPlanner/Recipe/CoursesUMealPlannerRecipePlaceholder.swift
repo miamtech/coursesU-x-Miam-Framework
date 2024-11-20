@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholderProtocol {
@@ -17,7 +17,7 @@ public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholder
     public func content(params: MealPlannerRecipePlaceholderParameters) -> some View {
         VStack(spacing: dimension.lPadding) {
             Circle()
-                .foregroundColor(Color.primaryColor)
+                .foregroundColor(Color.mealzColor(.primary))
                 .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
                 .overlay(
                     Circle()
@@ -35,7 +35,7 @@ public struct CoursesUMealPlannerRecipePlaceholder: MealPlannerRecipePlaceholder
         }
         .frame(maxWidth: .infinity)
         .frame(height: params.recipeCardDimensions.height)
-        .background(Color.primaryColor)
+        .background(Color.mealzColor(.primary))
         .cornerRadius(dimension.mCornerRadius)
         .onTapGesture {
             params.onTapGesture()

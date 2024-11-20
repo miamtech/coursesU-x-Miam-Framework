@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
-import miamCore
+import mealzcore
+import MealziOSSDK
 
 
 @available(iOS 14, *)
@@ -42,7 +42,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
                                 } label: {
                                     Text(Localization.basket.swapProduct.localised)
                                         .underline()
-                                        .foregroundColor(Color.primaryColor)
+                                        .foregroundColor(Color.mealzColor(.primary))
                                         .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                                         .padding(.vertical, dimension.sPadding)
                                 }
@@ -87,7 +87,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
             } label: {
                 VStack {
                     if loading {
-                        ProgressLoader(color: Color.primaryColor)
+                        ProgressLoader(color: Color.mealzColor(.primary))
                             .scaleEffect(0.25)
                     } else {
                         Image(packageResource: "TrashIcon", ofType: "png")

@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUCounterView: View {
@@ -39,10 +40,10 @@ public struct CoursesUCounterView: View {
     }
     
     var maxButtonColor: Color {
-        return (count >= maxValue || isDisable) ? Color.gray : Color.primaryColor
+        return (count >= maxValue || isDisable) ? Color.gray : Color.mealzColor(.primary)
     }
     var minButtonColor: Color {
-        return (count <= minValue || isDisable) ? Color.gray : Color.primaryColor
+        return (count <= minValue || isDisable) ? Color.gray : Color.mealzColor(.primary)
     }
     
     public var body: some View {

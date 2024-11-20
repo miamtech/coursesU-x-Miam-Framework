@@ -1,22 +1,26 @@
 //
-//  CoursesUMyMealsTitle.swift
+//  CoursesURecipeDetailsNumberOfIngredientsTitle.swift
+//  CoursesUxMiamFramework
 //
+//  Created by Damien Walerowicz on 12/03/2024.
 //
-//  Created by miam x didi on 22/02/2024.
-//
+
+import Foundation
 
 import SwiftUI
 import mealzcore
 import MealziOSSDK
 
 @available(iOS 14, *)
-public struct CoursesUMyMealsTitle: BaseTitleProtocol {
+public struct CoursesUNumberOfIngredientsTitle: BaseTitleProtocol {
     public init() {}
     public func content(params: TitleParameters) -> some View {
         HStack {
             Text(params.title)
                 .foregroundColor(Color.mealzColor(.primaryText))
                 .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                .padding()
+            Spacer()
         }.frame(maxWidth: .infinity)
     }
 }

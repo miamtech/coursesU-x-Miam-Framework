@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUCatalogToolbar: CatalogToolbarProtocol {
@@ -29,7 +30,7 @@ public struct CoursesUCatalogToolbar: CatalogToolbarProtocol {
                 if params.usesPreferences {
                     CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .chefHat), action: params.onPreferencesTapped)
                 }
-                CatalogToolbarButtonFormat(icon:  Image.mealzIcon(icon: .heart), action: params.onFavoritesTapped)
+                CatalogToolbarButtonFormat(icon:Image(packageResource: "heart-toolbar", ofType: "png"), action: params.onFavoritesTapped)
             }
             .padding([.horizontal, .bottom], Dimension.sharedInstance.lPadding)
         }
@@ -52,18 +53,5 @@ struct CatalogToolbarButtonFormat: View {
                 .foregroundColor(Color.mealzColor(.primary))
         }
         .frame(width: 30)
-    }
-}
-
-@available(iOS 14, *)
-struct CoursesUCatalogToolbar_Previews: PreviewProvider {
-    static var previews: some View {
-        CoursesUCatalogToolbar().content(
-            params: CatalogToolbarParameters(
-                usesPreferences: true,
-                onFiltersTapped: {},
-                onSearchTapped: {},
-                onFavoritesTapped: {},
-                onPreferencesTapped: {}))
     }
 }

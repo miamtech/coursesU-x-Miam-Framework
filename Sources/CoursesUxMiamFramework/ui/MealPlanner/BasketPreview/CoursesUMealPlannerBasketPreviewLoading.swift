@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerBasketPreviewLoading: LoadingProtocol {
     public init() {}
     public func content(params: BaseLoadingParameters) -> some View {
-        ProgressLoader(color: Color.primaryColor)
+        ProgressLoader(color: Color.mealzColor(.primary))
     }
 }

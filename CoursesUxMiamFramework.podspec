@@ -10,9 +10,9 @@ Pod::Spec.new do |spec|
     spec.author             = { "Diarmuid McGonagle" => "it@miam.tech" }
     spec.platform     = :ios, "12.0"
     spec.swift_versions = "5.8"
-    spec.resources = "Sources/CoursesUxMiamFramework/Resources/**/*.png"
+    spec.resources = "Sources/CoursesUxMiamFramework/Resources/**/*.png","Sources/CoursesUxMiamFramework/Resources/fr.lproj"
     spec.source       = { :git => "https://github.com/miamtech/coursesU-x-Miam-Framework.git", :tag => "#{spec.version}" }
     spec.source_files = 'Sources/**/*.{h,m,swift}'
-    spec.dependency 'MealzUIModuleIOS', '~> 1.0.4'
+    spec.dependency 'MealziOSSDK', '~> 5.2.0'
     spec.static_framework = true
 end

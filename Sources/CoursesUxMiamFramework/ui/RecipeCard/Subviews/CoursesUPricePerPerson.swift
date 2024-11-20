@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftUI
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUPricePerPerson: View {

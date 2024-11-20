@@ -6,9 +6,8 @@
 //  Copyright © 2023 Miam. All rights reserved.
 //
 
-import MealzUIModuleIOS
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 import SwiftUI
 
 @available(iOS 14, *)
@@ -46,7 +45,6 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         }
                         .contentShape(Rectangle()) // this fixes gesture detector overflow to other cards
                         .padding(0)
-
                         VStack(spacing: 0) {
                             HStack {
                                 if showYellowBanner {
@@ -71,7 +69,21 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                                  }
                                  } */
                                 Spacer()
-                                MealzSmallGuestView(guests: Int(params.numberOfGuests))
+                                // MealzSmallGuestView(guests: Int(params.numberOfGuests))
+                                HStack(spacing: 2) {
+                                    Text(String(params.numberOfGuests))
+                                        .foregroundColor(Color.mealzColor(.darkestGray))
+                                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                                    Image.mealzIcon(icon: .user)
+                                        .renderingMode(.template)
+                                        .resizable()
+                                        .frame(width: 13, height: 13)
+                                        .foregroundColor(Color.mealzColor(.darkestGray))
+                                }
+                                .padding(.horizontal, Dimension.sharedInstance.mPadding)
+                                .padding(.vertical, Dimension.sharedInstance.sPadding)
+                                .background(Color.mealzColor(.white))
+                                .cornerRadius(50)
                             }.padding(Dimension.sharedInstance.mlPadding)
                         }
                     }

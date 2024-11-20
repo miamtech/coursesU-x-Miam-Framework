@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOverviewProtocol {
@@ -102,17 +102,17 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                 } label: {
                     HStack {
                         Text(Localization.recipe.showDetails.localised)
-                            .foregroundColor(Color.primaryColor)
+                            .foregroundColor(Color.mealzColor(.primary))
                             .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
                         if showContents {
                             Image(systemName: "chevron.up")
                                 .resizable()
-                                .foregroundColor(Color.primaryColor)
+                                .foregroundColor(Color.mealzColor(.primary))
                                 .frame(width: 16, height: 10)
                         } else {
                             Image(systemName: "chevron.down")
                                 .resizable()
-                                .foregroundColor(Color.primaryColor)
+                                .foregroundColor(Color.mealzColor(.primary))
                                 .frame(width: 16, height: 10)
                         }
                         

@@ -6,33 +6,37 @@
 //  Copyright © 2023 Miam. All rights reserved.
 //
 
+import mealzcore
+import MealziOSSDK
 import SwiftUI
-import miamCore
-import MiamIOSFramework
 
+public class MealPlannerSingleton {
+    public static var budget: Double = 0
+}
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerFooter: MealPlannerResultsFooterProtocol {
-
     public init() {}
+
     public func content(params: MealPlannerResultsFooterParameters) -> some View {
-            CoursesUBudgetPlannerStickyFooter(
-                budgetSpent: params.budgetSpent.wrappedValue,
-                totalBudgetPermitted: params.mealPlannerCriteria.availableBudget,
-                footerContent:
-                    HStack {
-                        Image(packageResource: "ShoppingCartIcon", ofType: "png")
-                            .resizable()
-                            .foregroundColor(Color.white)
-                            .frame(width: 20, height: 20)
-                        Text("Tout ajouter")
-                            .foregroundColor(Color.white)
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
-                    }
-            ) {
+        MealPlannerSingleton.budget = params.mealPlannerCriteria.availableBudget
+
+        return CoursesUBudgetPlannerStickyFooter(
+            budgetSpent: params.budgetSpent.wrappedValue,
+            totalBudgetPermitted: params.mealPlannerCriteria.availableBudget,
+            footerContent:
+            HStack {
+                Image(packageResource: "ShoppingCartIcon", ofType: "png")
+                    .resizable()
+                    .foregroundColor(Color.white)
+                    .frame(width: 20, height: 20)
+                Text("Tout ajouter")
+                    .foregroundColor(Color.white)
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+            }) {
                 params.onValidateTapped()
             }
-        .frame(height: params.heightOfFooter)
+            .frame(height: params.heightOfFooter)
     }
 }
 
@@ -48,7 +52,7 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
             Spacer()
             CoursesUBudgetPlannerBudgetFooter(budgetSpent: budgetSpent, totalBudgetPermitted: totalBudgetPermitted)
             Spacer()
-            CoursesUButtonStyle(backgroundColor: Color.primaryColor, content: {
+            CoursesUButtonStyle(backgroundColor: Color.mealzColor(.primary), content: {
                 footerContent
             }, buttonAction: {
                 buttonAction()
@@ -57,16 +61,15 @@ struct CoursesUBudgetPlannerStickyFooter<FooterContent: View>: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
-        .cornerRadius(dimension.lCornerRadius, corners: [.top])
+        .cornerRadius(dimension.lCornerRadius, corners: [.top]).edgesIgnoringSafeArea(.bottom)
     }
 }
-
 
 @available(iOS 14, *)
 struct WithRoundedCornersProgressViewStyle: ProgressViewStyle {
     var progressColor: Color
     var overBudget: Bool
-    let widthOfRectangles : CGFloat
+    let widthOfRectangles: CGFloat
     let dimension = Dimension.sharedInstance
     func makeBody(configuration: Configuration) -> some View {
         ZStack(alignment: .leading) {
@@ -77,7 +80,7 @@ struct WithRoundedCornersProgressViewStyle: ProgressViewStyle {
                 .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * widthOfRectangles, height: 10)
                 .foregroundColor(progressColor)
                 .cornerRadius(dimension.mCornerRadius, corners: [.topLeft, .bottomLeft])
-            // round end corners if == to 100
+                // round end corners if == to 100
                 .cornerRadius(dimension.mCornerRadius, corners: (configuration.fractionCompleted ?? 0 > 0.99) ? .allCorners : .left)
             if overBudget {
                 HStack {
@@ -102,7 +105,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
     let widthOfFrame = CGFloat(150)
     var body: some View {
         VStack(alignment: .leading, spacing: dimension.sPadding) {
-            if (budgetSpent > totalBudgetPermitted + 0.5) {
+            if budgetSpent > totalBudgetPermitted + 0.5 {
                 HStack {
                     Spacer()
                     Text(String(format: "+%.2f €", budgetSpent - totalBudgetPermitted))
@@ -116,10 +119,10 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
                 }
             }
             ProgressView(value: budgetSpent, total: totalBudgetPermitted)
-                .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.primaryColor, overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
+                .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.mealzColor(.primary), overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
             HStack {
                 Spacer()
-                YellowSubtext(text: String(format: "%.2f €",budgetSpent), fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
+                YellowSubtext(text: String(format: "%.2f €", budgetSpent), fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
             }
         }
         .frame(width: widthOfFrame)
@@ -132,14 +135,14 @@ struct ChatBubbleShape: Shape {
     var triangleHeight: CGFloat = 5
     var triangleWidth: CGFloat = 10
     var triangleOffset: CGFloat = 1.4
-    
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        
+
         let bubbleRect = rect.insetBy(dx: 0, dy: triangleHeight)
-        
+
         path.addRoundedRect(in: bubbleRect, cornerSize: CGSize(width: cornerRadius, height: cornerRadius))
-        
+
         let triangleRect = CGRect(x: rect.midX - triangleWidth / 2,
                                   y: rect.maxY - triangleHeight,
                                   width: triangleWidth,
@@ -147,7 +150,7 @@ struct ChatBubbleShape: Shape {
         path.move(to: CGPoint(x: triangleRect.midX * triangleOffset, y: triangleRect.maxY))
         path.addLine(to: CGPoint(x: triangleRect.minX * triangleOffset, y: triangleRect.minY))
         path.addLine(to: CGPoint(x: triangleRect.maxX * triangleOffset, y: triangleRect.minY))
-        
+
         return path
     }
 }
@@ -178,7 +181,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                 CoursesUMealPlannerFooter().content(params: MealPlannerResultsFooterParameters(
                     mealPlannerCriteria: criteria,
                     heightOfFooter: 80,
-                    
+
                     budgetSpent: .constant(20),
                     onValidateTapped: {}))
             }
@@ -190,7 +193,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                 ScrollView {
                     VStack {
                         LazyVStack(spacing: 0) {
-                            ForEach(1..<11) { index in
+                            ForEach(1 ..< 11) { index in
                                 VStack {
                                     Text("hello world \(index)")
                                     AsyncImage(url: URL(string: "https://picsum.photos/200/300")!) { image in
@@ -201,7 +204,7 @@ struct CoursesUBudgetPlannerStickyFooter_Previews: PreviewProvider {
                                 }
                             }
                         }
-                        .padding(.bottom, (geometry.safeAreaInsets.bottom + 150)) // Add padding for safe area at bottom
+                        .padding(.bottom, geometry.safeAreaInsets.bottom + 150) // Add padding for safe area at bottom
                     }
                 }
                 StickyFooter(safeArea: safeArea) {

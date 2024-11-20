@@ -6,10 +6,9 @@
 //  Copyright © 2023 Miam. All rights reserved.
 //
 
+import mealzcore
+import MealziOSSDK
 import SwiftUI
-import MiamIOSFramework
-import miamCore
-import MealzUIModuleIOS
 
 @available(iOS 14, *)
 public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
@@ -22,15 +21,16 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
         self.showYellowBanner = showYellowBanner
         self.showingOnCatalogResults = showingOnCatalogResults
     }
+
     public func content(params: CatalogRecipeCardParameters) -> some View {
         let dimensions = Dimension.sharedInstance
         let callToActionHeight: CGFloat = 70
         let pictureHeight = params.recipeCardDimensions.height - callToActionHeight
-        
+
         func showTimeAndDifficulty() -> Bool {
             return params.recipeCardDimensions.height >= 320
         }
-        
+
         return VStack(spacing: 0.0) {
             VStack(spacing: 0.0) {
                 ZStack {
@@ -51,32 +51,34 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                         endPoint: .bottom
                     )
                     VStack(alignment: .trailing, spacing: 0) {
-                            HStack {
-                                if params.recipe.isSponsored{
-                                    if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
-                                        AsyncImage(url:url) { image in
-                                            image
-                                                .resizable() // Make image resizable
-                                                .scaledToFit().padding(8)
-                                                .background(Capsule().fill(Color.white))
-                                            
-                                        }.frame( width : 60, height: 60, alignment: .trailing)
-                                        Spacer()
-                                    }
-                                }
-                                if showYellowBanner {
-                                    Image(packageResource: "MealIdeas", ofType: "png")
-                                        .resizable()
-                                        .frame(width: 119, height: 40)
+                        HStack {
+                            if params.recipe.isSponsored {
+                                if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
+                                    AsyncImage(url: url) { image in
+                                        image
+                                            .resizable() // Make image resizable
+                                            .scaledToFit().padding(8)
+                                            .background(Capsule().fill(Color.white))
+
+                                    }.frame(width: 60, height: 60, alignment: .trailing)
                                     Spacer()
                                 }
-                                if showingOnCatalogResults {
-                                    LikeButton(
-                                        likeButtonInfo: LikeButtonInfo(
-                                            recipeId: params.recipe.id
-                                        ))
-                                }
-                            }.padding(dimensions.mPadding)
+                            }
+                            if showYellowBanner {
+                                Image(packageResource: "MealIdeas", ofType: "png")
+                                    .resizable()
+                                    .frame(width: 119, height: 40)
+                                Spacer()
+                            }
+                            if showingOnCatalogResults {
+                                CoursesULikeButton(recipeId: params.recipe.id)
+                                /* LikeButton(
+                                 likeButtonInfo: LikeButtonInfo(
+                                     recipeId: params.recipe.id,
+                                     backgroundColor: Color.white
+                                 )) */
+                            }
+                        }.padding(dimensions.mPadding)
                         Spacer()
                         HStack {
                             Text(params.recipe.title)
@@ -86,7 +88,21 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                 .multilineTextAlignment(.leading)
                                 .minimumScaleFactor(0.75)
                             Spacer()
-                            MealzSmallGuestView(guests: Int(params.numberOfGuests))
+                            // MealzSmallGuestView(guests: Int(params.numberOfGuests))
+                            HStack(spacing: 2) {
+                                Text(String(params.numberOfGuests))
+                                    .foregroundColor(Color.mealzColor(.darkestGray))
+                                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                                Image.mealzIcon(icon: .user)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .frame(width: 13, height: 13)
+                                    .foregroundColor(Color.mealzColor(.darkestGray))
+                            }
+                            .padding(.horizontal, Dimension.sharedInstance.mPadding)
+                            .padding(.vertical, Dimension.sharedInstance.sPadding)
+                            .background(Color.mealzColor(.white))
+                            .cornerRadius(50)
                         }.padding(Dimension.sharedInstance.mlPadding)
                     }
                 }
@@ -97,11 +113,12 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                     Spacer()
                     if !showingOnCatalogResults {
-                        LikeButton(
-                            likeButtonInfo: LikeButtonInfo(
-                                recipeId: params.recipe.id,
-                                backgroundColor: Color.clear
-                            ))
+                        CoursesULikeButton(recipeId: params.recipe.id)
+                        /* LikeButton(
+                         likeButtonInfo: LikeButtonInfo(
+                             recipeId: params.recipe.id,
+                             backgroundColor: Color.white
+                         )) */
                     }
                     CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                         params.onAddToBasket(params.recipe.id)
@@ -120,10 +137,10 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
         .cornerRadius(Dimension.sharedInstance.lCornerRadius)
         .overlay(
             RoundedRectangle(cornerRadius: Dimension.sharedInstance.lCornerRadius)
-            .stroke(Color.mealzColor(.border), lineWidth: 1.0))
+                .stroke(Color.mealzColor(.border), lineWidth: 1.0))
     }
-    
-    internal struct CallToAction: View {
+
+    struct CallToAction: View {
         let cardWidth: CGFloat
         let isCurrentlyInBasket: Bool
         let callToAction: () -> Void
@@ -145,38 +162,38 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                     }
                 })
                 .padding(Dimension.sharedInstance.mlPadding)
-                .background(Color.mealzColor(isCurrentlyInBasket ? .white : .primary))
-                .cornerRadius(Dimension.sharedInstance.buttonCornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
-                        .stroke(isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear, lineWidth: 1)
+                .background(
+                    Circle()
+                        .stroke(Color.mealzColor(.primary), lineWidth: 1)
+                        .background(Circle().fill(!isCurrentlyInBasket ? Color.mealzColor(.primary) : Color.clear))
                 )
+                .frame(width: 34, height: 34)
             }
         }
     }
 }
 
-
-@available(iOS 14, *)
-struct CoursesURecipeCard_Previews: PreviewProvider {
-    static var previews: some View {
-        let recipe = RecipeFakeFactory().create(
-            id: RecipeFakeFactory().FAKE_ID,
-            attributes: RecipeFakeFactory().createAttributes(
-                title: "Parmentier de Poulet",
-                mediaUrl: "https://lh3.googleusercontent.com/tbMNuhJ4KxReIPF_aE0yve0akEHeN6O8hauty_XNUF2agWsmyprACLg0Zw6s8gW-QCS3A0QmplLVqBKiMmGf_Ctw4SdhARvwldZqAtMG"),
-            relationships: nil)
-        CoursesURecipeCard()
-            .content(
-            params: CatalogRecipeCardParameters(
-            recipeCardDimensions: CGSize(width: 380, height: 100),
-            recipe: recipe,
-            recipePrice: 12.4,
-            numberOfGuests: 4,
-            isCurrentlyInBasket: false,
-            onAddToBasket: {_ in },
-            onShowRecipeDetails: {_ in}
-        ))
-        .padding(80.0)
-    }
-}
+/*@available(iOS 14, *)
+ struct CoursesURecipeCard_Previews: PreviewProvider {
+     static var previews: some View {
+         let recipe = RecipeFakeFactory().create(
+             id: RecipeFakeFactory().FAKE_ID,
+             attributes: RecipeFakeFactory().createAttributes(
+                 title: "Parmentier de Poulet",
+                 mediaUrl: "https://lh3.googleusercontent.com/tbMNuhJ4KxReIPF_aE0yve0akEHeN6O8hauty_XNUF2agWsmyprACLg0Zw6s8gW-QCS3A0QmplLVqBKiMmGf_Ctw4SdhARvwldZqAtMG"),
+             relationships: nil)
+         CoursesURecipeCard()
+             .content(
+             params: CatalogRecipeCardParameters(
+             recipeCardDimensions: CGSize(width: 380, height: 100),
+             recipe: recipe,
+             recipePrice: 12.4,
+             numberOfGuests: 4,
+             isCurrentlyInBasket: false,
+             onAddToBasket: {_ in },
+             onShowRecipeDetails: {_ in}
+         ))
+         .padding(80.0)
+     }
+ }
+ */
