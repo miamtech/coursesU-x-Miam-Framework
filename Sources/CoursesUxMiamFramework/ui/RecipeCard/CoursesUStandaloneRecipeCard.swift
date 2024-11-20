@@ -6,9 +6,8 @@
 //  Copyright © 2023 Miam. All rights reserved.
 //
 
-import MealzUIModuleIOS
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 import SwiftUI
 
 @available(iOS 14, *)
@@ -22,6 +21,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
         self.showYellowBanner = showYellowBanner
         self.showingOnCatalogResults = showingOnCatalogResults
     }
+
     public func content(params: CatalogRecipeCardParameters) -> some View {
         let dimensions = Dimension.sharedInstance
         let callToActionHeight: CGFloat = 70
@@ -69,7 +69,21 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                                  }
                                  } */
                                 Spacer()
-                                MealzSmallGuestView(guests: Int(params.numberOfGuests))
+                                // MealzSmallGuestView(guests: Int(params.numberOfGuests))
+                                HStack(spacing: 2) {
+                                    Text(String(params.numberOfGuests))
+                                        .foregroundColor(Color.mealzColor(.darkestGray))
+                                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                                    Image.mealzIcon(icon: .user)
+                                        .renderingMode(.template)
+                                        .resizable()
+                                        .frame(width: 13, height: 13)
+                                        .foregroundColor(Color.mealzColor(.darkestGray))
+                                }
+                                .padding(.horizontal, Dimension.sharedInstance.mPadding)
+                                .padding(.vertical, Dimension.sharedInstance.sPadding)
+                                .background(Color.mealzColor(.white))
+                                .cornerRadius(50)
                             }.padding(Dimension.sharedInstance.mlPadding)
                         }
                     }
@@ -89,7 +103,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                     HStack(spacing: 0) {
                         CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                         Spacer()
-                        
+
                         CoursesULikeButton(recipeId: params.recipe.id)
                         CallToAction(cardWidth: params.recipeCardDimensions.width, isCurrentlyInBasket: params.isCurrentlyInBasket) {
                             params.onAddToBasket(params.recipe.id)

@@ -1,14 +1,15 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by didi on 6/6/23.
 //
 
+import mealzcore
+import MealziOSSDK
 import SwiftUI
-import MiamIOSFramework
 
-@available (iOS 14, *)
+@available(iOS 14, *)
 struct CoursesUButtonStyle<Content: View>: View {
     let backgroundColor: Color
     let buttonStrokeColor: Color
@@ -19,14 +20,15 @@ struct CoursesUButtonStyle<Content: View>: View {
          buttonStrokeColor: Color = Color.clear,
          cornerRadius: CGFloat = Dimension.sharedInstance.buttonCornerRadius,
          content: @escaping () -> Content,
-         buttonAction: @escaping () -> Void
-    ) {
+         buttonAction: @escaping () -> Void)
+    {
         self.backgroundColor = backgroundColor
         self.buttonStrokeColor = buttonStrokeColor
         self.cornerRadius = cornerRadius
         self.content = content
         self.buttonAction = buttonAction
     }
+
     var body: some View {
         VStack {
             Button {
@@ -47,14 +49,15 @@ struct CoursesUButtonStyle<Content: View>: View {
         }
     }
 }
+
 @available(iOS 14, *)
 struct CoursesUButtonStyle_Previews: PreviewProvider {
     struct ContentView: View {
-        @State private var isLoading = false
+        @SwiftUI.State private var isLoading = false
 
         var body: some View {
             let primColor = Color.mealzColor(.primary)
-            let white =  Color.white
+            let white = Color.white
 
             return VStack {
                 CoursesUButtonStyle(

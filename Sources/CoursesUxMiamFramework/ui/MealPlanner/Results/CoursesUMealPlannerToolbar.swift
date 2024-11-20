@@ -14,8 +14,8 @@
 //
 
 import SwiftUI
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerToolbar: MealPlannerResultsToolbarProtocol {

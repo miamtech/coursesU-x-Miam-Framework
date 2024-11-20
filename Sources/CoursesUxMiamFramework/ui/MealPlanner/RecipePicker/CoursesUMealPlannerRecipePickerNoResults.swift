@@ -5,7 +5,8 @@
 //  Created by Diarmuid McGonagle on 06/02/2024.
 //
 
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 import SwiftUI
 
 @available(iOS 14, *)

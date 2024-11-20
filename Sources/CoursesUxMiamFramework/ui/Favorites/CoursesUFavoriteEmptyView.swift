@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
-import MealzUIModuleIOS
-import miamCore
+import mealzcore
+import MealziOSSDK
 
 
 @available(iOS 14, *)

@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import miamCore
-import MealzUIModuleIOS
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesURecipeDetailsFooterView: RecipeDetailsFooterProtocol {
@@ -117,7 +116,7 @@ internal struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View
                 cookOnlyContent
             } else {
                 if lockButton {
-                    MiamIOSFramework.ProgressLoader(color: .primary, size: 24)
+                    ProgressLoader(color: .primary, size: 24)
                 } else {
                     if params.totalPriceOfProductsAdded > 0 {
                         VStack(alignment: .leading) {
@@ -160,7 +159,7 @@ internal struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View
     internal struct LoadingButton: View {
         var body: some View {
             Button(action: {}, label: {
-                MiamIOSFramework.ProgressLoader(color: .white, size: 24)
+                ProgressLoader(color: .white, size: 24)
             })
             .padding(Dimension.sharedInstance.mlPadding)
             .background(Color.mealzColor(.primary))

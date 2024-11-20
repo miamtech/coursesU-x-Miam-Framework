@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 internal struct CoursesUStepperCollapsed: View {
@@ -25,7 +26,7 @@ internal struct CoursesUStepperCollapsed: View {
         self.caption = caption
         self.icon = icon
     }
-    @State var showBackground = false
+    @SwiftUI.State var showBackground = false
     let dimension = Dimension.sharedInstance
     var body: some View {
         VStack(spacing: dimension.sPadding) {
@@ -75,7 +76,7 @@ struct CoursesUStepperCollapsed_Previews: PreviewProvider {
         }
 
         struct StepperPreviewWrapper: View {
-            @State private var value = 4
+            @SwiftUI.State private var value = 4
 
             var body: some View {
                 VStack {

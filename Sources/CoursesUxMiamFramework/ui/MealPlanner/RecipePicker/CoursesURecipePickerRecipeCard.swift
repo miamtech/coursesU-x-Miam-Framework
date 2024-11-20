@@ -5,9 +5,9 @@
 //  Created by Diarmuid McGonagle on 08/02/2024.
 //
 
+import mealzcore
+import MealziOSSDK
 import SwiftUI
-import miamCore
-import MiamIOSFramework
 
 @available(iOS 14, *)
 public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
@@ -29,18 +29,17 @@ public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
                             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
                     }.frame(height: 150.0)
                         .clipped()
-                    
-                   
+
                     HStack {
-                        if params.recipe.isSponsored{
+                        if params.recipe.isSponsored {
                             if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
-                                AsyncImage(url:url) { image in
+                                AsyncImage(url: url) { image in
                                     image
                                         .resizable() // Make image resizable
                                         .scaledToFit().padding(8)
                                         .background(Capsule().fill(Color.white))
-                                    
-                                }.frame( width : 60, height: 60, alignment: .trailing)
+
+                                }.frame(width: 60, height: 60, alignment: .trailing)
                                 Spacer()
                             }
                         }
@@ -79,7 +78,7 @@ public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
                                 .foregroundColor(Color.white)
                                 .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
                         }
-                        
+
                     }, buttonAction: {
                         //                        actions.addToBasket(recipeInfos.recipe.id)
                         ctaAction(params.recipe.id)
@@ -99,6 +98,6 @@ public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
         .onTapGesture {
             params.onShowRecipeDetails(params.recipe.id)
         }
-        .frame(height: params.recipeCardDimensions.height)
+        // .frame(height: 300)
     }
 }

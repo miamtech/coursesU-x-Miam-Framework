@@ -5,8 +5,8 @@
 //  Created by didi on 6/13/23.
 //
 
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 import SwiftUI
 
 @available(iOS 14, *)
