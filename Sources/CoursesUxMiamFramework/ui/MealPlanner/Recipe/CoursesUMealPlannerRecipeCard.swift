@@ -6,11 +6,9 @@
 //  Copyright © 2023 Miam. All rights reserved.
 //
 
+import mealzcore
+import MealziOSSDK
 import SwiftUI
-import miamCore
-import MiamIOSFramework
-
-
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
@@ -24,32 +22,32 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
                     cookingTime: params.recipe.cookingTimeIos,
                     difficulty: params.recipe.difficulty,
                     price: params.recipe.attributes?.price?.price ?? 0.0)
-        }, callToAction: {
-            RecipeCardCallToAction(removeTapped: params.onRemoveRecipeFromMealPlanner, replaceTapped: params.onReplaceRecipeFromMealPlanner)
-        }, showRecipeDetails: params.onShowRecipeDetails)
-        .frame(height: params.recipeCardDimensions.height)
+            }, callToAction: {
+                RecipeCardCallToAction(removeTapped: params.onRemoveRecipeFromMealPlanner, replaceTapped: params.onReplaceRecipeFromMealPlanner)
+            }, showRecipeDetails: params.onShowRecipeDetails)
+            .frame(height: params.recipeCardDimensions.height)
     }
-    
+
     @available(iOS 14, *)
-    internal struct DifficultyTimeRecap: View {
+    struct DifficultyTimeRecap: View {
         var cookingTime: String
         var difficulty: Int
         var price: Double
         var body: some View {
             VStack(spacing: Dimension.sharedInstance.mPadding) {
-                HStack() {
+                HStack {
                     CoursesURecipePreparationTime(duration: cookingTime)
                     Divider()
                     CoursesURecipeDifficulty(difficulty: difficulty)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                RecapPriceForRecipes(priceAmount:  price.currencyFormatted)
+                RecapPriceForRecipes(priceAmount: price.currencyFormatted)
             }
         }
     }
 
     @available(iOS 14, *)
-    internal struct RecipeCardCallToAction: View {
+    struct RecipeCardCallToAction: View {
         let removeTapped: () -> Void
         let replaceTapped: () -> Void
         var body: some View {
@@ -79,10 +77,7 @@ public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
             .frame(maxWidth: .infinity)
         }
     }
-
 }
-
-
 
 @available(iOS 14, *)
 struct CoursesURecipeCardCoreFrame<
@@ -94,22 +89,23 @@ struct CoursesURecipeCardCoreFrame<
     let centerContent: () -> CenterContent
     let callToAction: () -> CallToAction
     let showRecipeDetails: (String) -> Void
-       
+
     public init(
         recipe: Recipe,
         price: Double,
         centerContent: @escaping () -> CenterContent,
         callToAction: @escaping () -> CallToAction,
-        showRecipeDetails: @escaping (String) -> Void
-    ) {
+        showRecipeDetails: @escaping (String) -> Void)
+    {
         self.recipe = recipe
         self.price = price
         self.centerContent = centerContent
         self.callToAction = callToAction
         self.showRecipeDetails = showRecipeDetails
     }
+
     let dimension = Dimension.sharedInstance
-    
+
     var body: some View {
         HStack(spacing: 0.0) {
             ZStack(alignment: .topLeading) {
@@ -122,25 +118,25 @@ struct CoursesURecipeCardCoreFrame<
                 }
                 .frame(width: 150.0)
                 .clipped()
-                HStack {
-                    if recipe.isSponsored{
-                        if let urlString = recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
-                            AsyncImage(url:url) { image in
-                                image
-                                    .resizable() // Make image resizable
-                                    .scaledToFit().padding(8)
-                                    .background(Capsule().fill(Color.white))
-                                
-                            }.frame( width : 60, height: 60, alignment: .trailing)
-                            Spacer()
-                        }
-                    }
-                    Spacer()
-                    CoursesULikeButton(recipeId: recipe.id)
-                    .padding(dimension.mPadding)
-                }
-                
-            } .frame(width: 150.0)
+                /* HStack {
+                     if recipe.isSponsored{
+                         if let urlString = recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
+                             AsyncImage(url:url) { image in
+                                 image
+                                     .resizable() // Make image resizable
+                                     .scaledToFit().padding(8)
+                                     .background(Capsule().fill(Color.white))
+
+                             }.frame( width : 60, height: 60, alignment: .trailing)
+                             Spacer()
+                         }
+                     }
+                     Spacer()
+                     CoursesULikeButton(recipeId: recipe.id)
+                     .padding(dimension.mPadding)
+                 } */
+
+            }.frame(width: 150.0)
             VStack(alignment: .leading, spacing: dimension.mPadding) {
                 HStack {
                     Text(recipe.title + "\n")

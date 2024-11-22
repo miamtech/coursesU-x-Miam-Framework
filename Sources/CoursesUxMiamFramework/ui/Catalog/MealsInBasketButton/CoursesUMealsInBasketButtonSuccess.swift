@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
-import miamCore
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUMealsInBasketButtonSuccess: MealsInBasketButtonSuccessProtocol {

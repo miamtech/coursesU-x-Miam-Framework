@@ -5,8 +5,8 @@
 //  Created by didi on 6/27/23.
 //
 import SwiftUI
-import miamCore
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesURecipeDifficulty: View {

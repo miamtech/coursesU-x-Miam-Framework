@@ -5,10 +5,9 @@
 //  Created by miam x didi on 22/02/2024.
 //
 
+import mealzcore
+import MealziOSSDK
 import SwiftUI
-import MiamIOSFramework
-import miamCore
-import MealzUIModuleIOS
 
 public let mealzProductHeight: CGFloat = 230
 
@@ -43,7 +42,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                     .frame(width: 72, height: 72)
                     .padding(dim.mPadding)
                 }
-                
+
                 VStack(alignment: .leading) {
                     if let brand = params.data.brand {
                         Text(brand)
@@ -58,17 +57,17 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                         }
                     }
                     Button(action: params.onChangeProduct, label: {
-                        Text(Localization.myBudget.replaceItem.localised)
+                        Text(Localization.basket.swapProduct.localised)
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
                             .foregroundColor(Color.mealzColor(.primary))
                     })
                 }
-                .frame(maxWidth: .infinity,alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, dim.mlPadding)
                 .padding(.top, dim.mPadding)
             }
             if params.data.numberOfOtherRecipesSharingThisIngredient < 2 {
-             Spacer()
+                Spacer()
             }
             HStack {
                 Text(params.data.formattedProductPrice)
@@ -80,19 +79,19 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
             }
             if params.data.numberOfOtherRecipesSharingThisIngredient > 1 {
                 Spacer()
-                    HStack(alignment: .center) {
+                HStack(alignment: .center) {
                     Text(
                         String(format: String.localizedStringWithFormat(
-                            Localization.ingredient.productsSharedRecipe(
+                            Localization.myProductsProduct.productsSharedRecipe(
                                 numberOfProducts: Int32(params.data.numberOfOtherRecipesSharingThisIngredient)
                             ).localised,
-                            params.data.numberOfOtherRecipesSharingThisIngredient),
-                               params.data.numberOfOtherRecipesSharingThisIngredient)
+                            params.data.numberOfOtherRecipesSharingThisIngredient
+                        ),
+                        params.data.numberOfOtherRecipesSharingThisIngredient)
                     )
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
                     .padding(.vertical, Dimension.sharedInstance.mPadding)
                     .foregroundColor(Color.mealzColor(.grayText))
-                   
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color.mealzColor(.lightBackground))
@@ -106,8 +105,8 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
         )
         .padding(.horizontal, dim.mPadding)
     }
-    
-    internal struct QuantityCounter: View {
+
+    struct QuantityCounter: View {
         let params: RecipeDetailsAddedProductParameters
         let dim = Dimension.sharedInstance
         var body: some View {

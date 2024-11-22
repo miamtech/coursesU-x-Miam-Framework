@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import miamCore
-import MealzUIModuleIOS
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerRecipeDetailsFooterView: RecipeDetailsFooterProtocol {

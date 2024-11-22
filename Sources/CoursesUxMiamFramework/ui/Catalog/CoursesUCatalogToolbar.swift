@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-import MiamIOSFramework
+import mealzcore
+import MealziOSSDK
 
 @available(iOS 14, *)
 public struct CoursesUCatalogToolbar: CatalogToolbarProtocol {
@@ -52,18 +53,5 @@ struct CatalogToolbarButtonFormat: View {
                 .foregroundColor(Color.mealzColor(.primary))
         }
         .frame(width: 30)
-    }
-}
-
-@available(iOS 14, *)
-struct CoursesUCatalogToolbar_Previews: PreviewProvider {
-    static var previews: some View {
-        CoursesUCatalogToolbar().content(
-            params: CatalogToolbarParameters(
-                numberOfActiveFilters: 0, usesPreferences: true,
-                onFiltersTapped: {},
-                onSearchTapped: {},
-                onFavoritesTapped: {},
-                onPreferencesTapped: {}))
     }
 }
