@@ -9,7 +9,7 @@ import mealzcore
 import MealziOSSDK
 import SwiftUI
 
-public let mealzProductHeight: CGFloat = 230
+public let mealzProductHeight: CGFloat = 240
 
 @available(iOS 14, *)
 public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductProtocol {
@@ -41,6 +41,8 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                     }
                     .frame(width: 72, height: 72)
                     .padding(dim.mPadding)
+                } else {
+                    Image.mealzIcon(icon: .pan).frame(width: 72, height: 72)
                 }
 
                 VStack(alignment: .leading) {
@@ -51,16 +53,14 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                     Text(params.data.name)
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
                     HStack {
+                        if params.data.isSponsored { MealzSponsoredTag() }
                         IngredientUnitBubble(capacity: params.data.capacity)
-                        if params.data.isSponsored {
-                            MealzSponsoredTag()
-                        }
+
+                        MealzMyProductsProductCard.showUnitOfMeasurement(
+                            pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
+                            productUnit: params.productUnit
+                        )
                     }
-                    Button(action: params.onChangeProduct, label: {
-                        Text(Localization.basket.swapProduct.localised)
-                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
-                            .foregroundColor(Color.mealzColor(.primary))
-                    })
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, dim.mlPadding)
@@ -77,6 +77,12 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 Spacer()
                 QuantityCounter(params: params)
             }
+            MealzProductBase.ignoreOrReplaceProduct(
+                lockButton: false,
+                onIgnoreProduct: params.onIgnoreProduct,
+                onReplaceProduct: params.onChangeProduct
+            )
+            Spacer()
             if params.data.numberOfOtherRecipesSharingThisIngredient > 1 {
                 Spacer()
                 HStack(alignment: .center) {
@@ -139,7 +145,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
             }
             .padding(dim.mPadding)
             .background(Color.mealzColor(.primary))
-            .cornerRadius(dim.buttonCornerRadius)
+            .cornerRadius(1000)
             .padding(dim.mPadding)
         }
     }
