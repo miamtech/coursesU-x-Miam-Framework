@@ -64,17 +64,26 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
                 )
                 Spacer()
 
-                Button(action: params.onAddProduct, label: {
-                    Image.mealzIcon(icon: .basket)
-                        .resizable()
-                        .renderingMode(.template)
-                        .foregroundColor(Color.mealzColor(.white))
-                        .frame(width: 20, height: 20)
-                        .padding(Dimension.sharedInstance.mlPadding)
-                        .background(Color.mealzColor(.primary)
-                            .cornerRadius(1000))
-                        .frame(width: 48, height: 48)
-                })
+                if lockButton {
+                    Button(action: {}, label: {
+                        ProgressLoader(color: .white, size: 24)
+                    })
+                    .padding(Dimension.sharedInstance.mlPadding)
+                    .background(Color.mealzColor(.primary))
+                    .cornerRadius(1000)
+                } else {
+                    Button(action: params.onAddProduct, label: {
+                        Image.mealzIcon(icon: .basket)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(Color.mealzColor(.white))
+                            .frame(width: 20, height: 20)
+                            .padding(Dimension.sharedInstance.mlPadding)
+                            .background(Color.mealzColor(.primary)
+                                .cornerRadius(1000))
+                            .frame(width: 48, height: 48)
+                    })
+                }
 
             }.padding(.horizontal, dim.mlPadding)
 
