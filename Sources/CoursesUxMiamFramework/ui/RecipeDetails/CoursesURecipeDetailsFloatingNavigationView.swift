@@ -22,7 +22,7 @@ public struct CoursesURecipeDetailsFloatingNavigationView: RecipeDetailsFloating
                 thisView.closePage(onRecipeDetailsClosed: params.onRecipeDetailsClosed)
                     .foregroundColor(Color.mealzColor(.white))
                     .clipShape(Circle()).padding()
-                Spacer()
+                //Spacer()
                 if let title = params.title {
                     Text(title)
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)

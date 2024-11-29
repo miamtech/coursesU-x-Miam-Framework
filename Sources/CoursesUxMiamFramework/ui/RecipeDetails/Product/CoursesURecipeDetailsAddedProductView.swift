@@ -9,7 +9,7 @@ import mealzcore
 import MealziOSSDK
 import SwiftUI
 
-public let mealzProductHeight: CGFloat = 270
+public let mealzProductHeight: CGFloat = 280
 
 @available(iOS 14, *)
 public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductProtocol {
