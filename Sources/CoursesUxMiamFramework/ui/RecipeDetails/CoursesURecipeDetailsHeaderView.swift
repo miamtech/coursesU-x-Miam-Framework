@@ -48,11 +48,7 @@ public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderProtocol {
                     .frame(height: imageHeight),
                 alignment: .top
             )
-            Text(params.title)
-                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
-                .padding(.bottom, Dimension.sharedInstance.sPadding)
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+
             /* CoursesURecipeDetailsTagsView(tags: params.tags)*/
         }
     }
