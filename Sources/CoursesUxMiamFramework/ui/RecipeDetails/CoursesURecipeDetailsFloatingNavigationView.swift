@@ -22,7 +22,6 @@ public struct CoursesURecipeDetailsFloatingNavigationView: RecipeDetailsFloating
                 thisView.closePage(onRecipeDetailsClosed: params.onRecipeDetailsClosed)
                     .foregroundColor(Color.mealzColor(.white))
                     .clipShape(Circle()).padding()
-                //Spacer()
                 if let title = params.title {
                     Text(title)
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
@@ -48,8 +47,6 @@ public struct CoursesURecipeDetailsFloatingNavigationView: RecipeDetailsFloating
                 .rotationEffect(Angle(degrees: 180))
         }).frame(width: 40, height: 40)
             .overlay(Circle().stroke(Color.white, lineWidth: 1))
-        // .foregroundColor(Color.mealzColor(.standardDarkText))
-        // .background(Color.mealzColor(.white))
     }
 
     @ViewBuilder
