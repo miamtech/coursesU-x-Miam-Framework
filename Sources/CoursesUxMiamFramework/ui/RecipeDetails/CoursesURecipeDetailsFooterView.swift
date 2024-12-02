@@ -131,14 +131,6 @@ struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View {
                     LoadingButton()
                 } else {
                     if params.ingredientsStatus.type == IngredientStatusTypes.noMoreToAdd {
-                        /* ContinueMyShoppingCTA(
-                         callToAction: params.callToAction,
-                         buttonText: Localization.recipeDetails.continueShopping.localised,
-                         disableButton: lockButton)
-                         .frame(maxWidth: .infinity)
-                         .cornerRadius(1000)
-                         .padding(Dimension.sharedInstance.mlPadding)*/
-                        
                         Button(action: params.callToAction, label: {
                             Text(Localization.recipeDetails.continueShopping.localised)
                                 .foregroundColor(Color.mealzColor(.primary))
