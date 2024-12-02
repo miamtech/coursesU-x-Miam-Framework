@@ -34,7 +34,7 @@ public struct CoursesUGeneralSearch: SearchProtocol {
                                 .renderingMode(.template)
                                 .foregroundColor(Color.mealzColor(.white))
                                 .padding(10)
-                                .background(longerThanThreeChars ? Color.mealzColor(.primary) : Color.mealzColor(.grayText)).clipShape(Circle())
+                                .background(longerThanThreeChars ? Color.mealzColor(.primary) : Color.mealzColor(.primary)).clipShape(Circle())
                                 .shadow(radius: 2.0)
                         }
                         //.darkenView(!longerThanThreeChars)
