@@ -35,26 +35,29 @@ public struct CoursesURecipeDetailsTagsView: RecipeDetailsTagsProtocol {
         VStack {
             if let orderDate = params.orderHistory {
                 HStack {
-                    Image.mealzIcon(icon: .exclammationPoint)
-                        .resizable()
-                        .renderingMode(.template)
-                        .frame(width: 10, height: 10)
-                        .foregroundColor(Color.mealzColor(.white))
-                        .padding(Dimension.sharedInstance.sPadding)
-                        .background(Circle())
-                    Text("\(Localization.recipeDetails.orderedOn.localised) \(orderDate)")
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
-                }
-                .foregroundColor(Color.mealzColor(.informativeContent))
-                .padding(Dimension.sharedInstance.mPadding)
-                .background(
-                    RoundedRectangle(
-                        cornerRadius: Dimension.sharedInstance.xlCornerRadius
+                    HStack {
+                        Image.mealzIcon(icon: .exclammationPoint)
+                            .resizable()
+                            .renderingMode(.template)
+                            .frame(width: 10, height: 10)
+                            .foregroundColor(Color.mealzColor(.white))
+                            .padding(Dimension.sharedInstance.sPadding)
+                            .background(Circle())
+                        Text("\(Localization.recipeDetails.orderedOn.localised) \(orderDate)")
+                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
+                    }
+                    .foregroundColor(Color.mealzColor(.informativeContent))
+                    .padding(Dimension.sharedInstance.mPadding)
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: Dimension.sharedInstance.xlCornerRadius
+                        )
+                        .fill(Color.mealzColor(.informativeBackground))
                     )
-                    .fill(Color.mealzColor(.informativeBackground))
-                )
-                .padding(.horizontal, Dimension.sharedInstance.lPadding)
-                .onTapGesture(perform: params.onClickOrderHistoryTag)
+                    .padding(.horizontal, Dimension.sharedInstance.lPadding)
+                    .onTapGesture(perform: params.onClickOrderHistoryTag)
+                    Spacer()
+                }
             }
 
             Text(params.title)
@@ -91,6 +94,7 @@ public struct CoursesURecipeDetailsTagsView: RecipeDetailsTagsProtocol {
             }
             .frame(maxWidth: .infinity)
             .padding(Dimension.sharedInstance.sPadding)
+            .padding(.leading)
             .padding(.bottom)
         }
     }

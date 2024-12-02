@@ -75,9 +75,12 @@ public struct CoursesURecipeDetailsHeaderView: RecipeDetailsHeaderProtocol {
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
                         .frame(minWidth: 10, alignment: .center)
                         .foregroundColor(Color.mealzColor(.darkestGray))
-                    Image.mealzIcon(icon: .guests)
+                    // Image.mealzIcon(icon: .user)
+                    Image(packageResource: "guestsNumber", ofType: "png")
                         .renderingMode(.template)
+                        .resizable()
                         .foregroundColor(Color.mealzColor(.darkestGray))
+                        .frame(width: 16, height: 16)
                     Button {
                         updateGuest(currentGuests + 1)
                     } label: {

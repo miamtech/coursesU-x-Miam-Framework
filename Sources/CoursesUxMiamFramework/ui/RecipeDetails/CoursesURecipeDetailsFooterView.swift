@@ -113,7 +113,7 @@ struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View {
                 cookOnlyContent
             } else {
                 if lockButton {
-                    ProgressLoader(color: .primary, size: 24)
+                    // ProgressLoader(color: .primary, size: 24)
                 } else {
                     if params.totalPriceOfProductsAdded > 0 {
                         HStack {
