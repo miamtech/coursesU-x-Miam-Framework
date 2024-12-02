@@ -9,7 +9,7 @@ import mealzcore
 import MealziOSSDK
 import SwiftUI
 
-public let mealzProductHeight: CGFloat = 240
+public let mealzProductHeight: CGFloat = 280
 
 @available(iOS 14, *)
 public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductProtocol {
@@ -32,6 +32,8 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
             .frame(height: 40)
             .background(Color.mealzColor(.primary))
             .cornerRadius(dim.mCornerRadius, corners: .top)
+            Spacer().frame(height: 40)
+
             HStack {
                 if let pictureURL = URL(string: params.data.pictureURL) {
                     AsyncImage(url: pictureURL) { image in

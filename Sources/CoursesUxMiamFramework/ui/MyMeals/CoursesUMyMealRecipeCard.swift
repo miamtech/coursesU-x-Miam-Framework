@@ -40,11 +40,11 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                         Text(String(params.numberOfGuests))
                             .foregroundColor(Color.mealzColor(.darkestGray))
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
-                        Image.mealzIcon(icon: .user)
+                        Image(packageResource: "guestsNumber", ofType: "png")
                             .renderingMode(.template)
                             .resizable()
-                            .frame(width: 13, height: 13)
                             .foregroundColor(Color.mealzColor(.darkestGray))
+                            .frame(width: 13, height: 13)
                     }
                     .padding(.horizontal, Dimension.sharedInstance.mPadding)
                     .padding(.vertical, Dimension.sharedInstance.sPadding)
@@ -94,27 +94,6 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                     
                     PricePerPersonView(price: params.recipePrice, numberOfGuests: params.numberOfGuests)
                     Spacer()
-                    Button(action: {
-                        params.onShowRecipeDetails(params.recipe.id)
-                    }, label: {
-                        HStack {
-                            Text(Localization.myMeals.seeProducts.localised)
-                                .foregroundColor(Color.mealzColor(.primary))
-                                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
-                            Spacer()
-                            Image.mealzIcon(icon: .arrow)
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(Color.mealzColor(.primary))
-                        }
-                    })
-                    .padding(Dimension.sharedInstance.mPadding)
-                    .overlay( /// apply a rounded border
-                        RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius)
-                            .stroke(Color.mealzColor(.primary), lineWidth: 1)
-                    )
-                    .frame(maxHeight: 40)
                 }
                 .frame(maxWidth: .infinity)
             }

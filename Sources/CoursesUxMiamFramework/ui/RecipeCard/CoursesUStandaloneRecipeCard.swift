@@ -48,9 +48,15 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         VStack(spacing: 0) {
                             HStack {
                                 if showYellowBanner {
-                                    Image(packageResource: "MealIdeas", ofType: "png")
-                                        .resizable()
-                                        .frame(width: 119, height: 40)
+                                    if params.recipe.isADrink {
+                                        Image(packageResource: "MealIdeasDrinks", ofType: "png")
+                                            .resizable()
+                                            .frame(width: 119, height: 40)
+                                    } else {
+                                        Image(packageResource: "MealIdeas", ofType: "png")
+                                            .resizable()
+                                            .frame(width: 119, height: 40)
+                                    }
                                     Spacer()
                                 }
                             }.padding(dimensions.mPadding)
@@ -74,11 +80,11 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                                     Text(String(params.numberOfGuests))
                                         .foregroundColor(Color.mealzColor(.darkestGray))
                                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
-                                    Image.mealzIcon(icon: .user)
+                                    Image(packageResource: "guestsNumber", ofType: "png")
                                         .renderingMode(.template)
                                         .resizable()
-                                        .frame(width: 13, height: 13)
                                         .foregroundColor(Color.mealzColor(.darkestGray))
+                                        .frame(width: 13, height: 13)
                                 }
                                 .padding(.horizontal, Dimension.sharedInstance.mPadding)
                                 .padding(.vertical, Dimension.sharedInstance.sPadding)
@@ -114,14 +120,14 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                 .padding(Dimension.sharedInstance.mlPadding)
             }
         }
-        .onTapGesture {
-            params.onShowRecipeDetails(params.recipe.id)
-        }
         .padding(0)
         .frame(height: 200)
         .frame(maxWidth: .infinity)
         .background(Color.mealzColor(.white))
         .cornerRadius(Dimension.sharedInstance.lCornerRadius)
+        .onTapGesture {
+            params.onShowRecipeDetails(params.recipe.id)
+        }
         .overlay(
             RoundedRectangle(cornerRadius: Dimension.sharedInstance.lCornerRadius)
                 .stroke(Color.mealzColor(.border), lineWidth: 1.0))

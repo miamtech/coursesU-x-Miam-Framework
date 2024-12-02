@@ -9,7 +9,6 @@ import SwiftUI
 
 @available(iOS 14, *)
 public struct ProgressLoader: View {
-
     @State private var isAnimating = false
     @State private var showProgress = false
     private var color: Color

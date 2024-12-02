@@ -65,9 +65,15 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                 }
                             }
                             if showYellowBanner {
-                                Image(packageResource: "MealIdeas", ofType: "png")
-                                    .resizable()
-                                    .frame(width: 119, height: 40)
+                                if params.recipe.isADrink {
+                                    Image(packageResource: "MealIdeasDrinks", ofType: "png")
+                                        .resizable()
+                                        .frame(width: 119, height: 40)
+                                } else {
+                                    Image(packageResource: "MealIdeas", ofType: "png")
+                                        .resizable()
+                                        .frame(width: 119, height: 40)
+                                }
                                 Spacer()
                             }
                             if showingOnCatalogResults {
@@ -93,11 +99,11 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                 Text(String(params.numberOfGuests))
                                     .foregroundColor(Color.mealzColor(.darkestGray))
                                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
-                                Image.mealzIcon(icon: .user)
+                                Image(packageResource: "guestsNumber", ofType: "png")
                                     .renderingMode(.template)
                                     .resizable()
-                                    .frame(width: 13, height: 13)
                                     .foregroundColor(Color.mealzColor(.darkestGray))
+                                    .frame(width: 13, height: 13)
                             }
                             .padding(.horizontal, Dimension.sharedInstance.mPadding)
                             .padding(.vertical, Dimension.sharedInstance.sPadding)

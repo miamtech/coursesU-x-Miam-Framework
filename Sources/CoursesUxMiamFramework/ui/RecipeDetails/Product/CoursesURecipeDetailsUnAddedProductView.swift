@@ -23,6 +23,7 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
                 ingredientQuantity: params.data.ingredientQuantity,
                 isInBasket: false
             )
+            Spacer().frame(height: 40)
             HStack {
                 if let pictureURL = URL(string: params.data.pictureURL) {
                     AsyncImage(url: pictureURL) { image in
