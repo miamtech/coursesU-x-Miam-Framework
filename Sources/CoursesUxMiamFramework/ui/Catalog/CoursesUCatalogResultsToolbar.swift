@@ -12,25 +12,74 @@ import SwiftUI
 @available(iOS 14, *)
 public struct CoursesUCatalogResultsToolbar: CatalogToolbarProtocol {
     public init() {}
+    let offsetBeforeChangingViews: CGFloat = 25
     public func content(params: CatalogToolbarParameters) -> some View {
+        func determineHeight() -> CGFloat {
+            if params.currentElementHeight > params.maximumHeight { return params.maximumHeight }
+            else if params.currentElementHeight < params.minimumHeight { return params.minimumHeight }
+            else { return params.currentElementHeight }
+        }
+        return VStack {
+            if determineHeight() < params.maximumHeight - offsetBeforeChangingViews {
+                MealzCatalogToolbarMinimizedSizeView(params: params, withFavorites: true)
+                    .padding(.horizontal, Dimension.sharedInstance.lPadding)
+            } else {
+                MealzCatalogResultsToolbarFullSizeView(
+                    params: params,
+                    withFavorites: true)
+                Spacer()
+            }
+        }
+        .frame(height: determineHeight())
+    }
+}
+
+@available(iOS 14, *)
+struct MealzCatalogResultsToolbarFullSizeView: View {
+    let params: CatalogToolbarParameters
+    let withFavorites: Bool
+
+    init(params: CatalogToolbarParameters, withFavorites: Bool) {
+        self.params = params
+        self.withFavorites = withFavorites
+    }
+
+    var body: some View {
         VStack(alignment: .leading, spacing: Dimension.sharedInstance.lPadding) {
+            VStack(spacing: 1) {
+                if let subtitle = params.subtitle {
+                    Text(params.title)
+                        .lineLimit(2)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                        .padding(.horizontal, Dimension.sharedInstance.mlPadding)
+                        .padding(.top, Dimension.sharedInstance.sPadding)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(subtitle)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
+                        .foregroundColor(Color.mealzColor(.grayText))
+                        .padding([.top, .horizontal], Dimension.sharedInstance.mlPadding)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    Text(params.title)
+                        .lineLimit(2)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                        .padding([.top, .horizontal], Dimension.sharedInstance.mlPadding)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }.frame(maxWidth: .infinity)
+            Divider().frame(maxWidth: .infinity)
             HStack(spacing: Dimension.sharedInstance.xlPadding) {
                 MealzCatalogToolbarButtonFormat(icon: Image.mealzIcon(icon: .search), action: params.onSearchTapped)
                 Spacer()
-
-                ZStack(alignment: .topTrailing) {
-                    MealzCatalogToolbarButtonFormat(icon: Image.mealzIcon(icon: .filters), action: params.onFiltersTapped).padding(8)
-                    if params.numberOfActiveFilters > 0 {
-                        Text("\(params.numberOfActiveFilters)")
-                            .foregroundColor(Color.white)
-                            .padding(4)
-                            .background(Circle().fill(Color.red))
-                    }
+                if !params.isFavorite {
+                    MealzCatalogToolbarButtonFormat(
+                        icon: Image.mealzIcon(icon: .filters),
+                        badgeNumber: params.numberOfActiveFilters,
+                        action: params.onFiltersTapped)
                 }
-                if params.usesPreferences {
-                    MealzCatalogToolbarButtonFormat(icon: Image.mealzIcon(icon: .chefHat), action: params.onPreferencesTapped)
-                }
-            }.padding([.horizontal, .vertical], Dimension.sharedInstance.lPadding)
+            }
+            .padding(.horizontal, Dimension.sharedInstance.lPadding)
         }
     }
 }
