@@ -17,60 +17,24 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
     let dim = Dimension.sharedInstance
     public func content(params: RecipeDetailsAddedProductParameters) -> some View {
         VStack(spacing: 0) {
+            MealzProductBase.ingredientNameAndAmount(
+                ingredientName: params.data.ingredientName,
+                ingredientUnit: params.data.ingredientUnit,
+                ingredientQuantity: params.data.ingredientQuantity,
+                isInBasket: true)
+            Spacer().frame(height: 15)
             HStack {
-                Text(params.data.ingredientName.capitalizingFirstLetter())
-                    .padding(dim.mPadding)
-                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
-                Spacer()
-                if let unit = params.data.ingredientUnit {
-                    Text(QuantityFormatter.companion.readableFloatNumber(value: params.data.ingredientQuantity, unit: unit))
-                        .padding(dim.mPadding)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumStyle)
-                }
+                MealzProductBase.productImage(pictureURL: params.data.pictureURL)
+                MealzProductBase.productTitleDescriptionWeight(
+                    brand: params.data.brand,
+                    name: params.data.name,
+                    capacity: params.data.capacity,
+                    isSponsored: params.data.isSponsored,
+                    pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
+                    productUnit: params.productUnit
+                )
             }
-            .foregroundColor(Color.mealzColor(.white))
-            .frame(height: 40)
-            .background(Color.mealzColor(.primary))
-            .cornerRadius(dim.mCornerRadius, corners: .top)
-            Spacer().frame(height: 40)
-
-            HStack {
-                if let pictureURL = URL(string: params.data.pictureURL) {
-                    AsyncImage(url: pictureURL) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    }
-                    .frame(width: 72, height: 72)
-                    .padding(dim.mPadding)
-                } else {
-                    Image.mealzIcon(icon: .pan).frame(width: 72, height: 72)
-                }
-
-                VStack(alignment: .leading) {
-                    if let brand = params.data.brand {
-                        Text(brand)
-                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallBoldStyle)
-                    }
-                    Text(params.data.name)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
-                    HStack {
-                        if params.data.isSponsored { MealzSponsoredTag() }
-                        IngredientUnitBubble(capacity: params.data.capacity)
-
-                        MealzMyProductsProductCard.showUnitOfMeasurement(
-                            pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
-                            productUnit: params.productUnit
-                        )
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, dim.mlPadding)
-                .padding(.top, dim.mPadding)
-            }
-            if params.data.numberOfOtherRecipesSharingThisIngredient < 2 {
-                Spacer()
-            }
+            Spacer()
             HStack {
                 Text(params.data.formattedProductPrice)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
@@ -80,30 +44,13 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 QuantityCounter(params: params)
             }
             MealzProductBase.ignoreOrReplaceProduct(
-                lockButton: false,
+                lockButton: params.updatingQuantity,
                 onIgnoreProduct: params.onIgnoreProduct,
                 onReplaceProduct: params.onChangeProduct
             )
             Spacer()
-            if params.data.numberOfOtherRecipesSharingThisIngredient > 1 {
-                Spacer()
-                HStack(alignment: .center) {
-                    Text(
-                        String(format: String.localizedStringWithFormat(
-                            Localization.myProductsProduct.productsSharedRecipe(
-                                numberOfProducts: Int32(params.data.numberOfOtherRecipesSharingThisIngredient)
-                            ).localised,
-                            params.data.numberOfOtherRecipesSharingThisIngredient
-                        ),
-                        params.data.numberOfOtherRecipesSharingThisIngredient)
-                    )
-                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
-                    .padding(.vertical, Dimension.sharedInstance.mPadding)
-                    .foregroundColor(Color.mealzColor(.grayText))
-                }
-                .frame(maxWidth: .infinity)
-                .background(Color.mealzColor(.lightBackground))
-            }
+            MealzProductBase.showNumberOfSharedRecipes(
+                numberOfOtherRecipesSharingThisIngredient: params.data.numberOfOtherRecipesSharingThisIngredient)
         }
         .frame(height: mealzProductHeight)
         .clipped()
@@ -130,6 +77,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                         .renderingMode(.template)
                         .foregroundColor(Color.mealzColor(.white))
                 }
+                .disabled(params.updatingQuantity)
                 if params.updatingQuantity {
                     ProgressLoader(color: Color.mealzColor(.white), size: 10)
                 } else {
@@ -144,6 +92,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                         .renderingMode(.template)
                         .foregroundColor(Color.mealzColor(.white))
                 }
+                .disabled(params.updatingQuantity)
             }
             .padding(dim.mPadding)
             .background(Color.mealzColor(.primary))
