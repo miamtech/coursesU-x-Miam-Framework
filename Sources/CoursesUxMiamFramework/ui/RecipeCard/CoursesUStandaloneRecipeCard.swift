@@ -131,6 +131,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
         .overlay(
             RoundedRectangle(cornerRadius: Dimension.sharedInstance.lCornerRadius)
                 .stroke(Color.mealzColor(.border), lineWidth: 1.0))
+        .padding(.horizontal, 16)
     }
 
     struct CallToAction: View {
