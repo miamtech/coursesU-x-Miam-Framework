@@ -14,85 +14,36 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
     public init() {}
     let dim = Dimension.sharedInstance
     public func content(params: RecipeDetailsUnaddedProductParameters) -> some View {
-        var lockButton: Bool = params.productStatus == ComponentUiState.locked
-            || params.productStatus == ComponentUiState.loading
+        let lockButton: Bool = params.productStatus == ComponentUiState.locked
+        || params.productStatus == ComponentUiState.loading || params.parentRecipeIsReloading
         VStack {
             MealzProductBase.ingredientNameAndAmount(
                 ingredientName: params.data.ingredientName,
                 ingredientUnit: params.data.ingredientUnit,
                 ingredientQuantity: params.data.ingredientQuantity,
-                isInBasket: false
-            )
-            Spacer().frame(height: 40)
+                isInBasket: false)
+            Spacer().frame(height: 15)
             HStack {
-                if let pictureURL = URL(string: params.data.pictureURL) {
-                    AsyncImage(url: pictureURL) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    }
-                    .frame(width: 72, height: 72)
-                    .padding(dim.mPadding)
-                } else {
-                    Image.mealzIcon(icon: .pan).frame(width: 72, height: 72)
-                }
-                VStack(alignment: .leading) {
-                    if let brand = params.data.brand {
-                        Text(brand)
-                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallBoldStyle)
-                    }
-                    Text(params.data.name)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
-                    HStack {
-                        if params.data.isSponsored { MealzSponsoredTag() }
-                        IngredientUnitBubble(capacity: params.data.capacity)
-
-                        MealzMyProductsProductCard.showUnitOfMeasurement(
-                            pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
-                            productUnit: params.productUnit
-                        )
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, Dimension.sharedInstance.mlPadding)
-                .padding(.top, Dimension.sharedInstance.mPadding)
+                MealzProductBase.productImage(pictureURL: params.data.pictureURL)
+                MealzProductBase.productTitleDescriptionWeight(
+                    brand: params.data.brand,
+                    name: params.data.name,
+                    capacity: params.data.capacity,
+                    isSponsored: params.data.isSponsored,
+                    pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
+                    productUnit: params.productUnit
+                )
             }
             Spacer()
-            HStack {
-                MealzProductBase.productPrice(
-                    formattedProductPrice: params.data.formattedProductPrice,
-                    higherStickerPrice: nil
-                )
-                Spacer()
-
-                if lockButton {
-                    Button(action: {}, label: {
-                        ProgressLoader(color: .white, size: 24)
-                    })
-                    .padding(Dimension.sharedInstance.mlPadding)
-                    .background(Color.mealzColor(.primary))
-                    .cornerRadius(1000)
-                } else {
-                    Button(action: params.onAddProduct, label: {
-                        Image.mealzIcon(icon: .basket)
-                            .resizable()
-                            .renderingMode(.template)
-                            .foregroundColor(Color.mealzColor(.white))
-                            .frame(width: 20, height: 20)
-                            .padding(Dimension.sharedInstance.mlPadding)
-                            .background(Color.mealzColor(.primary)
-                                .cornerRadius(1000))
-                            .frame(width: 48, height: 48)
-                    })
-                }
-
-            }.padding(.horizontal, dim.mlPadding)
-
-            MealzProductBase.ignoreOrReplaceProduct(
-                lockButton: params.productStatus == .locked,
-                onIgnoreProduct: params.onIgnoreProduct,
-                onReplaceProduct: params.onChooseProduct
+            priceAndAddToCart(
+                formattedPrice: params.data.formattedProductPrice,
+                lockButton: lockButton,
+                addToCart: params.onAddProduct
             )
+            MealzProductBase.ignoreOrReplaceProduct(
+                lockButton: lockButton,
+                onIgnoreProduct: params.onIgnoreProduct,
+                onReplaceProduct: params.onChooseProduct)
             Spacer()
         }
         .frame(height: dim.productHeight)
@@ -101,5 +52,36 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
                 .stroke(Color.mealzColor(.lightBackground), lineWidth: 1)
         )
         .padding(.horizontal, dim.mPadding)
+    }
+    
+    @ViewBuilder
+    func priceAndAddToCart(
+        formattedPrice: String,
+        lockButton: Bool,
+        addToCart: @escaping () -> Void
+    ) -> some View {
+        HStack {
+            MealzProductBase.productPrice(
+                formattedProductPrice: formattedPrice,
+                higherStickerPrice: nil
+            )
+            Spacer()
+            Button(action: addToCart, label: {
+                if lockButton {
+                    ProgressLoader(color: .white, size: 20)
+                } else {
+                    Image.mealzIcon(icon: .basket)
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color.mealzColor(.white))
+                        .frame(width: 20, height: 20)
+                }
+            })
+            .padding(Dimension.sharedInstance.mlPadding)
+            .background(Color.mealzColor(.primary)
+                .cornerRadius(1000))
+            .frame(width: 48, height: 48)
+            .disabled(lockButton)
+        }.padding(.horizontal, dim.mlPadding)
     }
 }
