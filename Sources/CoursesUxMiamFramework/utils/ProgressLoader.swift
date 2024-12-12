@@ -36,13 +36,13 @@ public struct ProgressLoader: View {
                 .stroke(style: StrokeStyle(lineWidth: 8.0, lineCap: .round, lineJoin: .round))
                 .foregroundColor(color)
                 .rotationEffect(.degrees(isAnimating ? 360 : 0))
-                .onAppear {
-                    DispatchQueue.main.async {
-                        withAnimation(foreverAnimation) {
-                            isAnimating = true
-                        }
-                    }
-                }
+                .animation(foreverAnimation, value: isAnimating)
         }.frame(width: size, height: size)
+            .onAppear {
+                isAnimating = true
+            }
+            .onDisappear {
+                isAnimating = false
+            }
     }
 }
