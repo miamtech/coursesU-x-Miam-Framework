@@ -13,9 +13,7 @@ import SwiftUI
 public struct CoursesUMealsInBasketButtonSuccess: MealsInBasketButtonSuccessProtocol {
     public init() {}
     public func content(params: MealsInBasketButtonSuccessParameters) -> some View {
-        Button {
-            params.onNavigateToMyMeals()
-        } label: {
+        Button(action: params.onNavigateToMyMeals, label:{
             HStack {
                 Image.mealzIcon(icon: .cutlery)
                     .renderingMode(.template)
@@ -28,8 +26,7 @@ public struct CoursesUMealsInBasketButtonSuccess: MealsInBasketButtonSuccessProt
                     .foregroundColor(Color.mealzColor(.standardLightText))
             }
             .padding(Dimension.sharedInstance.lPadding)
-            .padding(.horizontal, Dimension.sharedInstance.xlPadding)
-        }
+        })
         .background(Color.mealzColor(.primary))
         .clipShape(Capsule())
         .padding(Dimension.sharedInstance.lPadding)
