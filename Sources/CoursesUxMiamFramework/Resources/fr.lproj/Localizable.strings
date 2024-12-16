@@ -33,3 +33,7 @@ Created by miam x didi on 27/10/2023.
 "com_miam_recipe_difficulty_low" = "Facile";
 "com_miam_recipe_difficulty_medium" = "Moyen";
 "com_miam_recipe_difficulty_high" = "Difficile";
+
+"com_miam_favorites_no_favorites" = "Vous n'avez pas encore ajouté de repas á vos favoris";
+"com_miam_favorites_go_to_catalog" = "Explorer notre catalogue";
+"com_miam_my_meals_no_meal_in_basket" = "Vous n'avez pas encore ajouté de repas";
