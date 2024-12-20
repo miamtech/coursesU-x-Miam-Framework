@@ -5,22 +5,16 @@
 //  Created by didi on 06/12/2024.
 //
 
-import SwiftUI
 import MealziOSSDK
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUFiltersCTA: FiltersCTAProtocol {
     public init() {}
     public func content(params: FiltersCTAParameters) -> some View {
-        var applyButtonText: String {
-            return String(format: String.localizedStringWithFormat(
-                Localization.catalog.showResults(numberOfResults: Int32(params.numberOfRecipes)).localised,
-                params.numberOfRecipes),
-                        params.numberOfRecipes)
-        }
         return VStack(spacing: 0) {
             Button(action: params.onApply, label: {
-                Text(applyButtonText)
+                Text(Localization.preferences.apply.localised)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigStyle)
                     .foregroundColor(.white)
             })
@@ -29,7 +23,7 @@ public struct CoursesUFiltersCTA: FiltersCTAProtocol {
             .background(Color.mealzColor(.primary))
             .clipShape(RoundedRectangle(cornerRadius: Dimension.sharedInstance.buttonCornerRadius))
             Button(action: params.onClear, label: {
-                Text(Localization.catalog.removeFilters.localised)
+                Text(Localization.preferences.reset.localised)
                     .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigStyle)
                     .foregroundColor(Color.mealzColor(.primary))
             })
