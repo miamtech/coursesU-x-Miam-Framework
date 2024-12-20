@@ -68,6 +68,22 @@ struct MealzCatalogResultsToolbarFullSizeView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }.frame(maxWidth: .infinity)
+            HStack {
+                if params.usesPreferences && !params.isFavorite {
+                    MealzCatalogToolbarFullSizeButtonFormat(
+                        icon: Image.mealzIcon(icon: .admin),
+                        text: Localization.catalog.preferencesTitle.localised,
+                        badgeNumber: params.numberOfActivePreferences,
+                        action: params.onPreferencesTapped)
+                }
+                if withFavorites {
+                    MealzCatalogToolbarFullSizeButtonFormat(
+                        icon: Image(packageResource: "heart-toolbar", ofType: "png"),
+                        text: Localization.catalog.favoriteTitle.localised,
+                        action: params.onFavoritesTapped)
+                }
+            }
+            .padding(.horizontal, Dimension.sharedInstance.mlPadding)
             Divider().frame(maxWidth: .infinity)
             HStack(spacing: Dimension.sharedInstance.xlPadding) {
                 MealzCatalogToolbarButtonFormat(icon: Image.mealzIcon(icon: .search), action: params.onSearchTapped)

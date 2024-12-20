@@ -15,13 +15,14 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
     let dim = Dimension.sharedInstance
     public func content(params: RecipeDetailsUnaddedProductParameters) -> some View {
         let lockButton: Bool = params.productStatus == ComponentUiState.locked
-        || params.productStatus == ComponentUiState.loading || params.parentRecipeIsReloading
+            || params.productStatus == ComponentUiState.loading || params.parentRecipeIsReloading
         VStack {
             MealzProductBase.ingredientNameAndAmount(
                 ingredientName: params.data.ingredientName,
                 ingredientUnit: params.data.ingredientUnit,
                 ingredientQuantity: params.data.ingredientQuantity,
-                isInBasket: false)
+                isInBasket: false
+            )
             Spacer().frame(height: 15)
             HStack {
                 MealzProductBase.productImage(pictureURL: params.data.pictureURL)
@@ -43,7 +44,8 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
             MealzProductBase.ignoreOrReplaceProduct(
                 lockButton: lockButton,
                 onIgnoreProduct: params.onIgnoreProduct,
-                onReplaceProduct: params.onChooseProduct)
+                onReplaceProduct: params.onChooseProduct
+            )
             Spacer()
         }
         .frame(height: dim.productHeight)
@@ -53,7 +55,7 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
         )
         .padding(.horizontal, dim.mPadding)
     }
-    
+
     @ViewBuilder
     func priceAndAddToCart(
         formattedPrice: String,
@@ -63,7 +65,8 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
         HStack {
             MealzProductBase.productPrice(
                 formattedProductPrice: formattedPrice,
-                higherStickerPrice: nil
+                discountType: .undiscounted,
+                discountedPrice: nil
             )
             Spacer()
             Button(action: addToCart, label: {
