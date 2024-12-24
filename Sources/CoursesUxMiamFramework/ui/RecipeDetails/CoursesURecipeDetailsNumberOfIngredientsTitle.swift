@@ -7,9 +7,9 @@
 
 import Foundation
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUNumberOfIngredientsTitle: BaseTitleProtocol {
@@ -20,6 +20,9 @@ public struct CoursesUNumberOfIngredientsTitle: BaseTitleProtocol {
                 .foregroundColor(Color.mealzColor(.primaryText))
                 .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
                 .padding()
+            if let subtitle = params.subtitle {
+                MealzProductBase.unavailableTag(text: subtitle)
+            }
             Spacer()
         }.frame(maxWidth: .infinity)
     }

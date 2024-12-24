@@ -106,6 +106,16 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         .multilineTextAlignment(.leading)
                         .minimumScaleFactor(0.75)
                     Spacer()
+                    if let discountedIngredientCount = params.recipe.attributes?.discountedIngredientCount,
+                       discountedIngredientCount != 0
+                    {
+                        HStack {
+                            Image(packageResource: "discountTag", ofType: "png")
+                                .resizable()
+                                .frame(width: 90, height: 30)
+                            Spacer()
+                        }.padding(dimensions.mPadding)
+                    }
                     HStack(spacing: 0) {
                         CoursesUPricePerPerson(pricePerGuest: params.recipe.attributes?.price?.pricePerServe ?? params.recipePrice)
                         Spacer()
@@ -131,6 +141,7 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
         .overlay(
             RoundedRectangle(cornerRadius: Dimension.sharedInstance.lCornerRadius)
                 .stroke(Color.mealzColor(.border), lineWidth: 1.0))
+        .padding(.horizontal, 16)
     }
 
     struct CallToAction: View {

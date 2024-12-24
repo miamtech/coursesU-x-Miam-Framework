@@ -15,14 +15,28 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
     let dim = Dimension.sharedInstance
     public func content(params: RecipeDetailsUnaddedProductParameters) -> some View {
         let lockButton: Bool = params.productStatus == ComponentUiState.locked
-        || params.productStatus == ComponentUiState.loading || params.parentRecipeIsReloading
+            || params.productStatus == ComponentUiState.loading || params.parentRecipeIsReloading
         VStack {
             MealzProductBase.ingredientNameAndAmount(
                 ingredientName: params.data.ingredientName,
                 ingredientUnit: params.data.ingredientUnit,
                 ingredientQuantity: params.data.ingredientQuantity,
-                isInBasket: false)
-            Spacer().frame(height: 15)
+                isInBasket: false
+            )
+            if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+                if let discountAmount = params.data.discountAmount {
+                    HStack {
+                        Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised).foregroundColor(
+                            Color.mealzColor(.red)).padding(Dimension.sharedInstance.sPadding)
+                    }.frame(maxWidth: .infinity)
+                        .padding(.horizontal, Dimension.sharedInstance.mPadding)
+                        .border(Color.mealzColor(.red))
+                        .cornerRadius(Dimension.sharedInstance.sCornerRadius)
+                        .padding(Dimension.sharedInstance.mPadding)
+                }
+            } else {
+                Spacer().frame(height: 15)
+            }
             HStack {
                 MealzProductBase.productImage(pictureURL: params.data.pictureURL)
                 MealzProductBase.productTitleDescriptionWeight(
@@ -35,15 +49,22 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
                 )
             }
             Spacer()
-            priceAndAddToCart(
-                formattedPrice: params.data.formattedProductPrice,
-                lockButton: lockButton,
-                addToCart: params.onAddProduct
+            MealzProductBase.pricePlusAddOrChangeQuantity(
+                formattedProductPrice: params.data.formattedProductPrice,
+                productQuantity: params.data.productQuantity,
+                isLocked: lockButton,
+                productIsInBasket: false,
+                discountType: params.data.discountType,
+                discountedPrice: params.data.discountedPrice,
+                updateProductQuantity: { _ in },
+                onAddProduct: params.onAddProduct
             )
+            .padding(.horizontal, dim.mlPadding)
             MealzProductBase.ignoreOrReplaceProduct(
                 lockButton: lockButton,
                 onIgnoreProduct: params.onIgnoreProduct,
-                onReplaceProduct: params.onChooseProduct)
+                onReplaceProduct: params.onChooseProduct
+            )
             Spacer()
         }
         .frame(height: dim.productHeight)
@@ -53,7 +74,7 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
         )
         .padding(.horizontal, dim.mPadding)
     }
-    
+
     @ViewBuilder
     func priceAndAddToCart(
         formattedPrice: String,
@@ -63,7 +84,8 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
         HStack {
             MealzProductBase.productPrice(
                 formattedProductPrice: formattedPrice,
-                higherStickerPrice: nil
+                discountType: .undiscounted,
+                discountedPrice: nil
             )
             Spacer()
             Button(action: addToCart, label: {
