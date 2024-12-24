@@ -64,17 +64,29 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                     Spacer()
                                 }
                             }
-                            if showYellowBanner {
-                                if params.recipe.isADrink {
-                                    Image(packageResource: "MealIdeasDrinks", ofType: "png")
-                                        .resizable()
-                                        .frame(width: 119, height: 40)
-                                } else {
-                                    Image(packageResource: "MealIdeas", ofType: "png")
-                                        .resizable()
-                                        .frame(width: 119, height: 40)
+                            VStack {
+                                if let discountedIngredientCount = params.recipe.attributes?.discountedIngredientCount,
+                                   discountedIngredientCount != 0
+                                {
+                                    HStack {
+                                        Image(packageResource: "discountTag", ofType: "png")
+                                            .resizable()
+                                            .frame(width: 119, height: 40)
+                                        Spacer()
+                                    }
                                 }
-                                Spacer()
+                                if showYellowBanner {
+                                    if params.recipe.isADrink {
+                                        Image(packageResource: "MealIdeasDrinks", ofType: "png")
+                                            .resizable()
+                                            .frame(width: 119, height: 40)
+                                    } else {
+                                        Image(packageResource: "MealIdeas", ofType: "png")
+                                            .resizable()
+                                            .frame(width: 119, height: 40)
+                                    }
+                                    Spacer()
+                                }
                             }
                             if showingOnCatalogResults {
                                 CoursesULikeButton(recipeId: params.recipe.id)

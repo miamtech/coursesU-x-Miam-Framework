@@ -21,8 +21,22 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 ingredientName: params.data.ingredientName,
                 ingredientUnit: params.data.ingredientUnit,
                 ingredientQuantity: params.data.ingredientQuantity,
-                isInBasket: true)
-            Spacer().frame(height: 15)
+                isInBasket: true
+            )
+            if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+                if let discountAmount = params.data.discountAmount {
+                    HStack {
+                        Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised).foregroundColor(
+                            Color.mealzColor(.red)).padding(Dimension.sharedInstance.sPadding)
+                    }.frame(maxWidth: .infinity)
+                        .padding(.horizontal, Dimension.sharedInstance.mPadding)
+                        .border(Color.mealzColor(.red))
+                        .cornerRadius(Dimension.sharedInstance.sCornerRadius)
+                        .padding(Dimension.sharedInstance.mPadding)
+                }
+            } else {
+                Spacer().frame(height: 15)
+            }
             HStack {
                 MealzProductBase.productImage(pictureURL: params.data.pictureURL)
                 MealzProductBase.productTitleDescriptionWeight(
@@ -36,10 +50,12 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
             }
             Spacer()
             HStack {
-                Text(params.data.formattedProductPrice)
-                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
-                    .padding(.horizontal, 12)
-                    .foregroundColor(Color.mealzColor(.primaryText))
+                MealzProductBase.productPrice(
+                    formattedProductPrice: params.data.formattedProductPrice,
+                    discountType: params.data.discountType,
+                    discountedPrice: params.data.discountedPrice
+                ).padding(.leading, 10)
+
                 Spacer()
                 QuantityCounter(params: params)
             }
