@@ -54,7 +54,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                     formattedProductPrice: params.data.formattedProductPrice,
                     discountType: params.data.discountType,
                     discountedPrice: params.data.discountedPrice
-                )
+                ).padding(.leading, 10)
 
                 Spacer()
                 QuantityCounter(params: params)
