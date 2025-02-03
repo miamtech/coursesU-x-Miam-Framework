@@ -13,6 +13,6 @@ Pod::Spec.new do |spec|
     spec.resources = "Sources/CoursesUxMiamFramework/Resources/**/*.png","Sources/CoursesUxMiamFramework/Resources/fr.lproj"
     spec.source       = { :git => "https://github.com/miamtech/coursesU-x-Miam-Framework.git", :tag => "5.2.3-1" }
     spec.source_files = 'Sources/**/*.{h,m,swift}'
-    spec.dependency 'MealziOSSDK', '5.2.3-1'
+    spec.dependency 'MealziOSSDK', '5.2.5'
     spec.static_framework = true
 end
