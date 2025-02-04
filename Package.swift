@@ -16,7 +16,7 @@ let package = Package(
             targets: ["CoursesUxMiamFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "5.2.5"),
+        .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "5.2.6"),
         .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "5.2.3"),
     ],
     targets: [
