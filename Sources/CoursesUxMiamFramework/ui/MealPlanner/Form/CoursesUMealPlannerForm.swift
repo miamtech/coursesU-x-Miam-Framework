@@ -5,23 +5,24 @@
 //  Created by didi on 6/6/23.
 //
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
+import SwiftUI
 
 // just used for preview
 @available(iOS 14, *)
 public struct CoursesUBudgetFormStandaloneWrapper: View {
     @SwiftUI.State var mealPlannerCriteria = MealPlannerCriteria(availableBudget: 0.0, numberOfGuests: 0, numberOfMeals: 0)
     @SwiftUI.State var updating = false
-    
+
     public init() {}
     public var body: some View {
         CoursesUMealPlannerForm().content(params: MealPlannerFormViewParameters(
             mealPlannerCriteria: $mealPlannerCriteria,
             activelyUpdatingTextField: $updating,
             isFetchingRecipes: false,
-            onFormValidated: { _ in }))
+            onFormValidated: { _ in }
+        ))
     }
 }
 
@@ -36,15 +37,16 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
         self.includeLogo = includeLogo
         self.includeBackground = includeBackground
     }
-    
+
     public func content(params: MealPlannerFormViewParameters) -> some View {
         var budgetAndGuestsValid: Bool {
             return params.mealPlannerCriteria.availableBudget.wrappedValue > 0.0
-            && params.mealPlannerCriteria.numberOfGuests.wrappedValue > 0
+                && params.mealPlannerCriteria.numberOfGuests.wrappedValue > 0
         }
         var colorOfSubmit: Color {
             if budgetAndGuestsValid && params.mealPlannerCriteria.numberOfMeals.wrappedValue > 0
-                && !params.activelyUpdatingTextField.wrappedValue {
+                && !params.activelyUpdatingTextField.wrappedValue
+            {
                 return Color.primaryColor
             } else { return Color.lightGray }
         }
@@ -68,7 +70,7 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                         VStack {
                             Text(Localization.myBudget.recipeCollectionTitle.localised)
                                 .multilineTextAlignment(.center)
-                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyleMulish)
                                 .padding(.bottom, dimension.mPadding)
                                 .frame(minHeight: 70)
                             Divider()
@@ -79,13 +81,14 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                         caption: Localization.myBudget.totalBudgetTitle.localised,
                         icon: Image(packageResource: "BudgetIcon", ofType: "png"),
                         content:
-                            HStack {
-                                Spacer()
-                                CoursesUInputWithCurrency(
-                                    budget: params.mealPlannerCriteria.availableBudget,
-                                    activelyEditing: params.activelyUpdatingTextField)
-                            }
-                            .padding(dimension.mPadding)
+                        HStack {
+                            Spacer()
+                            CoursesUInputWithCurrency(
+                                budget: params.mealPlannerCriteria.availableBudget,
+                                activelyEditing: params.activelyUpdatingTextField
+                            )
+                        }
+                        .padding(dimension.mPadding)
                     )
                     Divider()
                     // TODO: localize
@@ -93,7 +96,7 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                         caption: Localization.myBudget.numberOfGuestsTitle.localised,
                         icon: Image(packageResource: "numberOfPeopleIcon", ofType: "png"),
                         content:
-                            CoursesUStepperBinding(value: params.mealPlannerCriteria.numberOfGuests, maxValue: 9)
+                        CoursesUStepperBinding(value: params.mealPlannerCriteria.numberOfGuests, maxValue: 9)
                     )
                     Divider()
                     // TODO: localize
@@ -101,11 +104,11 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                         caption: Localization.myBudget.numberOfMealsTitle.localised,
                         icon: Image(packageResource: "numberOfMealsIcon", ofType: "png"),
                         content:
-                            CoursesUStepperBinding(
-                                value: params.mealPlannerCriteria.numberOfMeals,
-                                maxValue: params.mealPlannerCriteria.maxRecipesForBudget.wrappedValue,
-                                disableButton: !budgetAndGuestsValid)
-                        
+                        CoursesUStepperBinding(
+                            value: params.mealPlannerCriteria.numberOfMeals,
+                            maxValue: params.mealPlannerCriteria.maxRecipesForBudget.wrappedValue,
+                            disableButton: !budgetAndGuestsValid
+                        )
                     )
                     .addOpacity(!budgetAndGuestsValid)
                     Divider()
@@ -125,10 +128,10 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
                                 }
                             }
                             .disabled(!budgetAndGuestsValid
-                                      || !(params.mealPlannerCriteria.numberOfMeals.wrappedValue > 0)
-                                      || params.activelyUpdatingTextField.wrappedValue)
-                        }, buttonAction: {
-                        })
+                                || !(params.mealPlannerCriteria.numberOfMeals.wrappedValue > 0)
+                                || params.activelyUpdatingTextField.wrappedValue)
+                        }, buttonAction: {}
+                    )
                 }
                 .padding(25)
                 .background(Color.white)
@@ -144,7 +147,7 @@ public struct CoursesUMealPlannerForm: MealPlannerFormProtocol {
 }
 
 @available(iOS 14, *)
-internal struct CoursesUStepperBinding: View {
+struct CoursesUStepperBinding: View {
     @Binding var value: Int
     let minValue: Int
     let maxValue: Int
@@ -156,16 +159,16 @@ internal struct CoursesUStepperBinding: View {
         self.maxValue = maxValue
         self.disableButton = disableButton
     }
-    
+
     var maxButtonColor: Color {
         return (value >= maxValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
+
     var minButtonColor: Color {
         return (value <= minValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
-    
+
     var body: some View {
-        
         HStack(spacing: dimension.lPadding) {
             Button(action: {
                 if value > minValue {
@@ -173,9 +176,8 @@ internal struct CoursesUStepperBinding: View {
                 }
             }, label: {
                 Image(systemName: "minus")
-                //                            .resizable()
+                    //                            .resizable()
                     .foregroundColor(minButtonColor)
-                
                     .padding(dimension.sPadding)
                     .overlay(
                         Circle()
@@ -193,7 +195,7 @@ internal struct CoursesUStepperBinding: View {
                 }
             }, label: {
                 Image(systemName: "plus")
-                //                            .resizable()
+                    //                            .resizable()
                     .foregroundColor(maxButtonColor)
                     .padding(dimension.sPadding)
                     .overlay(
@@ -206,13 +208,11 @@ internal struct CoursesUStepperBinding: View {
             .disabled(disableButton)
         }
         .padding(dimension.mPadding)
-        
     }
 }
 
-
 @available(iOS 14, *)
-internal struct CoursesUStepperWithCallback: View {
+struct CoursesUStepperWithCallback: View {
     @SwiftUI.State public var count: Int
     let minValue: Int
     let maxValue: Int
@@ -223,7 +223,7 @@ internal struct CoursesUStepperWithCallback: View {
     var subtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyle
     var onValueChanged: (Int) -> Void
     let dimension = Dimension.sharedInstance
-    init(count: Int, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false, buttonSize: CGFloat = Dimension.sharedInstance.lButtonHeight, textFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle, textToDisplay: String = "",subtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyle, onValueChanged: @escaping (Int) -> Void) {
+    init(count: Int, minValue: Int = 0, maxValue: Int = 99, disableButton: Bool = false, buttonSize: CGFloat = Dimension.sharedInstance.lButtonHeight, textFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle, textToDisplay: String = "", subtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyle, onValueChanged: @escaping (Int) -> Void) {
         self.minValue = minValue
         self.maxValue = maxValue
         self.disableButton = disableButton
@@ -234,17 +234,16 @@ internal struct CoursesUStepperWithCallback: View {
         self.subtextFontStyle = subtextFontStyle
         self._count = State(initialValue: count)
     }
-    
+
     var maxButtonColor: Color {
         return (count >= maxValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
+
     var minButtonColor: Color {
         return (count <= minValue || disableButton) ? Color.gray : Color.mealzColor(.primary)
     }
-    
-    
+
     var body: some View {
-        
         HStack(spacing: dimension.mPadding) {
             Button(action: {
                 if count > minValue {
@@ -253,9 +252,8 @@ internal struct CoursesUStepperWithCallback: View {
                 }
             }, label: {
                 Image(systemName: "minus")
-                //                            .resizable()
+                    //                            .resizable()
                     .foregroundColor(minButtonColor)
-                
                     .padding(dimension.sPadding)
                     .overlay(
                         Circle()
@@ -292,24 +290,27 @@ internal struct CoursesUStepperWithCallback: View {
             .disabled(disableButton)
         }
         .padding(dimension.mPadding)
-        
     }
 }
 
 @available(iOS 14, *)
-internal struct CoursesUFormRow<Content: View>: View {
+struct CoursesUFormRow<Content: View>: View {
     let caption: String?
     let icon: Image
     let content: Content
+    let isBudget: Bool
     init(
         caption: String? = nil,
         icon: Image,
-        content: Content
+        content: Content,
+        isBudget: Bool = false
     ) {
         self.content = content
         self.caption = caption
         self.icon = icon
+        self.isBudget = isBudget
     }
+
     let dimension = Dimension.sharedInstance
     var body: some View {
         HStack(spacing: Dimension.sharedInstance.sPadding) {
@@ -317,32 +318,34 @@ internal struct CoursesUFormRow<Content: View>: View {
                 .resizable()
                 .frame(width: dimension.lButtonHeight, height: dimension.lButtonHeight)
                 .padding(.horizontal, dimension.sPadding)
-            
-            
+
             if let caption = caption {
-                HStack() {
-                    Text(caption)
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                HStack {
+                    if isBudget {
+                        Text(caption)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
+                    } else {
+                        Text(caption)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                    }
                     Spacer()
                 }
                 .frame(maxWidth: 100)
                 Spacer()
             }
-            
+
             content
-            
-            
         }
         .frame(height: 50)
     }
 }
 
 @available(iOS 14, *)
-internal struct CoursesUTwoMealsBackground: View {
+struct CoursesUTwoMealsBackground: View {
     var body: some View {
         VStack {
             Spacer()
-            HStack() {
+            HStack {
                 Image(packageResource: "BudgetLeftSideBg", ofType: "png")
                 Spacer()
                 Image(packageResource: "BudgetRightSideBg", ofType: "png")
@@ -353,17 +356,14 @@ internal struct CoursesUTwoMealsBackground: View {
 
 @available(iOS 14, *)
 struct CoursesUBudgetForm_Previews: PreviewProvider {
-    
-    
-    
     static var previews: some View {
         BudgetFormPreview()
     }
-    
+
     struct BudgetFormPreview: View {
         var body: some View {
             CoursesUBudgetFormStandaloneWrapper()
-            
+
             ZStack(alignment: .top) {
                 Color.budgetBackgroundColor
                 VStack(spacing: -40.0) {

@@ -140,7 +140,7 @@ struct CoursesURecipeCardCoreFrame<
             VStack(alignment: .leading, spacing: dimension.mPadding) {
                 HStack {
                     Text(recipe.title + "\n")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyle)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().titleMediumStyleMulish)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                     Spacer()

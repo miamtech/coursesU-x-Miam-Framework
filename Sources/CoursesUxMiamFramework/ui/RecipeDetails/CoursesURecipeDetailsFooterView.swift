@@ -119,7 +119,7 @@ struct CoursesURecipeDetailsFooterCore<CookOnlyModeContent: View>: View {
                         HStack {
                             Text("\(params.totalPriceOfProductsAdded.currencyFormatted)")
                                 .foregroundColor(Color.mealzColor(.primaryText))
-                                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
                             Text(Localization.recipeDetails.inMyBasket.localised)
                                 .foregroundColor(Color.mealzColor(.primaryText))
                                 .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyExtraSmallStyle)

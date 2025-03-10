@@ -50,7 +50,7 @@ public struct CoursesURecipePickerRecipeCard: CatalogRecipeCardProtocol {
                 }
                 VStack(spacing: dimensions.mPadding) {
                     Text(params.recipe.title + "\n")
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyMediumBoldStyle)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyMediumBoldStyleMulish)
                         .lineLimit(2)
                         .padding(.top, dimensions.sPadding)
                     HStack(spacing: dimensions.mPadding) {

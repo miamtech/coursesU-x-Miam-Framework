@@ -5,9 +5,9 @@
 //  Created by didi on 6/15/23.
 //
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOverviewProtocol {
@@ -28,7 +28,8 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                     }
                 }, callToAction: {
                     BasketPreviewCardCallToAction(onDelete: params.onDeleteRecipe, expand: params.onExpand)
-                }, showRecipeDetails: params.onShowRecipeDetails)
+                }, showRecipeDetails: params.onShowRecipeDetails
+            )
             .padding(.bottom)
             .onTapGesture {
                 params.onShowRecipeDetails(params.data.recipe.id)
@@ -41,7 +42,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
     }
     
     @available(iOS 14, *)
-    internal struct ArticlesPriceRecapCounter: View {
+    struct ArticlesPriceRecapCounter: View {
         var numberOfProductsInBasket: Int
         var pricePerPerson: String
         var price: Double
@@ -61,11 +62,11 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                     HStack(spacing: 1) {
                         RecapPriceForRecipes(
                             leadingText: "",
-                            priceAmount:  price.currencyFormatted,
+                            priceAmount: price.currencyFormatted,
                             trailingText: "",
                             leadingPadding: 0, trailingPadding: 0,
-                            textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
-                            yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyle,
+                            textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyleMulish,
+                            yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyleMulish,
                             yellowSubtextWidth: CGFloat(30)
                         )
                         .frame(width: 65)
@@ -77,9 +78,9 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                             subtextFontStyle: CoursesUFontStyleProvider.sharedInstance.bodySmallStyle,
                             onValueChanged: { guestNumber in
                                 updateGuests(guestNumber)
-                            })
+                            }
+                        )
                     }
-                    
                 }
                 //                Spacer()
             }
@@ -87,7 +88,7 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
     }
     
     @available(iOS 14, *)
-    internal struct BasketPreviewCardCallToAction: View {
+    struct BasketPreviewCardCallToAction: View {
         let onDelete: () -> Void
         let expand: () -> Void
         @SwiftUI.State private var showContents = false
@@ -115,7 +116,6 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
                                 .foregroundColor(Color.mealzColor(.primary))
                                 .frame(width: 16, height: 10)
                         }
-                        
                     }
                 }
                 Spacer()
@@ -144,7 +144,6 @@ public struct CoursesUMealPlannerBasketPreviewRecipeOverview: BasketRecipeOvervi
 @available(iOS 14, *)
 struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
     static var previews: some View {
-        
         let recipe = FakeRecipe().createRandomFakeRecipe()
         let basketData = BasketRecipeData(
             recipe: recipe,
@@ -162,8 +161,9 @@ struct CoursesUMealPlannerBasketPreviewRecipeOverview_Preview: PreviewProvider {
                 data: basketData,
                 onDeleteRecipe: {},
                 onExpand: {},
-                onUpdateGuests: {_ in},
-                onShowRecipeDetails: {_ in}))
+                onUpdateGuests: { _ in },
+                onShowRecipeDetails: { _ in }
+            ))
             .padding()
         }
     }

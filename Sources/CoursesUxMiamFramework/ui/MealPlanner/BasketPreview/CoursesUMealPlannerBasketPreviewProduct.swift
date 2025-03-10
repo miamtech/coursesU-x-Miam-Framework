@@ -1,79 +1,76 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by didi on 6/16/23.
 //
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
-
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
-    
-    public init () {}
+    public init() {}
     let dimension = Dimension.sharedInstance
     public func content(params: BasketProductParameters) -> some View {
-            ZStack(alignment: .topTrailing) {
-                VStack(alignment: .leading) {
-                    HStack(alignment: .top) {
-                        AsyncImage(url: params.data.pictureURL) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .padding(0)
-                                .frame(width: 60)
+        ZStack(alignment: .topTrailing) {
+            VStack(alignment: .leading) {
+                HStack(alignment: .top) {
+                    AsyncImage(url: params.data.pictureURL) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(0)
+                            .frame(width: 60)
+                    }
+                    .frame(width: 75.0)
+                    VStack(alignment: .leading) {
+                        if params.data.sharedRecipeCount > 1 {
+                            UtilizedInManyRecipes(recipesUsedIn: params.data.sharedRecipeCount)
                         }
-                        .frame(width: 75.0)
-                        VStack(alignment: .leading) {
-                            if params.data.sharedRecipeCount > 1 {
-                                UtilizedInManyRecipes(recipesUsedIn: params.data.sharedRecipeCount)
-                            }
-                            Text(params.data.name.capitalizingFirstLetter())
-                                .foregroundColor(Color.black)
-                                .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyle)
-                            Text(params.data.description)
-                                .foregroundColor(Color.gray)
-                                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
-                                Button {
-                                    params.onChangeProduct()
-                                } label: {
-                                    Text(Localization.basket.swapProduct.localised)
-                                        .underline()
-                                        .foregroundColor(Color.mealzColor(.primary))
-                                        .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
-                                        .padding(.vertical, dimension.sPadding)
-                                }
-                                Spacer()
+                        Text(params.data.name.capitalizingFirstLetter())
+                            .foregroundColor(Color.black)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().subtitleStyleMulish)
+                        Text(params.data.description)
+                            .foregroundColor(Color.gray)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyStyle)
+                        Button {
+                            params.onChangeProduct()
+                        } label: {
+                            Text(Localization.basket.swapProduct.localised)
+                                .underline()
+                                .foregroundColor(Color.mealzColor(.primary))
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
+                                .padding(.vertical, dimension.sPadding)
+                        }
+                        Spacer()
                             
-                            HStack() {
-                                Text("\(params.data.price.currencyFormatted)")
-                                    .foregroundColor(Color.black)
-                                    .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyle)
-                                Spacer()
-                                CoursesUCounterView(count: params.quantity, isLoading: params.data.isReloading, isDisable: params.data.isReloading)
-                                    .onChange(of: params.quantity.wrappedValue) { newQty in
-                                        params.onQuantityChanged(newQty)
-                                    }
-                                Spacer()
-                                TrashButton {
-                                    params.onDeleteProduct()
+                        HStack {
+                            Text("\(params.data.price.currencyFormatted)")
+                                .foregroundColor(Color.black)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider().titleStyleMulish)
+                            Spacer()
+                            CoursesUCounterView(count: params.quantity, isLoading: params.data.isReloading, isDisable: params.data.isReloading)
+                                .onChange(of: params.quantity.wrappedValue) { newQty in
+                                    params.onQuantityChanged(newQty)
                                 }
-                                
+                            Spacer()
+                            TrashButton {
+                                params.onDeleteProduct()
                             }
-                            .frame(maxWidth: .infinity)
                         }
                         .frame(maxWidth: .infinity)
                     }
-                    .frame(height: 170)
-                    .padding(dimension.mPadding)
-                    .background(Color.white)
-                    Divider()
-                        .padding(.horizontal, dimension.mPadding)
+                    .frame(maxWidth: .infinity)
                 }
+                .frame(height: 170)
+                .padding(dimension.mPadding)
+                .background(Color.white)
+                Divider()
+                    .padding(.horizontal, dimension.mPadding)
             }
+        }
     }
     
     struct TrashButton: View {
@@ -108,7 +105,7 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
                 Image(packageResource: "numberOfMealsIcon", ofType: "png")
                     .resizable()
                     .renderingMode(.template) // Makes the image a template
-                                    .foregroundColor(.black)
+                    .foregroundColor(.black)
                     .frame(width: dimension.mButtonHeight, height: dimension.mButtonHeight)
                     .padding(dimension.sPadding)
                 Text(String(format: String.localizedStringWithFormat(
@@ -123,12 +120,10 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
             .clipShape(RoundedRectangle(cornerRadius: dimension.sCornerRadius, style: .continuous)) // Replace with your corner size
         }
     }
-    
-    
 }
 
-//@available(iOS 14, *)
-//struct CoursesUMealPlannerBasketPreviewProduct_Previews: PreviewProvider {
+// @available(iOS 14, *)
+// struct CoursesUMealPlannerBasketPreviewProduct_Previews: PreviewProvider {
 //    static var previews: some View {
 //        CoursesUMealPlannerBasketPreviewProduct().content(quantity: .constant(4), productInfo: MealPlannerBasketPreviewProductInfos(price: Price(price: 4, currency: "EUR"), name: "Tom's Saunce", description: "Sauce!", pictureURL: URL(string: "https://picsum.photos/200/300")!, sharedRecipeCount: 3, isSubstitutable: false, pricePerUnit: Price(price: 2, currency: "EUR"), unit: "12kg", isLoading: false), actions: MealPlannerBudgetPreviewProductActions(delete: {}, changeProduct: {}))
 //
@@ -146,4 +141,4 @@ public struct CoursesUMealPlannerBasketPreviewProduct: BasketProductProtocol {
 //            .padding(.horizontal)
 //        }
 //    }
-//}
+// }

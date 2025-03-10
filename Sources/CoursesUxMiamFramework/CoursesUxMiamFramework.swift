@@ -15,3 +15,7 @@ public struct CoursesUxMiamFramework {
 #endif
     }
 }
+
+public class CoursesUxMiamFrameworkClass {
+    
+}

@@ -16,7 +16,10 @@ public struct CoursesUMyMealsTitle: BaseTitleProtocol {
         HStack {
             Text(params.title)
                 .foregroundColor(Color.mealzColor(.primaryText))
-                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                //.miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                .coursesUFontStyle(style:
+                    CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
+               
         }.frame(maxWidth: .infinity)
     }
 }

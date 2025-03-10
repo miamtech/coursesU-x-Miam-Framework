@@ -5,17 +5,17 @@
 //  Created by didi on 21/09/2023.
 //
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUGeneralSearch: SearchProtocol {
-    
     private let hasButton: Bool
     public init(hasButton: Bool = true) {
         self.hasButton = hasButton
     }
+
     public func content(params: SearchParameters) -> some View {
         var longerThanThreeChars: Bool {
             return params.searchText.wrappedValue.count > 2
@@ -24,6 +24,7 @@ public struct CoursesUGeneralSearch: SearchProtocol {
             HStack(spacing: 10.0) {
                 HStack(spacing: 10.0) {
                     TextField(Localization.catalog.searchTitle.localised, text: params.searchText)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyMediumBoldStyleMulish)
                         .frame(height: 45.0)
                         .disableAutocorrection(true)
                     if hasButton {
@@ -37,7 +38,7 @@ public struct CoursesUGeneralSearch: SearchProtocol {
                                 .background(longerThanThreeChars ? Color.mealzColor(.primary) : Color.mealzColor(.primary)).clipShape(Circle())
                                 .shadow(radius: 2.0)
                         }
-                        //.darkenView(!longerThanThreeChars)
+                        // .darkenView(!longerThanThreeChars)
                         .disabled(!longerThanThreeChars)
                     }
                 }

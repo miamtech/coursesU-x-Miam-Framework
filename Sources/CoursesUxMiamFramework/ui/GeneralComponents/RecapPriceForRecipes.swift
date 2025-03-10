@@ -1,25 +1,25 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by didi on 6/5/23.
 //
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
+import SwiftUI
 
 @available(iOS 14, *)
 struct RecapPriceForRecipes: View {
-    var leadingText:String = ""
-    var priceAmount:String
+    var leadingText: String = ""
+    var priceAmount: String
     // TODO: make this localized
-    var trailingText:String = "le repas"
+    var trailingText: String = "le repas"
     var leadingPadding: CGFloat = 10
     var trailingPadding: CGFloat = 10
-    var textFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyle
-    var yellowSubtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyle
-    var yellowSubtextWidth: CGFloat = CGFloat(45)
+    var textFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish
+    var yellowSubtextFontStyle: CoursesUFontStyle = CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyleMulish
+    var yellowSubtextWidth: CGFloat = .init(45)
     var body: some View {
         HStack(spacing: 3) {
             Text(leadingText)
@@ -36,8 +36,6 @@ struct RecapPriceForRecipes: View {
         .frame(maxWidth: .infinity)
         .background(Color.recapTheRecipes)
         .cornerRadius(Dimension.sharedInstance.sCornerRadius)
-        
-        
     }
 }
 
@@ -49,6 +47,5 @@ struct RecapPriceForRecipes_Previews: PreviewProvider {
             RecapPriceForRecipes(leadingText: "Soit", priceAmount: "34.5€", leadingPadding: 20, trailingPadding: 20)
             RecapPriceForRecipes(priceAmount: "34.5€", trailingText: "le repas pour 4 personnes", trailingPadding: 50)
         }.padding()
-        
     }
 }

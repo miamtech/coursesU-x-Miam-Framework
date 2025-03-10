@@ -98,7 +98,7 @@ struct WithRoundedCornersProgressViewStyle: ProgressViewStyle {
 }
 
 @available(iOS 14, *)
-struct CoursesUBudgetPlannerBudgetFooter: View {
+struct CoursesUBudgetPlannerBudgetFooter : View {
     var budgetSpent: Double
     var totalBudgetPermitted: Double
     let dimension = Dimension.sharedInstance
@@ -111,7 +111,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
                     Text(String(format: "+%.2f €", budgetSpent - totalBudgetPermitted))
                         .foregroundColor(Color.red
                         )
-                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyle)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
                         .padding(5)
                         .background(
                             ChatBubbleShape().fill(Color.overBudgetBackgroundColor)
@@ -122,7 +122,7 @@ struct CoursesUBudgetPlannerBudgetFooter: View {
                 .progressViewStyle(WithRoundedCornersProgressViewStyle(progressColor: Color.mealzColor(.primary), overBudget: budgetSpent > totalBudgetPermitted ? true : false, widthOfRectangles: widthOfFrame))
             HStack {
                 Spacer()
-                YellowSubtext(text: String(format: "%.2f €", budgetSpent), fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyle, imageWidth: 70)
+                YellowSubtext(text: String(format: "%.2f €", budgetSpent), fontStyle: CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish, imageWidth: 70)
             }
         }
         .frame(width: widthOfFrame)

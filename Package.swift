@@ -16,8 +16,8 @@ let package = Package(
             targets: ["CoursesUxMiamFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "5.2.5"),
-        .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "5.2.3"),
+        .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "5.6.3"),
+        .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "5.6.2"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

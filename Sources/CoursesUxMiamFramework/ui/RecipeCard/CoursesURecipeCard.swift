@@ -79,11 +79,11 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                                     if params.recipe.isADrink {
                                         Image(packageResource: "MealIdeasDrinks", ofType: "png")
                                             .resizable()
-                                            .frame(width: 119, height: 40)
+                                            .frame(width: 120, height: 42)
                                     } else {
                                         Image(packageResource: "MealIdeas", ofType: "png")
                                             .resizable()
-                                            .frame(width: 119, height: 40)
+                                            .frame(width: 110, height: 42)
                                     }
                                     Spacer()
                                 }
@@ -101,7 +101,9 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                         HStack {
                             Text(params.recipe.title)
                                 .foregroundColor(Color.mealzColor(.white))
-                                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                                // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                                .coursesUFontStyle(style:
+                                    CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyleMulish)
                                 .lineLimit(2)
                                 .multilineTextAlignment(.leading)
                                 .minimumScaleFactor(0.75)
@@ -110,7 +112,10 @@ public struct CoursesURecipeCard: CatalogRecipeCardProtocol {
                             HStack(spacing: 2) {
                                 Text(String(params.numberOfGuests))
                                     .foregroundColor(Color.mealzColor(.darkestGray))
-                                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                                    // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                                    .coursesUFontStyle(style:
+                                        CoursesUFontStyleProvider.sharedInstance.bodyBoldStyleMulish)
+
                                 Image(packageResource: "guestsNumber", ofType: "png")
                                     .renderingMode(.template)
                                     .resizable()
