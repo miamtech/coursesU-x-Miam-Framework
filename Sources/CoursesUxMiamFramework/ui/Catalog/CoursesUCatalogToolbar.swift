@@ -89,6 +89,7 @@ struct MealzCatalogToolbarFullSizeView: View {
                         .padding(.top, Dimension.sharedInstance.sPadding)
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: .infinity, alignment: .leading)
+
                     Text(subtitle)
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
                         .foregroundColor(Color.mealzColor(.grayText))
@@ -97,7 +98,8 @@ struct MealzCatalogToolbarFullSizeView: View {
                 } else {
                     Text(params.title)
                         .lineLimit(2)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                        .coursesUFontStyle(style:
+                            CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
                         .padding([.top, .horizontal], Dimension.sharedInstance.mlPadding)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

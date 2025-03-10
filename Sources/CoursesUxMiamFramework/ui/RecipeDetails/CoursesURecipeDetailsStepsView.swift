@@ -15,7 +15,9 @@ public struct CoursesURecipeDetailsStepsView: RecipeDetailsStepsProtocol {
     public func content(params: RecipeDetailsStepsParameters) -> some View {
         VStack(alignment: .leading) {
             Text("\(params.steps.count) \(Localization.recipe.steps.localised)")
-                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                //.miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                .coursesUFontStyle(style:
+                    CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
                 .padding()
             
             VStack {

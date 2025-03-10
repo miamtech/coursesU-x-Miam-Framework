@@ -61,7 +61,9 @@ public struct CoursesURecipeDetailsTagsView: RecipeDetailsTagsProtocol {
             }
 
             Text(params.title)
-                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                .coursesUFontStyle(style:
+                    CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
                 .padding(.bottom, Dimension.sharedInstance.sPadding)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)

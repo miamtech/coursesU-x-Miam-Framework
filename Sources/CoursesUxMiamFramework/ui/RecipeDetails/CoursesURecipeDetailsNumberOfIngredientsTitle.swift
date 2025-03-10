@@ -18,7 +18,9 @@ public struct CoursesUNumberOfIngredientsTitle: BaseTitleProtocol {
         HStack {
             Text(params.title)
                 .foregroundColor(Color.mealzColor(.primaryText))
-                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                //.miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                .coursesUFontStyle(style:
+                    CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
                 .padding()
             if let subtitle = params.subtitle {
                 MealzProductBase.unavailableTag(text: subtitle)
