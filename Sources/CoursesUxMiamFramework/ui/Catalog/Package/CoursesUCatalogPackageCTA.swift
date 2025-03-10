@@ -5,27 +5,30 @@
 //  Created by didi on 11/08/2023.
 //
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUCatalogPackageCTA: CatalogPackageCTAProtocol {
-    public init () {}
+    public init() {}
     public func content(params: CatalogPackageCTAParameters) -> some View {
         VStack(alignment: .leading, spacing: 3) {
             Text(params.title)
                 .foregroundColor(Color.mealzColor(.primaryText))
-                .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                .coursesUFontStyle(style:
+                    CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
             HStack {
                 if let subtitle = params.subtitle {
                     Text(subtitle)
                         .foregroundColor(Color.mealzColor(.grayText))
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
+                        .coursesUFontStyle(style:
+                            CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
+                        
                         .lineLimit(1)
                 }
                 Spacer()
-                Button( action: {
+                Button(action: {
                     params.onSeeAllRecipes()
                 }, label: {
                     HStack {

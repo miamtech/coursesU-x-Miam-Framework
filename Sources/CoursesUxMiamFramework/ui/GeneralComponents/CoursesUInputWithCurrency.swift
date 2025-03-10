@@ -9,7 +9,7 @@
 import SwiftUI
 
 @available(iOS 14, *)
-internal struct CoursesUInputWithCurrency: View {
+struct CoursesUInputWithCurrency: View {
     @Binding public var budget: Double
     @Binding public var activelyEditing: Bool
     let currency: String
@@ -28,9 +28,9 @@ internal struct CoursesUInputWithCurrency: View {
         HStack(alignment: .center, spacing: 2) {
             Spacer()
             CustomTextField("Budget", value: $budget, activelyEditing: $activelyEditing)
-                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyleMulish)
             Text(currency)
-                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyle)
+                .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigBoldStyleMulish)
         }
     }
     
@@ -111,23 +111,23 @@ internal struct CoursesUInputWithCurrency: View {
             }
             
             func userFinishedTyping() {
-               parent.value = tempValue
-               hasTappedOnTextField = false
-               activelyEditing = false
-               textField?.resignFirstResponder()
-               // Remove tap gesture recognizer from the main window
-               if let tapGesture = tapGesture, let window = UIApplication.shared.windows.first {
-                   window.removeGestureRecognizer(tapGesture)
-               }
-           }
+                parent.value = tempValue
+                hasTappedOnTextField = false
+                activelyEditing = false
+                textField?.resignFirstResponder()
+                // Remove tap gesture recognizer from the main window
+                if let tapGesture = tapGesture, let window = UIApplication.shared.windows.first {
+                    window.removeGestureRecognizer(tapGesture)
+                }
+            }
            
-           @objc func okButtonTapped() {
-               userFinishedTyping()
-           }
+            @objc func okButtonTapped() {
+                userFinishedTyping()
+            }
            
-           @objc func dismissKeyboard() {
-               userFinishedTyping()
-           }
+            @objc func dismissKeyboard() {
+                userFinishedTyping()
+            }
             
             func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
                 let currentText = textField.text ?? ""
@@ -151,9 +151,10 @@ internal struct CoursesUInputWithCurrency: View {
         }
     }
 }
+
 //
-//@available(iOS 14, *)
-//struct CoursesUInputWithIcon_Previews: PreviewProvider {
+// @available(iOS 14, *)
+// struct CoursesUInputWithIcon_Previews: PreviewProvider {
 //    static var previews: some View {
 //        @SwiftUI.State var myBudget = 4.0
 //
@@ -161,5 +162,4 @@ internal struct CoursesUInputWithCurrency: View {
 //            budget: $myBudget)
 //            .background(Color.white)
 //    }
-//}
-
+// }

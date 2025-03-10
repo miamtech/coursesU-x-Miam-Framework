@@ -62,24 +62,25 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                             }.padding(dimensions.mPadding)
                             Spacer()
                             HStack {
-                                /* if params.recipe.isSponsored{
-                                 if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
-                                 AsyncImage(url:url) { image in
-                                 image
-                                 .resizable() // Make image resizable
-                                 .scaledToFit().padding(8)
-                                 .background(Capsule().fill(Color.white))
+                                if params.recipe.isSponsored {
+                                    if let urlString = params.recipe.relationships?.sponsors?.data.first?.attributes?.logoUrl, let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { image in
+                                            image
+                                                .resizable() // Make image resizable
+                                                .scaledToFit().padding(8)
+                                                .background(Capsule().fill(Color.white))
 
-                                 }.frame( width : 60, height: 60, alignment: .trailing)
-                                 Spacer()
-                                 }
-                                 } */
+                                        }.frame(width: 60, height: 60, alignment: .trailing)
+                                        Spacer()
+                                    }
+                                }
                                 Spacer()
                                 // MealzSmallGuestView(guests: Int(params.numberOfGuests))
                                 HStack(spacing: 2) {
                                     Text(String(params.numberOfGuests))
                                         .foregroundColor(Color.mealzColor(.darkestGray))
-                                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                                        .coursesUFontStyle(style:
+                                            CoursesUFontStyleProvider.sharedInstance.bodyBoldStyleMulish)
                                     Image(packageResource: "guestsNumber", ofType: "png")
                                         .renderingMode(.template)
                                         .resizable()
@@ -101,7 +102,9 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                 VStack(alignment: .leading) {
                     Text(params.recipe.title)
                         .foregroundColor(Color.mealzColor(.primaryText))
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                        // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                        .coursesUFontStyle(style:
+                            CoursesUFontStyleProvider.sharedInstance.bodyBigBoldStyleMulish)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                         .minimumScaleFactor(0.75)

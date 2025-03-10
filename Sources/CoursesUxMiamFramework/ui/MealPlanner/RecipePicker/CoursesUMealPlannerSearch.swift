@@ -6,9 +6,9 @@
 //  Copyright © 2023 Miam. All rights reserved.
 //
 
-import SwiftUI
 import mealzcore
 import MealziOSSDK
+import SwiftUI
 
 @available(iOS 14, *)
 public struct CoursesUMealPlannerSearch: SearchProtocol {
@@ -25,7 +25,9 @@ public struct CoursesUMealPlannerSearch: SearchProtocol {
                     TextField(
                         Localization.myBudget.searchForRecipe.localised,
                         text: params.searchText,
-                        onCommit: {})
+                        onCommit: {}
+                    )
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyMediumBoldStyleMulish)
                     .foregroundColor(Color.gray)
                     .frame(maxWidth: .infinity)
                     .autocorrectionDisabled(true)
@@ -40,13 +42,12 @@ public struct CoursesUMealPlannerSearch: SearchProtocol {
                                         .foregroundColor(.gray)
                                         .frame(width: 20, height: 20)
                                 }
-                                
                             }
                         }
                     )
                 }
                 .padding(dimension.mPadding)
-                
+
                 Divider()
                     .foregroundColor(Color.lightGray)
                 Button {
@@ -68,22 +69,18 @@ public struct CoursesUMealPlannerSearch: SearchProtocol {
     }
 }
 
-
-
-
-
 @available(iOS 14, *)
 struct CoursesUMealPlannerSearch_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack{
+        ZStack {
             Color.budgetBackgroundColor
             BudgetSearchWrapper()
         }
     }
-    
+
     struct BudgetSearchWrapper: View {
         @SwiftUI.State var text = ""
-        
+
         var body: some View {
             VStack {
                 CoursesUMealPlannerSearch()

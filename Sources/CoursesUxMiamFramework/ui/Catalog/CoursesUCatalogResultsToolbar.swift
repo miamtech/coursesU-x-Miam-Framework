@@ -50,20 +50,24 @@ struct MealzCatalogResultsToolbarFullSizeView: View {
                 if let subtitle = params.subtitle {
                     Text(params.title)
                         .lineLimit(2)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                        //.miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
                         .padding(.horizontal, Dimension.sharedInstance.mlPadding)
                         .padding(.top, Dimension.sharedInstance.sPadding)
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text(subtitle)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
+                        //.miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
+                        
                         .foregroundColor(Color.mealzColor(.grayText))
                         .padding([.top, .horizontal], Dimension.sharedInstance.mlPadding)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     Text(params.title)
                         .lineLimit(2)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                        //.miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                        .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
                         .padding([.top, .horizontal], Dimension.sharedInstance.mlPadding)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

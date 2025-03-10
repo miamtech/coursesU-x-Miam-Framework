@@ -39,7 +39,8 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                     HStack(spacing: 2) {
                         Text(String(params.numberOfGuests))
                             .foregroundColor(Color.mealzColor(.darkestGray))
-                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBoldStyle)
+                            .coursesUFontStyle(style:
+                                CoursesUFontStyleProvider.sharedInstance.bodyBoldStyleMulish)
                         Image(packageResource: "guestsNumber", ofType: "png")
                             .renderingMode(.template)
                             .resizable()
@@ -58,7 +59,9 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                 VStack(alignment: .leading, spacing: 0 /* , spacing: Dimension.sharedInstance.mPadding */ ) {
                     HStack(alignment: .top) {
                         Text(params.recipe.title)
-                            .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                            // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                            .coursesUFontStyle(style:
+                                CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
                             .lineLimit(2)
                             .minimumScaleFactor(0.8)
                             
@@ -88,7 +91,9 @@ public struct CoursesUMyMealRecipeCard: MyMealRecipeCardProtocol {
                         .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
                         .foregroundColor(Color.mealzColor(.grayText))
                     Text(params.recipePrice.currencyFormatted)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                        // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                        .coursesUFontStyle(style:
+                            CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
                         .foregroundColor(Color.mealzColor(.standardDarkText))
                         .multilineTextAlignment(.leading)
                     

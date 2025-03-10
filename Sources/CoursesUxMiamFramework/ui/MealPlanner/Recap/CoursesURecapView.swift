@@ -29,7 +29,7 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
                     .frame(width: 30, height: 30)
                 Text(Localization.myBudget.mealPlannerFinalize.localised)
                     .multilineTextAlignment(.center)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
                 RecapPriceForRecipes(
                     leadingText: String(format: String.localizedStringWithFormat(
                         Localization.myBudget.mealPlannerMealsFor(
@@ -38,12 +38,12 @@ public struct CoursesUMealPlannerRecapView: MealPlannerRecapProtocol {
                     priceAmount: params.totalPrice.currencyFormatted,
                     trailingText: "",
                     textFontStyle: CoursesUFontStyleProvider.sharedInstance.bodyBigStyle,
-                    yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyle,
+                    yellowSubtextFontStyle: CoursesUFontStyleProvider.sharedInstance.titleStyleMulish,
                     yellowSubtextWidth: CGFloat(60))
 
                 Divider()
                 Text(Localization.myBudget.mealPlannerDiscover.localised)
-                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyle)
+                    .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
                 Button(action: {
                     params.onTapGesture()
                     showPromotions()

@@ -17,14 +17,45 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
     let dim = Dimension.sharedInstance
     public func content(params: RecipeDetailsAddedProductParameters) -> some View {
         VStack(spacing: 0) {
-            MealzProductBase.ingredientNameAndAmount(
-                ingredientName: params.data.ingredientName,
-                ingredientUnit: params.data.ingredientUnit,
-                ingredientQuantity: params.data.ingredientQuantity,
-                isInBasket: true
-            )
-            if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
-                if let discountAmount = params.data.discountAmount {
+            HStack {
+                Text(params.data.ingredientName.capitalizingFirstLetter())
+                    .padding(dim.mPadding)
+                    .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyBigBoldStyle)
+                Spacer()
+                if let unit = params.data.ingredientUnit {
+                    Text(QuantityFormatter.companion.readableFloatNumber(value: params.data.ingredientQuantity, unit: unit))
+                        .padding(dim.mPadding)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumStyle)
+                }
+            }
+            .foregroundColor(Color.mealzColor(.white))
+            .frame(height: 40)
+            .background(Color.mealzColor(.primary))
+            .cornerRadius(dim.mCornerRadius, corners: .top)
+            Spacer().frame(height: 40)
+
+            HStack {
+                if let pictureURL = URL(string: params.data.pictureURL) {
+                    AsyncImage(url: pictureURL) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    }
+                    .frame(width: 72, height: 72)
+                    .padding(dim.mPadding)
+                } else {
+                    Image.mealzIcon(icon: .pan).frame(width: 72, height: 72)
+                }
+
+                VStack(alignment: .leading) {
+                    if let brand = params.data.brand {
+                        Text(brand)
+                            // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallBoldStyle)
+                            .coursesUFontStyle(style:
+                                CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyleMulish)
+                    }
+                    Text(params.data.name)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
                     HStack {
                         Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised).foregroundColor(
                             Color.mealzColor(.red)).padding(Dimension.sharedInstance.sPadding)
@@ -38,24 +69,12 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 Spacer().frame(height: 15)
             }
             HStack {
-                MealzProductBase.productImage(pictureURL: params.data.pictureURL)
-                MealzProductBase.productTitleDescriptionWeight(
-                    brand: params.data.brand,
-                    name: params.data.name,
-                    capacity: params.data.capacity,
-                    isSponsored: params.data.isSponsored,
-                    pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
-                    productUnit: params.productUnit
-                )
-            }
-            Spacer()
-            HStack {
-                MealzProductBase.productPrice(
-                    formattedProductPrice: params.data.formattedProductPrice,
-                    discountType: params.data.discountType,
-                    discountedPrice: params.data.discountedPrice
-                ).padding(.leading, 10)
-
+                Text(params.data.formattedProductPrice)
+                    .coursesUFontStyle(style:
+                        CoursesUFontStyleProvider.sharedInstance.titleBigStyleMulish)
+                    // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleBigStyle)
+                    .padding(.horizontal, 12)
+                    .foregroundColor(Color.mealzColor(.primaryText))
                 Spacer()
                 QuantityCounter(params: params)
             }
