@@ -23,28 +23,8 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
                 ingredientQuantity: params.data.ingredientQuantity,
                 isInBasket: false
             )
-            Spacer().frame(height: 40)
-            HStack {
-                if let pictureURL = URL(string: params.data.pictureURL) {
-                    AsyncImage(url: pictureURL) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    }
-                    .frame(width: 72, height: 72)
-                    .padding(dim.mPadding)
-                } else {
-                    Image.mealzIcon(icon: .pan).frame(width: 72, height: 72)
-                }
-                VStack(alignment: .leading) {
-                    if let brand = params.data.brand {
-                        Text(brand)
-                            // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallBoldStyle)
-                            .coursesUFontStyle(style:
-                                CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyleMulish)
-                    }
-                    Text(params.data.name)
-                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
+            if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+                if let discountAmount = params.data.discountAmount {
                     HStack {
                         Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised).foregroundColor(
                             Color.mealzColor(.red)).padding(Dimension.sharedInstance.sPadding)
@@ -59,46 +39,95 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
             }
             HStack {
                 MealzProductBase.productImage(pictureURL: params.data.pictureURL)
-                MealzProductBase.productTitleDescriptionWeight(
-                    brand: params.data.brand,
-                    name: params.data.name,
-                    capacity: params.data.capacity,
-                    isSponsored: params.data.isSponsored,
-                    pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
-                    productUnit: params.productUnit
-                )
+                /* MealzProductBase.productTitleDescriptionWeight(
+                     brand: params.data.brand,
+                     name: params.data.name,
+                     capacity: params.data.capacity,
+                     isSponsored: params.data.isSponsored,
+                     pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
+                     productUnit: params.productUnit
+                 ) */
+                VStack(alignment: .leading) {
+                    if let brand = params.data.brand {
+                        Text(brand)
+                            // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallBoldStyle)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodySmallBoldStyleMulish)
+                    }
+                    Text(params.data.name)
+                        .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodySmallStyle)
+                    HStack {
+                        if params.data.isSponsored { MealzSponsoredTag() }
+                        IngredientUnitBubble(capacity: params.data.capacity)
+                    }
+                    MealzMyProductsProductCard.showUnitOfMeasurement(
+                        pricePerUnitOfMeasurement: params.pricePerUnitOfMeasurement,
+                        productUnit: params.productUnit
+                    )
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, Dimension.sharedInstance.mlPadding)
+                .padding(.top, Dimension.sharedInstance.mPadding)
             }
             Spacer()
-
+            /* MealzProductBase.pricePlusAddOrChangeQuantity(
+                 formattedProductPrice: params.data.formattedProductPrice,
+                 productQuantity: params.data.productQuantity,
+                 isLocked: lockButton,
+                 productIsInBasket: false,
+                 discountType: params.data.discountType,
+                 discountedPrice: params.data.discountedPrice,
+                 updateProductQuantity: { _ in },
+                 onAddProduct: params.onAddProduct
+             ) */
             HStack {
-                CoursesUItemSelectorProductRow.productPrice(
-                    formattedProductPrice: params.data.formattedProductPrice, discountType: params.data.discountType
-                )
-                Spacer()
+                /* productPrice(
+                     formattedProductPrice: params.data.formattedProductPrice,
+                     discountType: params.data.discountType,
+                     discountedPrice: params.data.discountedPrice
+                 ) */
+                VStack(alignment: .leading) {
+                    if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+                        Text(params.data.formattedProductPrice)
+                            .strikethrough(color: Color.mealzColor(.primaryText))
+                            // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
+                            .foregroundColor(Color.mealzColor(.primaryText))
 
-                if lockButton {
-                    Button(action: {}, label: {
-                        ProgressLoader(color: .white, size: 24)
-                    })
-                    .padding(Dimension.sharedInstance.mlPadding)
-                    .background(Color.mealzColor(.primary))
-                    .cornerRadius(1000)
-                } else {
-                    Button(action: params.onAddProduct, label: {
-                        Image.mealzIcon(icon: .basket)
-                            .resizable()
-                            .renderingMode(.template)
-                            .foregroundColor(Color.mealzColor(.white))
-                            .frame(width: 20, height: 20)
-                            .padding(Dimension.sharedInstance.mlPadding)
-                            .background(Color.mealzColor(.primary)
-                                .cornerRadius(1000))
-                            .frame(width: 48, height: 48)
-                    })
+                        if let discountedPrice = params.data.discountedPrice {
+                            Text(discountedPrice.currencyFormatted)
+                                // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                                .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
+                                .foregroundColor(Color.mealzColor(.primaryText))
+                        }
+                    } else {
+                        Text(params.data.formattedProductPrice)
+                            // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.titleStyle)
+                            .coursesUFontStyle(style: CoursesUFontStyleProvider.sharedInstance.titleStyleMulish)
+                            .foregroundColor(Color.mealzColor(.primaryText))
+                    }
                 }
-
-            }.padding(.horizontal, dim.mlPadding)
-
+                Spacer()
+                // addProductButton(lockButton: lockButton, onAddProduct: params.onAddProduct)
+                Button(action: params.onAddProduct, label: {
+                    VStack {
+                        if lockButton {
+                            ProgressLoader(color: .white, size: 20)
+                        } else {
+                            Image.mealzIcon(icon: .basket)
+                                .resizable()
+                                .renderingMode(.template)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.mealzColor(.white))
+                        }
+                    }
+                    .padding(Dimension.sharedInstance.mlPadding)
+                    .background(Color.mealzColor(.primary)
+                        .cornerRadius(Dimension.sharedInstance.buttonCornerRadius))
+                    .frame(width: 48, height: 48)
+                })
+                .disabled(lockButton)
+            }
+            .padding(.horizontal, dim.mlPadding)
             MealzProductBase.ignoreOrReplaceProduct(
                 lockButton: lockButton,
                 onIgnoreProduct: params.onIgnoreProduct,
