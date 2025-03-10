@@ -51,11 +51,11 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                                     if params.recipe.isADrink {
                                         Image(packageResource: "MealIdeasDrinks", ofType: "png")
                                             .resizable()
-                                            .frame(width: 119, height: 40)
+                                            .frame(width: 120, height: 42)
                                     } else {
                                         Image(packageResource: "MealIdeas", ofType: "png")
                                             .resizable()
-                                            .frame(width: 119, height: 40)
+                                            .frame(width: 110, height: 42)
                                     }
                                     Spacer()
                                 }

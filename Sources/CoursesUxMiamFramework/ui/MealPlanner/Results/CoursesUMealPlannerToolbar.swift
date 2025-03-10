@@ -59,7 +59,8 @@ struct ToolbarPlaceholderButton: View {
     var body: some View {
         HStack {
             CoursesUFormRow(
-                caption: params.mealPlannerCriteria.availableBudget.wrappedValue.currencyFormattedWholeNumber,
+                caption: String(format: "%.0f €", params.mealPlannerCriteria.availableBudget.wrappedValue),
+
                 icon: Image(packageResource: "BudgetIcon", ofType: "png"),
                 content: Spacer().frame(width: 0), isBudget: true)
                 .frame(minWidth: 110)
