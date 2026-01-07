@@ -100,9 +100,8 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 Spacer()
                 QuantityCounter(params: params)
             }
-            MealzProductBase.ignoreOrReplaceProduct(
+            MealzProductBase.replaceProductButton(
                 lockButton: params.updatingQuantity,
-                onIgnoreProduct: params.onIgnoreProduct,
                 onReplaceProduct: params.onChangeProduct
             )
             Spacer()
