@@ -95,7 +95,11 @@ struct CoursesUItemSelectorProductRow: View {
                             onSelectProduct(product)
                         }
                     }, label: {
-                        Text(isSelected ? Localization.itemSelector.inBasket.localised : Localization.itemSelector.select.localised)
+                        Text(
+                            isSelected ? Localization.itemSelector.inBasket.localised
+                            : isASubstitution ? Localization.itemSelector.replace.localised
+                            : Localization.itemSelector.add.localised
+                        )
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyMediumBoldStyle)
                             .padding(.horizontal, 20)
                             .padding(.vertical, 9)
