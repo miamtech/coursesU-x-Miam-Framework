@@ -14,12 +14,14 @@ public struct CoursesURecipeDetailsSponsor: RecipeDetailsSponsorProtocol {
                     .coursesUFontStyle(style:
                         CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
 
-                Button {
-                    params.onSponsorTapped()
-                } label: {
-                    Text(Localization.sponsorBanner.sponsorBannerMoreInfo.localised)
-                        .coursesUFontStyle(style:
-                            CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
+                if (params.hasSponsorDetailsInformation) {
+                    Button {
+                        params.onSponsorTapped()
+                    } label: {
+                        Text(Localization.sponsorBanner.sponsorBannerMoreInfo.localised)
+                            .coursesUFontStyle(style:
+                                CoursesUFontStyleProvider.sharedInstance.bodyStyleMulish)
+                    }
                 }
             }
             Spacer(minLength: 16.0)
