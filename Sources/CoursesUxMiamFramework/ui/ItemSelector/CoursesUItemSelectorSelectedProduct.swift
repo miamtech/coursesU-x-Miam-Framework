@@ -23,6 +23,7 @@ public struct CoursesUItemSelectorOptionProducts: ItemSelectorOptionProductsProt
             HStack {
                 CoursesUItemSelectorProductRow(
                     product: product,
+                    isASubstitution: params.isASubstitution,
                     onSelectProduct: params.onItemSelected
                 )
             }.onTapGesture {
@@ -35,11 +36,18 @@ public struct CoursesUItemSelectorOptionProducts: ItemSelectorOptionProductsProt
 @available(iOS 14, *)
 struct CoursesUItemSelectorProductRow: View {
     private var isSelected: Bool
+    private var isASubstitution: Bool
     private var product: Item
     private var onSelectProduct: ((Item) -> Void)?
 
-    init(product: Item, isSelected: Bool = false, onSelectProduct: ((Item) -> Void)? = nil) {
+    init(
+        product: Item,
+        isSelected: Bool = false,
+        isASubstitution: Bool = false,
+        onSelectProduct: ((Item) -> Void)? = nil
+    ) {
         self.isSelected = isSelected
+        self.isASubstitution = isASubstitution
         self.product = product
         self.onSelectProduct = onSelectProduct
     }
