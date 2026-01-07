@@ -1,3 +1,8 @@
+# 5.10.8
+- [FIX] Item selector label in case of substitution
+- [FIX] Remove ignore product button for already added product in recipe
+- [FIX] Display "see more" button for sponsor block only the information is defined 
+
 # 2.0.3
 - [FIX] Correction sponsor not displayed on catalog and shelves
 
