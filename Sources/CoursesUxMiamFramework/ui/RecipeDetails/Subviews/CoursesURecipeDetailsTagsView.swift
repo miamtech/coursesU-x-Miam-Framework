@@ -43,7 +43,9 @@ public struct CoursesURecipeDetailsTagsView: RecipeDetailsTagsProtocol {
                             .foregroundColor(Color.mealzColor(.white))
                             .padding(Dimension.sharedInstance.sPadding)
                             .background(Circle())
-                        Text("\(Localization.recipeDetails.orderedOn.localised) \(orderDate)")
+                        Text(orderDate.withCString { orderDateAsC in
+                             String(format: Localization.recipeDetails.orderedOn(date: orderDate).localised, orderDateAsC)
+                        })
                             .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
                     }
                     .foregroundColor(Color.mealzColor(.informativeContent))
