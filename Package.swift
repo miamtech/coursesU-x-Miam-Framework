@@ -2,6 +2,9 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import Foundation
+
+let configurationMode = /*ProcessInfo.processInfo.environment["CONFIGURATION_MODE"] ??*/ "dev"
 
 let package = Package(
     name: "CoursesUxMiamFramework",
@@ -15,18 +18,42 @@ let package = Package(
             name: "CoursesUxMiamFramework",
             targets: ["CoursesUxMiamFramework"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "5.10.8"),
-        .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "5.10.8"),
-    ],
+    dependencies: {
+        var dependencies: [Package.Dependency] = []
+        
+        if configurationMode == "dev" {
+            dependencies.append(contentsOf: [
+                .package(path: "../MealzCore"),
+                .package(path: "../MealziOSSDK")
+            ])
+        } else {
+            dependencies.append(contentsOf: [
+                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.0.0"),
+                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.0.0")
+            ])
+        }
+        return dependencies
+    }(),
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "CoursesUxMiamFramework",
-            dependencies: [
-                .product(name: "MealziOSSDK", package: "MealziOSSDKRelease"),
-                .product(name: "MealzCore", package: "MealzCoreRelease"),
-            ],
-            resources: [.process("Resources")]),
+            dependencies: {
+                var dependencies: [Target.Dependency] = []
+                if configurationMode == "dev" {
+                    dependencies.append(contentsOf: [
+                        .product(name: "MealzCore", package: "MealzCore"),
+                        .product(name: "MealziOSSDK", package: "MealziOSSDK")
+                    ])
+                } else {
+                    dependencies.append(contentsOf: [
+                        .product(name: "MealziOSSDK", package: "MealziOSSDKRelease"),
+                        .product(name: "MealzCore", package: "MealzCoreRelease")
+                    ])
+                }
+                return dependencies
+            }(),
+            resources: [.process("Resources")]
+        )
     ])
