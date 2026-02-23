@@ -11,75 +11,6 @@ import MealziOSSDK
 import SwiftUI
 
 @available(iOS 14, *)
-public struct CoursesUMealPlannerRecipeCard: MealPlannerRecipeCardProtocol {
-    public init() {}
-    public func content(params: MealPlannerRecipeCardParameters) -> some View {
-        CoursesURecipeCardCoreFrame(
-            recipe: params.recipe,
-            price: params.recipe.attributes?.price?.price ?? 0.0,
-            centerContent: {
-                DifficultyTimeRecap(
-                    cookingTime: params.recipe.cookingTimeIos,
-                    difficulty: params.recipe.difficulty,
-                    price: params.recipe.attributes?.price?.price ?? 0.0)
-            }, callToAction: {
-                RecipeCardCallToAction(removeTapped: params.onRemoveRecipeFromMealPlanner, replaceTapped: params.onReplaceRecipeFromMealPlanner)
-            }, showRecipeDetails: params.onShowRecipeDetails)
-            .frame(height: params.recipeCardDimensions.height)
-    }
-
-    @available(iOS 14, *)
-    struct DifficultyTimeRecap: View {
-        var cookingTime: String
-        var difficulty: Int
-        var price: Double
-        var body: some View {
-            VStack(spacing: Dimension.sharedInstance.mPadding) {
-                HStack {
-                    CoursesURecipePreparationTime(duration: cookingTime)
-                    Divider()
-                    CoursesURecipeDifficulty(difficulty: difficulty)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                RecapPriceForRecipes(priceAmount: price.currencyFormatted)
-            }
-        }
-    }
-
-    @available(iOS 14, *)
-    struct RecipeCardCallToAction: View {
-        let removeTapped: () -> Void
-        let replaceTapped: () -> Void
-        var body: some View {
-            HStack {
-                Button {
-                    replaceTapped()
-                } label: {
-                    HStack {
-                        Image(packageResource: "ReloadIcon", ofType: "png")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text(Localization.myBudget.myBudgetChangeRecipe.localised)
-                            .foregroundColor(Color.mealzColor(.primary))
-                            .coursesUFontStyle(style: CoursesUFontStyleProvider().bodyBigStyle)
-                    }
-                }
-                Spacer()
-                Button {
-                    removeTapped()
-                } label: {
-                    Image(packageResource: "TrashIcon", ofType: "png")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                }
-            }
-            .frame(maxWidth: .infinity)
-        }
-    }
-}
-
-@available(iOS 14, *)
 struct CoursesURecipeCardCoreFrame<
     CenterContent: View,
     CallToAction: View
@@ -158,30 +89,6 @@ struct CoursesURecipeCardCoreFrame<
         .cornerRadius(dimension.mCornerRadius)
         .onTapGesture {
             showRecipeDetails(recipe.id)
-        }
-    }
-}
-
-@available(iOS 14, *)
-struct CoursesUMealPlannerRecipeCard_Preview: PreviewProvider {
-    static var previews: some View {
-        let recipe = RecipeFakeFactory().create(
-            id: RecipeFakeFactory().FAKE_ID,
-            attributes: RecipeFakeFactory().createAttributes(
-                title: "Parmentier de Poulet",
-                mediaUrl: "https://lh3.googleusercontent.com/tbMNuhJ4KxReIPF_aE0yve0akEHeN6O8hauty_XNUF2agWsmyprACLg0Zw6s8gW-QCS3A0QmplLVqBKiMmGf_Ctw4SdhARvwldZqAtMG"),
-            relationships: nil)
-        ZStack {
-            Color.budgetBackgroundColor
-            CoursesUMealPlannerRecipeCard().content(
-                params: MealPlannerRecipeCardParameters(
-                    recipeCardDimensions: CGSize(),
-                    recipe: recipe,
-                    onShowRecipeDetails: { _ in },
-                    onRemoveRecipeFromMealPlanner: {},
-                    onReplaceRecipeFromMealPlanner: {})
-            )
-            .padding()
         }
     }
 }

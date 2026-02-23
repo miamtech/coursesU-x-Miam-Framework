@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/miamtech/MealzCoreRelease",
       "state" : {
-        "revision" : "b981b29bf781140302bc206916bfe8c97dce99d4",
-        "version" : "5.10.9"
+        "revision" : "943e36f77fe12563e0119ab5617084f3a3168ea8",
+        "version" : "6.0.0"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/miamtech/MealziOSSDKRelease",
       "state" : {
-        "revision" : "25ea900f00ca601129ab4f77fd8c86b0f0f91e5f",
-        "version" : "5.10.9"
+        "revision" : "d47d78ff025f7a12155c467e3dab0594825ecf68",
+        "version" : "6.0.0"
       }
     }
   ],
