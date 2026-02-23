@@ -4,7 +4,7 @@
 import PackageDescription
 import Foundation
 
-let configurationMode = /*ProcessInfo.processInfo.environment["CONFIGURATION_MODE"] ??*/ "dev"
+let configurationMode = ProcessInfo.processInfo.environment["CONFIGURATION_MODE"] ?? "prod"
 
 let package = Package(
     name: "CoursesUxMiamFramework",
