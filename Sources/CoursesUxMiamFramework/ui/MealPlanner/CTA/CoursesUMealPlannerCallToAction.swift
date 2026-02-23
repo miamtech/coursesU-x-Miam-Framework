@@ -14,22 +14,15 @@ public struct CoursesUMealPlannerCallToAction: MealPlannerCTAProtocol {
     public init() {}
     let screen = UIScreen.screenSize
     public func content(params: MealPlannerCTAViewParameters) -> some View {
-        Image(packageResource: "CTAImage", ofType: "png")
-            .resizable()
-            .scaledToFit()
-            .frame(maxWidth: .infinity)
-            .padding(Dimension.sharedInstance.mPadding)
-            .onTapGesture {
-                params.onTapGesture()
-            }
+        MealzMealPlannerCallToAction().content(params: params)
     }
 }
 
 @available(iOS 14, *)
 struct CoursesUMealPlannerCallToAction_Previews: PreviewProvider {
     static var previews: some View {
-        CoursesUMealPlannerCallToAction().content(params: MealPlannerCTAViewParameters() {
-            print("hello world")
+        CoursesUMealPlannerCallToAction().content(params: MealPlannerCTAViewParameters() { route in
+            print("Click on Planner CTA to redirect to \(route)")
         })
     }
 }
