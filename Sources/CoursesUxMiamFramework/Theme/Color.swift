@@ -25,5 +25,7 @@ extension Color {
     static let lightGrayBackground = Color(red: 245 / 255, green: 244 / 255, blue: 242 / 255)
     static let danger = Color(red: 243 / 255, green: 131 / 255, blue: 27 / 255) // #F3831B
     static let dangerBackground = Color(red: 255 / 255, green: 228 / 255, blue: 208 / 255) // #FFE4D0
+
+    static let promo = Color(red: 226 / 255, green: 32 / 255, blue: 25 / 255) // #E22019 (Red Courses U for promo)
 }
 

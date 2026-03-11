@@ -20,7 +20,7 @@ let package = Package(
     ],
     dependencies: {
         var dependencies: [Package.Dependency] = []
-        
+
         if configurationMode == "dev" {
             dependencies.append(contentsOf: [
                 .package(path: "../MealzCore"),
@@ -28,8 +28,8 @@ let package = Package(
             ])
         } else {
             dependencies.append(contentsOf: [
-                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.0.0"),
-                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.0.0")
+                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.0.1"),
+                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.0.1")
             ])
         }
         return dependencies
