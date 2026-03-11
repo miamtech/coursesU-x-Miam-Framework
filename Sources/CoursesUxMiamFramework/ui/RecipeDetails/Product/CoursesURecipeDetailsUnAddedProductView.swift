@@ -26,12 +26,15 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
             if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
                 if let discountAmount = params.data.discountAmount {
                     HStack {
-                        Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised).foregroundColor(
-                            Color.mealzColor(.red)).padding(Dimension.sharedInstance.sPadding)
+                        Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
+                        .foregroundColor(.promo)
+                        .padding(Dimension.sharedInstance.sPadding)
                     }.frame(maxWidth: .infinity)
                         .padding(.horizontal, Dimension.sharedInstance.mPadding)
-                        .border(Color.mealzColor(.red))
-                        .cornerRadius(Dimension.sharedInstance.sCornerRadius)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: Dimension.sharedInstance.sCornerRadius)
+                                .stroke(.promo)
+                        )
                         .padding(Dimension.sharedInstance.mPadding)
                 }
             } else {

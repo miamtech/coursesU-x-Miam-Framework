@@ -59,8 +59,18 @@ struct CoursesUItemSelectorProductRow: View {
                    discountType != DiscountType.unsupported && discountType != DiscountType.undiscounted
                 {
                     if let discountAmount = product.attributes?.discountAmount {
-                        discountTopTag(discountAmount: discountAmount.doubleValue, discountType: product.attributes!.discountType!)
-                    }
+                        HStack {
+                            Text(discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
+                            .foregroundColor(.promo)
+                            .padding(Dimension.sharedInstance.sPadding)
+                        }.frame(maxWidth: .infinity)
+                            .padding(.horizontal, Dimension.sharedInstance.mPadding)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: Dimension.sharedInstance.sCornerRadius)
+                                    .stroke(.promo)
+                            )
+                            .padding(Dimension.sharedInstance.mPadding)
+                     }
                 }
                 HStack {
                     if let picture = URL(string: product.attributes?.image ?? "") {
