@@ -2,6 +2,9 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import Foundation
+
+let configurationMode = ProcessInfo.processInfo.environment["CONFIGURATION_MODE"] ?? "prod"
 
 let package = Package(
     name: "CoursesUxMiamFramework",
@@ -24,9 +27,21 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "CoursesUxMiamFramework",
-            dependencies: [
-                .product(name: "MealziOSSDK", package: "MealziOSSDKRelease"),
-                .product(name: "MealzCore", package: "MealzCoreRelease"),
-            ],
-            resources: [.process("Resources")]),
+            dependencies: {
+                var dependencies: [Target.Dependency] = []
+                if configurationMode == "dev" {
+                    dependencies.append(contentsOf: [
+                        .product(name: "MealzCore", package: "MealzCore"),
+                        .product(name: "MealziOSSDK", package: "MealziOSSDK")
+                    ])
+                } else {
+                    dependencies.append(contentsOf: [
+                        .product(name: "MealziOSSDK", package: "MealziOSSDKRelease"),
+                        .product(name: "MealzCore", package: "MealzCoreRelease")
+                    ])
+                }
+                return dependencies
+            }(),
+            resources: [.process("Resources")]
+        )
     ])
