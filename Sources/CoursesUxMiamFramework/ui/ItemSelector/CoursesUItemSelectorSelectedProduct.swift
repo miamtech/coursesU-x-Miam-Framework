@@ -60,14 +60,14 @@ struct CoursesUItemSelectorProductRow: View {
                 {
                     if let discountAmount = product.attributes?.discountAmount {
                         HStack {
-                            Text(discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
+                            Text(discountType.formatDiscountAmount(discountAmount: Double(discountAmount)) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
                             .foregroundColor(.promo)
                             .padding(Dimension.sharedInstance.sPadding)
                         }.frame(maxWidth: .infinity)
                             .padding(.horizontal, Dimension.sharedInstance.mPadding)
                             .overlay(
                                 RoundedRectangle(cornerRadius: Dimension.sharedInstance.sCornerRadius)
-                                    .stroke(.promo)
+                                    .stroke(Color.promo, lineWidth: Dimension.sharedInstance.borderWidth)
                             )
                             .padding(Dimension.sharedInstance.mPadding)
                      }
