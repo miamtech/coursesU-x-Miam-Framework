@@ -23,7 +23,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 ingredientQuantity: params.data.ingredientQuantity,
                 isInBasket: true
             )
-            if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+            if (params.data.discountType == DiscountType.strikethroughPrice || params.data.discountType == DiscountType.strikethroughPricePercentage) {
                 if let discountAmount = params.data.discountAmount {
                     HStack {
                         Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
@@ -79,7 +79,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                      discountedPrice: params.data.discountedPrice
                  ).padding(.leading, 10) */
                 VStack(alignment: .leading) {
-                    if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+                    if (params.data.discountType == DiscountType.strikethroughPrice || params.data.discountType == DiscountType.strikethroughPricePercentage) {
                         Text(params.data.formattedProductPrice)
                             .strikethrough(color: Color.mealzColor(.primaryText))
                             // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)

@@ -56,8 +56,7 @@ struct CoursesUItemSelectorProductRow: View {
         return VStack(spacing: 0) {
             VStack {
                 if let discountType = product.attributes?.discountType,
-                   discountType != DiscountType.unsupported && discountType != DiscountType.undiscounted
-                {
+                   discountType == DiscountType.strikethroughPrice || discountType == DiscountType.strikethroughPricePercentage {
                     if let discountAmount = product.attributes?.discountAmount {
                         HStack {
                             Text(discountType.formatDiscountAmount(discountAmount: Double(discountAmount)) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
@@ -142,7 +141,7 @@ struct CoursesUItemSelectorProductRow: View {
         discountedPrice: Double? = nil
     ) -> some View {
         VStack(alignment: .leading) {
-            if discountType != DiscountType.unsupported && discountType != DiscountType.undiscounted {
+            if (discountType == DiscountType.strikethroughPrice || discountType == DiscountType.strikethroughPricePercentage) {
                 Text(formattedProductPrice)
                     .strikethrough(color: Color.mealzColor(.primaryText))
                     // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
