@@ -27,13 +27,13 @@ public struct CoursesURecipeDetailsUnAddedProductView: RecipeDetailsUnaddedProdu
                 if let discountAmount = params.data.discountAmount {
                     HStack {
                         Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
-                        .foregroundColor(.promo)
+                        .foregroundColor(Color.promo)
                         .padding(Dimension.sharedInstance.sPadding)
                     }.frame(maxWidth: .infinity)
                         .padding(.horizontal, Dimension.sharedInstance.mPadding)
                         .overlay(
                             RoundedRectangle(cornerRadius: Dimension.sharedInstance.sCornerRadius)
-                                .stroke(.promo)
+                                .stroke(Color.promo, lineWidth: Dimension.sharedInstance.borderWidth)
                         )
                         .padding(Dimension.sharedInstance.mPadding)
                 }
