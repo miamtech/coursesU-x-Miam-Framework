@@ -18,22 +18,10 @@ let package = Package(
             name: "CoursesUxMiamFramework",
             targets: ["CoursesUxMiamFramework"]),
     ],
-    dependencies: {
-        var dependencies: [Package.Dependency] = []
-        
-        if configurationMode == "dev" {
-            dependencies.append(contentsOf: [
-                .package(path: "../MealzCore"),
-                .package(path: "../MealziOSSDK")
-            ])
-        } else {
-            dependencies.append(contentsOf: [
-                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.0.0"),
-                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.0.0")
-            ])
-        }
-        return dependencies
-    }(),
+    dependencies: [
+        .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.0.1"),
+        .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.0.1"),
+    ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.

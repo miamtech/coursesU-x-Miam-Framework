@@ -56,11 +56,20 @@ struct CoursesUItemSelectorProductRow: View {
         return VStack(spacing: 0) {
             VStack {
                 if let discountType = product.attributes?.discountType,
-                   discountType != DiscountType.unsupported && discountType != DiscountType.undiscounted
-                {
+                   discountType == DiscountType.strikethroughPrice || discountType == DiscountType.strikethroughPricePercentage {
                     if let discountAmount = product.attributes?.discountAmount {
-                        discountTopTag(discountAmount: discountAmount.doubleValue, discountType: product.attributes!.discountType!)
-                    }
+                        HStack {
+                            Text(discountType.formatDiscountAmount(discountAmount: Double(discountAmount)) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
+                            .foregroundColor(.promo)
+                            .padding(Dimension.sharedInstance.sPadding)
+                        }.frame(maxWidth: .infinity)
+                            .padding(.horizontal, Dimension.sharedInstance.mPadding)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: Dimension.sharedInstance.sCornerRadius)
+                                    .stroke(Color.promo, lineWidth: Dimension.sharedInstance.borderWidth)
+                            )
+                            .padding(Dimension.sharedInstance.mPadding)
+                     }
                 }
                 HStack {
                     if let picture = URL(string: product.attributes?.image ?? "") {
@@ -132,7 +141,7 @@ struct CoursesUItemSelectorProductRow: View {
         discountedPrice: Double? = nil
     ) -> some View {
         VStack(alignment: .leading) {
-            if discountType != DiscountType.unsupported && discountType != DiscountType.undiscounted {
+            if (discountType == DiscountType.strikethroughPrice || discountType == DiscountType.strikethroughPricePercentage) {
                 Text(formattedProductPrice)
                     .strikethrough(color: Color.mealzColor(.primaryText))
                     // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)
