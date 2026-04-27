@@ -23,15 +23,18 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                 ingredientQuantity: params.data.ingredientQuantity,
                 isInBasket: true
             )
-            if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+            if (params.data.discountType == DiscountType.strikethroughPrice || params.data.discountType == DiscountType.strikethroughPricePercentage) {
                 if let discountAmount = params.data.discountAmount {
                     HStack {
-                        Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised).foregroundColor(
-                            Color.mealzColor(.red)).padding(Dimension.sharedInstance.sPadding)
+                        Text(params.data.discountType.formatDiscountAmount(discountAmount: discountAmount) + " " + Localisation.shared.ingredient.immediateDiscount.localised)
+                        .foregroundColor(Color.promo)
+                        .padding(Dimension.sharedInstance.sPadding)
                     }.frame(maxWidth: .infinity)
                         .padding(.horizontal, Dimension.sharedInstance.mPadding)
-                        .border(Color.mealzColor(.red))
-                        .cornerRadius(Dimension.sharedInstance.sCornerRadius)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: Dimension.sharedInstance.sCornerRadius)
+                                .stroke(Color.promo, lineWidth: Dimension.sharedInstance.borderWidth)
+                        )
                         .padding(Dimension.sharedInstance.mPadding)
                 }
             } else {
@@ -76,7 +79,7 @@ public struct CoursesURecipeDetailsAddedProductView: RecipeDetailsAddedProductPr
                      discountedPrice: params.data.discountedPrice
                  ).padding(.leading, 10) */
                 VStack(alignment: .leading) {
-                    if params.data.discountType != DiscountType.unsupported && params.data.discountType != DiscountType.undiscounted {
+                    if (params.data.discountType == DiscountType.strikethroughPrice || params.data.discountType == DiscountType.strikethroughPricePercentage) {
                         Text(params.data.formattedProductPrice)
                             .strikethrough(color: Color.mealzColor(.primaryText))
                             // .miamFontStyle(style: MiamFontStyleProvider.sharedInstance.bodyStyle)

@@ -1,3 +1,6 @@
+# 6.0.1
+- [FIX] Promo tag styles
+
 # 5.10.8
 - [FIX] Item selector label in case of substitution
 - [FIX] Remove ignore product button for already added product in recipe

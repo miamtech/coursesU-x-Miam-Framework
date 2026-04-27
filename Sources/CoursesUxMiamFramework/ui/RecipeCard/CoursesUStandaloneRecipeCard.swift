@@ -115,7 +115,8 @@ public struct CoursesUStandaloneRecipeCard: CatalogRecipeCardProtocol {
                         HStack {
                             Image(packageResource: "discountTag", ofType: "png")
                                 .resizable()
-                                .frame(width: 90, height: 30)
+                                .scaledToFit()
+                                .frame(height: 30)
                             Spacer()
                         }.padding(dimensions.mPadding)
                     }
