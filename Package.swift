@@ -20,7 +20,7 @@ let package = Package(
     ],
     dependencies: {
         var dependencies: [Package.Dependency] = []
-
+        
         if configurationMode == "dev" {
             dependencies.append(contentsOf: [
                 .package(path: "../MealzCore"),
@@ -28,8 +28,8 @@ let package = Package(
             ])
         } else {
             dependencies.append(contentsOf: [
-                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.0.4"),
-                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.0.4")
+                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.1.0"),
+                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.1.0")
             ])
         }
         return dependencies
@@ -48,12 +48,13 @@ let package = Package(
                     ])
                 } else {
                     dependencies.append(contentsOf: [
-                        .product(name: "MealziOSSDK", package: "MealziOSSDKRelease"),
-                        .product(name: "MealzCore", package: "MealzCoreRelease")
+                        .product(name: "MealzCore", package: "MealzCoreRelease"),
+                        .product(name: "MealziOSSDK", package: "MealziOSSDKRelease")
                     ])
                 }
                 return dependencies
             }(),
             resources: [.process("Resources")]
         )
-    ])
+    ]
+)
