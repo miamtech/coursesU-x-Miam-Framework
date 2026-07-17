@@ -28,8 +28,8 @@ let package = Package(
             ])
         } else {
             dependencies.append(contentsOf: [
-                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.1.0"),
-                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.1.0")
+                .package(url: "https://github.com/miamtech/MealzCoreRelease", exact: "6.2.0"),
+                .package(url: "https://github.com/miamtech/MealziOSSDKRelease", exact: "6.2.0")
             ])
         }
         return dependencies
